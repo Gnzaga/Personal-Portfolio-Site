@@ -1,19 +1,42 @@
+// App.js
 import React from 'react';
-import Header from './components/Header';
-import Education from './components/Education';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Skills from './components/Skills';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import About from './pages/About';
+import Projects from './pages/Projects';
+import Contact from './pages/Contact';
+import TaskManagementProject from './pages/TaskManagementProject';
+import DiscordBotProject from './pages/DiscordBotProject';
+import ChatGnzagaProject from './pages/ChatGnzagaProject';
+import NotFound from './pages/404';
+import ErrorPage from './pages/Error';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="container mx-auto p-4">
-      <Header />
-      <Education />
-      <Experience />
-      <Projects />
-      <Skills />
-    </div>
+    <Router>
+        <div className="bg-slate-900 min-h-screen flex flex-col">
+
+        <Navbar />
+        <div className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/projects/task-management" element={<TaskManagementProject />} />
+          <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
+          <Route path="/projects/chat-gnzaga" element={<ChatGnzagaProject />} />
+          <Route path="/error" element={<ErrorPage />} />
+          <Route path="*" element={<NotFound />} />
+
+
+        </Routes>
+      </div>
+      <Footer />
+      </div>
+    </Router>
   );
 }
 
