@@ -1,6 +1,9 @@
 // Home.js
 import React from 'react';
-//import ServerInfo from '../components/ServerInfo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import NetdataMetrics from '../components/NetdataMetrics'; // Import the new component
+import { EnvelopeIcon } from '@heroicons/react/16/solid';
 
 const Home = () => {
   return (
@@ -19,8 +22,10 @@ const Home = () => {
         >
           View Projects
         </a>
-        <div className="mt-8">
-          <p className="text-gray-300 text-lg mb-4">
+
+        {/* Connect with Me Section */}
+        <div className="mt-12 bg-gray-800 rounded-lg shadow-lg p-6">
+          <p className="text-gray-300 text-lg mb-4 text-center">
             Connect with me:
           </p>
           <div className="flex justify-center space-x-4">
@@ -28,34 +33,35 @@ const Home = () => {
               href="https://github.com/gnzaga"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors duration-300"
+              className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2"
             >
-              GitHub
+              <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
+              <span>GitHub</span>
             </a>
             <a
               href="https://www.linkedin.com/in/agnzaga/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors duration-300"
+              className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2"
             >
-              LinkedIn
+              <FontAwesomeIcon icon={faLinkedin} className="w-6 h-6" />
+              <span>LinkedIn</span>
             </a>
             <a
               href="mailto:your-email@example.com"
-              className="text-gray-400 hover:text-white transition-colors duration-300"
+              className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2"
             >
-              Email
+              <EnvelopeIcon className="w-6 h-6" />
+              <span>Email</span>
             </a>
           </div>
         </div>
-        {/*
-        <div className="mt-8">
-          <h2 className="text-lg text-white font-semibold mb-2">
-            Check the status of chat.gnzaga.com!
-          </h2>
-          <ServerInfo />
+
+        {/* Space between sections */}
+        <div className="mt-12">
+
+          <NetdataMetrics /> {/* Include the new component */}
         </div>
-        */}
       </div>
     </div>
   );
