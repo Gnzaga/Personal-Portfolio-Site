@@ -3,9 +3,11 @@ import React from 'react';
 
 const About = () => {
   return (
-    <div className="container mx-auto px-4 py-16">
-      <div>
-        <h1 className="text-4xl font-bold text-white mb-4">About Me</h1>
+    
+    <div className="container mx-auto px-4 py-16 space-y-8">
+      <h1 className="text-4xl font-bold text-white mb-4 text-center">About Me</h1>
+      <div className="bg-gray-800 shadow-md rounded-lg p-6">
+
         <p className="text-gray-300 text-lg mb-8">
           I'm a passionate developer with a strong background in web development, mobile app development, and software engineering. I thrive on solving complex problems and creating innovative solutions.
         </p>
@@ -18,6 +20,9 @@ const About = () => {
         <p className="text-gray-300 text-lg mb-8">
           As an admin, I perform ongoing maintenance and user management tasks, ensuring a smooth and reliable experience for all users. I'm also well-versed in asynchronous programming techniques, which I've applied in projects like a Discord bot and a task management website.
         </p>
+      </div>
+
+      <div className="bg-gray-800 shadow-md rounded-lg p-6">
         <h2 className="text-2xl font-bold text-white mb-4">Technical Skills</h2>
         <ul className="list-disc list-inside text-gray-300 text-lg">
           <li>Languages: Python, Java, C, SQL, JavaScript, HTML/CSS, Mojo, React</li>

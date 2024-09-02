@@ -1,9 +1,10 @@
-// Home.js
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import NetdataMetrics from '../components/NetdataMetrics'; // Import the new component
-import { EnvelopeIcon } from '@heroicons/react/16/solid';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+//import { EnvelopeIcon } from '@heroicons/react/24/solid';
+import Alessandro_Gonzaga_Resume from '../res/Alessandro_Gonzaga_Resume.pdf';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -16,15 +17,31 @@ const Home = () => {
           I'm a skilled developer with a passion for creating exceptional
           digital experiences.
         </p>
+
+        {/* Resume Download Section */}
         <a
-          href="/projects"
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
-        >
-          View Projects
+              href={Alessandro_Gonzaga_Resume} // Replace this with the actual path to your resume
+              download="Alessandro_Gonzaga_Resume.pdf" target='_blank'
+              
+            >
+        <div className="mt-12 bg-gray-800 rounded-lg shadow-lg p-6 hover:scale-105 duration-300">
+          <p className="text-gray-300 text-lg mb-4 text-center">
+            Download my current resume:
+          </p>
+          <div className="flex justify-center">
+            <a
+              href={Alessandro_Gonzaga_Resume} // Replace this with the actual path to your resume
+              download="Alessandro_Gonzaga_Resume.pdf" target='_blank'
+              className="bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-300 font-semibold py-2 px-4 rounded-md shadow-md"
+            >
+              Download Resume
+            </a>
+          </div>
+        </div>
         </a>
 
         {/* Connect with Me Section */}
-        <div className="mt-12 bg-gray-800 rounded-lg shadow-lg p-6">
+        <div className="mt-12 bg-gray-800 rounded-lg shadow-lg p-6 hover:scale-105 duration-300">
           <p className="text-gray-300 text-lg mb-4 text-center">
             Connect with me:
           </p>
@@ -48,20 +65,23 @@ const Home = () => {
               <span>LinkedIn</span>
             </a>
             <a
-              href="mailto:your-email@example.com"
+              href="mailto:alessandromg02@gmail.com"
               className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2"
             >
-              <EnvelopeIcon className="w-6 h-6" />
+              <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6" />
               <span>Email</span>
             </a>
           </div>
         </div>
 
-        {/* Space between sections */}
-        <div className="mt-12">
-
-          <NetdataMetrics /> {/* Include the new component */}
+        <Link to="https://chat.gnzaga.com">
+        <div className="mt-12 bg-gray-800 rounded-lg shadow-lg p-6 hover:scale-105 duration-300 " >
+          <p className="text-gray-300 text-lg font-bold text-center">
+            Click for <a href="https://chat.gnzaga.com"> chat.gnzaga.com </a>
+          </p>
+         
         </div>
+        </Link>
       </div>
     </div>
   );

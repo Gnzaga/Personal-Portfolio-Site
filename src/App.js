@@ -12,6 +12,9 @@ import ChatGnzagaProject from './pages/ChatGnzagaProject';
 import NotFound from './pages/404';
 import ErrorPage from './pages/Error';
 import Footer from './components/Footer';
+import Experience from './pages/experience';
+import PlaylistGeneratorProject from './pages/PlaylistProject';
+import PortfolioProject from './pages/PortfolioProject';
 
 function App() {
   return (
@@ -26,8 +29,11 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/projects/task-management" element={<TaskManagementProject />} />
+          <Route path="/projects/PlaylistProject" element={<PlaylistGeneratorProject />} />
           <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
           <Route path="/projects/chat-gnzaga" element={<ChatGnzagaProject />} />
+          <Route path="/projects/portfolio-project" element={<PortfolioProject />} />
+          <Route path="/experience" element={<Experience />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="*" element={<NotFound />} />
 
