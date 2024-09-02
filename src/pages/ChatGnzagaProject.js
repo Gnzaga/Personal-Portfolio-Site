@@ -1,5 +1,7 @@
 // ChatGnzagaProject.js
 import React from 'react';
+import ButtonLink from '../components/ButtonLink';
+import { Link } from 'react-router-dom';
 
 const ChatGnzagaProject = () => {
   return (
@@ -18,6 +20,14 @@ const ChatGnzagaProject = () => {
           To ensure accessibility from the internet, the necessary networking knowledge was applied to configure port forwarding and secure the communication channels. As an admin, ongoing maintenance and user management tasks are performed to ensure a smooth and reliable experience for all users.
         </p>
         {/* Add screenshots or other content here */}
+        <div className="mt-12 text-center space-x-4">
+        <ButtonLink to="https://chat.gnzaga.com"> Go to chat.gnzaga.com! </ButtonLink>
+        <Link to="/projects">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors">
+              Back to Projects
+            </button>
+          </Link>
+          </div>
       </div>
     </div>
   );

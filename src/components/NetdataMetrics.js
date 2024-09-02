@@ -9,8 +9,8 @@ const NetdataMetrics = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const cpuResponse = await fetch('http://192.168.42.27:19999/api/v1/data?chart=system.cpu');
-        const memResponse = await fetch('http://192.168.42.27:19999/api/v1/data?chart=system.ram');
+        const cpuResponse = await fetch('https://192.168.42.27:19999/api/v1/data?chart=system.cpu');
+        const memResponse = await fetch('https://192.168.42.27:19999/api/v1/data?chart=system.ram');
 
         if (!cpuResponse.ok || !memResponse.ok) {
           throw new Error(`HTTP error! status: ${cpuResponse.status} / ${memResponse.status}`);
