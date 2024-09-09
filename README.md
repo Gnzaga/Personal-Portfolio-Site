@@ -1,7 +1,7 @@
 # [Gnzaga.com](https://gnzaga.com)
 ================
 
-A modern web experience built with Create React App, Tailwind CSS, Docker, and Cloudflare.
+A modern web experience built with Create React App and Tailwind CSS.
 
 ## Table of Contents
 -----------------
@@ -15,7 +15,7 @@ A modern web experience built with Create React App, Tailwind CSS, Docker, and C
 ## Getting Started
 ----------------
 
-This project was bootstrapped with Create React App, and then customized to meet my needs.
+This project was bootstrapped with Create React App, and customized to meet our specific needs.
 
 ## About This Setup
 -------------------
@@ -24,23 +24,22 @@ We chose to use the following technologies for this project:
 
 * **Create React App**: A popular tool for setting up new React projects with ease.
 * **Tailwind CSS**: A utility-first CSS framework that simplifies the process of writing clean, efficient, and maintainable CSS code.
-* **Docker**: A containerization platform that allows us to deploy our application in a robust and scalable way.
-* **Cloudflare**: A high-performance infrastructure provider that offers built-in security features.
 
 ## How It Works
 ----------------
 
 Here's an overview of how this setup works:
 
-1. **Create React App** creates a new React project with all required dependencies pre-configured.
-2. **Tailwind CSS** provides a simple, utility-first approach to styling our application.
-3. **Docker** containerizes the application for robust deployment and scalability.
-4. **Cloudflare** provides a secure, high-performance infrastructure for serving the website.
+1. The [`Dockerfile`](https://github.com/Gnzaga/Personal-Portfolio-Site/blob/master/Dockerfile) builds a Docker image using Node.js and Nginx.
+2. The [`update.sh`](https://github.com/Gnzaga/Personal-Portfolio-Site/blob/master/update.sh) script is used to push updates to the code, which rebuilds the Docker image with the updated code.
 
 ## Deployment
 -------------
 
-My deployment process involves building the project using Create React App, creating a Docker image from the built code, and then deploying that image to Cloudflare.
+To deploy the project, follow these steps:
+
+1. Run the `./update.sh` command to build a new Docker image with the updated code.
+2. The Docker image will be rebuilt and deployed on the server.
 
 ## Learn More
 --------------
@@ -49,5 +48,4 @@ If you're interested in learning more about these technologies, here are some re
 
 * [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
 * [Tailwind CSS documentation](https://tailwindcss.com/docs/installation)
-* [Docker documentation](https://docs.docker.com/)
-* [Cloudflare documentation](https://developers.cloudflare.com/)
+
