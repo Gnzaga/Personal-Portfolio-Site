@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# Gnzaga.com
+================
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern web experience built with Create React App, Tailwind CSS, Docker, and Cloudflare.
 
-## Available Scripts
+## Table of Contents
+-----------------
 
-In the project directory, you can run:
+* [Getting Started](#getting-started)
+* [About This Setup](#about-this-setup)
+* [How It Works](#how-it-works)
+* [Deployment](#deployment)
+* [Learn More](#learn-more)
 
-### `npm start`
+## Getting Started
+----------------
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project was bootstrapped with Create React App, and then customized to meet my needs.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## About This Setup
+-------------------
 
-### `npm test`
+We chose to use the following technologies for this project:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* **Create React App**: A popular tool for setting up new React projects with ease.
+* **Tailwind CSS**: A utility-first CSS framework that simplifies the process of writing clean, efficient, and maintainable CSS code.
+* **Docker**: A containerization platform that allows us to deploy our application in a robust and scalable way.
+* **Cloudflare**: A high-performance infrastructure provider that offers built-in security features.
 
-### `npm run build`
+## How It Works
+----------------
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Here's an overview of how this setup works:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Create React App** creates a new React project with all required dependencies pre-configured.
+2. **Tailwind CSS** provides a simple, utility-first approach to styling our application.
+3. **Docker** containerizes the application for robust deployment and scalability.
+4. **Cloudflare** provides a secure, high-performance infrastructure for serving the website.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Deployment
+-------------
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+My deployment process involves building the project using Create React App, creating a Docker image from the built code, and then deploying that image to Cloudflare.
 
 ## Learn More
+--------------
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+If you're interested in learning more about these technologies, here are some resources to get you started:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
+* [Tailwind CSS documentation](https://tailwindcss.com/docs/installation)
+* [Docker documentation](https://docs.docker.com/)
+* [Cloudflare documentation](https://developers.cloudflare.com/)
