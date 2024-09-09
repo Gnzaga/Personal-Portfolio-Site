@@ -1,4 +1,4 @@
-# Gnzaga.com
+# [Gnzaga.com](https://gnzaga.com)
 ================
 
 A modern web experience built with Create React App, Tailwind CSS, Docker, and Cloudflare.
