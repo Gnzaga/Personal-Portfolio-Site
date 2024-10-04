@@ -15,20 +15,32 @@ import Footer from './components/Footer';
 import Experience from './pages/Experience';
 import PlaylistGeneratorProject from './pages/PlaylistProject';
 import PortfolioProject from './pages/PortfolioProject';
-import ChessGame from './pages/ChessGame';
+import PageTransition from './components/PageTransition';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="bg-slate-900 min-h-screen flex flex-col">
         <Navbar />
+        <PageTransition>
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/chess" element={<ChessGame />} />
             <Route path="/projects/task-management" element={<TaskManagementProject />} />
             <Route path="/projects/PlaylistProject" element={<PlaylistGeneratorProject />} />
             <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
@@ -40,8 +52,11 @@ function App() {
           </Routes>
         </div>
         <Footer />
+        </PageTransition>
       </div>
+      
     </Router>
+    
   );
 }
 

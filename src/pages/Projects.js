@@ -1,12 +1,16 @@
 // Projects.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import StaggeredList from '../components/StaggeredList';
 const Projects = () => {
   return (
-    <div className="container mx-auto px-4 py-16">
-      <div>
+    <div className="container mx-auto px-4 py-24">
+      
+      
+      <StaggeredList>
+
         <h1 className="text-4xl font-bold text-white mb-4 text-center ">My Projects</h1>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
           {/* Project 1 */}
           <div className="bg-slate-800 p-6 rounded-lg hover:scale-105 transition-transform relative min-h-[250px] flex flex-col">
@@ -134,9 +138,13 @@ const Projects = () => {
                 View Project
               </Link>
             </div>
+            
           </div>
         </div>
-      </div>
+        </StaggeredList>
+
+      
+      
     </div>
   );
 };

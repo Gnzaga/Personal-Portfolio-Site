@@ -1,6 +1,7 @@
 // About.js
 import React from 'react';
 import { useState, useEffect } from 'react';
+import StaggeredList from '../components/StaggeredList';
 
 const calculateDuration = () => {
   const today = new Date();
@@ -48,8 +49,10 @@ const Experience = () => {
     setDuration(calculateDuration());
   }, []);
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-4 py-24">
+      <StaggeredList>
      <div>
+      
         <h1 className="text-4xl font-bold text-white mb-4 text-center ">My Experience</h1>
      </div>
       <div className="relative space-y-8 ">
@@ -120,6 +123,7 @@ const Experience = () => {
           </ul>
         </div>
       </div>
+      </StaggeredList>
     </div>
   );
 }
