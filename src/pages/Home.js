@@ -42,7 +42,7 @@ const Home = () => {
               I'm a skilled developer with a passion for creating exceptional
               digital experiences.
             </p>
-           
+            <StaggeredList>
             {/* Resume Download Section */}
             <a
               href={Alessandro_Gonzaga_Resume}
@@ -74,7 +74,7 @@ const Home = () => {
                 </p>
               </div>
             </Link>
-           
+            </StaggeredList>
           </div>
         </div>
       </motion.div>
