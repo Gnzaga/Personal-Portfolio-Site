@@ -8,6 +8,7 @@ import FadeInSection from '../components/FadeInSection';
 import StaggeredList from '../components/StaggeredList';
 import AnimatedButton from '../components/AnimatedButton';
 import PageTransition from '../components/PageTransition';
+import Chatbot from '../components/ChatBot';
 
 const Home = () => {
   const [showContent, setShowContent] = useState(false);
@@ -78,6 +79,7 @@ const Home = () => {
           </div>
         </div>
       </motion.div>
+      <Chatbot />
     </div>
   );
 };
