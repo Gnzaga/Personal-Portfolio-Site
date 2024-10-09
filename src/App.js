@@ -1,6 +1,6 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -16,9 +16,8 @@ import Experience from './pages/Experience';
 import PlaylistGeneratorProject from './pages/PlaylistProject';
 import PortfolioProject from './pages/PortfolioProject';
 import PageTransition from './components/PageTransition';
+import Chatbot from './components/ChatBot'; // Import the Chatbot component
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -35,28 +34,29 @@ function App() {
       <div className="bg-slate-900 min-h-screen flex flex-col">
         <Navbar />
         <PageTransition>
-        <div className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/projects/task-management" element={<TaskManagementProject />} />
-            <Route path="/projects/PlaylistProject" element={<PlaylistGeneratorProject />} />
-            <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
-            <Route path="/projects/chat-gnzaga" element={<ChatGnzagaProject />} />
-            <Route path="/projects/portfolio-project" element={<PortfolioProject />} />
-            <Route path="/experience" element={<Experience />} />
-            <Route path="/error" element={<ErrorPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-        <Footer />
+          <div className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/projects/task-management" element={<TaskManagementProject />} />
+              <Route path="/projects/PlaylistProject" element={<PlaylistGeneratorProject />} />
+              <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
+              <Route path="/projects/chat-gnzaga" element={<ChatGnzagaProject />} />
+              <Route path="/projects/portfolio-project" element={<PortfolioProject />} />
+              <Route path="/experience" element={<Experience />} />
+              <Route path="/error" element={<ErrorPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            
+          </div>
+          <Footer />
         </PageTransition>
+        {/* Add the Chatbot component here */}
+        <Chatbot />
       </div>
-      
     </Router>
-    
   );
 }
 
