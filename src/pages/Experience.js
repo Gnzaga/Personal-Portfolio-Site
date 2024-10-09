@@ -98,7 +98,7 @@ const Experience = () => {
               company="Verizon"
               type="Full-time"
               duration={`Jun 2024 - Present · ${duration}`}
-              location="Bedminster, New Jersey, United States · Hybrid"
+              location="Bedminster, NJ · Hybrid"
               details={[
                 "Leading automation efforts across Verizon's Edge sites nationwide, spearheading the successful migration of over 20,000 cabinets to a new database, representing over 10% of the national infrastructure.",
                 "Led a team of contractors in manually building and configuring level 1 networking equipment across Edge sites nationwide, completing over 2,000 builds in August 2024 alone. Leadership responsibilities include task assignment, training, process development, process automation and issue resolution.",
