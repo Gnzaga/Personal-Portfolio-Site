@@ -79,7 +79,7 @@ const Home = () => {
           </div>
         </div>
       </motion.div>
-      <Chatbot />
+      
     </div>
   );
 };
