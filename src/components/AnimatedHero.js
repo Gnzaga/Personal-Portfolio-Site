@@ -20,7 +20,7 @@ const AnimatedHero = () => {
     transition={{ duration: 0.8, delay: 0.2 }}
     className="text-xl text-gray-300 mb-8 text-center"
   >
-    <span className="md:inline block">Network Engineer | Full Stack Developer</span>
+    <span className="md:inline block">Network Engineer | Software Engineer</span>
     <span className="md:inline md:before:content-['\a0|\a0'] block">Problem Solver</span>
   </motion.div>
 
