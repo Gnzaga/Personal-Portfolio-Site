@@ -40,8 +40,7 @@ const Home = () => {
               Welcome to my Portfolio
             </h1>
             <p className="text-gray-300 text-lg mb-8">
-              I'm a skilled developer with a passion for creating exceptional
-              digital experiences.
+              I'm a multi-disciplined engineer with a passion for technology and problem solving.
             </p>
             <StaggeredList>
             {/* Resume Download Section */}
