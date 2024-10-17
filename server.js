@@ -1,14 +1,32 @@
+// server.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
+const path = require('path');
 
 const app = express();
-const port = 3003;
+const PORT = process.env.PORT || 8080;
 
-app.use(cors());
+// Use CORS to allow requests from your domain
+app.use(
+  cors({
+    origin: 'https://gnzaga.com',
+    methods: ['POST', 'GET', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
+
 app.use(bodyParser.json());
 
+// Middleware to log all incoming requests
+app.use((req, res, next) => {
+  console.log(`Received ${req.method} request for ${req.url}`);
+  next();
+});
+
+// Optional: Define a system message if needed
+// const systemMessage = 'You are a helpful assistant.';
 const systemMessage = `
 You are an AI assistant specifically programmed to be an expert on Alessandro Gonzaga's resume and professional background. Your primary function is to answer questions about Alessandro's education, work experience, skills, and projects. You should not answer questions unrelated to Alessandro's professional life or resume.
 
@@ -70,27 +88,34 @@ When answering questions:
 Your responses should be professional, concise, and directly related to Alessandro Gonzaga's professional background as presented in his resume.
 `;
 
+
 app.post('/chat', async (req, res) => {
+  console.log('Received POST request to /chat');
   const { message } = req.body;
+
+  if (!message || typeof message !== 'string') {
+    return res.status(400).json({ error: 'Invalid message format' });
+  }
 
   try {
     const response = await axios.post(
-      'http://192.168.42.38:11434/api/generate',
+      'http://192.168.42.38:11434/api/chat',
       {
         model: 'llama3.1',
-        prompt: message,
-        system: systemMessage,
-        stream: true
+        messages: [
+          // Include the system message if defined
+          { role: 'system', content: systemMessage },
+          { role: 'user', content: message },
+        ],
+        stream: true,
       },
-      {
-        responseType: 'stream'
-      }
+      { responseType: 'stream' }
     );
 
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
-      Connection: 'keep-alive'
+      Connection: 'keep-alive',
     });
 
     response.data.on('data', (chunk) => {
@@ -99,10 +124,10 @@ app.post('/chat', async (req, res) => {
         if (line.trim() !== '') {
           try {
             const parsedLine = JSON.parse(line);
-            if (parsedLine.response) {
+            if (parsedLine.message && parsedLine.message.content) {
               res.write(
                 `data: ${JSON.stringify({
-                  message: { content: parsedLine.response }
+                  message: { content: parsedLine.message.content },
                 })}\n\n`
               );
             }
@@ -118,13 +143,21 @@ app.post('/chat', async (req, res) => {
       res.end();
     });
   } catch (error) {
-    console.error('Error:', error);
-    res
-      .status(500)
-      .json({ error: 'An error occurred while processing your request.' });
+    console.error('Error while generating response:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// Serve static files from the React app (if applicable)
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Catch-all route for unmatched routes
+app.use((req, res) => {
+  console.log(`No route matched for ${req.method} ${req.url}`);
+  res.status(404).send('Not Found');
+});
+
+// Start HTTP server
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on port ${PORT}`);
 });

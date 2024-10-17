@@ -3,7 +3,7 @@
 # Variables
 IMAGE_NAME="react-portfolio"
 CONTAINER_NAME="my-portfolio"
-PORT="80"
+PORT="8080"
 
 # Build the new Docker image
 docker build -t $IMAGE_NAME .
