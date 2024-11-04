@@ -13,21 +13,19 @@
   }
 }
 
-
-
 .App-header {
-  background-color: #282c34;
+  background-color: #344e41; /* Dark green background */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #dad7cd; /* Light beige text color */
 }
 
 .App-link {
-  color: #61dafb;
+  color: #a3b18a; /* Soft green link color */
 }
 
 @keyframes App-logo-spin {
@@ -45,14 +43,16 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #1f2937; /* Tailwind's gray-800 */
+  background: #3a5a40; /* Darker green for scrollbar track */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #4b5563; /* Tailwind's gray-600 */
+  background-color: #588157; /* Medium green for scrollbar thumb */
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #6b7280; /* Tailwind's gray-500 */
+  background-color: #a3b18a; /* Soft green on hover */
 }
+
+
