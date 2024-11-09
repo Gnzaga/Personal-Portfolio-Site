@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBriefcase, faCalendarAlt, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import StaggeredList from './StaggeredList';
-import AnimatedLine from './AnimatedLine';
+// src/components/Experience.js
 
+import React, { useState, useEffect } from 'react'; // Import React and hooks for component logic
+import { motion } from 'framer-motion'; // Import motion for animations
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icon rendering
+import { faBriefcase, faCalendarAlt, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
+import StaggeredList from './StaggeredList'; // Import StaggeredList component
+import AnimatedLine from './AnimatedLine'; // Import AnimatedLine component
+
+/**
+ * Function to calculate the duration since a given hire date.
+ * 
+ * @returns {string} The formatted duration string (e.g., "1 year, 2 months").
+ */
 const calculateDuration = () => {
   const today = new Date();
   const hireDate = new Date('2024-06-01');
@@ -23,10 +30,25 @@ const calculateDuration = () => {
   }
 };
 
+/**
+ * ExperienceCard Component
+ * 
+ * @description A card component that displays detailed information about a job experience.
+ * 
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.title - The job title.
+ * @param {string} props.company - The company name.
+ * @param {string} props.duration - The duration of the job.
+ * @param {string} props.location - The job location.
+ * @param {string} props.type - The job type (e.g., Full-time, Part-time).
+ * @param {Array<string>} props.details - The list of job responsibilities or achievements.
+ * 
+ * @returns {JSX.Element} The rendered ExperienceCard component.
+ */
 const ExperienceCard = ({ title, company, duration, location, type, details }) => (
   <motion.div 
     className="mb-8 bg-gray-800 shadow-lg rounded-lg p-6 hover:shadow-xl transition-all duration-300 border border-gray-700"
-    whileHover={{ scale: 1.02 }}
+    whileHover={{ scale: 1.02 }} // Slight scaling effect on hover
   >
     <h2 className="text-2xl font-bold mb-3 text-white">{title}</h2>
     <div className="flex justify-between items-center mb-2">
@@ -45,15 +67,23 @@ const ExperienceCard = ({ title, company, duration, location, type, details }) =
     </div>
     <ul className="text-gray-300 mt-4 list-disc pl-5 space-y-2">
       {details.map((detail, index) => (
-        <li key={index}>{detail}</li>
+        <li key={index}>{detail}</li> // Render each job detail as a list item
       ))}
     </ul>
   </motion.div>
 );
 
+/**
+ * Experience Component
+ * 
+ * @description The main container for displaying all job experiences. It uses the ExperienceCard component to render each job.
+ *
+ * @returns {JSX.Element} The rendered Experience component.
+ */
 const Experience = () => {
-  const [duration, setDuration] = useState('');
+  const [duration, setDuration] = useState(''); // State to store calculated job duration
 
+  // Calculate job duration on component mount
   useEffect(() => {
     setDuration(calculateDuration());
   }, []);
@@ -62,16 +92,17 @@ const Experience = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 py-24">
       <div className="container mx-auto px-4">
         <motion.h1 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: -20 }} // Initial animation state
+          animate={{ opacity: 1, y: 0 }} // Animate to visible state
+          transition={{ duration: 0.5 }} // Animation duration
           className="text-5xl font-bold text-white mb-12 text-center"
         >
           My Professional Journey
         </motion.h1>
         <div className="relative">
-          <AnimatedLine delay={0.20} />
+          <AnimatedLine delay={0.20} /> {/* Decorative line animation */}
           <StaggeredList>
+            {/* ExperienceCard components for job positions */}
             <ExperienceCard
               title="Network Engineer, Edge & Core Implementation"
               company="Verizon"
@@ -100,7 +131,7 @@ const Experience = () => {
               ]}
             />
 
-            {/* Add ExperienceCard components for your other positions */}
+            {/* Add more ExperienceCard components as needed */}
           </StaggeredList>
         </div>
       </div>
@@ -108,4 +139,4 @@ const Experience = () => {
   );
 }
 
-export default Experience;
+export default Experience; // Export the component for use in other parts of the app
