@@ -1,41 +1,54 @@
 // src/App.js
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import About from './pages/About';
-import Projects from './pages/Projects';
-import Contact from './pages/Contact';
-import TaskManagementProject from './pages/TaskManagementProject';
-import DiscordBotProject from './pages/DiscordBotProject';
-import ChatGnzagaProject from './pages/ChatGnzagaProject';
-import NotFound from './pages/404';
-import ErrorPage from './pages/Error';
-import Footer from './components/Footer';
-import Experience from './pages/Experience';
-import PlaylistGeneratorProject from './pages/PlaylistProject';
-import PortfolioProject from './pages/PortfolioProject';
-import PageTransition from './components/PageTransition';
-import Chatbot from './components/ChatBot'; // Import the Chatbot component
-import { useEffect } from 'react';
 
+// Import core React functionality
+import React, { useEffect } from 'react';
+
+// Import React Router for handling routing within the app
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
+// Import components and pages for different parts of the app
+import Navbar from './components/Navbar'; // Navigation bar component
+import Home from './pages/Home'; // Home page component
+import About from './pages/About'; // About page component
+import Projects from './pages/Projects'; // Projects listing page component
+import Contact from './pages/Contact'; // Contact page component
+import TaskManagementProject from './pages/TaskManagementProject'; // Project detail page for task management project
+import DiscordBotProject from './pages/DiscordBotProject'; // Project detail page for Discord bot project
+import ChatGnzagaProject from './pages/ChatGnzagaProject'; // Project detail page for Chat Gnzaga project
+import PlaylistGeneratorProject from './pages/PlaylistProject'; // Project detail page for playlist generator project
+import PortfolioProject from './pages/PortfolioProject'; // Project detail page for the portfolio project
+import Experience from './pages/Experience'; // Experience page component
+import NotFound from './pages/404'; // 404 Not Found page component
+import ErrorPage from './pages/Error'; // Error page component
+import Footer from './components/Footer'; // Footer component
+import PageTransition from './components/PageTransition'; // Component for page transition effects
+import Chatbot from './components/ChatBot'; // Chatbot component for user interactions
+
+/**
+ * Component to scroll the window to the top when navigating between routes.
+ */
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname } = useLocation(); // Get the current path location from React Router
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
+    window.scrollTo(0, 0); // Scroll to the top of the page on path change
+  }, [pathname]); // Dependency array to re-run the effect on path change
+  return null; // This component does not render any UI
 }
 
+/**
+ * Main App component that sets up the routing, layout, and structure of the app.
+ * Contains a navbar, page transition wrapper, dynamic routes, and a footer.
+ */
 function App() {
   return (
     <Router>
-      <ScrollToTop />
-      <div className="bg-slate-900 min-h-screen flex flex-col">
-        <Navbar />
-        <PageTransition>
-          <div className="flex-grow">
+      <ScrollToTop /> {/* Ensure window scrolls to top on route change */}
+      <div className="bg-slate-900 min-h-screen flex flex-col"> {/* Main container with a dark background and flex layout */}
+        <Navbar /> {/* Navigation bar at the top */}
+        <PageTransition> {/* Wrapper for page transition animations */}
+          <div className="flex-grow"> {/* Main content area that grows to fill available space */}
             <Routes>
+              {/* Define routes and associate each with a specific component */}
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/projects" element={<Projects />} />
@@ -47,17 +60,17 @@ function App() {
               <Route path="/projects/portfolio-project" element={<PortfolioProject />} />
               <Route path="/experience" element={<Experience />} />
               <Route path="/error" element={<ErrorPage />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} /> {/* Catch-all route for undefined paths */}
             </Routes>
-            
           </div>
-          <Footer />
+          <Footer /> {/* Footer component at the bottom of the page */}
         </PageTransition>
-        {/* Add the Chatbot component here */}
+        {/* Add the Chatbot component for user interaction with the portfolio */}
         <Chatbot />
       </div>
     </Router>
   );
 }
 
+// Export the App component as the default export of this module
 export default App;

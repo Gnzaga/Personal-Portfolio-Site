@@ -1,11 +1,31 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import ButtonLink from '../components/ButtonLink';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faMusic, faCode, faPalette, faRobot, faCloud, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+/**
+ * PlaylistGeneratorProject.js
+ * 
+ * This component showcases the detailed project information for the Playlist Description & Art Generator.
+ * It includes sections that describe various aspects of the project, such as the overview, technologies used,
+ * key features, frontend and backend implementation details, AI integration, and challenges faced during development.
+ * 
+ * The component is structured using reusable Section components for clear modularity, making it easy to navigate
+ * and understand the project's breakdown.
+ * 
+ * @component
+ */
 
+import React from 'react';
+import { motion } from 'framer-motion'; // For animations
+import ButtonLink from '../components/ButtonLink'; // Custom component for navigation buttons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icon library
+import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
+import { faMusic, faCode, faPalette, faRobot, faCloud, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Solid icons
+import { Link } from 'react-router-dom'; // For internal navigation
+
+/**
+ * Section component renders a styled container for different parts of the project page.
+ * 
+ * @param {string} title - The title of the section.
+ * @param {object} icon - The FontAwesome icon representing the section.
+ * @param {object} children - The content of the section.
+ */
 const Section = ({ title, icon, children }) => (
   <motion.div
     className="bg-gray-800 shadow-md rounded-lg p-6"
@@ -21,6 +41,14 @@ const Section = ({ title, icon, children }) => (
   </motion.div>
 );
 
+/**
+ * Main component for displaying the Playlist Generator Project page.
+ * 
+ * This component includes detailed sections explaining the project overview, technologies used,
+ * key features, frontend and backend architecture, AI integration, and challenges faced.
+ * 
+ * @returns {JSX.Element} The rendered Playlist Generator Project component.
+ */
 const PlaylistGeneratorProject = () => {
   return (
     <div className="container mx-auto px-4 py-32 space-y-8">
@@ -33,12 +61,14 @@ const PlaylistGeneratorProject = () => {
         Playlist Description & Art Generator
       </motion.h1>
 
+      {/* Section for the project overview */}
       <Section title="Project Overview" icon={faMusic}>
         <p className="text-gray-300 text-lg">
           A sophisticated web application that enhances the Spotify experience by generating detailed descriptions and custom cover art for playlists. This project showcases the integration of multiple APIs, AI-powered content generation, and a seamless user interface to create a unique tool for music enthusiasts.
         </p>
       </Section>
 
+      {/* Section detailing technologies used in the project */}
       <Section title="Technologies Used" icon={faCode}>
         <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
           <li>React for the frontend</li>
@@ -51,6 +81,7 @@ const PlaylistGeneratorProject = () => {
         </ul>
       </Section>
 
+      {/* Section highlighting key features of the project */}
       <Section title="Key Features" icon={faLightbulb}>
         <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
           <li>Spotify Integration: Seamlessly extracts playlist data using the Spotify API</li>
@@ -61,6 +92,7 @@ const PlaylistGeneratorProject = () => {
         </ul>
       </Section>
 
+      {/* Section explaining frontend implementation details */}
       <Section title="Frontend Implementation" icon={faPalette}>
         <p className="text-gray-300 text-lg mb-4">
           The React-based frontend provides an intuitive and interactive user experience:
@@ -74,6 +106,7 @@ const PlaylistGeneratorProject = () => {
         </ul>
       </Section>
 
+      {/* Section explaining backend architecture */}
       <Section title="Backend Architecture" icon={faCloud}>
         <p className="text-gray-300 text-lg mb-4">
           The Python-powered backend orchestrates the complex processes behind the scenes:
@@ -88,6 +121,7 @@ const PlaylistGeneratorProject = () => {
         </ul>
       </Section>
 
+      {/* Section on AI integration used in the project */}
       <Section title="AI Integration" icon={faRobot}>
         <p className="text-gray-300 text-lg mb-4">
           The project leverages advanced AI capabilities:
@@ -100,6 +134,7 @@ const PlaylistGeneratorProject = () => {
         </ul>
       </Section>
 
+      {/* Section describing challenges and solutions */}
       <Section title="Challenges and Solutions" icon={faLightbulb}>
         <p className="text-gray-300 text-lg mb-4">
           Several challenges were overcome during development:
@@ -113,6 +148,7 @@ const PlaylistGeneratorProject = () => {
         </ul>
       </Section>
 
+      {/* Call-to-action buttons */}
       <div className="mt-12 text-center space-x-4">
         <ButtonLink to="https://github.com/Gnzaga/spotify-gpt">
           See on GitHub <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
