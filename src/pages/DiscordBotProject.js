@@ -1,38 +1,61 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import ButtonLink from '../components/ButtonLink';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faRobot, faCode, faGamepad, faChartLine, faBolt, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+// src/pages/DiscordBotProject.js
 
+import React from 'react'; // Import React for component functionality
+import { motion } from 'framer-motion'; // Import motion for animation support
+import ButtonLink from '../components/ButtonLink'; // Import reusable ButtonLink component
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icons
+import { faGithub } from '@fortawesome/free-brands-svg-icons'; // Import GitHub icon
+import { faRobot, faCode, faGamepad, faChartLine, faBolt, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Import solid icons
+import { Link } from 'react-router-dom'; // Import Link for navigation
+
+/**
+ * Section Component
+ * 
+ * @description A reusable component to display a section with a title, icon, and content.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.title - The title of the section.
+ * @param {Object} props.icon - The FontAwesome icon to display next to the title.
+ * @param {React.ReactNode} props.children - The content inside the section.
+ * 
+ * @returns {JSX.Element} The rendered Section component.
+ */
 const Section = ({ title, icon, children }) => (
   <motion.div
-    className="bg-gray-800 shadow-md rounded-lg p-6"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
+    className="bg-gray-800 shadow-md rounded-lg p-6" // Styled container
+    initial={{ opacity: 0, y: 20 }} // Initial animation state
+    animate={{ opacity: 1, y: 0 }} // Target animation state
+    transition={{ duration: 0.5 }} // Animation duration
   >
     <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
-      <FontAwesomeIcon icon={icon} className="mr-2" />
+      <FontAwesomeIcon icon={icon} className="mr-2" /> {/* Icon next to the title */}
       {title}
     </h2>
-    {children}
+    {children} {/* Content of the section */}
   </motion.div>
 );
 
+/**
+ * DiscordBotProject Component
+ * 
+ * @description Displays detailed information about the Discord Bot project, including an overview, technologies used, key features, and challenges faced.
+ * 
+ * @returns {JSX.Element} The rendered DiscordBotProject component.
+ */
 const DiscordBotProject = () => {
   return (
-    <div className="container mx-auto px-4 py-32 space-y-8">
+    <div className="container mx-auto px-4 py-32 space-y-8"> {/* Main container with spacing */}
+      {/* Project Title */}
       <motion.h1
         className="text-4xl font-bold text-white mb-8 text-center"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0, y: -20 }} // Initial animation state
+        animate={{ opacity: 1, y: 0 }} // Target animation state
+        transition={{ duration: 0.5 }} // Animation duration
       >
         Discord Bot Project
       </motion.h1>
 
+      {/* Sections for project details */}
       <Section title="Project Overview" icon={faRobot}>
         <p className="text-gray-300 text-lg">
           A versatile Discord bot built with Python, showcasing advanced programming techniques and integration with external APIs. This project demonstrates proficiency in asynchronous programming, API interactions, and creating engaging user experiences within a chat platform.
@@ -101,6 +124,7 @@ const DiscordBotProject = () => {
         </ul>
       </Section>
 
+      {/* Navigation Buttons */}
       <div className="mt-12 text-center space-x-4">
         <ButtonLink to="https://github.com/Gnzaga/DiscordBot">
           See on GitHub <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
@@ -115,4 +139,4 @@ const DiscordBotProject = () => {
   );
 };
 
-export default DiscordBotProject;
+export default DiscordBotProject; // Export the component for use in other parts of the app

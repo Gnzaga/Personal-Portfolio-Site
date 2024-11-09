@@ -1,9 +1,19 @@
-// DarkModeToggle.js
-import React, { useState, useEffect } from 'react';
+// src/components/DarkModeToggle.js
 
+import React, { useState, useEffect } from 'react'; // Import React and hooks for state and effects
+
+/**
+ * DarkModeToggle Component
+ * 
+ * @description A toggle button that allows users to switch between light and dark modes.
+ * The user's preference is stored in `localStorage` and applied on component mount.
+ *
+ * @returns {JSX.Element} The rendered DarkModeToggle component.
+ */
 const DarkModeToggle = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false); // State to track if dark mode is active
 
+  // Load dark mode preference from localStorage on component mount
   useEffect(() => {
     const storedDarkMode = localStorage.getItem('darkMode');
     if (storedDarkMode) {
@@ -11,27 +21,30 @@ const DarkModeToggle = () => {
     }
   }, []);
 
+  // Apply or remove dark mode class on the <html> element when isDarkMode changes
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('darkMode', 'true');
+      document.documentElement.classList.add('dark'); // Add dark mode class
+      localStorage.setItem('darkMode', 'true'); // Store preference in localStorage
     } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('darkMode', 'false');
+      document.documentElement.classList.remove('dark'); // Remove dark mode class
+      localStorage.setItem('darkMode', 'false'); // Store preference in localStorage
     }
-  }, [isDarkMode]);
+  }, [isDarkMode]); // Dependency array to run the effect when isDarkMode changes
 
+  // Function to toggle dark mode state
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center"> {/* Container for alignment */}
       <button
-        className="text-gray-300 hover:text-white transition-colors duration-300 focus:outline-none"
-        onClick={toggleDarkMode}
+        className="text-gray-300 hover:text-white transition-colors duration-300 focus:outline-none" // Button styling
+        onClick={toggleDarkMode} // Toggle function on click
       >
         {isDarkMode ? (
+          // Sun icon for light mode
           <svg
             className="w-6 h-6"
             fill="none"
@@ -47,6 +60,7 @@ const DarkModeToggle = () => {
             />
           </svg>
         ) : (
+          // Moon icon for dark mode
           <svg
             className="w-6 h-6"
             fill="none"
@@ -67,4 +81,4 @@ const DarkModeToggle = () => {
   );
 };
 
-export default DarkModeToggle;
+export default DarkModeToggle; // Export the component for use in other parts of the app

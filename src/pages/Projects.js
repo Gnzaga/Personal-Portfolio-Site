@@ -1,10 +1,32 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+/**
+ * Projects.js
+ * 
+ * This component renders a showcase of all projects with filtering capabilities. Each project is displayed 
+ * as a card, allowing users to view details, visit the project, or check its GitHub repository. The file 
+ * also includes a technology filter for dynamic project exploration. This documentation is designed for 
+ * a Retrieval-Augmented Generation (RAG) system to aid in understanding and answering questions related 
+ * to the codebase.
+ * 
+ * @component
+ */
 
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // For navigation
+import { motion, AnimatePresence } from 'framer-motion'; // For animations and transitions
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icons
+import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'; // External link icon
+
+/**
+ * ProjectCard component displays individual project details.
+ * 
+ * @param {string} title - Title of the project.
+ * @param {string} description - A brief description of the project.
+ * @param {string} githubLink - The GitHub repository link for the project.
+ * @param {string} projectLink - The internal project page link.
+ * @param {Array} technologies - List of technologies used in the project.
+ * @returns {JSX.Element} The rendered ProjectCard component.
+ */
 const ProjectCard = ({ title, description, githubLink, projectLink, technologies }) => (
   <motion.div
     layout
@@ -48,6 +70,14 @@ const ProjectCard = ({ title, description, githubLink, projectLink, technologies
   </motion.div>
 );
 
+/**
+ * FilterButton component for filtering projects by technology.
+ * 
+ * @param {string} technology - The name of the technology filter.
+ * @param {string} activeFilter - The currently active filter.
+ * @param {function} setActiveFilter - Function to set the active filter.
+ * @returns {JSX.Element} The rendered FilterButton component.
+ */
 const FilterButton = ({ technology, activeFilter, setActiveFilter }) => (
   <button
     className={`px-4 py-2 rounded-full text-sm font-semibold mr-2 mb-2 transition-colors duration-300 ${
@@ -61,9 +91,15 @@ const FilterButton = ({ technology, activeFilter, setActiveFilter }) => (
   </button>
 );
 
+/**
+ * Main Projects component to display all projects with filtering functionality.
+ * 
+ * @returns {JSX.Element} The rendered Projects component.
+ */
 const Projects = () => {
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFilter, setActiveFilter] = useState('All'); // State to keep track of the active technology filter
 
+  // Array of project objects
   const projects = [
     {
       title: "Portfolio Website",
@@ -99,11 +135,12 @@ const Projects = () => {
       projectLink: "/projects/task-management",
       technologies: ['React', 'Spring Boot', 'Java', 'SQL']
     }
-    
   ];
 
+  // Extract all unique technologies from the projects to create filter buttons
   const allTechnologies = ['All', ...new Set(projects.flatMap(project => project.technologies))];
 
+  // Filter projects based on the active technology filter
   const filteredProjects = activeFilter === 'All'
     ? projects
     : projects.filter(project => project.technologies.includes(activeFilter));
@@ -119,6 +156,7 @@ const Projects = () => {
         My Projects
       </motion.h1>
 
+      {/* Technology Filter Buttons */}
       <div className="mb-8 text-center">
         {allTechnologies.map((tech) => (
           <FilterButton
@@ -130,6 +168,7 @@ const Projects = () => {
         ))}
       </div>
 
+      {/* Display filtered projects */}
       <AnimatePresence>
         <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project, index) => (

@@ -1,45 +1,70 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import ButtonLink from '../components/ButtonLink';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faServer, faCode, faNetworkWired, faShield, faTools, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+// src/pages/ChatGnzagaProject.js
 
+import React from 'react'; // Import React for JSX and component creation
+import { motion } from 'framer-motion'; // Import motion for animation support
+import ButtonLink from '../components/ButtonLink'; // Import ButtonLink component for navigation
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icons
+import { faServer, faCode, faNetworkWired, faShield, faTools, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
+import { Link } from 'react-router-dom'; // Import Link for client-side navigation
+
+/**
+ * Section Component
+ * 
+ * @description A reusable component for displaying sections with a title, icon, and content.
+ * 
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.title - The title of the section.
+ * @param {Object} props.icon - The FontAwesome icon to display next to the title.
+ * @param {React.ReactNode} props.children - The content of the section.
+ * 
+ * @returns {JSX.Element} The rendered Section component.
+ */
 const Section = ({ title, icon, children }) => (
   <motion.div
-    className="bg-gray-800 shadow-md rounded-lg p-6"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
+    className="bg-gray-800 shadow-md rounded-lg p-6" // Container styling
+    initial={{ opacity: 0, y: 20 }} // Initial animation state
+    animate={{ opacity: 1, y: 0 }} // Target animation state
+    transition={{ duration: 0.5 }} // Animation duration
   >
     <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
-      <FontAwesomeIcon icon={icon} className="mr-2" />
-      {title}
+      <FontAwesomeIcon icon={icon} className="mr-2" /> {/* Display the icon */}
+      {title} {/* Display the section title */}
     </h2>
-    {children}
+    {children} {/* Render the children content */}
   </motion.div>
 );
 
+/**
+ * ChatGnzagaProject Component
+ * 
+ * @description A detailed project page for chat.gnzaga.com, highlighting key aspects like overview,
+ * technologies, features, deployment process, and challenges.
+ * 
+ * @returns {JSX.Element} The rendered ChatGnzagaProject component.
+ */
 const ChatGnzagaProject = () => {
   return (
-    <div className="container mx-auto px-4 py-32 space-y-8">
+    <div className="container mx-auto px-4 py-32 space-y-8"> {/* Main container with padding and spacing */}
+      {/* Page Title */}
       <motion.h1
         className="text-4xl font-bold text-white mb-8 text-center"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0, y: -20 }} // Initial animation state
+        animate={{ opacity: 1, y: 0 }} // Target animation state
+        transition={{ duration: 0.5 }} // Animation duration
       >
-        <a href="https://chat.gnzaga.com" className="hover:text-blue-400 transition-colors">
+        <a href="https://chat.gnzaga.com" className="hover:text-blue-400 transition-colors"> {/* Link to the project */}
           chat.gnzaga.com
         </a>
       </motion.h1>
 
+      {/* Project Overview Section */}
       <Section title="Project Overview" icon={faServer}>
         <p className="text-gray-300 text-lg">
           A self-hosted Ollama web interface powered by Docker, providing a seamless and efficient way to interact with OpenAI's language models. This project showcases expertise in containerization, networking, and infrastructure management, demonstrating the ability to deploy and maintain complex web applications.
         </p>
       </Section>
 
+      {/* Technologies Used Section */}
       <Section title="Technologies Used" icon={faCode}>
         <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
           <li>Docker for containerization</li>
@@ -51,6 +76,7 @@ const ChatGnzagaProject = () => {
         </ul>
       </Section>
 
+      {/* Key Features Section */}
       <Section title="Key Features" icon={faNetworkWired}>
         <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
           <li>Containerized deployment for consistency across environments</li>
@@ -62,6 +88,7 @@ const ChatGnzagaProject = () => {
         </ul>
       </Section>
 
+      {/* Deployment Process Section */}
       <Section title="Deployment Process" icon={faTools}>
         <p className="text-gray-300 text-lg mb-4">
           The deployment process involved several key steps:
@@ -76,6 +103,7 @@ const ChatGnzagaProject = () => {
         </ul>
       </Section>
 
+      {/* Security Measures Section */}
       <Section title="Security Measures" icon={faShield}>
         <p className="text-gray-300 text-lg mb-4">
           Security was a top priority in this project:
@@ -89,6 +117,7 @@ const ChatGnzagaProject = () => {
         </ul>
       </Section>
 
+      {/* Challenges and Solutions Section */}
       <Section title="Challenges and Solutions" icon={faLightbulb}>
         <p className="text-gray-300 text-lg mb-4">
           Several challenges were overcome during the development and deployment:
@@ -102,6 +131,7 @@ const ChatGnzagaProject = () => {
         </ul>
       </Section>
 
+      {/* Navigation Buttons */}
       <div className="mt-12 text-center space-x-4">
         <ButtonLink to="https://chat.gnzaga.com">
           Go to chat.gnzaga.com!
@@ -116,4 +146,4 @@ const ChatGnzagaProject = () => {
   );
 };
 
-export default ChatGnzagaProject;
+export default ChatGnzagaProject; // Export the component for use in other parts of the app

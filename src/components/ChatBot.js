@@ -1,24 +1,36 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComments, faTimes, faExpand, faCompress, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import ReactMarkdown from 'react-markdown';
+// src/components/ChatBot.js
 
+import React, { useState, useEffect, useRef } from 'react'; // Import React and hooks for component logic
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icon rendering
+import { faComments, faTimes, faExpand, faCompress, faPaperPlane } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
+import ReactMarkdown from 'react-markdown'; // Import ReactMarkdown for rendering markdown content
+
+/**
+ * ChatBot Component
+ * 
+ * @description A chatbot component that allows users to interact with an LLM-based backend to ask questions.
+ * It includes features such as expandable/collapsible UI, markdown rendering, and a smooth scrolling experience.
+ *
+ * @returns {JSX.Element} The rendered ChatBot component.
+ */
 const ChatBot = () => {
-  const [messages, setMessages] = useState([{ sender: 'bot', text: 'Hi! I\'m a LLM model configured to answer questions about Alessandro. Ask me anything.' }]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [currentBotMessage, setCurrentBotMessage] = useState('');
-  const messagesEndRef = useRef(null);
-  const chatContainerRef = useRef(null);
+  const [messages, setMessages] = useState([{ sender: 'bot', text: 'Hi! I\'m a LLM model configured to answer questions about Alessandro. Ask me anything.' }]); // Initial messages state
+  const [input, setInput] = useState(''); // State for user input
+  const [isLoading, setIsLoading] = useState(false); // State for loading status
+  const [isOpen, setIsOpen] = useState(false); // State to track if the chatbot is open
+  const [isExpanded, setIsExpanded] = useState(false); // State to track if the chatbot is expanded
+  const [currentBotMessage, setCurrentBotMessage] = useState(''); // State for current streaming message from the bot
+  const messagesEndRef = useRef(null); // Ref to scroll to the bottom of the messages
+  const chatContainerRef = useRef(null); // Ref to adjust chat container size dynamically
 
+  // Scrolls to the bottom of the chat when new messages are added or streaming messages are updated
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  useEffect(scrollToBottom, [messages, currentBotMessage]);
+  useEffect(scrollToBottom, [messages, currentBotMessage]); // Trigger scroll effect when messages or current bot message change
 
+  // Adjusts chat container height on window resize
   useEffect(() => {
     const handleResize = () => {
       if (chatContainerRef.current) {
@@ -30,36 +42,36 @@ const ChatBot = () => {
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize); // Cleanup listener on component unmount
   }, []);
 
+  // Function to send a message and handle the response from the backend
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim()) return; // Prevent sending empty messages
 
     const userMessage = { sender: 'user', text: input };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
-    setInput('');
+    setInput(''); // Clear input field
     setIsLoading(true);
-    setCurrentBotMessage('');
+    setCurrentBotMessage(''); // Reset streaming message
 
     try {
       const response = await fetch('/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: input,
-        }),
+        body: JSON.stringify({ message: input }), // Send input message to backend
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const reader = response.body.getReader();
+      const reader = response.body.getReader(); // Get reader for streaming response
       const decoder = new TextDecoder('utf-8');
       let buffer = '';
       let fullBotMessage = '';
 
+      // Read the response stream chunk by chunk
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
@@ -68,7 +80,7 @@ const ChatBot = () => {
         buffer += chunk;
 
         let lines = buffer.split('\n');
-        buffer = lines.pop(); // Keep the last incomplete line
+        buffer = lines.pop(); // Retain last incomplete line for the next iteration
 
         for (let line of lines) {
           line = line.trim();
@@ -81,7 +93,7 @@ const ChatBot = () => {
               const parsedData = JSON.parse(data);
               if (parsedData.message && parsedData.message.content) {
                 fullBotMessage += parsedData.message.content;
-                setCurrentBotMessage(fullBotMessage);
+                setCurrentBotMessage(fullBotMessage); // Update current message with streaming content
               }
             } catch (e) {
               console.error('Error parsing JSON:', e);
@@ -90,13 +102,13 @@ const ChatBot = () => {
         }
       }
 
-      // Add the final bot message to the messages state
+      // Append final bot message to messages state
       if (fullBotMessage) {
         const botMessage = { sender: 'bot', text: fullBotMessage };
         setMessages((prevMessages) => [...prevMessages, botMessage]);
       }
       setIsLoading(false);
-      setCurrentBotMessage('');
+      setCurrentBotMessage(''); // Clear streaming message state
     } catch (error) {
       console.error('Error while sending message:', error);
       setMessages((prevMessages) => [
@@ -107,6 +119,7 @@ const ChatBot = () => {
     }
   };
 
+  // Handle Enter key press for message sending
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -114,16 +127,17 @@ const ChatBot = () => {
     }
   };
 
+  // Toggle expanded state for chatbot window
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  // Custom components for ReactMarkdown
+  // Custom components for ReactMarkdown rendering
   const components = {
-    p: ({ children }) => <p className="mb-4">{children}</p>,
+    p: ({ children }) => <p className="mb-4">{children}</p>, // Custom paragraph styling
   };
 
-  // Function to add extra newlines between paragraphs
+  // Format bot messages to add extra spacing between paragraphs
   const formatBotMessage = (text) => {
     return text.replace(/\n{2,}/g, '\n\n\n');
   };
@@ -218,4 +232,4 @@ const ChatBot = () => {
   );
 };
 
-export default ChatBot;
+export default ChatBot; // Export the component for use in other parts of the app
