@@ -27,6 +27,11 @@ app.use((req, res, next) => {
 
 // Optional: Define a system message if needed
 // const systemMessage = 'You are a helpful assistant.';
+//SYSTEM variable WEBUI_KEY
+const webUIKey = process.env.WEBUI_KEY;
+
+
+
 const systemMessage = `
 You are an AI assistant specifically programmed to be an expert on Alessandro Gonzaga's resume and professional background. Your primary function is to answer questions about Alessandro's education, work experience, skills, and projects. You should not answer questions unrelated to Alessandro's professional life or resume.
 
@@ -94,12 +99,11 @@ app.post('/chat', async (req, res) => {
   const { message } = req.body;
 
   if (!message || typeof message !== 'string') {
-    return res.status(400).json({ error: 'Invalid message format' });
   }
 
   try {
     const response = await axios.post(
-      'http://192.168.42.38:11434/api/chat',
+      'http://192.168.42.38:3000/api/chat/completions',
       {
         model: 'llama3.1',
         messages: [
