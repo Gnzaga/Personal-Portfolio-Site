@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'; // Import React and 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icon rendering
 import { faComments, faTimes, faExpand, faCompress, faPaperPlane } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
 import ReactMarkdown from 'react-markdown'; // Import ReactMarkdown for rendering markdown content
+//import checkAndLoadModel from './checkAndLoadModel'; // Import function to check and load the model
 
 /**
  * ChatBot Component
@@ -44,6 +45,9 @@ const ChatBot = () => {
 
     return () => window.removeEventListener('resize', handleResize); // Cleanup listener on component unmount
   }, []);
+
+  // Load the model on component mount
+  
 
   // Function to send a message and handle the response from the backend
   const sendMessage = async () => {
