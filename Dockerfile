@@ -29,3 +29,16 @@ EXPOSE 8080
 # Start the server using the node command
 # This command runs the server script, starting the Node.js server.
 CMD ["node", "server.js"]
+
+#linux command to build and run the docker image
+#docker build -t agonzaga/portfolio-website:latest .
+#docker tag agonzaga/portfolio-website:latest agonzaga/portfolio-website:latest
+#docker push agonzaga/portfolio-website:latest
+
+#windows command to build and run the docker image
+#docker build -t agonzaga/portfolio-website:latest .
+#docker tag agonzaga/portfolio-website:latest agonzaga/portfolio-website:latest
+#docker push agonzaga/portfolio-website:latest
+
+
+#test update
