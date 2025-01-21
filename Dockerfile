@@ -34,11 +34,3 @@ CMD ["node", "server.js"]
 #docker build -t agonzaga/portfolio-website:latest .
 #docker tag agonzaga/portfolio-website:latest agonzaga/portfolio-website:latest
 #docker push agonzaga/portfolio-website:latest
-
-#windows command to build and run the docker image
-#docker build -t agonzaga/portfolio-website:latest .
-#docker tag agonzaga/portfolio-website:latest agonzaga/portfolio-website:latest
-#docker push agonzaga/portfolio-website:latest
-
-
-#test update
