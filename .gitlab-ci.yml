@@ -4,7 +4,7 @@ stages:
 test-shell-executor:
   stage: test
   tags:
-    - shell-runner
+    - shell
   script:
     - echo "Testing shell executor"
     - uname -a
