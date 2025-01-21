@@ -3,10 +3,7 @@ stages:
 
 deploy:
   stage: deploy
-  script:
-    - kubectl apply -f k8s/deployment.yaml
-    - kubectl apply -f k8s/service.yaml
-  environment:
-    name: production
   only:
     - main
+  script:
+    - ssh root@192.168.42.16 "kubectl rollout restart deployment portfolio-website"
