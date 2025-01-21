@@ -1,7 +1,7 @@
 // src/components/Footer.js
 
 import React from 'react'; // Import React for JSX and component functionality
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'; // Import brand icons
+import { faGitlab, faLinkedin } from '@fortawesome/free-brands-svg-icons'; // Import brand icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for rendering icons
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Import solid icon for email
 
@@ -37,15 +37,15 @@ const Footer = () => {
 
           {/* GitHub link */}
           <a
-            href="https://github.com/gnzaga"
+            href="https://gitlab.gnzaga.com/users/gnzaga/projects"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition-colors duration-300"
           >
-            <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
+            <FontAwesomeIcon icon={faGitlab} className="w-6 h-6" />
             <div className="flex items-center space-x-2">
               <div className="text-gray-400 hover:text-white transition-colors duration-300">
-                <span>GitHub</span>
+                <span>GitLab</span>
               </div>
             </div>
           </a>

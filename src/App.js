@@ -12,11 +12,13 @@ import Home from './pages/Home'; // Home page component
 import About from './pages/About'; // About page component
 import Projects from './pages/Projects'; // Projects listing page component
 import Contact from './pages/Contact'; // Contact page component
-import TaskManagementProject from './pages/TaskManagementProject'; // Project detail page for task management project
-import DiscordBotProject from './pages/DiscordBotProject'; // Project detail page for Discord bot project
-import ChatGnzagaProject from './pages/ChatGnzagaProject'; // Project detail page for Chat Gnzaga project
-import PlaylistGeneratorProject from './pages/PlaylistProject'; // Project detail page for playlist generator project
-import PortfolioProject from './pages/PortfolioProject'; // Project detail page for the portfolio project
+import TaskManagementProject from './pages/projects/TaskManagementProject'; // Project detail page for task management project
+import DiscordBotProject from './pages/projects/DiscordBotProject'; // Project detail page for Discord bot project
+import ChatGnzagaProject from './pages/projects/ChatGnzagaProject'; // Project detail page for Chat Gnzaga project
+import PlaylistGeneratorProject from './pages/projects/PlaylistProject'; // Project detail page for playlist generator project
+import PortfolioProject from './pages/projects/PortfolioProject'; // Project detail page for the portfolio project
+import HomelabProject from './pages/projects/Homelab'; // Project detail page for the homelab project
+import KubernetesCluster from './pages/projects/KubernetesCluster'; // Project detail page for the Kubernetes cluster project
 import Experience from './pages/Experience'; // Experience page component
 import NotFound from './pages/404'; // 404 Not Found page component
 import ErrorPage from './pages/Error'; // Error page component
@@ -58,6 +60,8 @@ function App() {
               <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
               <Route path="/projects/chat-gnzaga" element={<ChatGnzagaProject />} />
               <Route path="/projects/portfolio-project" element={<PortfolioProject />} />
+              <Route path="/projects/kubernetes-cluster" element={<KubernetesCluster />} />
+              <Route path="/projects/homelab" element={<HomelabProject />} />
               <Route path="/experience" element={<Experience />} />
               <Route path="/error" element={<ErrorPage />} />
               <Route path="*" element={<NotFound />} /> {/* Catch-all route for undefined paths */}
