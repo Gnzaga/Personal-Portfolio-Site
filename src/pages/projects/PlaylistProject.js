@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion'; // For animations
-import ButtonLink from '../components/ButtonLink'; // Custom component for navigation buttons
+import ButtonLink from '../../components/ButtonLink'; // Custom component for navigation buttons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icon library
 import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
 import { faMusic, faCode, faPalette, faRobot, faCloud, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Solid icons

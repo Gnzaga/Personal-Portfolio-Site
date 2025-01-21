@@ -2,7 +2,7 @@
 
 import React from 'react'; // Import React for JSX and component creation
 import { motion } from 'framer-motion'; // Import motion for animation support
-import ButtonLink from '../components/ButtonLink'; // Import ButtonLink component for navigation
+import ButtonLink from '../../components/ButtonLink'; // Import ButtonLink component for navigation
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icons
 import { faServer, faCode, faNetworkWired, faShield, faTools, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
 import { Link } from 'react-router-dom'; // Import Link for client-side navigation

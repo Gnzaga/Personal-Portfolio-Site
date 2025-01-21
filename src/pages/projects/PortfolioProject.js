@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom'; // For client-side navigation
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icons
 import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
 import { faLaptopCode, faServer, faNetworkWired, faPalette, faTools, faGlobe } from '@fortawesome/free-solid-svg-icons'; // Other icons for sections
-import ButtonLink from '../components/ButtonLink'; // Custom button component
+import ButtonLink from '../../components/ButtonLink'; // Custom button component
 
 /**
  * Section component renders a reusable section for project details.

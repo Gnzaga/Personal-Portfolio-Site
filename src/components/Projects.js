@@ -45,6 +45,7 @@ const Projects = () => (
       </ul>
     </div>
   </section>
+  
 );
 
 export default Projects; // Export the component for use in other parts of the app

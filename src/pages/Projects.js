@@ -14,7 +14,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // For navigation
 import { motion, AnimatePresence } from 'framer-motion'; // For animations and transitions
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icons
-import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
+import { faGitlab } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'; // External link icon
 
 /**
@@ -55,8 +55,8 @@ const ProjectCard = ({ title, description, githubLink, projectLink, technologies
           rel="noopener noreferrer"
           className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300 flex items-center"
         >
-          <FontAwesomeIcon icon={faGithub} className="mr-2" />
-          GitHub
+          <FontAwesomeIcon icon={faGitlab} className="mr-2" />
+          GitLab
         </a>
       )}
       <Link
@@ -104,9 +104,9 @@ const Projects = () => {
     {
       title: "Portfolio Website",
       description: "A portfolio website showcasing my projects, self-hosted on a local Nginx server within my home network.",
-      githubLink: "https://github.com/Gnzaga/portfolio-website",
+      githubLink: "https://gitlab.gnzaga.com/gnzaga/Personal-Portfolio-Site",
       projectLink: "/projects/portfolio-project",
-      technologies: ['React', 'Tailwind CSS', 'Nginx', 'Docker', 'Networking']
+      technologies: ['React', 'Kubernetes', 'Docker', 'Networking']
     },
     {
       title: "chat.gnzaga.com",
@@ -117,23 +117,35 @@ const Projects = () => {
     {
       title: "Discord Bot",
       description: "A Discord bot with various features like Wordle game, stock data, and web scraping.",
-      githubLink: "https://github.com/Gnzaga/DiscordBot",
+      githubLink: "https://gitlab.gnzaga.com/Gnzaga/DiscordBot",
       projectLink: "/projects/discord-bot",
-      technologies: ['Python', 'Docker', 'AI', 'API Integration']
+      technologies: ['Python', 'Kubernetes', 'Docker', 'AI', 'API Integration']
     },
     {
       title: "Playlist Project",
       description: "A web application that generates a description and cover art for a Spotify playlist based on user input.",
-      githubLink: "https://github.com/Gnzaga/spotify-gpt",
+      githubLink: "https://gitlab.gnzaga.com/Gnzaga/spotify-gpt",
       projectLink: "/projects/PlaylistProject",
       technologies: ['React', 'Python', 'AI', 'API Integration']
     },
     {
       title: "Task Management Website",
       description: "A web application for task management with a Spring Boot back-end API and a React front-end.",
-      githubLink: "https://github.com/Gnzaga/TaskManagement",
+      githubLink: "https://gitlab.gnzaga.com/Gnzaga/RUTidy",
       projectLink: "/projects/task-management",
       technologies: ['React', 'Spring Boot', 'Java', 'SQL']
+    },
+    {
+      title: "Homelab Project",
+      description: "A homelab setup with virtualization, Kubernetes, web hosting, and version control.",
+      projectLink: "/projects/homelab",
+      technologies: ['Proxmox', 'Kubernetes', 'Nginx', 'GitLab']
+    },
+    {
+      title: "Kubernetes Cluster",
+      description: "A Kubernetes cluster for deploying and managing containerized applications.",
+      projectLink: "/projects/kubernetes-cluster",
+      technologies: ['Kubernetes', 'Docker', 'Networking']
     }
   ];
 
@@ -149,7 +161,7 @@ const Projects = () => {
     <div className="container mx-auto px-4 py-24">
       <motion.h1
         className="text-4xl font-bold text-white mb-8 text-center"
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
@@ -171,15 +183,22 @@ const Projects = () => {
       {/* Display filtered projects */}
       <AnimatePresence>
         <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <ProjectCard
+          {filteredProjects.map((project) => (
+            <motion.div
               key={project.title}
-              title={project.title}
-              description={project.description}
-              githubLink={project.githubLink}
-              projectLink={project.projectLink}
-              technologies={project.technologies}
-            />
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                githubLink={project.githubLink}
+                projectLink={project.projectLink}
+                technologies={project.technologies}
+              />
+            </motion.div>
           ))}
         </motion.div>
       </AnimatePresence>

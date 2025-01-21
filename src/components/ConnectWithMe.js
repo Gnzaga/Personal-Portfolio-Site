@@ -2,14 +2,14 @@
 
 import React from 'react'; // Import React for JSX and component functionality
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icon rendering
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'; // Import brand icons
+import { faGitlab, faLinkedin } from '@fortawesome/free-brands-svg-icons'; // Import brand icons
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Import solid icon for email
 
 /**
  * ConnectWithMe Component
  * 
  * @description A component that displays social and professional links for connecting with the user.
- * Includes links to GitHub, LinkedIn, and email with icons and descriptive text.
+ * Includes links to Gitlab, LinkedIn, and email with icons and descriptive text.
  *
  * @returns {JSX.Element} The rendered ConnectWithMe component.
  */
@@ -21,15 +21,15 @@ const ConnectWithMe = () => {
         I'm always excited to collaborate on new projects, share ideas, or just have a chat about technology. Feel free to reach out through any of the platforms below!
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {/* GitHub Link */}
+        {/* Gitlab Link */}
         <a
-          href="https://github.com/gnzaga"
+          href="https://gitlab.gnzaga.com/users/gnzaga/projects"
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col items-center justify-center p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors duration-300"
         >
-          <FontAwesomeIcon icon={faGithub} className="text-3xl text-white mb-2" />
-          <h3 className="text-xl font-semibold text-white">GitHub</h3>
+          <FontAwesomeIcon icon={faGitlab} className="text-3xl text-white mb-2" />
+          <h3 className="text-xl font-semibold text-white">Gitlab</h3>
           <p className="text-gray-300 text-center">Check out my code</p>
         </a>
 
