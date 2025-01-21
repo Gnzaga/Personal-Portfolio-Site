@@ -1,9 +1,36 @@
 stages:
-  - test
+  - build
+  - deploy
 
-test-runner:
-  stage: test
+variables:
+  DOCKER_IMAGE: agonzaga/portfolio-website:latest
+  PROJECT_DIR: /srv/Personal-Portfolio-Site
+  SSH_HOST: 192.168.42.16
+  SSH_USER: root
+
+build-and-push:
+  stage: build
   tags:
     - shell
   script:
-    - echo "Runner test successful"
+    # Navigate to the project directory on the host
+    - cd $PROJECT_DIR
+    # Update the repository with the latest changes
+    - echo "Pulling latest changes from Git repository..."
+    - git pull
+    # Build the Docker image
+    - echo "Building Docker image..."
+    - docker build -t $DOCKER_IMAGE .
+    # Push the Docker image to Docker Hub
+    - echo "Pushing Docker image to Docker Hub..."
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker push $DOCKER_IMAGE
+
+deploy:
+  stage: deploy
+  tags:
+    - shell
+  script:
+    # SSH into the Kubernetes host and restart the deployment
+    - echo "Restarting Kubernetes deployment..."
+    - ssh $SSH_USER@$SSH_HOST "kubectl rollout restart deployment portfolio-website"
