@@ -1,21 +1,11 @@
 stages:
-  - deploy
+  - test
 
-deploy:
-  stage: deploy
-  only:
-    - master
-  before_script:
-    - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan -H 192.168.42.16 >> ~/.ssh/known_hosts
+test-shell-executor:
+  stage: test
+  tags:
+    - shell-runner
   script:
-    - TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')
-    - echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting deployment" | tee deploy_$TIMESTAMP.log
-    - ssh root@192.168.42.16 "kubectl rollout restart deployment portfolio-website" | tee -a deploy_$TIMESTAMP.log
-    - echo "$(date '+%Y-%m-%d %H:%M:%S') - Deployment complete" | tee -a deploy_$TIMESTAMP.log
-  artifacts:
-    paths:
-      - deploy_*.log
-    expire_in: 7 days
+    - echo "Testing shell executor"
+    - uname -a
+    - ls -l /
