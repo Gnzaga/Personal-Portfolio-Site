@@ -4,7 +4,7 @@ stages:
 deploy:
   stage: deploy
   only:
-    - main
+    - master
   before_script:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
