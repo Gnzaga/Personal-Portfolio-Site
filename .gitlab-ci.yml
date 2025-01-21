@@ -1,9 +1,13 @@
 stages:
-  - debug
+  - test
 
-debug-environment:
-  stage: debug
+test-shell-executor:
+test-runner:
+  stage: test
+  tags:
+    - shell
   script:
-    - echo "Running as: $(whoami)"
-    - echo "Current directory: $(pwd)"
-    - ls -la
+    - echo "Testing shell executor"
+    - uname -a
+    - ls -l /
+    - echo "Runner test successful"
