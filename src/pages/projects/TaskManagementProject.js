@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion'; // Used for animations and transitions
-import ButtonLink from '../components/ButtonLink'; // Custom button component for navigation
+import ButtonLink from '../../components/ButtonLink'; // Custom button component for navigation
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icons
 import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
 import { faCode, faServer, faDesktop, faLightbulb, faTasks } from '@fortawesome/free-solid-svg-icons'; // Various icons used for sections

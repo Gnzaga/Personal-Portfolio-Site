@@ -46,9 +46,6 @@ const ChatBot = () => {
     return () => window.removeEventListener('resize', handleResize); // Cleanup listener on component unmount
   }, []);
 
-  // Load the model on component mount
-  
-
   // Function to send a message and handle the response from the backend
   const sendMessage = async () => {
     if (!input.trim()) return; // Prevent sending empty messages
@@ -158,12 +155,11 @@ const ChatBot = () => {
       )}
       <div
         ref={chatContainerRef}
-        className={`fixed inset-0 bg-gray-900 shadow-lg transition-all duration-300 ease-in-out ${
+        className={`fixed bottom-4 right-4 bg-gray-900 shadow-lg transition-all duration-300 ease-in-out ${
           isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        } md:inset-auto md:bottom-4 md:right-4 md:w-96 md:h-[32rem] ${
-          isExpanded ? 'md:w-3/4 md:h-3/4' : ''
-        } overflow-hidden z-50`}
-        style={{ height: 'calc(var(--vh, 1vh) * 100)' }}
+        } w-80 h-96 md:w-96 md:h-[32rem] ${
+          isExpanded ? 'w-3/4 h-3/4' : ''
+        } overflow-hidden z-50 rounded-lg`}
       >
         <div className="flex flex-col h-full">
           <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
@@ -215,7 +211,7 @@ const ChatBot = () => {
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 placeholder="Type a message..."
                 className="flex-grow p-2 border border-gray-600 rounded-lg shadow-sm focus:outline-none resize-none bg-gray-700 text-white mr-2"
                 rows="1"
