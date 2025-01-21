@@ -1,10 +1,9 @@
 stages:
-  - test
+  - debug
 
-test-shell:
-  stage: test
+debug-environment:
+  stage: debug
   script:
-    - echo "Testing shell executor"
-    - whoami
-    - uname -a
-    - pwd
+    - echo "Running as: $(whoami)"
+    - echo "Current directory: $(pwd)"
+    - ls -la
