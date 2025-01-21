@@ -46,6 +46,9 @@ const ChatBot = () => {
     return () => window.removeEventListener('resize', handleResize); // Cleanup listener on component unmount
   }, []);
 
+  // Load the model on component mount
+  
+
   // Function to send a message and handle the response from the backend
   const sendMessage = async () => {
     if (!input.trim()) return; // Prevent sending empty messages
