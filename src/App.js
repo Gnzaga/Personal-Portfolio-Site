@@ -26,6 +26,8 @@ import Footer from './components/Footer'; // Footer component
 import PageTransition from './components/PageTransition'; // Component for page transition effects
 import Chatbot from './components/ChatBot'; // Chatbot component for user interactions
 
+import Blog from './pages/Blog';
+import BlogDetail from './pages/BlogDetail';
 /**
  * Component to scroll the window to the top when navigating between routes.
  */
@@ -55,6 +57,8 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogDetail />} />
               <Route path="/projects/task-management" element={<TaskManagementProject />} />
               <Route path="/projects/PlaylistProject" element={<PlaylistGeneratorProject />} />
               <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
