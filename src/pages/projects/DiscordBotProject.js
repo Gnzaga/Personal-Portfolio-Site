@@ -4,7 +4,6 @@ import React from 'react'; // Import React for component functionality
 import { motion } from 'framer-motion'; // Import motion for animation support
 import ButtonLink from '../../components/ButtonLink'; // Import reusable ButtonLink component
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icons
-import { faGithub } from '@fortawesome/free-brands-svg-icons'; // Import GitHub icon
 import { faGitlab } from '@fortawesome/free-brands-svg-icons';
 import { faRobot, faCode, faGamepad, faChartLine, faBolt, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Import solid icons
 import { Link } from 'react-router-dom'; // Import Link for navigation
