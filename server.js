@@ -226,10 +226,14 @@ app.use(express.static(path.join(__dirname, 'build'))); // Serves files from the
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  */
-app.use((req, res) => {
-  console.log(`No route matched for ${req.method} ${req.url}`); // Logs unmatched routes.
-  res.status(404).send('Not Found'); // Returns a 404 status code and message.
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  } else {
+    res.status(404).send({ error: 'API route not found' });
+  }
 });
+
 
 /**
  * @function startServer
