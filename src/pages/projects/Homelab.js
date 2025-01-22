@@ -12,11 +12,9 @@
 import React from 'react';
 import { motion } from 'framer-motion'; // Library for animations and transitions
 import { Link } from 'react-router-dom'; // For client-side navigation
-import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icons
 import { faServer, faNetworkWired, faCogs, faUserFriends, faCode, faShieldAlt } from '@fortawesome/free-solid-svg-icons'; // Icons for sections
-import ButtonLink from '../../components/ButtonLink'; // Custom button component
 
 
 

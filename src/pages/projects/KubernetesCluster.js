@@ -13,8 +13,6 @@ import { motion } from 'framer-motion'; // For animations
 import { Link } from 'react-router-dom'; // For navigation
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Icons
 import { faServer, faCogs, faNetworkWired, faCode, faProjectDiagram, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Icons
-import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
-import ButtonLink from '../../components/ButtonLink'; // Custom button component
 
 const Section = ({ title, icon, children }) => (
   <motion.div

@@ -20,10 +20,9 @@ const About = () => {
           </p>
         </div>
 
-        <div className="bg-gray-800 shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-bold text-white mb-4">Technical Skills</h2>
+      
           <SkillsComponent />
-        </div>
+   
 
         <div className="bg-gray-800 shadow-md rounded-lg p-6">
           <p className="text-gray-300 text-lg mb-8">
