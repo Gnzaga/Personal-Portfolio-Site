@@ -45,7 +45,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop /> {/* Ensure window scrolls to top on route change */}
-      <div className="bg-slate-900 min-h-screen flex flex-col"> {/* Main container with a dark background and flex layout */}
+      <div className="bg-slate-900 min-h-screen flex flex-col scrollbar-none"> {/* Main container with a dark background and flex layout */}
         <Navbar /> {/* Navigation bar at the top */}
         <PageTransition> {/* Wrapper for page transition animations */}
           <div className="flex-grow"> {/* Main content area that grows to fill available space */}
