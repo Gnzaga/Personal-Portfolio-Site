@@ -89,33 +89,40 @@ const BlogList = () => {
                                             {para}
                                         </p>
                                     ))}
-                                    {post.images.length > 0 && (
-                                        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mb-4">
-                                            {post.images.map((img, idx) => (
-                                                <img
-                                                    key={idx}
-                                                    src={img.url}
-                                                    alt={img.alt}
-                                                    className="w-full h-auto rounded-lg shadow"
-                                                />
-                                            ))}
-                                        </div>
-                                    )}
-                                    {post.links.length > 0 && (
-                                        <div className="flex flex-wrap gap-3 mt-2">
-                                            {post.links.map((link, idx) => (
-                                                <a
-                                                    key={idx}
-                                                    href={link.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-blue-400 hover:underline"
-                                                >
-                                                    {link.label}
-                                                </a>
-                                            ))}
-                                        </div>
-                                    )}
+                                    {/* Images */}
+                                            {post.images.length > 0 && (
+                                                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mb-4">
+                                                    {post.images.map((img, idx) => (
+                                                        <img
+                                                            key={idx}
+                                                            src={img.url}
+                                                            alt={img.alt}
+                                                            className="w-full h-auto rounded-lg shadow"
+                                                        />
+                                                    ))}
+                                                </div>
+                                            )}
+                                    
+                                            {/* Links */}
+                                            {post.links.length > 0 && (
+                                                <div className="flex flex-wrap gap-3 mt-2">
+                                                    {post.links.map((link, idx) => (
+                                                        <React.Fragment key={idx}>
+                                                            <a
+                                                                href={link.url}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="bg-gray-200 text-black text-xs  hover:bg-gray-500  px-2 py-1 rounded"
+                                                            >
+                                                                {link.label}
+                                                            </a>
+                                                            {idx < post.links.length - 1 && (
+                                                                <span className="text-gray-400 text-xs mx-2">|</span>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                </div>
+                                            )}
                                 </motion.div>
                             )}
                         </motion.div>
