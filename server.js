@@ -39,7 +39,7 @@ app.use(
  */
 app.use(bodyParser.json()); // Enables parsing of JSON-formatted request bodies.
 
-app.use(espress.json());
+app.use(express.json());
 /**
  * @middleware logRequests
  * @description Middleware to log all incoming HTTP requests for monitoring and debugging purposes.
