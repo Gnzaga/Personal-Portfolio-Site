@@ -8,7 +8,13 @@ export default {
       "This month, I worked with him to create a custom AI model using my self-hosted services. The model helps organize his notes and, more importantly, turns those few words into fully articulated ideas. By inputting his shorthand notes, the AI expands them into clear, professional sentences, making it easier for him to keep track of everything and communicate effectively with colleagues.",
       "It’s been incredible to see how this setup has accelerated his typing and boosted his confidence. Watching him discover how AI can simplify tasks and make life a bit easier has been inspiring. This project is a reminder of how technology can be a powerful tool for personal and professional growth."
     ],
+    "tags": [
+        { label: "AI", url: "/projects?filter=AI" },
+        { label: "Docker", url: "/projects?filter=Docker" }
+    ],
     "images": [],
-    "links": []
+    "links": [
+        { label: "Related Projects", url: "/projects?filter=AI" }
+    ]
   };
   

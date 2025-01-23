@@ -7,7 +7,15 @@ export default {
       "I’ve always been curious about AI, and today, I took the plunge into hosting AI models locally. Using my newly built Proxmox server, I set up an environment to run large language models (LLMs). It’s amazing to see the power of AI right in my home lab!",
       "My first project is creating a chatbot that can interact with visitors on my portfolio website. It’s been fascinating to learn about Retrieval Augmented Generation (RAG) and see how AI can be integrated into practical applications. This is just the beginning, and I’m excited to keep building on this foundation."
     ],
+    "tags": [
+        { label: "AI", url: "/projects?filter=AI" },
+        { label: "React", url: "/projects?filter=React" },
+        { label: "Docker", url: "/projects?filter=Docker" },
+        { label: "Kubernetes", url: "/projects?filter=Kubernetes" }
+    ],
     "images": [],
-    "links": []
+    "links": [
+        { label: "Related Projects", url: "/projects?filter=AI" }
+    ]
   };
   
