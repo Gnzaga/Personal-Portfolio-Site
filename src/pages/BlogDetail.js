@@ -59,42 +59,43 @@ const BlogDetail = () => {
           ))}
 
         {/* Images */}
-        {post.images.length > 0 && (
-            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mb-4">
+            {post.images.length > 0 && (
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mb-4">
                 {post.images.map((img, idx) => (
                     <img
-                        key={idx}
-                        src={img.url}
-                        alt={img.alt}
-                        className="w-full h-auto rounded-lg shadow"
+                    key={idx}
+                    src={img.url}
+                    alt={img.alt}
+                    className="w-full h-auto rounded-lg shadow"
                     />
                 ))}
-            </div>
-        )}
+                </div>
+            )}
 
-        {/* Links */}
-        {post.links.length > 0 && (
-            <div className="flex flex-wrap gap-3 mt-2">
-                {post.links.map((link, idx) => (
+            {/* Links */}
+            {post.links.length > 0 && (
+                <div className="flex flex-wrap gap-3 mt-2">
+                {post.links.map((link, idx) => {
+                    const isInternal = link.url.includes("gnzaga.com");
+                    return (
                     <React.Fragment key={idx}>
                         <a
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-400 hover:underline"
+                        href={link.url}
+                        target={isInternal ? "_self" : "_blank"}
+                        rel={isInternal ? "" : "noopener noreferrer"}
+                        className="bg-gray-200 text-black text-xs  hover:bg-gray-500  px-2 py-1 rounded"
                         >
-                            {link.label}
+                        {link.label}
                         </a>
-                        {idx < post.links.length - 1 && (
-                            <span className="text-gray-400 mx-2">|</span>
-                        )}
+                    
                     </React.Fragment>
-                ))}
-            </div>
-        )}
-        </motion.div>
+                    );
+                })}
+                </div>
+            )}
+            </motion.div>
 
-        {/* Link back to blog */}
+            {/* Link back to blog */}
         <Link to="/blog" className="text-blue-400 hover:text-blue-300">
           ← Back to Blog
         </Link>

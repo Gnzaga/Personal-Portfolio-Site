@@ -11,6 +11,6 @@ export default {
     tags: [{label:"Networking", url:"/projects?filter=networking"}],
     images: [],
     links: [
-        [{ label: "Related Projects", url: "/projects?filter=networking" }]
+        { label: "Related Projects", url: "/projects?filter=networking" }
     ]
 };
