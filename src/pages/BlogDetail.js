@@ -37,6 +37,20 @@ const BlogDetail = () => {
         >
           <h1 className="text-3xl font-bold text-white mb-2">{post.title}</h1>
           <p className="text-gray-400 text-sm mb-4">{post.date}</p>
+
+          {post.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    {post.tags.map((tag, idx) => (
+                                        <a
+                                            key={idx}
+                                            href={tag.url}
+                                            className="bg-blue-500 text-white text-xs px-2 py-1 rounded"
+                                        >
+                                            {tag.label}
+                                        </a>
+                                    ))}
+                                </div>
+                            )}
           
           {post.paragraphs.map((para, idx) => (
             <p key={idx} className="text-gray-300 mb-4">

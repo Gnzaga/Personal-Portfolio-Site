@@ -15,15 +15,17 @@ export default {
       "This project has taught me so much. From being familiar with web development, to backend API servers, to networking, DevOps, Docker, Kubernetes, AI/ML. I am so proud of this project because it isn’t just one skill I learned - this required me to learn everything from writing software to wiring hardware. It was incredibly interesting, eye-opening, and I am so excited to keep going. In 2025, I hope to add better styling with the help of my tremendously talented sister, commissioning her to make a set of logos for me. After recently deploying a local instance of GitLab to my Kubernetes cluster, I also plan on learning more CI/CD. I haven’t quite cracked it yet - but I know I will soon enough.",
       "I know this was a long read, but thank you to those who read this far. I am so excited to see what we will all accomplish in 2025."
     ],
+    "tags": [
+        { label: "React", url: "/projects?filter=React" },
+        { label: "Docker", url: "/projects?filter=Docker" },
+        { label: "Networking", url: "/projects?filter=Networking" },
+        { label: "AI", url: "/projects?filter=AI" },
+        { label: "Kubernetes", url: "/projects?filter=Kubernetes" }
+    ],
     "images": [],
     "links": [
-      {
-        "url": "https://gnzaga.com",
-        "label": "Portfolio Website"
-      },
-      {
-        "url": "https://gnzaga.com/blog/live-portfolio-announcement",
-        "label": "Live Portfolio Announcement Blog Post"
-      }
+        { label: "Portfolio Website", url: "https://gnzaga.com" },
+        { label: "Live Portfolio Announcement Blog Post", url: "https://gnzaga.com/blog/live-portfolio-announcement" },
+        { label: "Related Projects", url: "/projects" }
     ]
-  };
+};

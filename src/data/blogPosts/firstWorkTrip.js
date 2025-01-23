@@ -8,7 +8,8 @@ export default {
       "The experience of being on-site was unlike anything I’ve done before. Walking through the data center and participating in the audit was both challenging and exciting. I was able to address concerns related to design, capacity, and inventory by leveraging the insights generated from my scripts. Seeing how the data directly informed decisions and discussions was incredibly rewarding.",
       "This trip reinforced the importance of combining technical skills with in-person collaboration. It was a great reminder of how impactful preparation and automation can be in solving real-world problems. I’m looking forward to more opportunities like this in the future!"
     ],
+    "tags": [{label: "Verizon", url: "/experience"}],
     "images": [],
-    "links": []
+    "links": [{label: "See My Work Experience", url: "/experience"}]
   };
   
