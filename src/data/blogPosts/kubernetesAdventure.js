@@ -7,7 +7,15 @@ export default {
       "Today, I officially started my Kubernetes journey! After months of working with Docker, I’ve been itching to take things to the next level. To kick things off, I bought three HP Prodesk G3s and spent the afternoon upgrading them with RAM and storage. Each machine is now running Debian and ready to join the cluster.",
       "I’ve set up K3s and am experimenting with MetalLB as a load balancer. My goal is to deploy my portfolio website to this cluster and learn everything I can about container orchestration. It’s a big step forward, and I’m excited to see where this journey leads."
     ],
+    "tags": [
+        { label: "AI", url: "/projects?filter=AI" },
+        { label: "React", url: "/projects?filter=React" },
+        { label: "Docker", url: "/projects?filter=Docker" },
+        { label: "Kubernetes", url: "/projects?filter=Kubernetes" }
+    ],
     "images": [],
-    "links": []
+    "links": [
+        { label: "Related Projects", url: "/projects?filter=Kubernetes" }
+    ]
   };
   
