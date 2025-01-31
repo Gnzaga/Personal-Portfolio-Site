@@ -16,7 +16,7 @@ const bodyParser = require('body-parser'); // Middleware for parsing JSON reques
 const cors = require('cors'); // Middleware for enabling Cross-Origin Resource Sharing.
 const axios = require('axios'); // HTTP client for making HTTP requests.
 const path = require('path'); // Utility module for handling and transforming file paths.
-
+const fs = require('fs'); // File system module for reading and writing files.
 // Initialize the Express application
 const app = express(); // Creates an Express application instance.
 const PORT = process.env.PORT || 8080; // Sets the server port from an environment variable or defaults to 8080.
@@ -39,6 +39,7 @@ app.use(
  */
 app.use(bodyParser.json()); // Enables parsing of JSON-formatted request bodies.
 
+app.use(express.json());
 /**
  * @middleware logRequests
  * @description Middleware to log all incoming HTTP requests for monitoring and debugging purposes.
@@ -214,6 +215,9 @@ app.post('/load-model', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' }); // Return a 500 status code for server errors.
   }
 });
+
+
+
 /**
  * @function serveStaticFiles
  * @description Middleware to serve static files if a React frontend is used.
