@@ -83,6 +83,11 @@ const Navbar = () => {
                 Experience
               </Link>
             </li>
+            <li>
+              <Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-300" onClick={handleOpen}>
+                Blog
+              </Link>
+              </li>
           </ul>
         </div>
       </div>
