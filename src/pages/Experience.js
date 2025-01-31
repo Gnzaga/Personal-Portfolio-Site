@@ -145,7 +145,7 @@ const Experience = () => {
                 "Developed automation tools for generating hostnames and IDs from existing databases, reducing required time by over 50% while significantly lowering error rates compared to manual processes.",
                 "Designed and implemented custom data processing tools using SQL and Python, enabling national data center inventory audits to reduce data preparation timelines by over 95%.",
                 "Collaborated with internal product owners, developers, and database engineers to address national points of need, including adding missing fields to internal tools, updating processes to reflect national standards, and obtaining tools for automation, validation, and analysis tasks.",
-                "Supported nationwide Multi-access Edge Compute (MEC) deployments by coordinating planning efforts, ensuring cross-team collaboration, overseeing L1 equipment installation, and aligning with organizational standards."
+                "Beginning to support nationwide Multi-access Edge Compute (MEC) deployments."
               ]}
             />
 
