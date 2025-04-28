@@ -134,9 +134,9 @@ app.post('/chat', async (req, res) => {
      * @param {string} message - The user-provided message to be sent to the LLM model.
      */
     const response = await axios.post(
-      'http://192.168.42.38:11434/api/chat', // Endpoint for the chat API.
+      'http://192.168.42.58:11434/api/chat', // Endpoint for the chat API.
       {
-        model: 'llama3.1', // Specifies the model to be used for the chat.
+        model: 'gemma3:4b', // Specifies the model to be used for the chat.
         messages: [
           { role: 'system', content: systemMessage }, // Includes the system message to provide context.
           { role: 'user', content: message }, // User's input message.
