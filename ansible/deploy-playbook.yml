@@ -1,0 +1,26 @@
+---
+- name: Deploy Portfolio Website
+  hosts: kubernetes_hosts
+  gather_facts: no
+  vars:
+    image_name: "agonzaga/portfolio-website:latest"
+    deployment_name: "portfolio-website"
+  
+  tasks:
+    - name: Build Docker image
+      command: docker build -t {{ image_name }} .
+      delegate_to: localhost
+    
+    - name: Tag Docker image
+      command: docker tag {{ image_name }} {{ image_name }}
+      delegate_to: localhost
+    
+    - name: Push Docker image to registry
+      command: docker push {{ image_name }}
+      delegate_to: localhost
+    
+    - name: Restart Kubernetes deployment
+      command: kubectl rollout restart deployment {{ deployment_name }}
+    
+    - name: Watch deployment rollout status
+      command: kubectl rollout status deployment {{ deployment_name }}
