@@ -5,9 +5,12 @@ IMAGE_NAME="node-server"
 CONTAINER_NAME="my-node-server"
 PORT=3004
 
+# Change to the root project directory
+cd ../../
+
 echo "Building the new Docker image..."
 # Build the Docker image (no cache to ensure new code is used)
-docker build --no-cache -t $IMAGE_NAME -f Dockerfile-server .
+docker build --no-cache -t $IMAGE_NAME -f deployment/docker/Dockerfile-server .
 
 if [ $? -eq 0 ]; then
     echo "Docker image built successfully."

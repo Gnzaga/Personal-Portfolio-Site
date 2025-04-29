@@ -11,6 +11,7 @@
  */
 
 // Import the required modules
+require('dotenv').config(); // Loads environment variables from a .env file into process.env
 const express = require('express'); // Web framework for building web applications and APIs.
 const bodyParser = require('body-parser'); // Middleware for parsing JSON request bodies.
 const cors = require('cors'); // Middleware for enabling Cross-Origin Resource Sharing.
@@ -115,76 +116,85 @@ Your responses should be professional, concise, and directly related to Alessand
  * @param {Object} res - The response object.
  */
 app.post('/chat', async (req, res) => {
-  console.log('Received POST request to /chat'); // Log indicating that a POST request to /chat was received.
-  const { message } = req.body; // Extract the 'message' property from the request body.
-
-  // Validate the input to ensure it is a non-empty string
-  if (!message || typeof message !== 'string') {
-    return res.status(400).json({ error: 'Invalid message format' }); // Return a 400 status if validation fails.
-  }
-
-  try {
-    /**
-     * Sends a POST request to the chat API with the specified model and messages.
-     * Streams the response data back to the client.
-     * 
-     * @async
-     * @function sendToChatAPI
-     * @param {string} systemMessage - The initial system message to guide the model's responses.
-     * @param {string} message - The user-provided message to be sent to the LLM model.
-     */
-    const response = await axios.post(
-      'http://192.168.42.58:11434/api/chat', // Endpoint for the chat API.
-      {
-        model: 'gemma3:4b', // Specifies the model to be used for the chat.
-        messages: [
-          { role: 'system', content: systemMessage }, // Includes the system message to provide context.
-          { role: 'user', content: message }, // User's input message.
-        ],
-        stream: true, // Enables streaming mode for real-time response.
-      },
-      { responseType: 'stream' } // Sets the response type to 'stream' to handle real-time data.
-    );
-
-    // Set headers to keep the connection open for streaming data
-    res.writeHead(200, {
-      'Content-Type': 'text/event-stream', // Sets the content type for server-sent events.
-      'Cache-Control': 'no-cache', // Disables caching of the response.
-      Connection: 'keep-alive', // Keeps the connection open.
-    });
-
-    // Process data chunks from the response
-    response.data.on('data', (chunk) => {
-      const lines = chunk.toString().split('\n'); // Split the data into individual lines.
-      for (const line of lines) {
-        if (line.trim() !== '') {
+    const { message } = req.body;
+    if (!message || typeof message !== 'string') {
+      return res.status(400).json({ error: 'Invalid message format' });
+    }
+  
+    try {
+      const upstream = await axios.post(
+        'http://192.168.42.27:3000/api/chat/completions',
+        {
+          model: 'gnzaga',
+          messages: [{ role: 'user', content: message }],
+          stream: true,
+        },
+        {
+          headers: {
+            // accept either BEARER_TOKEN="Bearer sk-..." or "sk-..."
+            Authorization: process.env.BEARER_TOKEN.startsWith('Bearer')
+              ? process.env.BEARER_TOKEN
+              : `Bearer ${process.env.BEARER_TOKEN}`,
+            'Content-Type': 'application/json',
+          },
+          responseType: 'stream',
+        },
+      );
+  
+      // --- prepare SSE down to browser ---
+      res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+        // Heroku / Nginx buffering hacks (optional):
+        'X-Accel-Buffering': 'no',
+      });
+      res.flushHeaders?.();            // send headers immediately if compression middleware is present
+  
+      upstream.data.on('data', chunk => {
+        const lines = chunk.toString().split('\n').filter(Boolean);
+  
+        for (let line of lines) {
+          if (line.trim() === 'data: [DONE]') {
+            res.write('data: [DONE]\n\n');
+            res.end();
+            return;
+          }
+  
+          // strip leading "data:"
+          if (line.startsWith('data:')) line = line.replace(/^data:\s*/, '');
+          if (!line.trim()) continue;
+  
           try {
-            const parsedLine = JSON.parse(line); // Parse each line as JSON.
-            if (parsedLine.message && parsedLine.message.content) {
-              // Stream the parsed content to the client
-              res.write(
-                `data: ${JSON.stringify({
-                  message: { content: parsedLine.message.content },
-                })}\n\n`
-              );
+            const payload = JSON.parse(line);
+  
+            // OpenAI-style incremental tokens live here:
+            const delta = payload.choices?.[0]?.delta?.content;
+            if (delta !== undefined) {
+              res.write(`data: ${JSON.stringify({ delta })}\n\n`);
+              res.flush?.();           // push right away (Node ≥18)
             }
-          } catch (error) {
-            console.error('Error parsing JSON:', error); // Log any JSON parsing errors.
+          } catch (err) {
+            console.error('Bad JSON:', err, line);
           }
         }
-      }
-    });
-
-    // Handle the end of the response stream
-    response.data.on('end', () => {
-      res.write(`data: [DONE]\n\n`); // Indicates the end of the streaming.
-      res.end(); // Ends the HTTP response.
-    });
-  } catch (error) {
-    console.error('Error while generating response:', error); // Log any errors during the response generation.
-    res.status(500).json({ error: 'Internal Server Error' }); // Return a 500 status code for server errors.
-  }
-});
+      });
+  
+      upstream.data.on('end', () => {
+        res.write('data: [DONE]\n\n');
+        res.end();
+      });
+  
+      upstream.data.on('error', err => {
+        console.error('Upstream error:', err);
+        if (!res.headersSent) res.status(502).json({ error: 'Upstream failed' });
+        else res.end();
+      });
+    } catch (err) {
+      console.error('Request failed:', err);
+      if (!res.headersSent) res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 /**
  * @function loadModelEndpoint
@@ -194,26 +204,32 @@ app.post('/chat', async (req, res) => {
  * @param {Object} res - The response object.
  */
 app.post('/load-model', async (req, res) => {
-  console.log('Received POST request to /load-model'); // Log indicating that a POST request to /load-model was received.
+    console.log('Received POST request to /load-model'); // Log indicating that a POST request to /load-model was received.
 
-  try {
-    // Sends a POST request to the chat API with the system message to pre-load the model
-    await axios.post(
-      'http://192.168.42.38:11434/api/chat', // Endpoint for the chat API.
-      {
-        model: 'llama3.1', // Specifies the model to be used for the chat.
-        messages: [
-          { role: 'system', content: systemMessage }, // Includes the system message to provide context.
-        ],
-        stream: false, // Disables streaming mode for this request.
-      }
-    );
+    try {
+        // Sends a POST request to the chat API with the system message to pre-load the model
+        const response = await axios.post(
+            'http://192.168.42.27:3000/api/chat/completions', // Endpoint for the chat API.
+            {
+                model: 'Gnzaga', // Specifies the model to be used for the chat.
+                messages: [
+                    { role: 'system', content: systemMessage }, // Includes the system message to provide context.
+                ],
+                stream: false, // Disables streaming mode for this request.
+            },
+            {
+                headers: {
+                    'Authorization': process.env.BEARER_TOKEN, // <-- already includes "Bearer " prefix
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
 
-    res.status(200).json({ message: 'Model pre-loaded successfully' }); // Return a 200 status if the model is pre-loaded successfully.
-  } catch (error) {
-    console.error('Error while pre-loading model:', error); // Log any errors during the model pre-loading.
-    res.status(500).json({ error: 'Internal Server Error' }); // Return a 500 status code for server errors.
-  }
+        res.status(200).json({ message: 'Model pre-loaded successfully' }); // Return a 200 status if the model is pre-loaded successfully.
+    } catch (error) {
+        console.error('Error while pre-loading model:', error); // Log any errors during the model pre-loading.
+        res.status(500).json({ error: 'Internal Server Error' }); // Return a 500 status code for server errors.
+    }
 });
 
 

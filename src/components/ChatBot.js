@@ -48,80 +48,80 @@ const ChatBot = () => {
 
   // Load the model on component mount
   
+// sendMessage.js (React component snippet)
+const sendMessage = async () => {
+  if (!input.trim()) return;
 
-  // Function to send a message and handle the response from the backend
-  const sendMessage = async () => {
-    if (!input.trim()) return; // Prevent sending empty messages
+  const userMsg = { sender: 'user', text: input };
+  setMessages(prev => [...prev, userMsg]);
+  setInput('');
+  setIsLoading(true);
+  setCurrentBotMessage('');
 
-    const userMessage = { sender: 'user', text: input };
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
-    setInput(''); // Clear input field
-    setIsLoading(true);
-    setCurrentBotMessage(''); // Reset streaming message
+  try {
+    const response = await fetch('/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: input }),
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-    try {
-      const response = await fetch('/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input }), // Send input message to backend
-      });
+    const reader  = response.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    let buf = '';
+    let full = '';
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
 
-      const reader = response.body.getReader(); // Get reader for streaming response
-      const decoder = new TextDecoder('utf-8');
-      let buffer = '';
-      let fullBotMessage = '';
+      buf += decoder.decode(value, { stream: true });
 
-      // Read the response stream chunk by chunk
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
+      // split on *double* newline to be safe with Windows / proxies
+      let parts = buf.split(/\r?\n/);
+      buf = parts.pop();              // save incomplete line
 
-        const chunk = decoder.decode(value, { stream: true });
-        buffer += chunk;
+      for (let line of parts) {
+        line = line.trim();
+        if (!line.startsWith('data:')) continue;
 
-        let lines = buffer.split('\n');
-        buffer = lines.pop(); // Retain last incomplete line for the next iteration
+        const content = line.slice(5).trim();   // remove "data: "
+        if (content === '[DONE]') break;
 
-        for (let line of lines) {
-          line = line.trim();
-          if (line.startsWith('data: ')) {
-            const data = line.slice('data: '.length).trim();
-            if (data === '[DONE]') {
-              break;
-            }
-            try {
-              const parsedData = JSON.parse(data);
-              if (parsedData.message && parsedData.message.content) {
-                fullBotMessage += parsedData.message.content;
-                setCurrentBotMessage(fullBotMessage); // Update current message with streaming content
-              }
-            } catch (e) {
-              console.error('Error parsing JSON:', e);
-            }
+        try {
+          const json = JSON.parse(content);
+
+          // accept either proxy shape or raw OpenAI shape
+          const token =
+            json.delta ??
+            json.message?.content ??
+            json.choices?.[0]?.delta?.content;
+
+          if (token !== undefined) {
+            full += token;
+            setCurrentBotMessage(full);
           }
+        } catch (err) {
+          console.error('bad JSON', err, content);
         }
       }
-
-      // Append final bot message to messages state
-      if (fullBotMessage) {
-        const botMessage = { sender: 'bot', text: fullBotMessage };
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
-      }
-      setIsLoading(false);
-      setCurrentBotMessage(''); // Clear streaming message state
-    } catch (error) {
-      console.error('Error while sending message:', error);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: 'bot', text: 'Oops! Something went wrong.' },
-      ]);
-      setIsLoading(false);
     }
-  };
+
+    if (full) {
+      setMessages(prev => [...prev, { sender: 'bot', text: full }]);
+    }
+  } catch (err) {
+    console.error('sendMessage error:', err);
+    setMessages(prev => [
+      ...prev,
+      { sender: 'bot', text: 'Oops! Something went wrong...' },
+    ]);
+  } finally {
+    setIsLoading(false);
+    setCurrentBotMessage('');
+  }
+};
+  
 
   // Handle Enter key press for message sending
   const handleKeyPress = (e) => {

@@ -4,8 +4,11 @@
 IMAGE_NAME="agonzaga/portfolio-website"
 TAG="latest"
 
-# Build the Docker image
-docker build -t $IMAGE_NAME:$TAG .
+# Change to the root project directory
+cd ../../
+
+# Build the Docker image using the Dockerfile in the deployment/docker directory
+docker build -t $IMAGE_NAME:$TAG -f deployment/docker/Dockerfile .
 
 # Push the Docker image to Docker Hub
 docker push $IMAGE_NAME:$TAG
