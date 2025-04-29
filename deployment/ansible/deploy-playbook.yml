@@ -1,0 +1,90 @@
+---
+- name: Build and Push Multi-Arch Portfolio Website Image
+  hosts: localhost
+  gather_facts: yes
+  vars:
+    image_name: "agonzaga/portfolio-website:latest"
+    deployment_name: "portfolio-website"
+    project_dir: "/Users/alex/Code/Personal-Portfolio-Site"
+    docker_dir: "{{ project_dir }}/deployment/docker"
+  
+  tasks:
+    - name: Check if Docker is running
+      command: docker info
+      register: docker_status
+      ignore_errors: yes
+      
+    - name: Start Docker service on Linux
+      become: true
+      service:
+        name: docker
+        state: started
+      when: docker_status.rc != 0 and ansible_os_family in ["Debian", "RedHat"]
+      ignore_errors: yes
+      register: docker_service_start
+
+    - name: Start Docker service on macOS
+      command: launchctl start com.docker.docker
+      when: docker_status.rc != 0 and ansible_os_family == "Darwin"
+      ignore_errors: yes
+      register: docker_launchctl_start
+
+    - name: Display manual start instructions
+      debug:
+        msg: |
+          Unable to automatically start Docker.
+          Please manually start Docker and rerun this playbook.
+      when: >
+        docker_status.rc != 0 and
+        ((ansible_os_family == "Darwin" and docker_launchctl_start.rc != 0) or
+         (ansible_os_family in ["Debian", "RedHat"] and docker_service_start.rc != 0))
+
+    - name: Exit if Docker cannot be started
+      meta: end_play
+      when: >
+        docker_status.rc != 0 and
+        ((ansible_os_family == "Darwin" and docker_launchctl_start.rc != 0) or
+         (ansible_os_family in ["Debian", "RedHat"] and docker_service_start.rc != 0))
+
+    - name: Wait for Docker socket
+      wait_for:
+        path: /var/run/docker.sock
+        timeout: 60
+
+    - name: Ensure Docker Buildx builder exists
+      shell: |
+        docker buildx inspect multiarch-builder || docker buildx create --name multiarch-builder --use
+      args:
+        chdir: "{{ project_dir }}"
+
+    - name: Build and push multi-architecture Docker image
+      shell: |
+        docker buildx build --platform linux/amd64,linux/arm64 -t {{ image_name }} --push -f {{ docker_dir }}/Dockerfile {{ project_dir }}
+      register: build_push_result
+      failed_when: build_push_result.rc != 0
+      environment:
+        DOCKER_BUILDKIT: 1
+        PYTHONUNBUFFERED: 1
+        ANSIBLE_NOCOLOR: 0
+
+    - name: Display build and push result
+      debug:
+        msg: "Docker multi-arch build and push completed successfully."
+
+- name: Restart Kubernetes Deployment
+  hosts: kubernetes_hosts
+  become: true
+  gather_facts: no
+  vars:
+    deployment_name: "portfolio-website"
+    namespace: "portfolio"
+    k8s_yaml_path: "/home/alex/kube/react-portfolio/portfolio-website.yaml"
+  tasks:
+    - name: Apply Kubernetes configuration from yaml file
+      command: kubectl apply -f {{ k8s_yaml_path }} -n {{ namespace }}
+      
+    - name: Restart Kubernetes deployment
+      command: kubectl rollout restart deployment {{ deployment_name }} -n {{ namespace }}
+      
+    - name: Watch Kubernetes rollout status
+      command: kubectl rollout status deployment {{ deployment_name }} -n {{ namespace }}
