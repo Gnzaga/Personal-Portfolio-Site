@@ -8,9 +8,12 @@ IMAGE_NAME="react-portfolio"  # The name of the Docker image to be built.
 CONTAINER_NAME="my-portfolio" # The name of the Docker container to be run.
 PORT="8080"                   # The port number the container should use.
 
-# Build the new Docker image using the Dockerfile in the current directory.
+# Change to the root project directory
+cd ../../
+
+# Build the new Docker image using the Dockerfile in the deployment/docker directory.
 # The '-t' flag tags the image with the specified IMAGE_NAME.
-docker build -t $IMAGE_NAME .
+docker build -t $IMAGE_NAME -f deployment/docker/Dockerfile .
 
 # Stop the current running container if it exists.
 # This ensures there is no conflict when running the new container.
