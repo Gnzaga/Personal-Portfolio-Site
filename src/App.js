@@ -50,7 +50,7 @@ function App() {
       <div className="bg-slate-900 min-h-screen flex flex-col"> {/* Main container with a dark background and flex layout */}
         <Navbar /> {/* Navigation bar at the top */}
         <PageTransition> {/* Wrapper for page transition animations */}
-          <div className="flex-grow"> {/* Main content area that grows to fill available space */}
+          <main className="flex-grow"> {/* Main content area that grows to fill available space */}
             <Routes>
               {/* Define routes and associate each with a specific component */}
               <Route path="/" element={<Home />} />
@@ -70,7 +70,7 @@ function App() {
               <Route path="/error" element={<ErrorPage />} />
               <Route path="*" element={<Home />} /> {/* Catch-all route for undefined paths */}
             </Routes>
-          </div>
+          </main>
           <Footer /> {/* Footer component at the bottom of the page */}
         </PageTransition>
         {/* Add the Chatbot component for user interaction with the portfolio */}
