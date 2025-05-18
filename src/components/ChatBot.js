@@ -23,6 +23,8 @@ const ChatBot = () => {
   const [currentBotMessage, setCurrentBotMessage] = useState(''); // State for current streaming message from the bot
   const messagesEndRef = useRef(null); // Ref to scroll to the bottom of the messages
   const chatContainerRef = useRef(null); // Ref to adjust chat container size dynamically
+  const mainContentRef = useRef(null); // Ref to main content that needs to be shifted
+  const navbarRef = useRef(null); // Ref to navbar that needs to be shifted
 
   // Scrolls to the bottom of the chat when new messages are added or streaming messages are updated
   const scrollToBottom = () => {
@@ -39,91 +41,82 @@ const ChatBot = () => {
         chatContainerRef.current.style.setProperty('--vh', `${vh}px`);
       }
     };
-
     handleResize();
     window.addEventListener('resize', handleResize);
-
     return () => window.removeEventListener('resize', handleResize); // Cleanup listener on component unmount
   }, []);
 
-  // Load the model on component mount
-  
-// sendMessage.js (React component snippet)
-const sendMessage = async () => {
-  if (!input.trim()) return;
+  const sendMessage = async () => {
+    if (!input.trim()) return;
 
-  const userMsg = { sender: 'user', text: input };
-  setMessages(prev => [...prev, userMsg]);
-  setInput('');
-  setIsLoading(true);
-  setCurrentBotMessage('');
+    const userMsg = { sender: 'user', text: input };
+    setMessages(prev => [...prev, userMsg]);
+    setInput('');
+    setIsLoading(true);
+    setCurrentBotMessage('');
 
-  try {
-    const response = await fetch('/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: input }),
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    try {
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: input }),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-    const reader  = response.body.getReader();
-    const decoder = new TextDecoder('utf-8');
-    let buf = '';
-    let full = '';
+      const reader  = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let buf = '';
+      let full = '';
 
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
 
-      buf += decoder.decode(value, { stream: true });
+        buf += decoder.decode(value, { stream: true });
 
-      // split on *double* newline to be safe with Windows / proxies
-      let parts = buf.split(/\r?\n/);
-      buf = parts.pop();              // save incomplete line
+        let parts = buf.split(/\r?\n/);
+        buf = parts.pop();
 
-      for (let line of parts) {
-        line = line.trim();
-        if (!line.startsWith('data:')) continue;
+        for (let line of parts) {
+          line = line.trim();
+          if (!line.startsWith('data:')) continue;
 
-        const content = line.slice(5).trim();   // remove "data: "
-        if (content === '[DONE]') break;
+          const content = line.slice(5).trim();
+          if (content === '[DONE]') break;
 
-        try {
-          const json = JSON.parse(content);
+          try {
+            const json = JSON.parse(content);
 
-          // accept either proxy shape or raw OpenAI shape
-          const token =
-            json.delta ??
-            json.message?.content ??
-            json.choices?.[0]?.delta?.content;
+            const token =
+              json.delta ??
+              json.message?.content ??
+              json.choices?.[0]?.delta?.content;
 
-          if (token !== undefined) {
-            full += token;
-            setCurrentBotMessage(full);
+            if (token !== undefined) {
+              full += token;
+              setCurrentBotMessage(full);
+            }
+          } catch (err) {
+            console.error('bad JSON', err, content);
           }
-        } catch (err) {
-          console.error('bad JSON', err, content);
         }
       }
-    }
 
-    if (full) {
-      setMessages(prev => [...prev, { sender: 'bot', text: full }]);
+      if (full) {
+        setMessages(prev => [...prev, { sender: 'bot', text: full }]);
+      }
+    } catch (err) {
+      console.error('sendMessage error:', err);
+      setMessages(prev => [
+        ...prev,
+        { sender: 'bot', text: 'Oops! Something went wrong...' },
+      ]);
+    } finally {
+      setIsLoading(false);
+      setCurrentBotMessage('');
     }
-  } catch (err) {
-    console.error('sendMessage error:', err);
-    setMessages(prev => [
-      ...prev,
-      { sender: 'bot', text: 'Oops! Something went wrong...' },
-    ]);
-  } finally {
-    setIsLoading(false);
-    setCurrentBotMessage('');
-  }
-};
-  
+  };
 
-  // Handle Enter key press for message sending
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -131,19 +124,30 @@ const sendMessage = async () => {
     }
   };
 
-  // Toggle expanded state for chatbot window
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  // Custom components for ReactMarkdown rendering
   const components = {
-    p: ({ children }) => <p className="mb-4">{children}</p>, // Custom paragraph styling
+    p: ({ children }) => <p className="mb-4">{children}</p>,
   };
 
-  // Format bot messages to add extra spacing between paragraphs
   const formatBotMessage = (text) => {
     return text.replace(/\n{2,}/g, '\n\n\n');
+  };
+
+  const getChatContainerClasses = () => {
+    const baseClasses = `fixed shadow-lg overflow-hidden z-50 transition-all duration-500`;
+
+    if (!isOpen) {
+      return `${baseClasses} bg-gray-900 bottom-4 right-4 opacity-0 invisible`;
+    }
+    if (isExpanded) {
+      // Semi-transparent backdrop at 20% opacity when expanded
+      return `${baseClasses} bg-gray-800 bg-opacity-70 bottom-4 right-0 w-full md:w-1/2 h-96 md:h-[32rem] rounded-none md:rounded-l-lg opacity-100 visible`;
+    }
+    // Apply 20% opacity for collapsed view
+    return `${baseClasses} bg-gray-900 bg-opacity-80 bottom-4 right-4 w-80 h-96 md:w-96 md:h-[32rem] rounded-lg opacity-100 visible`;
   };
 
   return (
@@ -152,39 +156,44 @@ const sendMessage = async () => {
         <button
           onClick={() => setIsOpen(true)}
           className="fixed bottom-4 right-4 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300 z-50"
+          aria-label="Open chat"
         >
           <FontAwesomeIcon icon={faComments} size="2x" />
         </button>
       )}
       <div
         ref={chatContainerRef}
-        className={`fixed bottom-4 right-4 bg-gray-900 shadow-lg transition-all duration-300 ease-in-out ${
-          isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        } w-80 h-96 md:w-96 md:h-[32rem] ${
-          isExpanded ? 'w-3/4 h-3/4' : ''
-        } overflow-hidden z-50 rounded-lg`}
+        className={getChatContainerClasses()}
       >
         <div className="flex flex-col h-full">
-          <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
+          <div className={`${isExpanded ? 'bg-transparent' : 'bg-gray-500 bg-opacity-30'} text-white p-4 flex justify-between items-center`}>  {/* Header */}
             <h2 className="text-xl font-bold">Chatbot</h2>
-            <div>
-              <button onClick={toggleExpand} className="text-white hover:text-gray-300 mr-4 hidden md:inline-block">
+            <div className="flex items-center">
+              <button 
+                onClick={toggleExpand} 
+                className="text-white hover:text-gray-300 mr-4 inline-block transition-transform duration-300 transform hover:scale-110"
+                aria-label={isExpanded ? "Collapse chat" : "Expand chat"}
+              >
                 <FontAwesomeIcon icon={isExpanded ? faCompress : faExpand} size="lg" />
               </button>
-              <button onClick={() => setIsOpen(false)} className="text-white hover:text-gray-300">
+              <button 
+                onClick={() => setIsOpen(false)} 
+                className="text-white hover:text-gray-300 transition-transform duration-300 transform hover:scale-110"
+                aria-label="Close chat"
+              >
                 <FontAwesomeIcon icon={faTimes} size="lg" />
               </button>
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 bg-gray-800">
+          <div className={`flex-1 overflow-y-auto p-4 ${isExpanded ? 'bg-transparent' : 'bg-gray-800 bg-opacity-50'} scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800`}>  {/* Messages area */}
             {messages.map((msg, idx) => (
               <div
                 key={idx}
                 className={`my-2 p-2 rounded-lg ${
                   msg.sender === 'user'
-                    ? 'bg-blue-600 text-white ml-auto'
-                    : 'bg-gray-700 text-white mr-auto'
-                } max-w-[85%] md:max-w-[75%] break-words`}
+                    ? 'bg-blue-600 bg-opacity-90 text-white ml-auto'
+                    : 'bg-gray-700 bg-opacity-90 text-white mr-auto'
+                } max-w-[90%] md:max-w-[90%] break-words shadow-md`}
               >
                 {msg.sender === 'bot' ? (
                   <ReactMarkdown components={components}>
@@ -196,34 +205,37 @@ const sendMessage = async () => {
               </div>
             ))}
             {currentBotMessage && (
-              <div className="my-2 p-2 rounded-lg bg-gray-700 text-white mr-auto max-w-[85%] md:max-w-[75%] break-words">
+              <div className="my-2 p-2 rounded-lg bg-gray-700 bg-opacity-70 text-white mr-auto max-w-[90%] md:max-w-[90%] break-words shadow-md">
                 <ReactMarkdown components={components}>
                   {formatBotMessage(currentBotMessage)}
                 </ReactMarkdown>
               </div>
             )}
             {isLoading && !currentBotMessage && (
-              <div className="my-2 p-2 rounded-lg bg-gray-700 text-white mr-auto max-w-[85%] md:max-w-[75%]">
-                <span className="animate-pulse">...</span>
+              <div className="my-2 p-2 rounded-lg bg-gray-700 bg-opacity-70 text-white mr-auto max-w-[90%] md:max-w-[90%] shadow-md">
+                <span className="animate-pulse">
+                  Searching knowledge base...
+                </span>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
-          <div className="p-4 border-t border-gray-700 bg-gray-800">
+          <div className={`${isExpanded ? 'bg-transparent border-transparent' : 'bg-gray-800 bg-opacity-70 border-gray-700 border-opacity-90'} p-4 border-t`}>  {/* Input area */}
             <div className="flex items-center">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Type a message..."
-                className="flex-grow p-2 border border-gray-600 rounded-lg shadow-sm focus:outline-none resize-none bg-gray-700 text-white mr-2"
+                className="flex-grow p-2 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-gray-700 text-white mr-2 bg-opacity-80"
                 rows="1"
                 style={{ minHeight: '2.5rem', maxHeight: '6rem' }}
               />
               <button
                 onClick={sendMessage}
-                className="bg-blue-600 text-white p-2 rounded-lg shadow-md hover:bg-blue-700 disabled:bg-blue-500 flex-shrink-0"
+                className="bg-blue-600 text-white p-2 rounded-lg shadow-md hover:bg-blue-700 disabled:bg-blue-500 flex-shrink-0 transition-colors duration-300 bg-opacity-75"
                 disabled={isLoading}
+                aria-label="Send message"
               >
                 <FontAwesomeIcon icon={faPaperPlane} />
               </button>
