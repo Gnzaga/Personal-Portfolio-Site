@@ -26,12 +26,12 @@ import { Link } from 'react-router-dom'; // React Router for navigation
  */
 const Section = ({ title, icon, children }) => (
   <motion.div
-    className="bg-gray-800 shadow-md rounded-lg p-6"
+    className="bg-gray-50 dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
   >
-    <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center transition-colors duration-300">
       <FontAwesomeIcon icon={icon} className="mr-2" />
       {title}
     </h2>
@@ -47,10 +47,10 @@ const Section = ({ title, icon, children }) => (
  */
 const TaskManagementProject = () => {
   return (
-    <div className="container mx-auto px-4 py-32 space-y-8">
+    <div className="container mx-auto px-4 py-32 space-y-8 transition-colors duration-300">
       {/* Project title with animation */}
       <motion.h1
-        className="text-4xl font-bold text-white mb-8 text-center"
+        className="text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center transition-colors duration-300"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -60,14 +60,14 @@ const TaskManagementProject = () => {
 
       {/* Project overview section */}
       <Section title="Project Overview" icon={faLightbulb}>
-        <p className="text-gray-300 text-lg">
+        <p className="text-gray-700 dark:text-gray-300 text-lg transition-colors duration-300">
           A robust and scalable web application for task management, featuring a Spring Boot back-end API and a React front-end. This project demonstrates proficiency in full-stack development, RESTful API design, and modern web technologies.
         </p>
       </Section>
 
       {/* Technologies used section */}
       <Section title="Technologies Used" icon={faCode}>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>Back-end: Spring Boot, Java</li>
           <li>Front-end: React, Axios</li>
           <li>Database: SQL (MySQL/PostgreSQL)</li>
@@ -79,7 +79,7 @@ const TaskManagementProject = () => {
 
       {/* Key features section */}
       <Section title="Key Features" icon={faTasks}>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>User authentication and authorization with JWT</li>
           <li>CRUD operations for tasks</li>
           <li>Task assignment and team collaboration</li>
@@ -91,10 +91,10 @@ const TaskManagementProject = () => {
 
       {/* Back-end implementation details */}
       <Section title="Back-end Implementation" icon={faServer}>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
           The back-end API, built with Spring Boot, provides a robust foundation for the application. Key aspects include:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>RESTful API design following best practices</li>
           <li>Secure user authentication and authorization using JWT</li>
           <li>Data persistence with SQL database integration</li>
@@ -105,10 +105,10 @@ const TaskManagementProject = () => {
 
       {/* Front-end implementation details */}
       <Section title="Front-end Implementation" icon={faDesktop}>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
           The React front-end provides a smooth and responsive user experience. Notable features include:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>Intuitive user interface for task management</li>
           <li>Real-time updates using React hooks and state management</li>
           <li>Efficient API communication using Axios</li>
@@ -119,10 +119,10 @@ const TaskManagementProject = () => {
 
       {/* Challenges and solutions section */}
       <Section title="Challenges and Solutions" icon={faLightbulb}>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
           During the development of this project, several challenges were overcome:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>Implementing secure and efficient JWT authentication</li>
           <li>Designing a scalable database schema for complex task relationships</li>
           <li>Optimizing API performance for large datasets</li>
@@ -137,7 +137,7 @@ const TaskManagementProject = () => {
           See on GitHub <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
         </ButtonLink>
         <Link to="/projects">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors">
+          <button className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
             Back to Projects
           </button>
         </Link>

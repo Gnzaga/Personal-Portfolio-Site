@@ -1,7 +1,8 @@
 // src/components/StaggeredList.js
 
-import React from 'react'; // Import React for JSX and component functionality
+import React, { useContext } from 'react'; // Import React for JSX and component functionality
 import { motion } from 'framer-motion'; // Import motion for animation support
+import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext for theme awareness
 
 /**
  * StaggeredList Component
@@ -16,9 +17,11 @@ import { motion } from 'framer-motion'; // Import motion for animation support
  * @returns {JSX.Element} The rendered StaggeredList component.
  */
 const StaggeredList = ({ children, className = "" }) => {
+  const { theme } = useContext(ThemeContext);
+  
   return (
     <motion.div
-      className={className} // Apply additional classes if provided
+      className={`transition-colors duration-300 ${className}`} // Apply additional classes if provided
       variants={{
         hidden: { opacity: 0 }, // Initial state for the list container
         show: {

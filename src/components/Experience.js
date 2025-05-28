@@ -47,27 +47,27 @@ const calculateDuration = () => {
  */
 const ExperienceCard = ({ title, company, duration, location, type, details }) => (
   <motion.div 
-    className="mb-8 bg-gray-800 shadow-lg rounded-lg p-6 hover:shadow-xl transition-all duration-300 border border-gray-700"
+    className="mb-8 card p-8 hover:shadow-2xl transition-all duration-300 card-hover"
     whileHover={{ scale: 1.02 }} // Slight scaling effect on hover
   >
-    <h2 className="text-2xl font-bold mb-3 text-white">{title}</h2>
-    <div className="flex justify-between items-center mb-2">
+    <h2 className="text-2xl font-heading font-bold mb-4 text-dark-800 dark:text-white transition-colors duration-300">{title}</h2>
+    <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-3 space-y-2 lg:space-y-0">
       <div className="flex items-center">
-        <FontAwesomeIcon icon={faBriefcase} className="text-blue-400 mr-2" />
-        <p className="text-gray-300">{company} · {type}</p>
+        <FontAwesomeIcon icon={faBriefcase} className="text-primary-500 dark:text-primary-400 mr-2 transition-colors duration-300" />
+        <p className="text-gray-800 dark:text-gray-300 font-medium transition-colors duration-300">{company} · {type}</p>
       </div>
       <div className="flex items-center">
-        <FontAwesomeIcon icon={faCalendarAlt} className="text-green-400 mr-2" />
-        <p className="text-gray-300">{duration}</p>
+        <FontAwesomeIcon icon={faCalendarAlt} className="text-primary-500 dark:text-primary-400 mr-2 transition-colors duration-300" />
+        <p className="text-gray-800 dark:text-gray-300 font-medium transition-colors duration-300">{duration}</p>
       </div>
     </div>
-    <div className="flex items-center mb-4">
-      <FontAwesomeIcon icon={faMapMarkerAlt} className="text-red-400 mr-2" />
-      <p className="text-gray-300">{location}</p>
+    <div className="flex items-center mb-6">
+      <FontAwesomeIcon icon={faMapMarkerAlt} className="text-primary-500 dark:text-primary-400 mr-2 transition-colors duration-300" />
+      <p className="text-gray-800 dark:text-gray-300 font-medium transition-colors duration-300">{location}</p>
     </div>
-    <ul className="text-gray-300 mt-4 list-disc pl-5 space-y-2">
+    <ul className="text-gray-900 dark:text-gray-300 mt-4 list-disc pl-5 space-y-3 leading-relaxed transition-colors duration-300">
       {details.map((detail, index) => (
-        <li key={index}>{detail}</li> // Render each job detail as a list item
+        <li key={index} className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">{detail}</li>
       ))}
     </ul>
   </motion.div>
@@ -89,18 +89,21 @@ const Experience = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 py-24">
-      <div className="container mx-auto px-4">
-        <motion.h1 
-          initial={{ opacity: 0, y: -20 }} // Initial animation state
-          animate={{ opacity: 1, y: 0 }} // Animate to visible state
-          transition={{ duration: 0.5 }} // Animation duration
-          className="text-5xl font-bold text-white mb-12 text-center"
-        >
-          My Professional Journey
-        </motion.h1>
+    <div className="min-h-screen bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 from-gray-50 to-accent-100 py-24 transition-colors duration-300">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5 }} 
+            className="text-5xl md:text-6xl font-heading font-bold gradient-text mb-6"
+          >
+            My Professional Journey
+          </motion.h1>
+          <div className="w-24 h-1 bg-gradient-primary mx-auto rounded-full"></div>
+        </div>
         <div className="relative">
-          <AnimatedLine delay={0.20} /> {/* Decorative line animation */}
+          <AnimatedLine delay={0.20} />
           <StaggeredList>
             {/* ExperienceCard components for job positions */}
             <ExperienceCard

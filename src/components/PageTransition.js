@@ -43,7 +43,7 @@ const PageTransition = ({ children }) => {
       animate={{ opacity: 1 }} // Target opacity for fade-in
       exit={{ opacity: 0 }} // Target opacity for fade-out
       transition={{ duration: 0.3 }} // Set the animation duration
-      className="w-full h-full" // Full width and height to cover the parent area
+      className="w-full h-full dark:bg-dark-950" // Full width and height with dark background
     >
       {children} {/* Render the child elements passed to the component */}
     </motion.div>

@@ -6,6 +6,7 @@ import { useMediaQuery } from 'react-responsive'; // Import useMediaQuery for re
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icon rendering
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'; // Import specific icons for menu
 import { motion } from 'framer-motion'; // Import motion for animation support
+import DarkModeToggle from './DarkModeToggle'; // Import DarkModeToggle component
 
 /**
  * Navbar Component
@@ -39,56 +40,70 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      className="bg-slate-800 py-4 fixed w-full z-10" // Fixed navbar styling with background color
-      initial={{ y: -100 }} // Initial animation state (hidden above)
-      animate={{ y: showNavbar ? 0 : -100 }} // Animate into view when `showNavbar` is true
-      transition={{ duration: 0.5 }} // Animation duration
+      className="glass-dark py-4 fixed w-full z-50 border-b border-dark-600/30" 
+      initial={{ y: -100 }} 
+      animate={{ y: showNavbar ? 0 : -100 }} 
+      transition={{ duration: 0.5 }} 
     >
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        <div className="text-white font-bold text-xl">
-          {/* Display shortened or full name based on mobile and menu state */}
-          <Link to="/">{isMobile ? (!open ? "Alessandro Gonzaga" : "AG") : "Alessandro Gonzaga"}</Link>
+      <div className="container mx-auto px-6 flex justify-between items-center">
+        <div className="text-white font-heading font-bold text-xl">
+          <Link 
+            to="/" 
+            className="text-primary-500 dark:text-primary-400 hover:scale-105 transition-transform duration-300"
+          >
+            {isMobile ? (!open ? "Alessandro Gonzaga" : "AG") : "Alessandro Gonzaga"}
+          </Link>
         </div>
         <div className="flex items-center">
           {isMobile ? (
-            // Mobile menu button
-            <button onClick={handleOpen} className="bg-slate-800 py-2 px-4 text-white">
-              <FontAwesomeIcon icon={open ? faTimes : faBars} />
-            </button>
+            <motion.button 
+              onClick={handleOpen} 
+              className="glass p-3 text-white rounded-lg hover:bg-white/20 transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FontAwesomeIcon icon={open ? faTimes : faBars} className="text-lg" />
+            </motion.button>
           ) : null}
-          {/* Navigation menu */}
-          <ul className={`
-            transition-all duration-300 ease-in-out
-            ${isMobile ? (open ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none') : 'flex'}
-            ${isMobile ? (open ? 'flex' : 'hidden') : 'flex'} 
-            ${isMobile ? 'flex-row space-x-4' : 'space-x-6'}
-          `}>
-            <li>
-              <Link to="/" className="text-gray-300 hover:text-white transition-colors duration-300" onClick={handleOpen}>
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-300" onClick={handleOpen}>
-                About
-              </Link>
-            </li>
-            <li>
-              <Link to="/projects" className="text-gray-300 hover:text-white transition-colors duration-300" onClick={handleOpen}>
-                Projects
-              </Link>
-            </li>
-            <li>
-              <Link to="/experience" className="text-gray-300 hover:text-white transition-colors duration-300" onClick={handleOpen}>
-                Experience
-              </Link>
-            </li>
-            <li>
-              <Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-300" onClick={handleOpen}>
-                Blog
-              </Link>
-              </li>
-          </ul>
+          
+          {/* Dark Mode Toggle */}
+          <div className="mr-4">
+            <DarkModeToggle />
+          </div>
+          
+          <motion.ul 
+            className={`
+              transition-all duration-500 ease-in-out
+              ${isMobile ? (open ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none') : 'flex'}
+              ${isMobile ? (open ? 'flex' : 'hidden') : 'flex'} 
+              ${isMobile ? 'flex-row space-x-6 ml-4' : 'space-x-8'}
+            `}
+            initial={false}
+            animate={isMobile ? (open ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }) : {}}
+          >
+            {[
+              { path: '/', label: 'Home' },
+              { path: '/about', label: 'About' },
+              { path: '/projects', label: 'Projects' },
+              { path: '/experience', label: 'Experience' },
+              { path: '/blog', label: 'Blog' },
+            ].map((item, index) => (
+              <motion.li 
+                key={item.path}
+                initial={false}
+                animate={isMobile && open ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link 
+                  to={item.path} 
+                  className={`nav-link ${location.pathname === item.path ? 'active text-primary-400' : ''}`}
+                  onClick={handleOpen}
+                >
+                  {item.label}
+                </Link>
+              </motion.li>
+            ))}
+          </motion.ul>
         </div>
       </div>
     </motion.nav>

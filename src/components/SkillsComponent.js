@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { ThemeContext } from '../context/ThemeContext';
 
 // skills.js (or wherever you define your skills array)
 export const skills = [
@@ -45,6 +46,7 @@ export const skills = [
 const SkillBar = ({ skill }) => {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   const handleClick = () => {
     navigate(skill.projectRoute);
@@ -58,12 +60,12 @@ const SkillBar = ({ skill }) => {
       onClick={handleClick}
     >
       <div className="flex justify-between mb-1">
-        <span className="text-base font-medium text-gray-300">{skill.name}</span>
-        <span className="text-sm font-medium text-gray-300">{skill.level}%</span>
+        <span className="text-base font-medium dark:text-gray-300 text-gray-900">{skill.name}</span>
+        <span className="text-sm font-medium dark:text-gray-300 text-gray-900">{skill.level}%</span>
       </div>
-      <div className="w-full bg-gray-700 rounded-full h-2.5">
+      <div className="w-full dark:bg-gray-700 bg-gray-200 rounded-full h-2.5">
         <motion.div
-          className="bg-green-600 h-2.5 rounded-full"
+          className="bg-primary-500 h-2.5 rounded-full"
           initial={{ width: 0 }}
           animate={{ width: `${skill.level}%` }}
           transition={{ duration: 0.5 }}
@@ -71,7 +73,7 @@ const SkillBar = ({ skill }) => {
       </div>
       {isHovered && (
         <motion.p
-          className="text-sm text-gray-400 mt-1"
+          className="text-sm dark:text-gray-400 text-gray-800 mt-1"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -83,9 +85,11 @@ const SkillBar = ({ skill }) => {
 };
 
 const SkillsComponent = () => {
+  const { theme } = useContext(ThemeContext);
+  
   return (
-    <div className="bg-slate-800 shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-bold text-white mb-4">Technical Skills</h2>
+    <div className="bg-white dark:bg-slate-800 shadow-md rounded-lg p-6 transition-colors duration-300">
+      <h2 className="text-2xl font-bold dark:text-white text-gray-800 mb-4">Technical Skills</h2>
       {skills.map((skill, index) => (
         <SkillBar key={index} skill={skill} />
       ))}

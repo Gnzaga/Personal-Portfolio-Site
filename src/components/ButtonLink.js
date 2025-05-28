@@ -1,7 +1,8 @@
 // src/components/ButtonLink.js
 
-import React from 'react'; // Import React for JSX and component functionality
+import React, { useContext } from 'react'; // Import React for JSX and component functionality
 import { Link } from 'react-router-dom'; // Import Link for client-side navigation
+import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext for theme awareness
 
 /**
  * ButtonLink Component
@@ -16,10 +17,12 @@ import { Link } from 'react-router-dom'; // Import Link for client-side navigati
  * @returns {JSX.Element} The rendered ButtonLink component.
  */
 const ButtonLink = ({ to, children }) => {
+  const { theme } = useContext(ThemeContext);
+  
   return (
     <Link
       to={to} // The target path for navigation
-      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
+      className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
       // Tailwind classes for background color, hover effects, padding, and rounded corners
     >
       {children} {/* Display the passed content (button text, etc.) */}
