@@ -6,12 +6,14 @@ import React, { useEffect } from 'react';
 // Import React Router for handling routing within the app
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
+// Import ThemeProvider for light/dark mode functionality
+import { ThemeProvider } from './context/ThemeContext';
+
 // Import components and pages for different parts of the app
 import Navbar from './components/Navbar'; // Navigation bar component
 import Home from './pages/Home'; // Home page component
 import About from './pages/About'; // About page component
 import Projects from './pages/Projects'; // Projects listing page component
-import Contact from './pages/Contact'; // Contact page component
 import TaskManagementProject from './pages/projects/TaskManagementProject'; // Project detail page for task management project
 import DiscordBotProject from './pages/projects/DiscordBotProject'; // Project detail page for Discord bot project
 import ChatGnzagaProject from './pages/projects/ChatGnzagaProject'; // Project detail page for Chat Gnzaga project
@@ -45,38 +47,37 @@ function ScrollToTop() {
  */
 function App() {
   return (
-    <Router>
-      <ScrollToTop /> {/* Ensure window scrolls to top on route change */}
-      <div className="bg-slate-900 min-h-screen flex flex-col"> {/* Main container with a dark background and flex layout */}
-        <Navbar /> {/* Navigation bar at the top */}
-        <PageTransition> {/* Wrapper for page transition animations */}
-          <main className="flex-grow"> {/* Main content area that grows to fill available space */}
-            <Routes>
-              {/* Define routes and associate each with a specific component */}
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogDetail />} />
-              <Route path="/projects/task-management" element={<TaskManagementProject />} />
-              <Route path="/projects/PlaylistProject" element={<PlaylistGeneratorProject />} />
-              <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
-              <Route path="/projects/chat-gnzaga" element={<ChatGnzagaProject />} />
-              <Route path="/projects/portfolio-project" element={<PortfolioProject />} />
-              <Route path="/projects/kubernetes-cluster" element={<KubernetesCluster />} />
-              <Route path="/projects/homelab" element={<HomelabProject />} />
-              <Route path="/experience" element={<Experience />} />
-              <Route path="/error" element={<ErrorPage />} />
-              <Route path="*" element={<Home />} /> {/* Catch-all route for undefined paths */}
-            </Routes>
-          </main>
-          <Footer /> {/* Footer component at the bottom of the page */}
-        </PageTransition>
-        {/* Add the Chatbot component for user interaction with the portfolio */}
-        <Chatbot />
-      </div>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <ScrollToTop />
+        <div className="bg-white dark:bg-gradient-dark min-h-screen flex flex-col custom-scrollbar transition-colors duration-300">
+          <Navbar />
+          <PageTransition>
+            <main className="flex-grow pt-10">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogDetail />} />
+                <Route path="/projects/task-management" element={<TaskManagementProject />} />
+                <Route path="/projects/PlaylistProject" element={<PlaylistGeneratorProject />} />
+                <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
+                <Route path="/projects/chat-gnzaga" element={<ChatGnzagaProject />} />
+                <Route path="/projects/portfolio-project" element={<PortfolioProject />} />
+                <Route path="/projects/kubernetes-cluster" element={<KubernetesCluster />} />
+                <Route path="/projects/homelab" element={<HomelabProject />} />
+                <Route path="/experience" element={<Experience />} />
+                <Route path="/error" element={<ErrorPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </PageTransition>
+          <Chatbot />
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

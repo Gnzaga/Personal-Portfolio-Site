@@ -18,42 +18,68 @@ import { faGitlab } from '@fortawesome/free-brands-svg-icons';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 /**
- * ProjectCard component displays individual project details.
+ /**
+ * ProjectCard component displays individual project details with enhanced styling.
  */
 const ProjectCard = ({ title, description, githubLink, projectLink, technologies }) => (
-  <div className="bg-slate-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+  <motion.div 
+    className="bg-gray-100 dark:bg-dark-800/80 backdrop-blur-sm border border-gray-200 dark:border-dark-600/50 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 flex flex-col justify-between h-full group transform hover:scale-105 hover:-translate-y-2"
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+    whileHover={{ y: -8 }}
+  >
     <div>
-      <h2 className="text-2xl font-bold text-white mb-3">{title}</h2>
-      <p className="text-gray-300 mb-4">{description}</p>
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-heading font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+          {title}
+        </h2>
+        <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </div>
+      </div>
+      
+      <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed transition-colors duration-300">{description}</p>
+      
+      <div className="flex flex-wrap gap-2 mb-6">
         {technologies.map((tech, index) => (
-          <span key={index} className="bg-blue-500 text-white text-xs px-2 py-1 rounded">
+          <span 
+            key={index} 
+            className="bg-gray-200 dark:bg-dark-700 text-gray-800 dark:text-primary-300 text-xs px-3 py-1 rounded-full font-medium border border-gray-300 dark:border-dark-600 hover:border-primary-500 transition-colors duration-300"
+          >
             {tech}
           </span>
         ))}
       </div>
     </div>
-    <div className="flex justify-between mt-4">
+    
+    <div className="flex gap-3 mt-auto">
       {githubLink && (
-        <a
+        <motion.a
           href={githubLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300 flex items-center"
+          className="btn-outline flex items-center space-x-2 flex-1 justify-center text-sm"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <FontAwesomeIcon icon={faGitlab} className="mr-2" />
-          GitLab
-        </a>
+          <FontAwesomeIcon icon={faGitlab} />
+          <span>GitLab</span>
+        </motion.a>
       )}
-      <Link
-        to={projectLink}
-        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300 flex items-center"
-      >
-        <FontAwesomeIcon icon={faExternalLinkAlt} className="mr-2" />
-        View Project
-      </Link>
+      <motion.div className="flex-1">
+        <Link
+          to={projectLink}
+          className="btn-primary flex items-center space-x-2 w-full justify-center text-sm"
+        >
+          <FontAwesomeIcon icon={faExternalLinkAlt} />
+          <span>View Project</span>
+        </Link>
+      </motion.div>
     </div>
-  </div>
+  </motion.div>
 );
 
 /**
@@ -63,10 +89,7 @@ const FilterButton = ({ technology, activeFilter, setActiveFilter }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // Immediately set the filter so UI updates
     setActiveFilter(technology);
-
-    // Also update the URL so the query param is in sync
     if (technology === 'All') {
       navigate('/projects'); 
     } else {
@@ -75,16 +98,18 @@ const FilterButton = ({ technology, activeFilter, setActiveFilter }) => {
   };
 
   return (
-    <button
-      className={`px-4 py-2 rounded-full text-sm font-semibold mr-2 mb-2 transition-colors duration-300 ${
+    <motion.button
+      className={`px-6 py-3 rounded-full text-sm font-semibold mr-3 mb-3 transition-all duration-300 border ${
         activeFilter === technology
-          ? 'bg-blue-500 text-white'
-          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+          ? 'bg-gradient-primary text-white border-primary-500 shadow-lg'
+          : 'bg-gray-200 dark:bg-dark-700 text-gray-800 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 border-gray-300 dark:border-dark-600 hover:border-primary-500'
       }`}
       onClick={handleClick}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
       {technology}
-    </button>
+    </motion.button>
   );
 };
 
@@ -175,54 +200,110 @@ const Projects = () => {
       : projects.filter((project) => project.technologies.includes(activeFilter));
 
   return (
-    <div className="container mx-auto px-4 py-24">
-      <motion.h1
-        className="text-4xl font-bold text-white mb-8 text-center"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        My Projects
-      </motion.h1>
+    <div className="min-h-screen py-24 custom-scrollbar bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+      <div className="container mx-auto px-6">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <motion.h1
+            className="text-5xl md:text-6xl font-heading font-bold  mb-6 text-primary-500"
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            My Projects
+          </motion.h1>
+          <motion.p
+            className="text-gray-800 dark:text-gray-300 text-lg md:text-xl max-w-3xl mx-auto mb-8 transition-colors duration-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            A showcase of my technical projects spanning network engineering, full-stack development, 
+            and infrastructure automation. Each project demonstrates my passion for solving complex problems.
+          </motion.p>
+          <div className="w-24 h-1 bg-gradient-primary mx-auto rounded-full"></div>
+        </div>
 
-      {/* Technology Filter Buttons */}
-      <div className="mb-8 text-center">
-        {allTechnologies.map((tech) => (
-          <FilterButton
-            key={tech}
-            technology={tech}
-            activeFilter={activeFilter}
-            setActiveFilter={setActiveFilter}
-          />
-        ))}
-      </div>
-
-      {/* Display filtered projects */}
-      <AnimatePresence>
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        {/* Technology Filter Section */}
+        <motion.div 
+          className="mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
         >
-          {filteredProjects.map((project) => (
-            <motion.div
-              key={project.title}
-              layout
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ProjectCard
-                title={project.title}
-                description={project.description}
-                githubLink={project.githubLink}
-                projectLink={project.projectLink}
-                technologies={project.technologies}
-              />
-            </motion.div>
-          ))}
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-center transition-colors duration-300">Filter by Technology</h2>
+          <div className="flex flex-wrap justify-center">
+            {allTechnologies.map((tech, index) => (
+              <motion.div
+                key={tech}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 * index, duration: 0.3 }}
+              >
+                <FilterButton
+                  technology={tech}
+                  activeFilter={activeFilter}
+                  setActiveFilter={setActiveFilter}
+                />
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
-      </AnimatePresence>
+
+        {/* Projects Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeFilter}
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                layout
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ 
+                  duration: 0.6,
+                  delay: index * 0.1,
+                  ease: "easeOut"
+                }}
+              >
+                <ProjectCard
+                  title={project.title}
+                  description={project.description}
+                  githubLink={project.githubLink}
+                  projectLink={project.projectLink}
+                  technologies={project.technologies}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Empty State */}
+        {filteredProjects.length === 0 && (
+          <motion.div 
+            className="text-center py-16"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="w-24 h-24 bg-dark-700 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-600 mb-2 transition-colors duration-300">No projects found</h3>
+            <p className="text-gray-600 dark:text-gray-700 transition-colors duration-300">Try selecting a different technology filter.</p>
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 };

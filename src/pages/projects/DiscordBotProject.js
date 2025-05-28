@@ -22,12 +22,12 @@ import { Link } from 'react-router-dom'; // Import Link for navigation
  */
 const Section = ({ title, icon, children }) => (
   <motion.div
-    className="bg-gray-800 shadow-md rounded-lg p-6" // Styled container
+    className="bg-gray-50 dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300" // Styled container
     initial={{ opacity: 0, y: 20 }} // Initial animation state
     animate={{ opacity: 1, y: 0 }} // Target animation state
     transition={{ duration: 0.5 }} // Animation duration
   >
-    <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center transition-colors duration-300">
       <FontAwesomeIcon icon={icon} className="mr-2" /> {/* Icon next to the title */}
       {title}
     </h2>
@@ -44,10 +44,10 @@ const Section = ({ title, icon, children }) => (
  */
 const DiscordBotProject = () => {
   return (
-    <div className="container mx-auto px-4 py-32 space-y-8"> {/* Main container with spacing */}
+    <div className="container mx-auto px-4 py-32 space-y-8 transition-colors duration-300"> {/* Main container with spacing */}
       {/* Project Title */}
       <motion.h1
-        className="text-4xl font-bold text-white mb-8 text-center"
+        className="text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center transition-colors duration-300"
         initial={{ opacity: 0, y: -20 }} // Initial animation state
         animate={{ opacity: 1, y: 0 }} // Target animation state
         transition={{ duration: 0.5 }} // Animation duration
@@ -57,13 +57,13 @@ const DiscordBotProject = () => {
 
       {/* Sections for project details */}
       <Section title="Project Overview" icon={faRobot}>
-        <p className="text-gray-300 text-lg">
+        <p className="text-gray-700 dark:text-gray-300 text-lg transition-colors duration-300">
           A versatile Discord bot built with Python, showcasing advanced programming techniques and integration with external APIs. This project demonstrates proficiency in asynchronous programming, API interactions, and creating engaging user experiences within a chat platform.
         </p>
       </Section>
 
       <Section title="Technologies Used" icon={faCode}>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>Python</li>
           <li>Discord.py library</li>
           <li>Asyncio for asynchronous programming</li>
@@ -76,7 +76,7 @@ const DiscordBotProject = () => {
       </Section>
 
       <Section title="Key Features" icon={faGamepad}>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>Multiplayer Wordle game with asynchronous hosting</li>
           <li>Real-time financial data retrieval (stocks, forex, crypto)</li>
           <li>Integration with open-source language models via Ollama</li>
@@ -87,10 +87,10 @@ const DiscordBotProject = () => {
       </Section>
 
       <Section title="Asynchronous Wordle Implementation" icon={faBolt}>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
           One of the standout features is the implementation of asynchronous programming to host multiple instances of the Wordle game simultaneously:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>Utilizes Python's asyncio library for efficient concurrency</li>
           <li>Allows for a 10x increase in the number of games played concurrently</li>
           <li>Implements game state management for multiple ongoing games</li>
@@ -99,10 +99,10 @@ const DiscordBotProject = () => {
       </Section>
 
       <Section title="Financial Data Integration" icon={faChartLine}>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
           The bot interfaces with the Alpha Vantage API to provide real-time financial data:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>Retrieves up-to-date stock market information</li>
           <li>Provides foreign exchange rate data</li>
           <li>Offers cryptocurrency market data</li>
@@ -112,10 +112,10 @@ const DiscordBotProject = () => {
       </Section>
 
       <Section title="Challenges and Solutions" icon={faLightbulb}>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
           During the development of this project, several challenges were overcome:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
           <li>Managing concurrent game states without conflicts</li>
           <li>Optimizing API calls to stay within rate limits</li>
           <li>Implementing error handling for network issues and API downtime</li>
@@ -130,7 +130,7 @@ const DiscordBotProject = () => {
           See on GitHub <FontAwesomeIcon icon={faGitlab} className="w-6 h-6" />
         </ButtonLink>
         <Link to="/projects">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors">
+          <button className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
             Back to Projects
           </button>
         </Link>
