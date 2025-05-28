@@ -1,7 +1,8 @@
 // src/components/AnimatedLine.js
 
-import React from 'react'; // Import React for component creation
+import React, { useContext } from 'react'; // Import React for component creation
 import { motion } from 'framer-motion'; // Import motion for animations
+import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext for theme awareness
 
 /**
  * AnimatedLine Component
@@ -15,14 +16,18 @@ import { motion } from 'framer-motion'; // Import motion for animations
  * 
  * @returns {JSX.Element} A styled, animated vertical line element.
  */
-const AnimatedLine = ({ delay = 0.5 }) => (
-  <motion.div
-    className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gray-500" // Center the line horizontally, set width and background color
-    initial={{ opacity: 0 }} // Initial state: fully transparent
-    animate={{ opacity: 1 }} // Animation target state: fully opaque
-    transition={{ duration: 1, delay: delay }} // Animation duration and delay properties
-    style={{ top: 0, bottom: 0 }} // Extend the line from top to bottom
-  />
-);
+const AnimatedLine = ({ delay = 0.5 }) => {
+  const { theme } = useContext(ThemeContext);
+  
+  return (
+    <motion.div
+      className="absolute left-1/2 transform -translate-x-1/2 w-1 dark:bg-gray-500 bg-gray-300 transition-colors duration-300" // Center the line horizontally, set width and background color
+      initial={{ opacity: 0 }} // Initial state: fully transparent
+      animate={{ opacity: 1 }} // Animation target state: fully opaque
+      transition={{ duration: 1, delay: delay }} // Animation duration and delay properties
+      style={{ top: 0, bottom: 0 }} // Extend the line from top to bottom
+    />
+  );
+};
 
 export default AnimatedLine; // Export the component for use in other parts of the app

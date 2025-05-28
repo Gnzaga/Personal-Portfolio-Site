@@ -9,13 +9,14 @@
  * @component
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { motion } from 'framer-motion'; // Library for animations and transitions
 import { Link } from 'react-router-dom'; // For client-side navigation
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icons
 import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
 import { faLaptopCode, faServer, faNetworkWired, faPalette, faTools, faGlobe } from '@fortawesome/free-solid-svg-icons'; // Other icons for sections
 import ButtonLink from '../../components/ButtonLink'; // Custom button component
+import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext for theme awareness
 
 /**
  * Section component renders a reusable section for project details.
@@ -26,13 +27,13 @@ import ButtonLink from '../../components/ButtonLink'; // Custom button component
  */
 const Section = ({ title, icon, children }) => (
   <motion.div
-    className="bg-slate-800 shadow-md rounded-lg p-6"
+    className="bg-white dark:bg-slate-800 shadow-md rounded-lg p-6 transition-colors duration-300"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
   >
-    <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
-      <FontAwesomeIcon icon={icon} className="mr-2" />
+    <h2 className="text-2xl font-bold dark:text-white text-gray-800 mb-4 flex items-center">
+      <FontAwesomeIcon icon={icon} className="mr-2 text-primary-500" />
       {title}
     </h2>
     {children}
@@ -48,10 +49,12 @@ const Section = ({ title, icon, children }) => (
  * @returns {JSX.Element} The rendered Portfolio Project component.
  */
 const PortfolioProject = () => {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <div className="container mx-auto px-4 py-32 space-y-8">
       <motion.h1
-        className="text-4xl font-bold text-white mb-8 text-center"
+        className="text-4xl font-bold dark:text-white text-gray-800 mb-8 text-center transition-colors duration-300"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -61,14 +64,14 @@ const PortfolioProject = () => {
 
       {/* Project Overview Section */}
       <Section title="Project Overview" icon={faLaptopCode}>
-        <p className="text-gray-300 text-lg">
+        <p className="dark:text-gray-300 text-gray-800 text-lg transition-colors duration-300">
           This portfolio website showcases my projects and achievements, featuring a modern and responsive design. Built with React and Tailwind CSS, it demonstrates my proficiency in front-end development, UI/UX design, and self-hosting capabilities.
         </p>
       </Section>
 
       {/* Key Features Section */}
       <Section title="Key Features" icon={faPalette}>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside dark:text-gray-300 text-gray-800 text-lg space-y-2 transition-colors duration-300">
           <li>Responsive design ensuring compatibility across various devices</li>
           <li>Dynamic project showcase with detailed descriptions</li>
           <li>Interactive UI elements for enhanced user engagement</li>
@@ -80,7 +83,7 @@ const PortfolioProject = () => {
 
       {/* Technologies Used Section */}
       <Section title="Technologies Used" icon={faTools}>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside dark:text-gray-300 text-gray-800 text-lg space-y-2 transition-colors duration-300">
           <li>Frontend: React.js for building dynamic UI components</li>
           <li>Styling: Tailwind CSS for a clean and responsive design</li>
           <li>Backend: Node.js for serving the React application</li>
@@ -92,12 +95,12 @@ const PortfolioProject = () => {
 
       {/* Self-Hosting Implementation Section */}
       <Section title="Self-Hosting Implementation" icon={faServer}>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="dark:text-gray-300 text-gray-800 text-lg mb-4 transition-colors duration-300">
           The website is fully self-hosted, showcasing my skills in server management and network configuration:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside dark:text-gray-300 text-gray-800 text-lg space-y-2 transition-colors duration-300">
           <li>Deployed on a local Nginx server within my home network</li>
-          <li>Custom domain configuration for <a href="http://gnzaga.com" className="text-blue-400 hover:underline">gnzaga.com</a></li>
+          <li>Custom domain configuration for <a href="http://gnzaga.com" className="text-primary-500 hover:underline transition-colors duration-300">gnzaga.com</a></li>
           <li>SSL/TLS implementation for secure connections</li>
           <li>Regular backups and maintenance procedures</li>
           <li>Monitoring setup for performance and security</li>
@@ -106,10 +109,10 @@ const PortfolioProject = () => {
 
       {/* Networking and Security Section */}
       <Section title="Networking and Security" icon={faNetworkWired}>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="dark:text-gray-300 text-gray-800 text-lg mb-4 transition-colors duration-300">
           Robust networking and security measures ensure reliable and safe access:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside dark:text-gray-300 text-gray-800 text-lg space-y-2 transition-colors duration-300">
           <li>Configured port forwarding for external access</li>
           <li>Implemented firewall rules for enhanced security</li>
           <li>Set up DDoS protection measures</li>
@@ -120,10 +123,10 @@ const PortfolioProject = () => {
 
       {/* Challenges and Solutions Section */}
       <Section title="Challenges and Solutions" icon={faGlobe}>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="dark:text-gray-300 text-gray-800 text-lg mb-4 transition-colors duration-300">
           Several challenges were overcome during the development and deployment:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside dark:text-gray-300 text-gray-800 text-lg space-y-2 transition-colors duration-300">
           <li>Optimizing site performance for fast loading times</li>
           <li>Ensuring cross-browser compatibility</li>
           <li>Implementing a secure and reliable self-hosting solution</li>
@@ -138,7 +141,7 @@ const PortfolioProject = () => {
           See on GitHub <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
         </ButtonLink>
         <Link to="/projects">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors">
+          <button className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
             Back to Projects
           </button>
         </Link>

@@ -1,0 +1,187 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+% \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+%   \textbf{\href{http://sourabhbajaj.com/}{\Large Sourabh Bajaj}} & Email : \href{mailto:sourabh@sourabhbajaj.com}{sourabh@sourabhbajaj.com}\\
+%   \href{http://sourabhbajaj.com/}{http://www.sourabhbajaj.com} & Mobile : +1-123-456-7890 \\
+% \end{tabular*}
+
+\begin{center}
+    \textbf{\Huge \scshape Alessandro Gonzaga} \\ \vspace{1pt}
+    \small 856-793-8495 $|$ \href{mailto:amg573@rutgers.edu}{\underline{amg573@rutgers.edu}} $|$ 
+    \href{https://linkedin.com/in/agnzaga}{\underline{linkedin.com/in/agnzaga}} $|$
+    \href{https://gnzaga.com}{\underline{gnzaga.com}}
+\end{center}
+
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Rutgers University}{New Brunswick, NJ}
+      {Bachelor of Science in Computer Science; GPA: 3.4/4.0}{August 2020 -- May 2024} \newline\newline\newline
+      \scriptsize {\textbf{Relevant Coursework}{: Data Structures, Discrete Structures, Computer Architecture, Software Engineering, Design and Analysis of Computer Algorithms, Systems Programming, Data Science, Information and Database Management}}
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+     \resumeSubheading
+      {Network Engineer, Edge \& Core Implementation}{Jun 2024 -- Present}
+      {Verizon · Full-time}{Bedminster, NJ · Hybrid}
+      \resumeItemListStart
+        \resumeItem{Leading automation efforts across Verizon's Edge sites nationwide, spearheading the development of SOTA Agentic AI tools for assisting Engineers in managing projects and solving problems in edge engineering.}
+        \resumeItem{Developed an automation pipeline for site audits from a data perspective, decreasing preparation time by over 90\%, resulting in power savings of over \$200,000 per year after piloting the audit program.}
+        \resumeItem{Developed automation tools for generating host names and IDs from existing databases, reducing required time by over 50\% and significantly lowering error rates compared to manual processes.}
+        \resumeItem{Collaborated with engineers nationwide to address power, space, and cooling needs, fostering more open and efficient communication across regional and national teams.}
+        \resumeItem{Worked with internal product owners, developers, and database engineers to address national points of need, including updating processes to reflect national standards, adding missing fields to internal tools, and obtaining tools for automation, validation, and analysis tasks.}
+      \resumeItemListEnd
+
+    
+    \resumeSubheading
+      {Level 3 Supervisor, Office of Information Technology}{May 2022 -- June 2024}
+      {Rutgers University}{Piscataway, NJ · On-Site}
+      \resumeItemListStart
+        \resumeItem{Supervised and mentored Level 1, Level 2 consultants, and Level 2 Specialists, guiding their technical and professional growth, and providing training to over 200 consultants.}
+        \resumeItem{Coordinated second-level support, addressing more complex IT issues escalated from Level 1 consultants, and provided application support for University data centers.}
+        \resumeItem{Achieved the highest ticket resolution rate as a Level 2 Consultant, handling over 15\% of all assigned tickets; reduced personal average resolution time by 20\%.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Personal Projects}
+    \resumeSubHeadingListStart
+
+    \resumeProjectHeading
+    {\textbf{Personal Portfolio Website (gnzaga.com)} $|$ \emph{React, Tailwind CSS, Docker, Kubernetes, Nginx, Cloudflare}}{}
+    \resumeItemListStart
+        \resumeItem{Designed and developed a personal portfolio website using NodeJS, React and Tailwind CSS, with an AI Agent Assistant showcasing my projects and professional experience.}
+        \resumeItem{Self-hosted the website using Kubernetes, with Nginx managing traffic routing on my home network. Ensuring high availability and scalability across over 6 virtual and physical hosts}
+        \resumeItem{Created a blog to showcase achievements and progress, with a dynamic Vector Store Database for my AI Agent which can chat about my personal details - powered by Granite 3.3}
+    \resumeItemListEnd
+
+\resumeProjectHeading
+    {\textbf{Self-Hosted Homelab Infrastructure} $|$ \emph{Kubernetes, Docker, Ansible, GitLab, TP-Link Omada, Samba, AI}}{}
+    \resumeItemListStart
+        \resumeItem{Built and maintain a homelab from the ground up, featuring a multi-node Proxmox cluster with GPU passthrough, centralized NFS storage, Kubernetes cluster and high availability content delivery orchestration}
+        \resumeItem{Deployed Kubernetes via MicroK8s and Rancher to manage scalable services such as GitLab, JupyterHub, Jellyfin, my portfolio website and LLM WebUI}
+        \resumeItem{Integrated Ollama to serve LLMs (LLaMA, Granite, Mistral, Gemma) for personal RAG pipelines and Discord bot access, powered by a containerized GPU stack.}
+        \resumeItem{Maintain a sophisticated DevOps pipeline using GitLab and Ansible for automatic Integration and Development of services.}
+    \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: Python, Java, C, SQL, JavaScript, HTML/CSS, Mojo, React, Tailwind CSS, Bash Scripting} \\
+     \textbf{Developer Tools}{: Linux, Git, Docker, Kubernetes \& Compose, Spring Boot, Postman, Jira, Nginx, Cloudflare, LLM, RAG, Generative AI, Agentic AI, AI Tool Usage, VertexAI, WatsonX.ai, Ollama, K3s, Ansible, Kubectl, Kubeadm} \\
+    }}
+ \end{itemize}
+
+
+%-------------------------------------------
+\end{document}

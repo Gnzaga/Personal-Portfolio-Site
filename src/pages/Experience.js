@@ -75,29 +75,40 @@ const calculateDuration = () => {
  */
 const ExperienceCard = ({ title, company, duration, location, type, details }) => (
   <motion.div
-    className="mb-8 bg-gray-800 shadow-lg rounded-lg p-6 hover:shadow-xl transition-all duration-300 border border-gray-700"
-    whileHover={{ scale: 1.02 }} // Hover animation
+    className="card card-hover p-8 mb-8 hover:shadow-xl transition-all duration-300 group"
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6 }}
+    whileHover={{ y: -8 }}
   >
-    <h2 className="text-2xl font-bold mb-3 text-white">{title}</h2>
-    <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 space-y-2 md:space-y-0">
+    <div className="flex items-center justify-between mb-4">
+      <h2 className="text-2xl font-heading font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">{title}</h2>
+      <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+        <FontAwesomeIcon icon={faBriefcase} className="w-6 h-6 text-white" />
+      </div>
+    </div>
+    <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-3 space-y-2 md:space-y-0">
       <div className="flex items-center">
-        <FontAwesomeIcon icon={faBriefcase} className="text-blue-400 mr-2" />
-        <p className="text-gray-300">
+        <span className="text-primary-600 dark:text-primary-300 font-medium transition-colors duration-300">
           {company} · {type}
-        </p>
+        </span>
       </div>
       <div className="flex items-center">
-        <FontAwesomeIcon icon={faCalendarAlt} className="text-green-400 mr-2" />
-        <p className="text-gray-300">{duration}</p>
+        <FontAwesomeIcon icon={faCalendarAlt} className="text-green-500 dark:text-green-400 mr-2 transition-colors duration-300" />
+        <span className="text-gray-700 dark:text-gray-300 transition-colors duration-300">{duration}</span>
       </div>
     </div>
-    <div className="flex items-center mb-4">
-      <FontAwesomeIcon icon={faMapMarkerAlt} className="text-red-400 mr-2" />
-      <p className="text-gray-300">{location}</p>
+    <div className="flex items-center mb-6 text-gray-700 dark:text-gray-300 transition-colors duration-300">
+      <FontAwesomeIcon icon={faMapMarkerAlt} className="text-red-500 dark:text-red-400 mr-2 transition-colors duration-300" />
+      <span>{location}</span>
     </div>
-    <ul className="text-gray-300 mt-4 list-disc pl-5 space-y-2">
+    <ul className="text-gray-700 dark:text-gray-300 space-y-3 leading-relaxed transition-colors duration-300">
       {details.map((detail, index) => (
-        <li key={index}>{detail}</li>
+        <li key={index} className="flex items-start">
+          <span className="inline-block h-1.5 w-1.5 bg-primary-400 rounded-full mt-2 mr-2"></span>
+          <span>{detail}</span>
+        </li>
       ))}
     </ul>
   </motion.div>
@@ -118,16 +129,19 @@ const Experience = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 py-24">
-      <div className="container mx-auto px-4">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-5xl font-bold text-white mb-12 text-center"
-        >
-          My Professional Journey
-        </motion.h1>
+    <div className="min-h-screen bg-gray-100 dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 py-24 transition-colors duration-300">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-5xl md:text-6xl font-heading font-bold text-primary-500 dark:gradient-text mb-6"
+          >
+            My Professional Journey
+          </motion.h1>
+          <div className="w-24 h-1 bg-gradient-primary mx-auto rounded-full"></div>
+        </div>
         <div className="relative">
           <AnimatedLine delay={0.20} />
           <StaggeredList>

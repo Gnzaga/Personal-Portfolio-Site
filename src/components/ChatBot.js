@@ -155,7 +155,7 @@ const ChatBot = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300 z-50"
+          className="fixed bottom-4 right-4 bg-primary-500 text-white p-4 rounded-full shadow-lg hover:bg-primary-600 transition-colors duration-300 z-50"
           aria-label="Open chat"
         >
           <FontAwesomeIcon icon={faComments} size="2x" />
@@ -166,34 +166,34 @@ const ChatBot = () => {
         className={getChatContainerClasses()}
       >
         <div className="flex flex-col h-full">
-          <div className={`${isExpanded ? 'bg-transparent' : 'bg-gray-500 bg-opacity-30'} text-white p-4 flex justify-between items-center`}>  {/* Header */}
+          <div className={`${isExpanded ? 'bg-transparent' : 'bg-gray-200 dark:bg-gray-500 bg-opacity-30'} text-dark-800 dark:text-white p-4 flex justify-between items-center transition-colors duration-300`}>  {/* Header */}
             <h2 className="text-xl font-bold">Chatbot</h2>
             <div className="flex items-center">
               <button 
                 onClick={toggleExpand} 
-                className="text-white hover:text-gray-300 mr-4 inline-block transition-transform duration-300 transform hover:scale-110"
+                className="text-dark-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 mr-4 inline-block transition-transform duration-300 transform hover:scale-110"
                 aria-label={isExpanded ? "Collapse chat" : "Expand chat"}
               >
                 <FontAwesomeIcon icon={isExpanded ? faCompress : faExpand} size="lg" />
               </button>
               <button 
                 onClick={() => setIsOpen(false)} 
-                className="text-white hover:text-gray-300 transition-transform duration-300 transform hover:scale-110"
+                className="text-dark-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-transform duration-300 transform hover:scale-110"
                 aria-label="Close chat"
               >
                 <FontAwesomeIcon icon={faTimes} size="lg" />
               </button>
             </div>
           </div>
-          <div className={`flex-1 overflow-y-auto p-4 ${isExpanded ? 'bg-transparent' : 'bg-gray-800 bg-opacity-50'} scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800`}>  {/* Messages area */}
+          <div className={`flex-1 overflow-y-auto p-4 ${isExpanded ? 'bg-transparent' : 'bg-gray-100 dark:bg-gray-800 bg-opacity-50'} scrollbar-thin scrollbar-thumb-primary-500 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-200 dark:scrollbar-track-gray-800 transition-colors duration-300`}>  {/* Messages area */}
             {messages.map((msg, idx) => (
               <div
                 key={idx}
                 className={`my-2 p-2 rounded-lg ${
                   msg.sender === 'user'
-                    ? 'bg-blue-600 bg-opacity-90 text-white ml-auto'
-                    : 'bg-gray-700 bg-opacity-90 text-white mr-auto'
-                } max-w-[90%] md:max-w-[90%] break-words shadow-md`}
+                    ? 'bg-primary-500 bg-opacity-90 text-white ml-auto'
+                    : 'bg-gray-300 dark:bg-gray-700 bg-opacity-90 text-dark-800 dark:text-white mr-auto'
+                } max-w-[90%] md:max-w-[90%] break-words shadow-md transition-colors duration-300`}
               >
                 {msg.sender === 'bot' ? (
                   <ReactMarkdown components={components}>
@@ -205,14 +205,14 @@ const ChatBot = () => {
               </div>
             ))}
             {currentBotMessage && (
-              <div className="my-2 p-2 rounded-lg bg-gray-700 bg-opacity-70 text-white mr-auto max-w-[90%] md:max-w-[90%] break-words shadow-md">
+              <div className="my-2 p-2 rounded-lg bg-gray-300 dark:bg-gray-700 bg-opacity-70 text-dark-800 dark:text-white mr-auto max-w-[90%] md:max-w-[90%] break-words shadow-md transition-colors duration-300">
                 <ReactMarkdown components={components}>
                   {formatBotMessage(currentBotMessage)}
                 </ReactMarkdown>
               </div>
             )}
             {isLoading && !currentBotMessage && (
-              <div className="my-2 p-2 rounded-lg bg-gray-700 bg-opacity-70 text-white mr-auto max-w-[90%] md:max-w-[90%] shadow-md">
+              <div className="my-2 p-2 rounded-lg bg-gray-300 dark:bg-gray-700 bg-opacity-70 text-dark-800 dark:text-white mr-auto max-w-[90%] md:max-w-[90%] shadow-md transition-colors duration-300">
                 <span className="animate-pulse">
                   Searching knowledge base...
                 </span>
@@ -220,20 +220,20 @@ const ChatBot = () => {
             )}
             <div ref={messagesEndRef} />
           </div>
-          <div className={`${isExpanded ? 'bg-transparent border-transparent' : 'bg-gray-800 bg-opacity-70 border-gray-700 border-opacity-90'} p-4 border-t`}>  {/* Input area */}
+          <div className={`${isExpanded ? 'bg-transparent border-transparent' : 'bg-gray-100 dark:bg-gray-800 bg-opacity-70 border-gray-300 dark:border-gray-700 border-opacity-90'} p-4 border-t transition-colors duration-300`}>  {/* Input area */}
             <div className="flex items-center">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Type a message..."
-                className="flex-grow p-2 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-gray-700 text-white mr-2 bg-opacity-80"
+                className="flex-grow p-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none bg-white dark:bg-gray-700 text-dark-800 dark:text-white mr-2 bg-opacity-80 transition-colors duration-300"
                 rows="1"
                 style={{ minHeight: '2.5rem', maxHeight: '6rem' }}
               />
               <button
                 onClick={sendMessage}
-                className="bg-blue-600 text-white p-2 rounded-lg shadow-md hover:bg-blue-700 disabled:bg-blue-500 flex-shrink-0 transition-colors duration-300 bg-opacity-75"
+                className="bg-primary-500 text-white p-2 rounded-lg shadow-md hover:bg-primary-600 disabled:bg-primary-400 flex-shrink-0 transition-colors duration-300 bg-opacity-75"
                 disabled={isLoading}
                 aria-label="Send message"
               >
