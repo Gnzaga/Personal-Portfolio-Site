@@ -1,0 +1,149 @@
+/* Optimized CSS animations for hero section */
+/* Add this to your main CSS file or create a separate hero.css */
+
+.hero-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, 
+    var(--color-gray-50) 0%, 
+    var(--color-gray-100) 100%);
+}
+
+.dark .hero-container {
+  background: linear-gradient(135deg, 
+    var(--color-gray-900) 0%, 
+    var(--color-gray-800) 100%);
+}
+
+/* Lightweight floating particles animation */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.dark .hero-particle {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-100px) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Geometric shapes */
+.hero-shape {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hero-shape-1 {
+  top: 5rem;
+  left: 5rem;
+  width: 8rem;
+  height: 8rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 50%;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.hero-shape-2 {
+  bottom: 8rem;
+  right: 8rem;
+  width: 6rem;
+  height: 6rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  transform: rotate(45deg);
+  animation: bounce 6s ease-in-out infinite;
+}
+
+.hero-shape-3 {
+  top: 50%;
+  left: 2.5rem;
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.1), 
+    rgba(16, 185, 129, 0.1));
+  border-radius: 0.5rem;
+  animation: pulse 5s ease-in-out infinite 1s;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: rotate(45deg) translateY(0);
+  }
+  50% {
+    transform: rotate(45deg) translateY(-10px);
+  }
+}
+
+/* Gradient overlay */
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.05) 0%,
+    rgba(16, 185, 129, 0.05) 100%);
+}
+
+.dark .hero-gradient {
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(16, 185, 129, 0.1) 100%);
+}
+
+/* Performance optimizations */
+.hero-container * {
+  will-change: auto;
+}
+
+.hero-particles .hero-particle {
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Hardware acceleration */
+}
+
+.hero-shape {
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Hardware acceleration */
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .hero-particle,
+  .hero-shape-1,
+  .hero-shape-2,
+  .hero-shape-3 {
+    animation: none;
+  }
+}
