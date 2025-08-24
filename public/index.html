@@ -6,6 +6,39 @@
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Alessandro Gonzaga's Portfolio" />
     <title>Alessandro Gonzaga</title>
+    <script>
+      // Prevent flash of unstyled content (FOUC) for theme
+      (function() {
+        try {
+          const storedTheme = sessionStorage.getItem('theme');
+          const useSystemTheme = sessionStorage.getItem('useSystemTheme');
+          
+          let shouldBeDark = false;
+          
+          if (useSystemTheme === 'false' && storedTheme) {
+            // User has manually set a preference during this session
+            shouldBeDark = storedTheme === 'dark';
+          } else {
+            // Default to system preference (new session or no manual preference)
+            shouldBeDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          }
+          
+          if (shouldBeDark) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {
+          // If sessionStorage is not available, use system preference
+          try {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.classList.add('dark');
+            }
+          } catch (mediaError) {
+            // If all else fails, default to light mode
+            console.warn('Theme initialization failed:', e, mediaError);
+          }
+        }
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
