@@ -138,7 +138,7 @@ const Home = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 transition-colors duration-300">Try My Chat Platform</h3>
                 <p className="text-gray-700 dark:text-gray-300 mb-6 transition-colors duration-300">
-                  Experience my custom-built chat application with modern features and clean design
+                  Experience my self hosted chat powered by Ollama and OpenWebUI
                 </p>
                 <a
                   href="https://chat.gnzaga.com"

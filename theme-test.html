@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Behavior Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+        }
+        .test-section { 
+            margin: 20px 0; 
+            padding: 15px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        }
+        button { 
+            margin: 5px; 
+            padding: 10px 15px; 
+            cursor: pointer; 
+        }
+        .status { 
+            background: #f0f0f0; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 3px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Theme Storage Behavior Test</h1>
+    
+    <div class="test-section">
+        <h3>Current Storage State</h3>
+        <div id="storageStatus" class="status"></div>
+        <button onclick="updateStatus()">Refresh Status</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test Actions</h3>
+        <button onclick="setTheme('light')">Set Light Theme (Session)</button>
+        <button onclick="setTheme('dark')">Set Dark Theme (Session)</button>
+        <button onclick="setSystemTheme()">Use System Theme</button>
+        <button onclick="clearStorage()">Clear All Storage</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>System Preference</h3>
+        <div id="systemPreference" class="status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Instructions</h3>
+        <ol>
+            <li>Note your current system theme preference above</li>
+            <li>Try setting different theme modes using the buttons</li>
+            <li>Refresh this page to see if settings persist within the session</li>
+            <li>Open a new tab to the same URL to test session sharing</li>
+            <li>Close all tabs and open a new browser window to test fresh session behavior</li>
+        </ol>
+    </div>
+
+    <script>
+        function updateStatus() {
+            const sessionTheme = sessionStorage.getItem('theme');
+            const sessionSystemMode = sessionStorage.getItem('useSystemTheme');
+            const localTheme = localStorage.getItem('theme');
+            const localSystemMode = localStorage.getItem('useSystemTheme');
+            
+            const statusDiv = document.getElementById('storageStatus');
+            statusDiv.innerHTML = `
+                <strong>SessionStorage:</strong><br>
+                - theme: ${sessionTheme || 'null'}<br>
+                - useSystemTheme: ${sessionSystemMode || 'null'}<br><br>
+                <strong>LocalStorage:</strong><br>
+                - theme: ${localTheme || 'null'}<br>
+                - useSystemTheme: ${localSystemMode || 'null'}
+            `;
+            
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const systemDiv = document.getElementById('systemPreference');
+            systemDiv.innerHTML = `Your system currently prefers: <strong>${systemPrefersDark ? 'Dark' : 'Light'}</strong> mode`;
+        }
+        
+        function setTheme(theme) {
+            sessionStorage.setItem('theme', theme);
+            sessionStorage.setItem('useSystemTheme', 'false');
+            updateStatus();
+            alert(`Set ${theme} theme for this session`);
+        }
+        
+        function setSystemTheme() {
+            sessionStorage.setItem('useSystemTheme', 'true');
+            sessionStorage.removeItem('theme');
+            updateStatus();
+            alert('Set to follow system theme');
+        }
+        
+        function clearStorage() {
+            sessionStorage.clear();
+            localStorage.clear();
+            updateStatus();
+            alert('Cleared all storage');
+        }
+        
+        // Initialize
+        updateStatus();
+        
+        // Listen for storage changes from other tabs
+        window.addEventListener('storage', updateStatus);
+    </script>
+</body>
+</html>

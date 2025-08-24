@@ -1,29 +1,26 @@
 // src/components/AnimatedHero.js
 
-import React, { useMemo, useEffect, useState } from 'react'; // Import React for JSX and component creation
-import { motion } from 'framer-motion'; // Import motion for animation support
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon component
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'; // Import specific icon for use
-import { useTheme } from '../context/ThemeContext'; // Import theme context
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 /**
- * AnimatedHero Component
+ * Fractal AnimatedHero Component
  * 
- * @description A full-screen hero section with animated text and an animated down-arrow icon.
- * Utilizes `framer-motion` for smooth entrance animations and `FontAwesomeIcon` for icon rendering.
- *
- * @returns {JSX.Element} The rendered AnimatedHero component.
+ * @description A hero section with efficient fractal background generation
+ * using Canvas API and optimized algorithms for performance.
  */
 const AnimatedHero = () => {
-  const { isDarkMode } = useTheme(); // Get theme state
+  const { isDarkMode } = useTheme();
+  const [isVisible, setIsVisible] = useState(false);
+  const canvasRef = useRef(null);
+  const animationFrameRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
-  const [seed, setSeed] = useState(Math.random());
-  const [zoomLevel, setZoomLevel] = useState(1);
-  const [colorPhase, setColorPhase] = useState(0);
-  const [centerPoint, setCenterPoint] = useState({ x: 0, y: 0 });
-  const [fadeOpacity, setFadeOpacity] = useState(1); // For fade transitions
 
-  // Set up dimensions on mount and resize
+  // Set up canvas dimensions
   useEffect(() => {
     const updateDimensions = () => {
       setDimensions({
@@ -37,493 +34,432 @@ const AnimatedHero = () => {
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
-  // Color animation cycle - reduced frequency
-  useEffect(() => {
-    const colorTimer = setInterval(() => {
-      setColorPhase(prev => (prev + 2) % 360);
-    }, 100); // Reduced from 50ms to 100ms
-    return () => clearInterval(colorTimer);
-  }, []);
+  // Mandelbrot Set with fade and zoom effects
+  const generateMandelbrotSet = useCallback((canvas, ctx, zoom = 1, offsetX = 0, offsetY = 0, fadeProgress = 1) => {
+    const width = canvas.width;
+    const height = canvas.height;
+    const maxIterations = 100;
+    const step = 18;
+    const dotSize = 3;
 
-  // Infinite zoom animation with ultra-smooth fade transitions
-  useEffect(() => {
-    const zoomTimer = setInterval(() => {
-      setZoomLevel(prev => {
-        const newZoom = prev * 1.006; // Slower zoom for longer cycles
-        // Start very gradual fade out much earlier
-        if (newZoom > 6) {
-          setFadeOpacity(Math.max(0, (12 - newZoom) / 6)); // Much longer fade out over 6x zoom levels
+    for (let x = 0; x < width; x += step) {
+      for (let y = 0; y < height; y += step) {
+        const zx = (x - width / 2) / (width / 3) / zoom + offsetX;
+        const zy = (y - height / 2) / (height / 3) / zoom + offsetY;
+        
+        let cx = zx;
+        let cy = zy;
+        let iteration = 0;
+        
+        while (iteration < maxIterations && (cx * cx + cy * cy) < 4) {
+          const temp = cx * cx - cy * cy + zx;
+          cy = 2 * cx * cy + zy;
+          cx = temp;
+          iteration++;
         }
-        // Reset zoom when it gets too large
-        if (newZoom > 12) { // Increased max zoom for longer cycles
-          // Ultra-smooth transition
-          setFadeOpacity(0);
-          setSeed(Math.random()); // Generate new fractal
-          setTimeout(() => {
-            setFadeOpacity(1);
-          }, 800); // Much longer delay for seamless transition
-          return 1;
-        }
-        return newZoom;
-      });
-    }, 50);
-    return () => clearInterval(zoomTimer);
-  }, []);
-
-  // Generate complete fractal patterns with multiple detail levels
-  const fractalData = useMemo(() => {
-    // Seeded random number generator
-    const seededRandom = (seed) => {
-      let x = Math.sin(seed) * 10000;
-      return x - Math.floor(x);
-    };
-
-    // Enhanced fractal generators with more detail levels - Performance optimized
-    const generateJuliaSet = (maxIterations, seed) => {
-      const points = [];
-      const c = { 
-        real: (seededRandom(seed) - 0.5) * 2, 
-        imag: (seededRandom(seed + 1000) - 0.5) * 2 
-      };
-      
-      const resolution = 120; // Reduced from 200 for better performance
-      for (let x = 0; x < resolution; x += 2) { // Skip every other point
-        for (let y = 0; y < resolution; y += 2) {
-          let zReal = (x - resolution/2) / (resolution/4);
-          let zImag = (y - resolution/2) / (resolution/4);
+        
+        if (iteration === maxIterations && Math.random() > 0.5) {
+          const randomX = x + (Math.random() - 0.5) * step * 0.4;
+          const randomY = y + (Math.random() - 0.5) * step * 0.4;
           
-          let iteration = 0;
-          while (iteration < maxIterations && (zReal * zReal + zImag * zImag) < 4) {
-            const temp = zReal * zReal - zImag * zImag + c.real;
-            zImag = 2 * zReal * zImag + c.imag;
-            zReal = temp;
-            iteration++;
-          }
+          const hue = isDarkMode ? 240 + Math.random() * 60 : 200 + Math.random() * 80;
+          const saturation = 70 + Math.random() * 30;
+          const lightness = isDarkMode ? 40 + Math.random() * 30 : 50 + Math.random() * 25;
           
-          if (iteration < maxIterations) {
-            points.push({
-              x: x * 6, // Adjusted scaling
-              y: y * 6,
-              intensity: iteration / maxIterations,
-              depth: Math.log(iteration + 1)
-            });
-          }
+          // Fade effect based on progress
+          const baseAlpha = 0.8 + Math.random() * 0.2;
+          ctx.globalAlpha = baseAlpha * fadeProgress;
+          ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+          ctx.beginPath();
+          ctx.arc(randomX, randomY, dotSize + Math.random() * 1, 0, Math.PI * 2);
+          ctx.fill();
         }
       }
-      return points;
-    };
-
-    const generateMandelbrotBoundary = (maxIterations, seed) => {
-      const points = [];
-      const resolution = 180; // Reduced from 300
-      const variation = seededRandom(seed) * 0.5 + 0.5;
-      
-      for (let x = 0; x < resolution; x += 2) { // Skip points for performance
-        for (let y = 0; y < resolution; y += 2) {
-          const cReal = (x - resolution * 0.75) / (resolution * 0.25) * variation;
-          const cImag = (y - resolution/2) / (resolution * 0.25) * variation;
-          
-          let zReal = 0;
-          let zImag = 0;
-          let iteration = 0;
-          
-          while (iteration < maxIterations && (zReal * zReal + zImag * zImag) < 4) {
-            const temp = zReal * zReal - zImag * zImag + cReal;
-            zImag = 2 * zReal * zImag + cImag;
-            zReal = temp;
-            iteration++;
-          }
-          
-          if (iteration < maxIterations && iteration > 5) {
-            points.push({
-              x: x * 4, // Adjusted scaling
-              y: y * 4,
-              intensity: iteration / maxIterations,
-              depth: Math.sqrt(iteration)
-            });
-          }
-        }
-      }
-      return points;
-    };
-
-    const generateLSystemTree = (iterations, seed) => {
-      let axiom = "F";
-      const rules = { "F": "F[+F]F[-F][F]" };
-      
-      // Generate L-system string
-      for (let i = 0; i < iterations; i++) {
-        let newAxiom = "";
-        for (let char of axiom) {
-          newAxiom += rules[char] || char;
-        }
-        axiom = newAxiom;
-      }
-      
-      // Convert to points
-      const points = [];
-      let x = 0, y = 0, angle = -Math.PI / 2;
-      const stack = [];
-      const stepSize = 2 + seededRandom(seed) * 3;
-      
-      for (let i = 0; i < Math.min(axiom.length, 3000); i++) { // Reduced from 5000
-        const char = axiom[i];
-        switch (char) {
-          case 'F':
-            const newX = x + Math.cos(angle) * stepSize;
-            const newY = y + Math.sin(angle) * stepSize;
-            points.push({ 
-              x: newX, 
-              y: newY, 
-              intensity: seededRandom(seed + i),
-              depth: stack.length 
-            });
-            x = newX;
-            y = newY;
-            break;
-          case '+':
-            angle += (Math.PI / 6) + (seededRandom(seed + i) - 0.5) * 0.2;
-            break;
-          case '-':
-            angle -= (Math.PI / 6) + (seededRandom(seed + i) - 0.5) * 0.2;
-            break;
-          case '[':
-            stack.push({ x, y, angle });
-            break;
-          case ']':
-            if (stack.length > 0) {
-              const state = stack.pop();
-              x = state.x;
-              y = state.y;
-              angle = state.angle;
-            }
-            break;
-        }
-      }
-      return points;
-    };
-
-    const generateSierpinskiCarpet = (level, seed) => {
-      const points = [];
-      const size = Math.min(Math.pow(3, level), 127); // Cap maximum size for performance
-      
-      for (let x = 0; x < size; x += 2) { // Skip points for performance
-        for (let y = 0; y < size; y += 2) {
-          let tempX = x;
-          let tempY = y;
-          let inCarpet = true;
-          
-          while (tempX > 0 || tempY > 0) {
-            if (tempX % 3 === 1 && tempY % 3 === 1) {
-              inCarpet = false;
-              break;
-            }
-            tempX = Math.floor(tempX / 3);
-            tempY = Math.floor(tempY / 3);
-          }
-          
-          if (inCarpet) {
-            const variation = seededRandom(seed + x + y * size) * 8; // Reduced variation
-            points.push({
-              x: x * 6 + variation, // Adjusted scaling
-              y: y * 6 + variation,
-              intensity: seededRandom(seed + x * y),
-              depth: Math.log(x + y + 1)
-            });
-          }
-        }
-      }
-      return points;
-    };
-
-    // Choose fractal type based on seed
-    const fractalChoice = Math.floor(seededRandom(seed) * 4);
-    let rawPoints;
-
-    switch (fractalChoice) {
-      case 0:
-        rawPoints = generateJuliaSet(40, seed); // Reduced from 50
-        break;
-      case 1:
-        rawPoints = generateMandelbrotBoundary(60, seed); // Reduced from 80
-        break;
-      case 2:
-        rawPoints = generateLSystemTree(7, seed); // Reduced from 8
-        break;
-      default:
-        rawPoints = generateSierpinskiCarpet(5, seed); // Reduced from 6
     }
+    ctx.globalAlpha = 1;
+  }, [isDarkMode]);
 
-    if (rawPoints.length === 0) return { points: [], center: { x: 0, y: 0 } };
+  // Tree Fractal with fade and zoom effects
+  const generateTreeFractal = useCallback((canvas, ctx, time = 0, zoom = 1, fadeProgress = 1) => {
+    const width = canvas.width;
+    const height = canvas.height;
+    const dotSize = 2.5;
+    
+    const drawBranch = (x, y, length, angle, depth, maxDepth) => {
+      if (depth > maxDepth || length < 8) return;
+      
+      const endX = x + Math.cos(angle) * length;
+      const endY = y + Math.sin(angle) * length;
+      
+      const steps = Math.floor(length / 12);
+      for (let i = 0; i <= steps; i++) {
+        if (Math.random() > 0.3) {
+          const t = i / steps;
+          const branchX = x + (endX - x) * t + (Math.random() - 0.5) * 2;
+          const branchY = y + (endY - y) * t + (Math.random() - 0.5) * 2;
+          
+          const hue = isDarkMode ? 100 + depth * 20 : 80 + depth * 15;
+          const saturation = 60 + Math.random() * 30;
+          const lightness = isDarkMode ? 35 + depth * 8 : 45 + depth * 6;
+          
+          const baseAlpha = 0.7 + Math.random() * 0.3;
+          ctx.globalAlpha = baseAlpha * fadeProgress;
+          ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+          ctx.beginPath();
+          ctx.arc(branchX, branchY, dotSize * Math.min(zoom * 0.8, 1.5), 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      const angleOffset = 0.5 + Math.sin(time * 0.001) * 0.1;
+      drawBranch(endX, endY, length * 0.7, angle - angleOffset, depth + 1, maxDepth);
+      drawBranch(endX, endY, length * 0.7, angle + angleOffset, depth + 1, maxDepth);
+    };
+    
+    const numTrees = 2;
+    for (let i = 0; i < numTrees; i++) {
+      const startX = width * (0.3 + i * 0.4);
+      const startY = height * 0.8;
+      const scaledLength = 90 * zoom;
+      drawBranch(startX, startY, scaledLength, -Math.PI / 2, 0, Math.min(6, 4 + Math.floor(zoom * 0.5)));
+    }
+    
+    ctx.globalAlpha = 1;
+  }, [isDarkMode]);
 
-    // Find center point for zooming
-    const centerX = rawPoints.reduce((sum, p) => sum + p.x, 0) / rawPoints.length;
-    const centerY = rawPoints.reduce((sum, p) => sum + p.y, 0) / rawPoints.length;
+  // Sierpinski Triangle with fade and zoom effects
+  const generateSierpinskiTriangle = useCallback((canvas, ctx, time = 0, zoom = 1, fadeProgress = 1) => {
+    const width = canvas.width;
+    const height = canvas.height;
+    const dotSize = 2.5;
+    
+    const baseSize = Math.min(width, height) * 0.4;
+    const size = baseSize * zoom;
+    const centerX = width / 2;
+    const centerY = height / 2;
+    
+    const vertices = [
+      { x: centerX, y: centerY - size / 2 },
+      { x: centerX - size / 2, y: centerY + size / 4 },
+      { x: centerX + size / 2, y: centerY + size / 4 }
+    ];
+    
+    let currentX = Math.random() * width;
+    let currentY = Math.random() * height;
+    const iterations = 2500;
+    
+    for (let i = 0; i < iterations; i++) {
+      const targetVertex = vertices[Math.floor(Math.random() * 3)];
+      currentX = (currentX + targetVertex.x) / 2;
+      currentY = (currentY + targetVertex.y) / 2;
+      
+      if (i > 100 && Math.random() > 0.4) {
+        const randomX = currentX + (Math.random() - 0.5) * 2;
+        const randomY = currentY + (Math.random() - 0.5) * 2;
+        
+        const distance = Math.sqrt((randomX - centerX) ** 2 + (randomY - centerY) ** 2);
+        const hue = isDarkMode ? 280 + (distance / size) * 80 : 320 + (distance / size) * 60;
+        const saturation = 70 + Math.random() * 25;
+        const lightness = isDarkMode ? 40 + Math.random() * 25 : 50 + Math.random() * 20;
+        
+        const baseAlpha = 0.7 + Math.random() * 0.3;
+        ctx.globalAlpha = baseAlpha * fadeProgress;
+        ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        ctx.beginPath();
+        ctx.arc(randomX, randomY, dotSize * Math.min(zoom * 0.7, 1.8), 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    
+    ctx.globalAlpha = 1;
+  }, [isDarkMode]);
 
-    // Scale points to screen
-    const minX = Math.min(...rawPoints.map(p => p.x));
-    const maxX = Math.max(...rawPoints.map(p => p.x));
-    const minY = Math.min(...rawPoints.map(p => p.y));
-    const maxY = Math.max(...rawPoints.map(p => p.y));
+  // Square Fractal with fade and zoom effects
+  const generateSquareFractal = useCallback((canvas, ctx, time = 0, zoom = 1, fadeProgress = 1) => {
+    const width = canvas.width;
+    const height = canvas.height;
+    const dotSize = 3;
+    
+    const drawSquareLevel = (x, y, size, depth, maxDepth) => {
+      if (depth > maxDepth || size < 12) return;
+      
+      const step = Math.max(10, size / 5);
+      for (let i = x; i < x + size; i += step) {
+        for (let j = y; j < y + size; j += step) {
+          if (Math.random() > 0.5) {
+            const randomX = i + (Math.random() - 0.5) * step * 0.5;
+            const randomY = j + (Math.random() - 0.5) * step * 0.5;
+            
+            const hue = isDarkMode ? 30 + depth * 25 : 15 + depth * 20;
+            const saturation = 70 + Math.random() * 25;
+            const lightness = isDarkMode ? 45 + depth * 5 : 55 + depth * 4;
+            
+            const baseAlpha = 0.6 + Math.random() * 0.4;
+            ctx.globalAlpha = baseAlpha * fadeProgress;
+            ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            ctx.beginPath();
+            ctx.arc(randomX, randomY, dotSize * Math.min(zoom * 0.6, 1.2), 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+      
+      const newSize = size / 3;
+      const positions = [
+        [x, y], [x + newSize * 2, y],
+        [x, y + newSize * 2], [x + newSize * 2, y + newSize * 2]
+      ];
+      
+      positions.forEach(([newX, newY]) => {
+        drawSquareLevel(newX, newY, newSize, depth + 1, maxDepth);
+      });
+    };
+    
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const baseSize = Math.min(width, height) * 0.25;
+    const scaledSize = baseSize * zoom;
+    const maxDepth = Math.min(5, 3 + Math.floor(zoom * 0.5));
+    
+    drawSquareLevel(centerX - scaledSize / 2, centerY - scaledSize / 2, scaledSize, 0, maxDepth);
+    
+    ctx.globalAlpha = 1;
+  }, [isDarkMode]);
 
-    const scaleX = (dimensions.width * 0.8) / (maxX - minX || 1);
-    const scaleY = (dimensions.height * 0.8) / (maxY - minY || 1);
-    const scale = Math.min(scaleX, scaleY);
+  // Initialize canvas and start fractal animation
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const offsetX = dimensions.width / 2 - centerX * scale;
-    const offsetY = dimensions.height / 2 - centerY * scale;
+    const ctx = canvas.getContext('2d');
+    canvas.width = dimensions.width;
+    canvas.height = dimensions.height;
 
-    const scaledPoints = rawPoints.map((point, index) => ({
-      x: point.x * scale + offsetX,
-      y: point.y * scale + offsetY,
-      intensity: point.intensity,
-      depth: point.depth,
-      originalX: point.x,
-      originalY: point.y,
-      index
-    }));
+    let startTime = Date.now();
+    let lastFrameTime = 0;
+    const targetFPS = 30; // Smooth FPS for fade effects
+    const frameInterval = 1000 / targetFPS;
 
-    const scaledCenter = {
-      x: centerX * scale + offsetX,
-      y: centerY * scale + offsetY
+    const animate = () => {
+      const currentTime = Date.now();
+      const elapsed = currentTime - lastFrameTime;
+
+      if (elapsed >= frameInterval) {
+        // Clear canvas every frame for smooth fading
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Cycle through all four fractals
+        const time = currentTime - startTime;
+        const cycleTime = time % 32000; // Total cycle time for all 4 fractals
+        const currentFractal = Math.floor(cycleTime / 8000); // Which fractal (0-3)
+        const fractalTime = cycleTime % 8000; // Time within current fractal (0-8000ms)
+        
+        // Create smooth fade in/out transitions
+        const fadeInDuration = 1000; // 1 second fade in
+        const fadeOutStart = 7000; // Start fade out at 7 seconds
+        const fadeOutDuration = 1000; // 1 second fade out
+        
+        let fadeProgress = 1;
+        if (fractalTime < fadeInDuration) {
+          // Fade in
+          fadeProgress = fractalTime / fadeInDuration;
+        } else if (fractalTime > fadeOutStart) {
+          // Fade out
+          fadeProgress = 1 - ((fractalTime - fadeOutStart) / fadeOutDuration);
+        }
+        
+        // Smooth easing for fade
+        fadeProgress = Math.sin(fadeProgress * Math.PI / 2);
+        
+        // Smooth zoom progress (main viewing happens between fade in/out)
+        const viewingTime = Math.max(0, Math.min(fractalTime - fadeInDuration, fadeOutStart - fadeInDuration));
+        const viewingDuration = fadeOutStart - fadeInDuration;
+        const zoomProgress = Math.pow(viewingTime / viewingDuration, 0.7); // Smooth easing
+        
+        if (currentFractal === 0) {
+          // Mandelbrot with smooth zoom and fade
+          const zoom = 1 + zoomProgress * 2.5;
+          generateMandelbrotSet(canvas, ctx, zoom, -0.7, 0, fadeProgress);
+        } else if (currentFractal === 1) {
+          // Tree fractal with zoom and fade
+          const zoom = 1 + zoomProgress * 1.8;
+          generateTreeFractal(canvas, ctx, time, zoom, fadeProgress);
+        } else if (currentFractal === 2) {
+          // Sierpinski triangle with zoom and fade
+          const zoom = 1 + zoomProgress * 2;
+          generateSierpinskiTriangle(canvas, ctx, time, zoom, fadeProgress);
+        } else {
+          // Square fractal with zoom and fade
+          const zoom = 1 + zoomProgress * 1.5;
+          generateSquareFractal(canvas, ctx, time, zoom, fadeProgress);
+        }
+        
+        lastFrameTime = currentTime;
+      }
+      
+      animationFrameRef.current = requestAnimationFrame(animate);
     };
 
-    setCenterPoint(scaledCenter);
+    // Start animation after a short delay
+    const timeoutId = setTimeout(() => {
+      animate();
+      setIsVisible(true);
+    }, 500);
 
-    return { points: scaledPoints, center: scaledCenter };
-  }, [dimensions, seed]);
-
-  // Transform points based on current zoom level
-  const transformedPoints = useMemo(() => {
-    if (!fractalData.points || fractalData.points.length === 0) return [];
-    
-    return fractalData.points.map(point => {
-      // Calculate distance from center for zoom effect
-      const dx = point.x - centerPoint.x;
-      const dy = point.y - centerPoint.y;
-      
-      // Apply zoom transformation
-      const newX = centerPoint.x + dx * zoomLevel;
-      const newY = centerPoint.y + dy * zoomLevel;
-      
-      // Calculate visibility based on zoom and distance
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const visibility = Math.max(0, 1 - (distance * zoomLevel) / (dimensions.width * 2));
-      
-      return {
-        ...point,
-        x: newX,
-        y: newY,
-        visibility,
-        size: Math.max(1, 4 - distance / 100) * (point.intensity + 0.5) // Increased size and base
-      };
-    }).filter(point => 
-      point.visibility > 0.1 && // Reduced threshold to show more dots
-      point.x > -100 && point.x < dimensions.width + 100 && // Increased buffer for more dots
-      point.y > -100 && point.y < dimensions.height + 100
-    );
-  }, [fractalData, zoomLevel, centerPoint, dimensions]);
-
-  // Dynamic color calculations with theme awareness
-  const getHSLColor = (baseHue, saturation = 70, lightness = 60) => {
-    const hue = (baseHue + colorPhase) % 360;
-    // Adjust colors based on theme for better visibility
-    const adjustedLightness = !isDarkMode ? Math.max(25, lightness - 30) : lightness; // Much darker for light mode
-    const adjustedSaturation = !isDarkMode ? Math.min(100, saturation + 30) : saturation; // More saturated for light mode
-    return `hsl(${hue}, ${adjustedSaturation}%, ${adjustedLightness}%)`;
-  };
+    return () => {
+      clearTimeout(timeoutId);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [dimensions, generateMandelbrotSet, generateTreeFractal, generateSierpinskiTriangle, generateSquareFractal]);
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
-      {/* Animated background gradient */}
-      <div className="absolute inset-0 pt-0 bg-gradient-to-br from-white via-gray-100 to-gray-200 dark:from-dark-950 dark:via-dark-950 dark:to-dark-800 animate-gradient transition-colors duration-300"></div>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       
-      {/* Infinite Zoom Fractal with Enhanced Visuals */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <svg
-          className="w-full h-full"
-          viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-          preserveAspectRatio="none"
-        >          <defs>
-            {/* Theme-aware gradients for better visibility */}
-            <radialGradient id="coreGradient" cx="50%" cy="50%" r="30%">
-              <stop offset="0%" stopColor={getHSLColor(60, 100, !isDarkMode ? 40 : 90)} stopOpacity="1"/>
-              <stop offset="100%" stopColor={getHSLColor(180, 80, !isDarkMode ? 30 : 50)} stopOpacity="0.6"/>
-            </radialGradient>
-            
-            {/* Enhanced glow filter with theme awareness */}
-            <filter id="deepGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation={!isDarkMode ? "2" : "3"} result="coloredBlur"/>
-              <feMerge> 
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-          
-          {/* Render fractal points with ultra-smooth transitions */}
-          <g opacity={fadeOpacity} style={{ transition: 'opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1)' }}>
-            {/* All points in single layer for better performance */}
-            {transformedPoints.map((point, index) => {
-              // Enhanced rendering with better contrast and size
-              const isHighDetail = point.depth >= 5; // Lowered threshold for more high-detail dots
-              const baseOpacity = !isDarkMode ? 0.8 : 0.6; // Higher opacity for light mode
-              const color = getHSLColor(
-                isHighDetail ? 120 + point.depth * 15 : 240 + point.depth * 25, 
-                isHighDetail ? 90 : 75, 
-                isHighDetail ? 50 : 45
-              );
-              
-              return (
-                <circle
-                  key={`pt-${point.index}`}
-                  cx={point.x}
-                  cy={point.y}
-                  r={point.size * (isHighDetail ? 1.3 : 0.9)} // Increased sizes
-                  fill={color}
-                  opacity={point.visibility * baseOpacity * (isHighDetail ? 1 : 0.7)} // Better opacity scaling
-                  filter={isHighDetail ? "url(#deepGlow)" : undefined}
-                />
-              );
-            })}
-          </g>
-        </svg>
-      </div>
-
-      {/* Subtle fractal control */}
-      <div className="absolute top-8 right-4 z-20">
-        <motion.button
-          onClick={() => {
-            setFadeOpacity(0);
-            setTimeout(() => {
-              setSeed(Math.random());
-              setZoomLevel(1);
-              setFadeOpacity(1);
-            }, 1200); // Much longer wait for ultra-smooth manual transition
-          }}
-          className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-300 opacity-60 hover:opacity-100"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          title="Generate new fractal"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-        </motion.button>
-      </div>
+      {/* Fractal Canvas Background */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full object-cover opacity-50 dark:opacity-70 transition-opacity duration-300"
+        style={{ mixBlendMode: isDarkMode ? 'screen' : 'multiply' }}
+      />
+      
+      {/* Gradient overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent dark:from-black/30 dark:to-transparent" />
+      
+      {/* Additional subtle overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-gray-100/50 via-transparent to-gray-50/50 dark:from-gray-900/50 dark:via-transparent dark:to-gray-800/50" />
 
       {/* Main content */}
-      <div className="relative z-10 text-center px-6">
-            {/* Animated heading */}
-            <motion.h1
-              initial={{ opacity: 0, y: -50, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="text-6xl md:text-7xl font-heading font-bold mb-6 text-primary-500 dark:text-primary-400 pb-4 px-2"
+      <div className="relative z-20 text-center px-6 max-w-5xl mx-auto">
+        
+        {/* Animated title */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mb-8"
+        >
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-gray-900 dark:text-white mb-6 leading-tight drop-shadow-lg">
+            <motion.span 
+              className="block"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
             >
               Alessandro Gonzaga
-            </motion.h1>
+            </motion.span>
+            <motion.span 
+              className="block text-3xl md:text-4xl lg:text-5xl text-primary-600 dark:text-primary-400 font-normal mt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+            >
+              Full-Stack Engineer
+            </motion.span>
+          </h1>
+        </motion.div>
 
-            {/* Animated subtitle with typing effect */}
-                    <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-                    className="text-xl md:text-2xl text-gray-900 dark:text-gray-300 mb-8 max-w-3xl mx-auto transition-colors duration-300  dark:bg-transparent rounded-lg p-4 backdrop-blur-sm"
-                    >
-                    <motion.span 
-                      className="block md:inline font-semibold drop-shadow-sm"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.8, duration: 0.8 }}
-                    >
-                      Network Engineer
-                    </motion.span>
-                    <motion.span 
-                      className="hidden md:inline text-primary-600 dark:text-primary-400 mx-3 transition-colors duration-300"
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 1.2, duration: 0.5 }}
-                    >
-                      •
-                    </motion.span>
-                    <motion.span 
-                      className="block md:inline font-semibold drop-shadow-sm"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1.4, duration: 0.8 }}
-                    >
-                      Software Engineer
-                    </motion.span>
-                    <motion.span 
-                      className="hidden md:inline text-primary-600 dark:text-primary-400 mx-3 transition-colors duration-300"
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 1.8, duration: 0.5 }}
-                    >
-                      •
-                    </motion.span>
-                    <motion.span 
-                      className="block md:inline font-semibold drop-shadow-sm"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 2, duration: 0.8 }}
-                    >
-                      Problem Solver
-                    </motion.span>
-                    </motion.div>
-
-                    {/* Call-to-action buttons */}
+        {/* Animated subtitle */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="mb-12"
+        >
+          <p className="text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
+            <motion.span 
+              className="block"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.8 }}
+            >
+              Network Infrastructure Expert
+            </motion.span>
+            <motion.span 
+              className="block sm:inline font-medium text-accent-600 dark:text-accent-400"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 0.8 }}
+            >
+              •
+            </motion.span>
+            <motion.span 
+              className="block sm:inline font-semibold"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.8, duration: 0.8 }}
+            >
+              Automation Specialist
+            </motion.span>
+            <motion.span 
+              className="block sm:inline font-medium text-accent-600 dark:text-accent-400"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2, duration: 0.8 }}
+            >
+              •
+            </motion.span>
+            <motion.span 
+              className="block sm:inline font-semibold"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.2, duration: 0.8 }}
+            >
+              Problem Solver
+            </motion.span>
+          </p>
+        </motion.div>
+
+        {/* Call-to-action buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 0.8, delay: 1.5 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
         >
           <motion.a
-            href="#about"
-            className="btn-primary inline-flex items-center space-x-2"
+            href="/about"
+            className="btn-primary inline-flex items-center space-x-2 w-full sm:w-auto text-center justify-center shadow-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <span>Learn More</span>
           </motion.a>
-          <motion.a
-            href="#projects"
-            className="btn-outline backdrop-blur-sm inline-flex items-center space-x-2"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span>View Projects</span>
-          </motion.a>
+          <Link to="/projects">
+            <motion.div
+              className="btn-outline backdrop-blur-md inline-flex items-center space-x-2 w-full sm:w-auto text-center justify-center shadow-lg"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span>View Projects</span>
+            </motion.div>
+          </Link>
         </motion.div>
       </div>
 
-      {/* Enhanced animated down-arrow */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2.5, duration: 1 }}
-        className="absolute bottom-8 cursor-pointer"
+        className="absolute bottom-8 cursor-pointer z-20"
         onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
       >
         <motion.div
-          animate={{ y: [0, 10, 0] }}
+          animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           className="flex flex-col items-center space-y-2"
         >
-          <span className="text-gray-600 text-sm font-medium">Scroll to explore</span>
+          <span className="text-gray-600 dark:text-gray-400 text-sm font-medium drop-shadow-md">Scroll to explore</span>
           <FontAwesomeIcon 
             icon={faChevronDown} 
-            className="text-2xl text-primary-400 hover:text-primary-300 transition-colors duration-300"
+            className="text-2xl text-primary-400 hover:text-primary-300 transition-colors duration-300 drop-shadow-md"
           />
         </motion.div>
       </motion.div>
     </div>
   );
 };
-    
-  
 
-
-export default AnimatedHero; // Export the component for use in other parts of the app
+export default AnimatedHero;
