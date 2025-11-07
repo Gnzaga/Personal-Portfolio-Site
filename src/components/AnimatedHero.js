@@ -8,10 +8,10 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
 /**
- * Fractal AnimatedHero Component
- * 
- * @description A hero section with efficient fractal background generation
- * using Canvas API and optimized algorithms for performance.
+ * AnimatedHero Component
+ *
+ * @description A hero section with a flowing grid of gentle dots
+ * that create smooth wave patterns across the background.
  */
 const AnimatedHero = () => {
   const { isDarkMode } = useTheme();
@@ -19,6 +19,7 @@ const AnimatedHero = () => {
   const canvasRef = useRef(null);
   const animationFrameRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
+  const timeRef = useRef(0);
 
   // Set up canvas dimensions
   useEffect(() => {
@@ -34,269 +35,104 @@ const AnimatedHero = () => {
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
-  // Mandelbrot Set with fade and zoom effects
-  const generateMandelbrotSet = useCallback((canvas, ctx, zoom = 1, offsetX = 0, offsetY = 0, fadeProgress = 1) => {
+  // Generate flowing dot grid with wave patterns
+  const generateFlowingDots = useCallback((canvas, ctx, time) => {
     const width = canvas.width;
     const height = canvas.height;
-    const maxIterations = 100;
-    const step = 18;
-    const dotSize = 3;
 
-    for (let x = 0; x < width; x += step) {
-      for (let y = 0; y < height; y += step) {
-        const zx = (x - width / 2) / (width / 3) / zoom + offsetX;
-        const zy = (y - height / 2) / (height / 3) / zoom + offsetY;
-        
-        let cx = zx;
-        let cy = zy;
-        let iteration = 0;
-        
-        while (iteration < maxIterations && (cx * cx + cy * cy) < 4) {
-          const temp = cx * cx - cy * cy + zx;
-          cy = 2 * cx * cy + zy;
-          cx = temp;
-          iteration++;
-        }
-        
-        if (iteration === maxIterations && Math.random() > 0.5) {
-          const randomX = x + (Math.random() - 0.5) * step * 0.4;
-          const randomY = y + (Math.random() - 0.5) * step * 0.4;
-          
-          const hue = isDarkMode ? 240 + Math.random() * 60 : 200 + Math.random() * 80;
-          const saturation = 70 + Math.random() * 30;
-          const lightness = isDarkMode ? 40 + Math.random() * 30 : 50 + Math.random() * 25;
-          
-          // Fade effect based on progress
-          const baseAlpha = 0.8 + Math.random() * 0.2;
-          ctx.globalAlpha = baseAlpha * fadeProgress;
-          ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-          ctx.beginPath();
-          ctx.arc(randomX, randomY, dotSize + Math.random() * 1, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-    }
-    ctx.globalAlpha = 1;
-  }, [isDarkMode]);
+    // Grid configuration
+    const spacing = 40; // Space between dots
+    const dotSize = 2;
+    const maxDotSize = 4;
 
-  // Tree Fractal with fade and zoom effects
-  const generateTreeFractal = useCallback((canvas, ctx, time = 0, zoom = 1, fadeProgress = 1) => {
-    const width = canvas.width;
-    const height = canvas.height;
-    const dotSize = 2.5;
-    
-    const drawBranch = (x, y, length, angle, depth, maxDepth) => {
-      if (depth > maxDepth || length < 8) return;
-      
-      const endX = x + Math.cos(angle) * length;
-      const endY = y + Math.sin(angle) * length;
-      
-      const steps = Math.floor(length / 12);
-      for (let i = 0; i <= steps; i++) {
-        if (Math.random() > 0.3) {
-          const t = i / steps;
-          const branchX = x + (endX - x) * t + (Math.random() - 0.5) * 2;
-          const branchY = y + (endY - y) * t + (Math.random() - 0.5) * 2;
-          
-          const hue = isDarkMode ? 100 + depth * 20 : 80 + depth * 15;
-          const saturation = 60 + Math.random() * 30;
-          const lightness = isDarkMode ? 35 + depth * 8 : 45 + depth * 6;
-          
-          const baseAlpha = 0.7 + Math.random() * 0.3;
-          ctx.globalAlpha = baseAlpha * fadeProgress;
-          ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-          ctx.beginPath();
-          ctx.arc(branchX, branchY, dotSize * Math.min(zoom * 0.8, 1.5), 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-      
-      const angleOffset = 0.5 + Math.sin(time * 0.001) * 0.1;
-      drawBranch(endX, endY, length * 0.7, angle - angleOffset, depth + 1, maxDepth);
-      drawBranch(endX, endY, length * 0.7, angle + angleOffset, depth + 1, maxDepth);
-    };
-    
-    const numTrees = 2;
-    for (let i = 0; i < numTrees; i++) {
-      const startX = width * (0.3 + i * 0.4);
-      const startY = height * 0.8;
-      const scaledLength = 90 * zoom;
-      drawBranch(startX, startY, scaledLength, -Math.PI / 2, 0, Math.min(6, 4 + Math.floor(zoom * 0.5)));
-    }
-    
-    ctx.globalAlpha = 1;
-  }, [isDarkMode]);
+    // Wave parameters
+    const waveSpeed = 0.0008; // Speed of wave movement
+    const waveAmplitude = 15; // Height of the wave
+    const waveFrequency = 0.003; // Frequency of waves across space
+    const noiseScale = 0.002; // Scale for perlin-like noise
 
-  // Sierpinski Triangle with fade and zoom effects
-  const generateSierpinskiTriangle = useCallback((canvas, ctx, time = 0, zoom = 1, fadeProgress = 1) => {
-    const width = canvas.width;
-    const height = canvas.height;
-    const dotSize = 2.5;
-    
-    const baseSize = Math.min(width, height) * 0.4;
-    const size = baseSize * zoom;
-    const centerX = width / 2;
-    const centerY = height / 2;
-    
-    const vertices = [
-      { x: centerX, y: centerY - size / 2 },
-      { x: centerX - size / 2, y: centerY + size / 4 },
-      { x: centerX + size / 2, y: centerY + size / 4 }
-    ];
-    
-    let currentX = Math.random() * width;
-    let currentY = Math.random() * height;
-    const iterations = 2500;
-    
-    for (let i = 0; i < iterations; i++) {
-      const targetVertex = vertices[Math.floor(Math.random() * 3)];
-      currentX = (currentX + targetVertex.x) / 2;
-      currentY = (currentY + targetVertex.y) / 2;
-      
-      if (i > 100 && Math.random() > 0.4) {
-        const randomX = currentX + (Math.random() - 0.5) * 2;
-        const randomY = currentY + (Math.random() - 0.5) * 2;
-        
-        const distance = Math.sqrt((randomX - centerX) ** 2 + (randomY - centerY) ** 2);
-        const hue = isDarkMode ? 280 + (distance / size) * 80 : 320 + (distance / size) * 60;
-        const saturation = 70 + Math.random() * 25;
-        const lightness = isDarkMode ? 40 + Math.random() * 25 : 50 + Math.random() * 20;
-        
-        const baseAlpha = 0.7 + Math.random() * 0.3;
-        ctx.globalAlpha = baseAlpha * fadeProgress;
+    // Calculate grid boundaries with padding
+    const cols = Math.ceil(width / spacing) + 2;
+    const rows = Math.ceil(height / spacing) + 2;
+
+    for (let i = -1; i < cols; i++) {
+      for (let j = -1; j < rows; j++) {
+        const baseX = i * spacing;
+        const baseY = j * spacing;
+
+        // Multiple wave layers for complexity
+        const wave1 = Math.sin((baseX * waveFrequency) + (time * waveSpeed)) * waveAmplitude;
+        const wave2 = Math.cos((baseY * waveFrequency * 0.7) + (time * waveSpeed * 1.3)) * waveAmplitude * 0.6;
+        const wave3 = Math.sin((baseX + baseY) * waveFrequency * 0.5 + (time * waveSpeed * 0.8)) * waveAmplitude * 0.4;
+
+        // Combine waves for final position
+        const offsetY = wave1 + wave2 + wave3;
+        const offsetX = Math.sin((baseY * waveFrequency * 0.8) + (time * waveSpeed * 1.1)) * waveAmplitude * 0.5;
+
+        const x = baseX + offsetX;
+        const y = baseY + offsetY;
+
+        // Calculate distance from center for radial effects
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const distFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+        const maxDist = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2));
+        const normalizedDist = distFromCenter / maxDist;
+
+        // Dynamic size based on wave position
+        const sizeVariation = (Math.sin(time * waveSpeed * 2 + i * 0.5 + j * 0.3) + 1) / 2;
+        const currentDotSize = dotSize + (sizeVariation * (maxDotSize - dotSize));
+
+        // Color based on position and time
+        const hue = isDarkMode
+          ? 200 + (Math.sin(i * 0.1 + time * waveSpeed) * 40) + (Math.cos(j * 0.1) * 20)
+          : 210 + (Math.sin(i * 0.1 + time * waveSpeed) * 30) + (Math.cos(j * 0.1) * 15);
+
+        const saturation = isDarkMode ? 60 : 50;
+        const lightness = isDarkMode
+          ? 45 + (sizeVariation * 15) + (normalizedDist * 10)
+          : 55 + (sizeVariation * 10) + (normalizedDist * 5);
+
+        // Opacity with gentle pulsing
+        const pulsePhase = Math.sin(time * waveSpeed * 1.5 + i * 0.3 + j * 0.2) * 0.15;
+        const baseOpacity = isDarkMode ? 0.5 : 0.4;
+        const opacity = baseOpacity + pulsePhase + (sizeVariation * 0.15);
+
+        ctx.globalAlpha = opacity;
         ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
         ctx.beginPath();
-        ctx.arc(randomX, randomY, dotSize * Math.min(zoom * 0.7, 1.8), 0, Math.PI * 2);
+        ctx.arc(x, y, currentDotSize, 0, Math.PI * 2);
         ctx.fill();
       }
     }
-    
+
     ctx.globalAlpha = 1;
   }, [isDarkMode]);
 
-  // Square Fractal with fade and zoom effects
-  const generateSquareFractal = useCallback((canvas, ctx, time = 0, zoom = 1, fadeProgress = 1) => {
-    const width = canvas.width;
-    const height = canvas.height;
-    const dotSize = 3;
-    
-    const drawSquareLevel = (x, y, size, depth, maxDepth) => {
-      if (depth > maxDepth || size < 12) return;
-      
-      const step = Math.max(10, size / 5);
-      for (let i = x; i < x + size; i += step) {
-        for (let j = y; j < y + size; j += step) {
-          if (Math.random() > 0.5) {
-            const randomX = i + (Math.random() - 0.5) * step * 0.5;
-            const randomY = j + (Math.random() - 0.5) * step * 0.5;
-            
-            const hue = isDarkMode ? 30 + depth * 25 : 15 + depth * 20;
-            const saturation = 70 + Math.random() * 25;
-            const lightness = isDarkMode ? 45 + depth * 5 : 55 + depth * 4;
-            
-            const baseAlpha = 0.6 + Math.random() * 0.4;
-            ctx.globalAlpha = baseAlpha * fadeProgress;
-            ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-            ctx.beginPath();
-            ctx.arc(randomX, randomY, dotSize * Math.min(zoom * 0.6, 1.2), 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-      }
-      
-      const newSize = size / 3;
-      const positions = [
-        [x, y], [x + newSize * 2, y],
-        [x, y + newSize * 2], [x + newSize * 2, y + newSize * 2]
-      ];
-      
-      positions.forEach(([newX, newY]) => {
-        drawSquareLevel(newX, newY, newSize, depth + 1, maxDepth);
-      });
-    };
-    
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const baseSize = Math.min(width, height) * 0.25;
-    const scaledSize = baseSize * zoom;
-    const maxDepth = Math.min(5, 3 + Math.floor(zoom * 0.5));
-    
-    drawSquareLevel(centerX - scaledSize / 2, centerY - scaledSize / 2, scaledSize, 0, maxDepth);
-    
-    ctx.globalAlpha = 1;
-  }, [isDarkMode]);
-
-  // Initialize canvas and start fractal animation
+  // Initialize canvas and start flowing dot animation
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+
+    // Enable antialiasing for smoother rendering
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
     canvas.width = dimensions.width;
     canvas.height = dimensions.height;
 
-    let startTime = Date.now();
-    let lastFrameTime = 0;
-    const targetFPS = 30; // Smooth FPS for fade effects
-    const frameInterval = 1000 / targetFPS;
-
     const animate = () => {
-      const currentTime = Date.now();
-      const elapsed = currentTime - lastFrameTime;
+      // Clear canvas for next frame
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (elapsed >= frameInterval) {
-        // Clear canvas every frame for smooth fading
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Cycle through all four fractals
-        const time = currentTime - startTime;
-        const cycleTime = time % 32000; // Total cycle time for all 4 fractals
-        const currentFractal = Math.floor(cycleTime / 8000); // Which fractal (0-3)
-        const fractalTime = cycleTime % 8000; // Time within current fractal (0-8000ms)
-        
-        // Create smooth fade in/out transitions
-        const fadeInDuration = 1000; // 1 second fade in
-        const fadeOutStart = 7000; // Start fade out at 7 seconds
-        const fadeOutDuration = 1000; // 1 second fade out
-        
-        let fadeProgress = 1;
-        if (fractalTime < fadeInDuration) {
-          // Fade in
-          fadeProgress = fractalTime / fadeInDuration;
-        } else if (fractalTime > fadeOutStart) {
-          // Fade out
-          fadeProgress = 1 - ((fractalTime - fadeOutStart) / fadeOutDuration);
-        }
-        
-        // Smooth easing for fade
-        fadeProgress = Math.sin(fadeProgress * Math.PI / 2);
-        
-        // Smooth zoom progress (main viewing happens between fade in/out)
-        const viewingTime = Math.max(0, Math.min(fractalTime - fadeInDuration, fadeOutStart - fadeInDuration));
-        const viewingDuration = fadeOutStart - fadeInDuration;
-        const zoomProgress = Math.pow(viewingTime / viewingDuration, 0.7); // Smooth easing
-        
-        if (currentFractal === 0) {
-          // Mandelbrot with smooth zoom and fade
-          const zoom = 1 + zoomProgress * 2.5;
-          generateMandelbrotSet(canvas, ctx, zoom, -0.7, 0, fadeProgress);
-        } else if (currentFractal === 1) {
-          // Tree fractal with zoom and fade
-          const zoom = 1 + zoomProgress * 1.8;
-          generateTreeFractal(canvas, ctx, time, zoom, fadeProgress);
-        } else if (currentFractal === 2) {
-          // Sierpinski triangle with zoom and fade
-          const zoom = 1 + zoomProgress * 2;
-          generateSierpinskiTriangle(canvas, ctx, time, zoom, fadeProgress);
-        } else {
-          // Square fractal with zoom and fade
-          const zoom = 1 + zoomProgress * 1.5;
-          generateSquareFractal(canvas, ctx, time, zoom, fadeProgress);
-        }
-        
-        lastFrameTime = currentTime;
-      }
-      
+      // Increment time
+      timeRef.current += 16; // Approximately 60fps
+
+      // Draw flowing dots
+      generateFlowingDots(canvas, ctx, timeRef.current);
+
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
@@ -304,7 +140,7 @@ const AnimatedHero = () => {
     const timeoutId = setTimeout(() => {
       animate();
       setIsVisible(true);
-    }, 500);
+    }, 300);
 
     return () => {
       clearTimeout(timeoutId);
@@ -312,15 +148,15 @@ const AnimatedHero = () => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [dimensions, generateMandelbrotSet, generateTreeFractal, generateSierpinskiTriangle, generateSquareFractal]);
+  }, [dimensions, generateFlowingDots]);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       
-      {/* Fractal Canvas Background */}
+      {/* Flowing Dots Canvas Background */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full object-cover opacity-50 dark:opacity-70 transition-opacity duration-300"
+        className="absolute inset-0 w-full h-full object-cover opacity-60 dark:opacity-70 transition-opacity duration-300"
         style={{ mixBlendMode: isDarkMode ? 'screen' : 'multiply' }}
       />
       
@@ -355,61 +191,13 @@ const AnimatedHero = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.8 }}
             >
-              Full-Stack Engineer
+              Platform Engineer
             </motion.span>
           </h1>
         </motion.div>
 
-        {/* Animated subtitle */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="mb-12"
-        >
-          <p className="text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            <motion.span 
-              className="block"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2, duration: 0.8 }}
-            >
-              Network Infrastructure Expert
-            </motion.span>
-            <motion.span 
-              className="block sm:inline font-medium text-accent-600 dark:text-accent-400"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 0.8 }}
-            >
-              •
-            </motion.span>
-            <motion.span 
-              className="block sm:inline font-semibold"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.8, duration: 0.8 }}
-            >
-              Automation Specialist
-            </motion.span>
-            <motion.span 
-              className="block sm:inline font-medium text-accent-600 dark:text-accent-400"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2, duration: 0.8 }}
-            >
-              •
-            </motion.span>
-            <motion.span 
-              className="block sm:inline font-semibold"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2.2, duration: 0.8 }}
-            >
-              Problem Solver
-            </motion.span>
-          </p>
-        </motion.div>
+    
+          
 
         {/* Call-to-action buttons */}
         <motion.div

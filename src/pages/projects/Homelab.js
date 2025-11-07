@@ -68,7 +68,7 @@ const HomelabProject = () => {
           <li>Virtualization: Proxmox for managing virtual machines and containers.</li>
           <li>Orchestration: Kubernetes for scalable application deployment and management.</li>
           <li>Web Hosting: Nginx as a reverse proxy for multiple services.</li>
-          <li>Version Control: GitLab for CI/CD pipelines and change management.</li>
+          <li>Version Control: GitHub for CI/CD pipelines and change management.</li>
           <li>Monitoring: Regular performance and security audits with advanced tools.</li>
         </ul>
       </Section>

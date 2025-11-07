@@ -6,18 +6,18 @@ export const ThemeContext = createContext();
 
 /**
  * ThemeProvider Component
- * 
+ *
  * @description Provides theme context to the entire application.
- * Manages theme state and persists user preference in localStorage.
- * Automatically follows system theme preference if no user preference is set.
- * 
+ * Automatically follows system theme preference by default.
+ * Users can manually override with the toggle, and preference persists in localStorage.
+ *
  * @param {object} props - Component props
  * @param {React.ReactNode} props.children - Child components
  * @returns {JSX.Element} Provider component with theme context
  */
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isSystemTheme, setIsSystemTheme] = useState(false);
+  const [isSystemTheme, setIsSystemTheme] = useState(true);
 
   // Check if user prefers system theme
   const getSystemThemePreference = () => {
@@ -27,19 +27,18 @@ export const ThemeProvider = ({ children }) => {
 
   // Initialize theme on mount
   useEffect(() => {
-    const storedTheme = sessionStorage.getItem('theme');
-    const storedSystemPreference = sessionStorage.getItem('useSystemTheme');
-    
+    const storedTheme = localStorage.getItem('theme');
+    const storedSystemPreference = localStorage.getItem('useSystemTheme');
+
     if (storedSystemPreference === 'false' && storedTheme) {
-      // User has manually set a preference during this session
+      // User has manually overridden system preference
       setIsSystemTheme(false);
       setIsDarkMode(storedTheme === 'dark');
     } else {
-      // Default to system preference (for new sessions or when no manual preference set)
+      // Default: Always follow system preference
       setIsSystemTheme(true);
       const systemPrefersDark = getSystemThemePreference();
       setIsDarkMode(systemPrefersDark);
-      sessionStorage.setItem('useSystemTheme', 'true');
     }
   }, []);
 
@@ -48,13 +47,13 @@ export const ThemeProvider = ({ children }) => {
     if (!isSystemTheme || typeof window === 'undefined') return;
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     const handleSystemThemeChange = (e) => {
       setIsDarkMode(e.matches);
     };
 
     mediaQuery.addEventListener('change', handleSystemThemeChange);
-    
+
     return () => {
       mediaQuery.removeEventListener('change', handleSystemThemeChange);
     };
@@ -68,23 +67,23 @@ export const ThemeProvider = ({ children }) => {
       document.documentElement.classList.remove('dark');
     }
 
-    // Only store manual theme preferences in sessionStorage
+    // Only store manual theme preferences if user has overridden system
     if (!isSystemTheme) {
-      sessionStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-      sessionStorage.setItem('useSystemTheme', 'false');
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      localStorage.setItem('useSystemTheme', 'false');
     } else {
-      // Clear manual preferences when using system theme
-      sessionStorage.removeItem('theme');
-      sessionStorage.setItem('useSystemTheme', 'true');
+      // Clear manual preferences when following system theme
+      localStorage.removeItem('theme');
+      localStorage.setItem('useSystemTheme', 'true');
     }
   }, [isDarkMode, isSystemTheme]);
 
-  // Function to toggle theme manually (switches to manual mode)
+  // Function to toggle theme manually (switches to manual mode and toggles)
   const toggleTheme = () => {
     setIsSystemTheme(false);
     setIsDarkMode(!isDarkMode);
-    sessionStorage.setItem('useSystemTheme', 'false');
-    sessionStorage.setItem('theme', !isDarkMode ? 'dark' : 'light');
+    localStorage.setItem('useSystemTheme', 'false');
+    localStorage.setItem('theme', !isDarkMode ? 'dark' : 'light');
   };
 
   // Function to toggle between system theme and manual theme
@@ -92,15 +91,15 @@ export const ThemeProvider = ({ children }) => {
     if (isSystemTheme) {
       // Switch to manual mode, keep current appearance
       setIsSystemTheme(false);
-      sessionStorage.setItem('useSystemTheme', 'false');
-      sessionStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      localStorage.setItem('useSystemTheme', 'false');
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
     } else {
-      // Switch to system mode
+      // Switch back to system mode
       setIsSystemTheme(true);
       const systemPrefersDark = getSystemThemePreference();
       setIsDarkMode(systemPrefersDark);
-      sessionStorage.setItem('useSystemTheme', 'true');
-      sessionStorage.removeItem('theme'); // Remove manual preference
+      localStorage.setItem('useSystemTheme', 'true');
+      localStorage.removeItem('theme'); // Remove manual preference
     }
   };
 
@@ -108,16 +107,16 @@ export const ThemeProvider = ({ children }) => {
   const setLightTheme = () => {
     setIsSystemTheme(false);
     setIsDarkMode(false);
-    sessionStorage.setItem('useSystemTheme', 'false');
-    sessionStorage.setItem('theme', 'light');
+    localStorage.setItem('useSystemTheme', 'false');
+    localStorage.setItem('theme', 'light');
   };
 
   // Function to set theme manually to dark
   const setDarkTheme = () => {
     setIsSystemTheme(false);
     setIsDarkMode(true);
-    sessionStorage.setItem('useSystemTheme', 'false');
-    sessionStorage.setItem('theme', 'dark');
+    localStorage.setItem('useSystemTheme', 'false');
+    localStorage.setItem('theme', 'dark');
   };
 
   return (

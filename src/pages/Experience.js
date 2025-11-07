@@ -10,13 +10,15 @@ import AnimatedLine from '../components/AnimatedLine'; // Import custom Animated
 /**
  * calculateDuration
  *
- * @description Calculates the duration of time passed since a given hire date until today.
+ * @description Calculates the duration of time passed since a given hire date until today or until an end date.
  *
+ * @param {string} startDate - The start date (e.g., '2024-06-01')
+ * @param {string} endDate - Optional end date (e.g., '2025-08-01'). If not provided, uses today.
  * @returns {string} A formatted string representing the duration in years and months.
  */
-const calculateDuration = () => {
-  const today = new Date();
-  const hireDate = new Date('2024-06-01'); // Replace with the start date
+const calculateDuration = (startDate, endDate = null) => {
+  const today = endDate ? new Date(endDate) : new Date();
+  const hireDate = new Date(startDate);
   let years;
   let months;
 
@@ -54,7 +56,7 @@ const calculateDuration = () => {
       months === 1 ? '' : 's'
     }`;
   } else {
-    return `${months} month${months === 1 ? '' : 's'}`;
+    return `${months}`;
   }
 };
 
@@ -122,10 +124,12 @@ const ExperienceCard = ({ title, company, duration, location, type, details }) =
  * @returns {JSX.Element} The rendered Experience component.
  */
 const Experience = () => {
-  const [duration, setDuration] = useState('');
+  const [currentDuration, setCurrentDuration] = useState('');
+  const [networkEngineerDuration, setNetworkEngineerDuration] = useState('');
 
   useEffect(() => {
-    setDuration(calculateDuration()); // Calculate and set the duration once component mounts
+    setCurrentDuration(calculateDuration('2025-08-01')); // Calculate duration for Platform Engineer role
+    setNetworkEngineerDuration(calculateDuration('2024-06-01', '2025-08-01')); // Calculate duration for Network Engineer role
   }, []);
 
   return (
@@ -145,21 +149,34 @@ const Experience = () => {
         <div className="relative">
           <AnimatedLine delay={0.20} />
           <StaggeredList>
-            {/* Verizon Experience */}
+            {/* Platform Engineer, Anti-Spam Systems */}
             <ExperienceCard
-              title="Network Engineer | Multi-Access Edge Compute & Edge Core Implementation"
+              title="Platform Engineer, Anti-Spam Systems"
               company="Verizon"
               type="Full-time"
-              duration={`Jun 2024 - Present · ${duration}`}
+              duration={`Aug 2025 - Present · ${currentDuration}`}
               location="Bedminster, NJ · Hybrid"
               details={[
-                "As a member of Verizon's MECI team, contributing to nationwide projects deploying hardware at scale to support Verizon's industry-leading network and MEC clients.",
-                "Leading automation efforts across Verizon's Edge sites nationwide, including the successful migration of over 10% of our national infrastructure to a new database.",
-                "Working in a leadership capacity with a team of contractors to manually build and configure level 1 networking equipment across Edge sites, with over 2,000 builds completed in August 2024 alone.",
-                "Developed automation tools for generating hostnames and IDs from existing databases, reducing required time by over 50% while significantly lowering error rates compared to manual processes.",
-                "Designed and implemented custom data processing tools using SQL and Python, enabling national data center inventory audits to reduce data preparation timelines by over 95%.",
-                "Collaborated with internal product owners, developers, and database engineers to address national points of need, including adding missing fields to internal tools, updating processes to reflect national standards, and obtaining tools for automation, validation, and analysis tasks.",
-                "Beginning to support nationwide Multi-access Edge Compute (MEC) deployments."
+                "Architecting Verizon's internal next-gen adaptive anti-spam platform integrating AI/ML, agentic automation, and vector search to secure 100M+ messaging endpoints across internal and inter-carrier networks.",
+                "Delivered full system vision within 2 weeks: designed architecture, identified potential stack (Redis, Milvus, BigQuery, Apache Nifi), and presented a 2-hour technical briefing to AI, Data, and Platform orgs.",
+                "Replaced legacy OpenStack+Heat workflows with Terraform-based VM orchestration, reducing large-scale deployment time from 3–4 hours for 6 VMs to 5 minutes for 62 VMs - enabling scalable infrastructure rollout.",
+                "Proposed AI/ML-driven techniques to enhance Verizon's Anti-Spam and Abuse posture — evolving detection from defense to an offensive, intelligence-generating system with adversarial simulation and honeypot engagement.",
+                "Collaborating across AI/ML, Security, and Platform teams to unify orchestration, streaming data ingestion, and model evaluation pipelines - establishing shared frameworks for feature engineering, explainability, and continuous tuning, backed by senior executive sponsorship."
+              ]}
+            />
+
+            {/* Network Engineer Experience */}
+            <ExperienceCard
+              title="Network Engineer, Edge & Core Implementation"
+              company="Verizon"
+              type="Full-time"
+              duration={`Jun 2024 - Aug 2025 · ${networkEngineerDuration}`}
+              location="Bedminster, NJ · Hybrid"
+              details={[
+                "Led automation efforts across Verizon's Edge sites nationwide, spearheading the development of SOTA Agentic AI tools for assisting Engineers in managing projects and solving problems in edge engineering.",
+                "Developed an automation pipeline for site audits from a data perspective, decreasing preparation time by over 90%, resulting in power savings of over $100,000 per year after piloting the audit program.",
+                "Completely automated FOA network testing a new VZ service for a cloud service provider using terraform, Ansible, bash scripting and python, reducing test-suite deployment time from 3 hours to a few seconds per site.",
+                "Collaborated with engineers nationwide to address power, space, and cooling needs, fostering more open and efficient communication across regional and national teams."
               ]}
             />
 

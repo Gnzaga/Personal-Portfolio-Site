@@ -4,7 +4,7 @@ import React from 'react'; // Import React for component functionality
 import { motion } from 'framer-motion'; // Import motion for animation support
 import ButtonLink from '../../components/ButtonLink'; // Import reusable ButtonLink component
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icons
-import { faGitlab } from '@fortawesome/free-brands-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faRobot, faCode, faGamepad, faChartLine, faBolt, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Import solid icons
 import { Link } from 'react-router-dom'; // Import Link for navigation
 
@@ -126,8 +126,8 @@ const DiscordBotProject = () => {
 
       {/* Navigation Buttons */}
       <div className="mt-12 text-center space-x-4">
-        <ButtonLink to="https://https://gitlab.gnzaga.com/gnzaga/DiscordBot">
-          See on GitHub <FontAwesomeIcon icon={faGitlab} className="w-6 h-6" />
+        <ButtonLink to="https://github.com/Gnzaga/DiscordBot">
+          See on GitHub <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
         </ButtonLink>
         <Link to="/projects">
           <button className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
