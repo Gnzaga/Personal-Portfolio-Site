@@ -14,7 +14,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom'; 
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGitlab } from '@fortawesome/free-brands-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 /**
@@ -65,8 +65,8 @@ const ProjectCard = ({ title, description, githubLink, projectLink, technologies
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          <FontAwesomeIcon icon={faGitlab} />
-          <span>GitLab</span>
+          <FontAwesomeIcon icon={faGithub} />
+          <span>GitHub</span>
         </motion.a>
       )}
       <motion.div className="flex-1">
@@ -126,7 +126,7 @@ const Projects = () => {
     {
       title: "Portfolio Website",
       description: "A personal portfolio, self-hosted on a home network using Docker containers, featuring React for the frontend.",
-      githubLink: "https://gitlab.gnzaga.com/gnzaga/Personal-Portfolio-Site",
+      githubLink: "https://github.com/Gnzaga/Personal-Portfolio-Site",
       projectLink: "/projects/portfolio-project",
       technologies: ['React', 'Docker', 'Networking']
     },
@@ -139,29 +139,30 @@ const Projects = () => {
     {
       title: "Discord Bot",
       description: "A Python-based Discord bot with Dockerized deployment, featuring AI-based Wordle game logic.",
-      githubLink: "https://gitlab.gnzaga.com/Gnzaga/DiscordBot",
+      githubLink: "https://github.com/Gnzaga/DiscordBot",
       projectLink: "/projects/discord-bot",
       technologies: ['Python', 'Docker', 'AI']
     },
     {
       title: "Playlist Project",
       description: "A React + Python web app for generating Spotify playlist art and descriptions using AI prompts.",
-      githubLink: "https://gitlab.gnzaga.com/Gnzaga/spotify-gpt",
+      githubLink: "https://github.com/gnzaga/spotify-gpt",
       projectLink: "/projects/PlaylistProject",
       technologies: ['React', 'Python', 'AI']
     },
     {
       title: "Task Management Website",
       description: "A task manager using React for the UI, Java for the backend logic, and containerized deployment with Docker.",
-      githubLink: "https://gitlab.gnzaga.com/Gnzaga/RUTidy",
+      githubLink: "https://github.com/gnzaga/RUTidy",
       projectLink: "/projects/task-management",
       technologies: ['React', 'Java', 'Docker']
     },
     {
       title: "Homelab Project",
-      description: "A complete homelab environment with Kubernetes cluster setups, Docker containers, and advanced networking.",
+      description: "A distributed multi-node Proxmox cluster with GPU passthrough, centralized NFS storage, and Kubernetes-based service orchestration for GitHub, JupyterHub, Jellyfin, and LLM workloads. Features integrated Ollama for serving open-source LLMs via containerized GPU inference pipelines.",
+      githubLink: "https://github.com/Gnzaga/homelab-code",
       projectLink: "/projects/homelab",
-      technologies: ['Kubernetes', 'Docker', 'Networking']
+      technologies: ['Kubernetes', 'Docker', 'Networking', 'AI']
     },
     {
       title: "Kubernetes Cluster",
