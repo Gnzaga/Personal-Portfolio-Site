@@ -4,11 +4,7 @@ import Alessandro_Gonzaga_Resume from '../res/Alessandro_Gonzaga_Resume.pdf';
 import { Link } from 'react-router-dom';
 import AnimatedHero from '../components/AnimatedHero';
 import ConnectWithMe from '../components/ConnectWithMe';
-import FadeInSection from '../components/FadeInSection';
 import StaggeredList from '../components/StaggeredList';
-import AnimatedButton from '../components/AnimatedButton';
-import PageTransition from '../components/PageTransition';
-import Chatbot from '../components/ChatBot';
 
 const Home = () => {
   const [showContent, setShowContent] = useState(false);
@@ -79,15 +75,16 @@ const Home = () => {
             >
               Welcome to my Portfolio
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-gray-700 dark:text-gray-300 text-lg md:text-xl mb-12 leading-relaxed transition-colors duration-300"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
             >
-              I'm a multi-disciplined engineer with a passion for technology and problem solving. 
-              I specialize in network infrastructure, automation, and building scalable solutions 
-              that drive innovation and efficiency.
+              I'm a Platform Engineer at Verizon specializing in Anti-Spam Systems, architecting next-gen
+              adaptive platforms with AI/ML, agentic automation, and vector search to secure 100M+ messaging endpoints.
+              I'm passionate about building scalable infrastructure, automation, and leveraging cutting-edge technology
+              to solve complex security challenges.
             </motion.p>
 
             <StaggeredList>

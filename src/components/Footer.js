@@ -1,7 +1,7 @@
 // src/components/Footer.js
 
 import React from 'react'; // Import React for JSX and component functionality
-import { faGitlab, faLinkedin } from '@fortawesome/free-brands-svg-icons'; // Import brand icons
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'; // Import brand icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for rendering icons
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Import solid icon for email
 
@@ -63,9 +63,9 @@ const Footer = () => {
                   color: 'hover:text-blue-400'
                 },
                 {
-                  icon: faGitlab,
-                  href: 'https://gitlab.gnzaga.com/users/gnzaga/projects',
-                  label: 'GitLab',
+                  icon: faGithub,
+                  href: 'https://github.com/gnzaga',
+                  label: 'GitHub',
                   color: 'hover:text-orange-400'
                 },
                 {
