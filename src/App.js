@@ -61,7 +61,7 @@ function App() {
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:slug" element={<BlogDetail />} />
                 <Route path="/projects/task-management" element={<TaskManagementProject />} />
-                <Route path="/projects/PlaylistProject" element={<PlaylistGeneratorProject />} />
+                <Route path="/projects/playlist-generator" element={<PlaylistGeneratorProject />} />
                 <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
                 <Route path="/projects/chat-gnzaga" element={<ChatGnzagaProject />} />
                 <Route path="/projects/portfolio-project" element={<PortfolioProject />} />

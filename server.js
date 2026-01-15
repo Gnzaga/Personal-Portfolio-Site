@@ -21,6 +21,7 @@ const fs = require('fs'); // File system module for reading and writing files.
 // Initialize the Express application
 const app = express(); // Creates an Express application instance.
 const PORT = process.env.PORT || 8080; // Sets the server port from an environment variable or defaults to 8080.
+const LLM_API_URL = process.env.LLM_API_URL || 'http://localhost:3000/api/chat/completions'; // LLM API endpoint
 
 /**
  * @function useCors
@@ -123,7 +124,7 @@ app.post('/chat', async (req, res) => {
   
     try {
       const upstream = await axios.post(
-        'http://192.168.42.27:3000/api/chat/completions',
+        LLM_API_URL,
         {
           model: 'gnzaga',
           messages: [{ role: 'user', content: message }],
@@ -209,7 +210,7 @@ app.post('/load-model', async (req, res) => {
     try {
         // Sends a POST request to the chat API with the system message to pre-load the model
         const response = await axios.post(
-            'http://192.168.42.27:3000/api/chat/completions', // Endpoint for the chat API.
+            LLM_API_URL,
             {
                 model: 'Gnzaga', // Specifies the model to be used for the chat.
                 messages: [

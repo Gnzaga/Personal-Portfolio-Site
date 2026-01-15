@@ -147,7 +147,7 @@ const Projects = () => {
       title: "Playlist Project",
       description: "A React + Python web app for generating Spotify playlist art and descriptions using AI prompts.",
       githubLink: "https://github.com/gnzaga/spotify-gpt",
-      projectLink: "/projects/PlaylistProject",
+      projectLink: "/projects/playlist-generator",
       technologies: ['React', 'Python', 'AI']
     },
     {

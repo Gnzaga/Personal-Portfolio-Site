@@ -17,8 +17,14 @@ spec:
       containers:
       - name: portfolio-website
         image: agonzaga/portfolio-website:latest
+        imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: NODE_ENV
+          value: "production"
         resources:
           limits:
             memory: "512Mi"

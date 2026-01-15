@@ -1,44 +1,11 @@
-/**
- * PortfolioProject.js
- * 
- * This component is a comprehensive showcase of my portfolio website project. It details the project's 
- * features, technologies, challenges, and implementation process. The structure is modular, making it 
- * straightforward to navigate and understand. This file is designed for documentation and can be used as 
- * a source for a Retrieval-Augmented Generation (RAG) system for answering questions about the codebase.
- * 
- * @component
- */
-
-import React, { useContext } from 'react';
-import { motion } from 'framer-motion'; // Library for animations and transitions
-import { Link } from 'react-router-dom'; // For client-side navigation
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icons
-import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
-import { faLaptopCode, faServer, faNetworkWired, faPalette, faTools, faGlobe } from '@fortawesome/free-solid-svg-icons'; // Other icons for sections
-import ButtonLink from '../../components/ButtonLink'; // Custom button component
-import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext for theme awareness
-
-/**
- * Section component renders a reusable section for project details.
- * 
- * @param {string} title - The title of the section.
- * @param {object} icon - The FontAwesome icon to display with the title.
- * @param {object} children - The content to be displayed within the section.
- */
-const Section = ({ title, icon, children }) => (
-  <motion.div
-    className="bg-white dark:bg-slate-800 shadow-md rounded-lg p-6 transition-colors duration-300"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    <h2 className="text-2xl font-bold dark:text-white text-gray-800 mb-4 flex items-center">
-      <FontAwesomeIcon icon={icon} className="mr-2 text-primary-500" />
-      {title}
-    </h2>
-    {children}
-  </motion.div>
-);
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faLaptopCode, faServer, faNetworkWired, faPalette, faTools, faGlobe } from '@fortawesome/free-solid-svg-icons';
+import ButtonLink from '../../components/ButtonLink';
+import Section from '../../components/ProjectSection';
 
 /**
  * Main component for displaying the Portfolio Website Project page.
@@ -49,8 +16,6 @@ const Section = ({ title, icon, children }) => (
  * @returns {JSX.Element} The rendered Portfolio Project component.
  */
 const PortfolioProject = () => {
-  const { theme } = useContext(ThemeContext);
-
   return (
     <div className="container mx-auto px-4 py-32 space-y-8">
       <motion.h1

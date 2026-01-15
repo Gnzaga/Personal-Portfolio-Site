@@ -1,45 +1,11 @@
-/**
- * PlaylistGeneratorProject.js
- * 
- * This component showcases the detailed project information for the Playlist Description & Art Generator.
- * It includes sections that describe various aspects of the project, such as the overview, technologies used,
- * key features, frontend and backend implementation details, AI integration, and challenges faced during development.
- * 
- * The component is structured using reusable Section components for clear modularity, making it easy to navigate
- * and understand the project's breakdown.
- * 
- * @component
- */
-
 import React from 'react';
-import { motion } from 'framer-motion'; // For animations
-import ButtonLink from '../../components/ButtonLink'; // Custom component for navigation buttons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icon library
-import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
-import { faMusic, faCode, faPalette, faRobot, faCloud, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Solid icons
-import { Link } from 'react-router-dom'; // For internal navigation
-
-/**
- * Section component renders a styled container for different parts of the project page.
- * 
- * @param {string} title - The title of the section.
- * @param {object} icon - The FontAwesome icon representing the section.
- * @param {object} children - The content of the section.
- */
-const Section = ({ title, icon, children }) => (
-  <motion.div
-    className="bg-gray-50 dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-      <FontAwesomeIcon icon={icon} className="mr-2" />
-      {title}
-    </h2>
-    {children}
-  </motion.div>
-);
+import { motion } from 'framer-motion';
+import ButtonLink from '../../components/ButtonLink';
+import Section from '../../components/ProjectSection';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faMusic, faCode, faPalette, faRobot, faCloud, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 /**
  * Main component for displaying the Playlist Generator Project page.
