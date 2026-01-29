@@ -1,37 +1,8 @@
-/**
- * HomelabProject.js
- * 
- * This component showcases my homelab environment, detailing its features, technologies,
- * hardware, and implementation process. The structure is modular, making it easy to navigate
- * and understand. This file serves as both documentation and a source for Retrieval-Augmented
- * Generation (RAG) systems to answer questions about the project.
- * 
- * @component
- */
-
 import React from 'react';
-import { motion } from 'framer-motion'; // Library for animations and transitions
-import { Link } from 'react-router-dom'; // For client-side navigation
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icons
-import { faServer, faNetworkWired, faCogs, faUserFriends, faCode, faShieldAlt } from '@fortawesome/free-solid-svg-icons'; // Icons for sections
-
-
-
-const Section = ({ title, icon, children }) => (
-  <motion.div
-    className="bg-gray-50 dark:bg-slate-800 shadow-md rounded-lg p-6 transition-colors duration-300"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center transition-colors duration-300">
-      <FontAwesomeIcon icon={icon} className="mr-2" />
-      {title}
-    </h2>
-    {children}
-  </motion.div>
-);
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import Section from '../../components/ProjectSection';
+import { faServer, faNetworkWired, faCogs, faUserFriends, faCode, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 
 const HomelabProject = () => {
   return (
@@ -107,7 +78,7 @@ const HomelabProject = () => {
       <div className="mt-12 text-center space-x-4">
 
         <Link to="/projects">
-          <button className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
+          <button className="bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
             Back to Projects
           </button>
         </Link>

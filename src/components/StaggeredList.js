@@ -23,26 +23,30 @@ const StaggeredList = ({ children, className = "" }) => {
     <motion.div
       className={`transition-colors duration-300 ${className}`} // Apply additional classes if provided
       variants={{
-        hidden: { opacity: 0 }, // Initial state for the list container
+        hidden: { opacity: 0 },
         show: {
-          opacity: 1, // End state for the list container
+          opacity: 1,
           transition: {
-            staggerChildren: 0.1, // Delay between animations for each child
+            staggerChildren: 0.08,
+            delayChildren: 0.1,
           },
         },
       }}
-      initial="hidden" // Initial animation state
-      animate="show" // Target animation state
+      initial="hidden"
+      animate="show"
     >
-      {/* Map through children and apply individual animations */}
       {React.Children.map(children, (child, index) => (
         <motion.div
-          key={index} // Unique key for each child
+          key={index}
           variants={{
-            hidden: { opacity: 0, y: 20 }, // Initial state for each child
-            show: { opacity: 1, y: 0 }, // End state for each child
+            hidden: { opacity: 0, y: 12 },
+            show: {
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.3, ease: "easeOut" }
+            },
           }}
-          className={index > 0 ? 'mt-8' : ''} // Add margin to all but the first child
+          className={index > 0 ? 'mt-8' : ''}
         >
           {child}
         </motion.div>

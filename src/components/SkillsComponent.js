@@ -6,39 +6,39 @@ import { ThemeContext } from '../context/ThemeContext';
 // skills.js (or wherever you define your skills array)
 export const skills = [
   {
-    name: 'React & Frontend Development',
-    level: 85,
-    projectRoute: '/projects?filter=React'
+    name: 'Infrastructure (K8s, Docker, Terraform)',
+    level: 95,
+    projectRoute: '/projects?filter=Kubernetes'
   },
   {
-    name: 'Python & Scripting',
+    name: 'Python & Automation',
     level: 90,
     projectRoute: '/projects?filter=Python'
   },
   {
-    name: 'Java & Spring Boot',
+    name: 'Go',
     level: 80,
-    projectRoute: '/projects?filter=Java'
+    projectRoute: '/projects?filter=Go'
   },
   {
-    name: 'Docker & Containerization',
-    level: 95,
-    projectRoute: '/projects?filter=Docker'
-  },
-  {
-    name: 'Kubernetes & Orchestration',
-    level: 90,
-    projectRoute: '/projects?filter=Kubernetes'
-  },
-  {
-    name: 'AI & Machine Learning',
-    level: 70,
+    name: 'Data & ML (BigQuery, NiFi, Splunk)',
+    level: 75,
     projectRoute: '/projects?filter=AI'
   },
   {
-    name: 'Networking & Infrastructure',
+    name: 'Cloud Platforms (AWS, GCP)',
+    level: 85,
+    projectRoute: '/projects?filter=Networking'
+  },
+  {
+    name: 'Networking & Security',
     level: 90,
     projectRoute: '/projects?filter=Networking'
+  },
+  {
+    name: 'React & Frontend',
+    level: 80,
+    projectRoute: '/projects?filter=React'
   }
 ];
 
@@ -63,7 +63,7 @@ const SkillBar = ({ skill }) => {
         <span className="text-base font-medium dark:text-gray-300 text-gray-900">{skill.name}</span>
         <span className="text-sm font-medium dark:text-gray-300 text-gray-900">{skill.level}%</span>
       </div>
-      <div className="w-full dark:bg-gray-700 bg-gray-200 rounded-full h-2.5">
+      <div className="w-full dark:bg-dark-700 bg-gray-200 rounded-full h-2.5">
         <motion.div
           className="bg-primary-500 h-2.5 rounded-full"
           initial={{ width: 0 }}
@@ -88,7 +88,7 @@ const SkillsComponent = () => {
   const { theme } = useContext(ThemeContext);
   
   return (
-    <div className="bg-white dark:bg-slate-800 shadow-md rounded-lg p-6 transition-colors duration-300">
+    <div className="bg-white dark:bg-dark-800 shadow-md rounded-lg p-6 transition-colors duration-300">
       <h2 className="text-2xl font-bold dark:text-white text-gray-800 mb-4">Technical Skills</h2>
       {skills.map((skill, index) => (
         <SkillBar key={index} skill={skill} />

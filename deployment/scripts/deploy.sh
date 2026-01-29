@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Define variables
-IMAGE_NAME="agonzaga/portfolio-website:latest"
-SSH_HOST="root@192.168.42.16"
-DEPLOYMENT_NAME="portfolio-website"
-DEPLOYMENT_NAMES_SPACE="portfolio"
+# Define variables (can be overridden via environment variables)
+IMAGE_NAME="${DOCKER_IMAGE:-agonzaga/portfolio-website:latest}"
+SSH_HOST="${K8S_SSH_HOST:-root@192.168.42.16}"
+DEPLOYMENT_NAME="${K8S_DEPLOYMENT:-portfolio-website}"
+DEPLOYMENT_NAMES_SPACE="${K8S_NAMESPACE:-portfolio}"
 
 # Change to the root project directory
 cd ../../

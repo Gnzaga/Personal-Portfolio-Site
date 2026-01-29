@@ -20,85 +20,97 @@ const AnimatedHero = () => {
   const animationFrameRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
   const timeRef = useRef(0);
+  const lastFrameTimeRef = useRef(0);
+  const isVisibleRef = useRef(true);
 
-  // Set up canvas dimensions
+  // Set up canvas dimensions with debounced resize
   useEffect(() => {
+    let resizeTimeout;
     const updateDimensions = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setDimensions({
+          width: window.innerWidth,
+          height: window.innerHeight
+        });
+      }, 100);
     };
 
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+
+    // Pause animation when tab is not visible
+    const handleVisibilityChange = () => {
+      isVisibleRef.current = !document.hidden;
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      clearTimeout(resizeTimeout);
+    };
   }, []);
 
-  // Generate flowing dot grid with wave patterns
+  // Generate flowing dot grid with wave patterns (optimized)
   const generateFlowingDots = useCallback((canvas, ctx, time) => {
     const width = canvas.width;
     const height = canvas.height;
 
-    // Grid configuration
-    const spacing = 40; // Space between dots
+    // Grid configuration - larger spacing = fewer dots = better performance
+    const spacing = 50;
     const dotSize = 2;
     const maxDotSize = 4;
 
-    // Wave parameters
-    const waveSpeed = 0.0008; // Speed of wave movement
-    const waveAmplitude = 15; // Height of the wave
-    const waveFrequency = 0.003; // Frequency of waves across space
-    const noiseScale = 0.002; // Scale for perlin-like noise
+    // Pre-calculate wave parameters
+    const waveSpeed = 0.0006;
+    const waveAmplitude = 12;
+    const waveFrequency = 0.0025;
+    const timeWave = time * waveSpeed;
 
-    // Calculate grid boundaries with padding
-    const cols = Math.ceil(width / spacing) + 2;
-    const rows = Math.ceil(height / spacing) + 2;
+    // Pre-calculate center values
+    const centerX = width * 0.5;
+    const centerY = height * 0.5;
+    const maxDist = Math.sqrt(centerX * centerX + centerY * centerY);
 
-    for (let i = -1; i < cols; i++) {
-      for (let j = -1; j < rows; j++) {
+    // Calculate grid boundaries
+    const cols = Math.ceil(width / spacing) + 1;
+    const rows = Math.ceil(height / spacing) + 1;
+
+    // Batch similar colors together for fewer state changes
+    ctx.globalAlpha = isDarkMode ? 0.45 : 0.35;
+
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
         const baseX = i * spacing;
         const baseY = j * spacing;
 
-        // Multiple wave layers for complexity
-        const wave1 = Math.sin((baseX * waveFrequency) + (time * waveSpeed)) * waveAmplitude;
-        const wave2 = Math.cos((baseY * waveFrequency * 0.7) + (time * waveSpeed * 1.3)) * waveAmplitude * 0.6;
-        const wave3 = Math.sin((baseX + baseY) * waveFrequency * 0.5 + (time * waveSpeed * 0.8)) * waveAmplitude * 0.4;
+        // Simplified wave calculation (2 waves instead of 3)
+        const wave1 = Math.sin(baseX * waveFrequency + timeWave) * waveAmplitude;
+        const wave2 = Math.cos(baseY * waveFrequency * 0.7 + timeWave * 1.2) * waveAmplitude * 0.5;
 
-        // Combine waves for final position
-        const offsetY = wave1 + wave2 + wave3;
-        const offsetX = Math.sin((baseY * waveFrequency * 0.8) + (time * waveSpeed * 1.1)) * waveAmplitude * 0.5;
+        const x = baseX + Math.sin(baseY * waveFrequency * 0.6 + timeWave) * waveAmplitude * 0.4;
+        const y = baseY + wave1 + wave2;
 
-        const x = baseX + offsetX;
-        const y = baseY + offsetY;
+        // Simplified distance calculation
+        const dx = x - centerX;
+        const dy = y - centerY;
+        const normalizedDist = Math.sqrt(dx * dx + dy * dy) / maxDist;
 
-        // Calculate distance from center for radial effects
-        const centerX = width / 2;
-        const centerY = height / 2;
-        const distFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-        const maxDist = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2));
-        const normalizedDist = distFromCenter / maxDist;
+        // Simplified size variation
+        const sizeVariation = (Math.sin(timeWave * 2 + i * 0.4 + j * 0.3) + 1) * 0.5;
+        const currentDotSize = dotSize + sizeVariation * (maxDotSize - dotSize);
 
-        // Dynamic size based on wave position
-        const sizeVariation = (Math.sin(time * waveSpeed * 2 + i * 0.5 + j * 0.3) + 1) / 2;
-        const currentDotSize = dotSize + (sizeVariation * (maxDotSize - dotSize));
-
-        // Color based on position and time
+        // Green color palette with warm hints
         const hue = isDarkMode
-          ? 200 + (Math.sin(i * 0.1 + time * waveSpeed) * 40) + (Math.cos(j * 0.1) * 20)
-          : 210 + (Math.sin(i * 0.1 + time * waveSpeed) * 30) + (Math.cos(j * 0.1) * 15);
+          ? 150 + Math.sin(i * 0.08 + timeWave) * 25 + normalizedDist * 15
+          : 155 + Math.sin(i * 0.08 + timeWave) * 20 + normalizedDist * 10;
 
-        const saturation = isDarkMode ? 60 : 50;
+        const saturation = isDarkMode ? 55 : 45;
         const lightness = isDarkMode
-          ? 45 + (sizeVariation * 15) + (normalizedDist * 10)
-          : 55 + (sizeVariation * 10) + (normalizedDist * 5);
+          ? 50 + sizeVariation * 12 + normalizedDist * 8
+          : 60 + sizeVariation * 8 + normalizedDist * 5;
 
-        // Opacity with gentle pulsing
-        const pulsePhase = Math.sin(time * waveSpeed * 1.5 + i * 0.3 + j * 0.2) * 0.15;
-        const baseOpacity = isDarkMode ? 0.5 : 0.4;
-        const opacity = baseOpacity + pulsePhase + (sizeVariation * 0.15);
-
-        ctx.globalAlpha = opacity;
         ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
         ctx.beginPath();
         ctx.arc(x, y, currentDotSize, 0, Math.PI * 2);
@@ -109,38 +121,43 @@ const AnimatedHero = () => {
     ctx.globalAlpha = 1;
   }, [isDarkMode]);
 
-  // Initialize canvas and start flowing dot animation
+  // Initialize canvas and start flowing dot animation (throttled to 30fps)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
-
-    // Enable antialiasing for smoother rendering
     ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
 
     canvas.width = dimensions.width;
     canvas.height = dimensions.height;
 
-    const animate = () => {
-      // Clear canvas for next frame
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const targetFps = 30;
+    const frameInterval = 1000 / targetFps;
 
-      // Increment time
-      timeRef.current += 16; // Approximately 60fps
-
-      // Draw flowing dots
-      generateFlowingDots(canvas, ctx, timeRef.current);
-
+    const animate = (currentTime) => {
       animationFrameRef.current = requestAnimationFrame(animate);
+
+      // Skip if tab not visible
+      if (!isVisibleRef.current) return;
+
+      // Throttle to target FPS
+      const elapsed = currentTime - lastFrameTimeRef.current;
+      if (elapsed < frameInterval) return;
+
+      lastFrameTimeRef.current = currentTime - (elapsed % frameInterval);
+
+      // Clear and draw
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      timeRef.current += 33; // ~30fps increment
+      generateFlowingDots(canvas, ctx, timeRef.current);
     };
 
     // Start animation after a short delay
     const timeoutId = setTimeout(() => {
-      animate();
+      animationFrameRef.current = requestAnimationFrame(animate);
       setIsVisible(true);
-    }, 300);
+    }, 200);
 
     return () => {
       clearTimeout(timeoutId);
@@ -151,45 +168,45 @@ const AnimatedHero = () => {
   }, [dimensions, generateFlowingDots]);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
-      
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-dark-950 dark:to-dark-900 transition-colors duration-200">
+
       {/* Flowing Dots Canvas Background */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full object-cover opacity-60 dark:opacity-70 transition-opacity duration-300"
+        className="absolute inset-0 w-full h-full object-cover opacity-40 dark:opacity-50 transition-opacity duration-200"
         style={{ mixBlendMode: isDarkMode ? 'screen' : 'multiply' }}
       />
-      
-      {/* Gradient overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent dark:from-black/30 dark:to-transparent" />
-      
-      {/* Additional subtle overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-100/50 via-transparent to-gray-50/50 dark:from-gray-900/50 dark:via-transparent dark:to-gray-800/50" />
+
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-50/20 via-transparent to-accent-50/10 dark:from-primary-900/10 dark:via-transparent dark:to-dark-900/30" />
+
+      {/* Bottom fade */}
+      <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent dark:from-dark-950/80 dark:via-transparent dark:to-transparent" />
 
       {/* Main content */}
       <div className="relative z-20 text-center px-6 max-w-5xl mx-auto">
         
         {/* Animated title */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="mb-8"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-gray-900 dark:text-white mb-6 leading-tight drop-shadow-lg">
-            <motion.span 
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 dark:text-white mb-4 leading-tight">
+            <motion.span
               className="block"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
             >
               Alessandro Gonzaga
             </motion.span>
-            <motion.span 
-              className="block text-3xl md:text-4xl lg:text-5xl text-primary-600 dark:text-primary-400 font-normal mt-2"
+            <motion.span
+              className="block text-2xl md:text-3xl lg:text-4xl gradient-text font-semibold mt-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
             >
               Platform Engineer
             </motion.span>
@@ -201,24 +218,24 @@ const AnimatedHero = () => {
 
         {/* Call-to-action buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
-          transition={{ duration: 0.8, delay: 1.5 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+          className="flex flex-col sm:flex-row gap-3 justify-center items-center"
         >
           <motion.a
             href="/about"
-            className="btn-primary inline-flex items-center space-x-2 w-full sm:w-auto text-center justify-center shadow-lg"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="btn-primary inline-flex items-center space-x-2 px-6 py-3"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <span>Learn More</span>
+            <span>About Me</span>
           </motion.a>
           <Link to="/projects">
             <motion.div
-              className="btn-outline backdrop-blur-md inline-flex items-center space-x-2 w-full sm:w-auto text-center justify-center shadow-lg"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="btn-outline inline-flex items-center space-x-2 px-6 py-3"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <span>View Projects</span>
             </motion.div>
@@ -228,21 +245,21 @@ const AnimatedHero = () => {
 
       {/* Scroll indicator */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2.5, duration: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.5 }}
         className="absolute bottom-8 cursor-pointer z-20"
         onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
       >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="flex flex-col items-center space-y-2"
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="flex flex-col items-center space-y-1"
         >
-          <span className="text-gray-600 dark:text-gray-400 text-sm font-medium drop-shadow-md">Scroll to explore</span>
-          <FontAwesomeIcon 
-            icon={faChevronDown} 
-            className="text-2xl text-primary-400 hover:text-primary-300 transition-colors duration-300 drop-shadow-md"
+          <span className="text-gray-500 dark:text-gray-400 text-xs font-medium">Scroll</span>
+          <FontAwesomeIcon
+            icon={faChevronDown}
+            className="text-lg text-primary-500 hover:text-primary-400 transition-colors duration-200"
           />
         </motion.div>
       </motion.div>

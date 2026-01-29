@@ -77,38 +77,37 @@ const calculateDuration = (startDate, endDate = null) => {
  */
 const ExperienceCard = ({ title, company, duration, location, type, details }) => (
   <motion.div
-    className="card card-hover p-8 mb-8 hover:shadow-xl transition-all duration-300 group"
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.6 }}
-    whileHover={{ y: -8 }}
+    className="card p-6 mb-6 group"
+    whileHover={{ y: -2 }}
+    transition={{ duration: 0.2 }}
   >
-    <div className="flex items-center justify-between mb-4">
-      <h2 className="text-2xl font-heading font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">{title}</h2>
-      <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-        <FontAwesomeIcon icon={faBriefcase} className="w-6 h-6 text-white" />
+    <div className="flex items-start justify-between mb-3">
+      <div className="flex-1">
+        <h2 className="text-xl font-heading font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 mb-1">{title}</h2>
+        <div className="flex items-center text-primary-600 dark:text-primary-400 font-medium text-sm">
+          <span>{company}</span>
+          <span className="mx-2 text-gray-300 dark:text-gray-600">•</span>
+          <span className="text-gray-500 dark:text-gray-400">{type}</span>
+        </div>
+      </div>
+      <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center flex-shrink-0 ml-4 shadow-sm">
+        <FontAwesomeIcon icon={faBriefcase} className="w-4 h-4 text-white" />
       </div>
     </div>
-    <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-3 space-y-2 md:space-y-0">
+    <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-gray-500 dark:text-gray-400">
       <div className="flex items-center">
-        <span className="text-primary-600 dark:text-primary-300 font-medium transition-colors duration-300">
-          {company} · {type}
-        </span>
+        <FontAwesomeIcon icon={faCalendarAlt} className="text-primary-500 mr-2 text-xs" />
+        <span>{duration}</span>
       </div>
       <div className="flex items-center">
-        <FontAwesomeIcon icon={faCalendarAlt} className="text-green-500 dark:text-green-400 mr-2 transition-colors duration-300" />
-        <span className="text-gray-700 dark:text-gray-300 transition-colors duration-300">{duration}</span>
+        <FontAwesomeIcon icon={faMapMarkerAlt} className="text-gray-400 dark:text-gray-500 mr-2 text-xs" />
+        <span>{location}</span>
       </div>
     </div>
-    <div className="flex items-center mb-6 text-gray-700 dark:text-gray-300 transition-colors duration-300">
-      <FontAwesomeIcon icon={faMapMarkerAlt} className="text-red-500 dark:text-red-400 mr-2 transition-colors duration-300" />
-      <span>{location}</span>
-    </div>
-    <ul className="text-gray-700 dark:text-gray-300 space-y-3 leading-relaxed transition-colors duration-300">
+    <ul className="text-gray-600 dark:text-gray-400 space-y-2 text-sm leading-relaxed">
       {details.map((detail, index) => (
         <li key={index} className="flex items-start">
-          <span className="inline-block h-1.5 w-1.5 bg-primary-400 rounded-full mt-2 mr-2"></span>
+          <span className="inline-block h-1.5 w-1.5 bg-primary-500 rounded-full mt-1.5 mr-2.5 flex-shrink-0"></span>
           <span>{detail}</span>
         </li>
       ))}
@@ -128,120 +127,82 @@ const Experience = () => {
   const [networkEngineerDuration, setNetworkEngineerDuration] = useState('');
 
   useEffect(() => {
-    setCurrentDuration(calculateDuration('2025-08-01')); // Calculate duration for Platform Engineer role
-    setNetworkEngineerDuration(calculateDuration('2024-06-01', '2025-08-01')); // Calculate duration for Network Engineer role
+    setCurrentDuration(calculateDuration('2025-09-01')); // Calculate duration for Platform Engineer role
+    setNetworkEngineerDuration(calculateDuration('2024-06-01', '2025-09-01')); // Calculate duration for Network Engineer role
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 py-24 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-dark-950 py-24 transition-colors duration-200">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-5xl md:text-6xl font-heading font-bold text-primary-500 dark:gradient-text mb-6"
+            className="page-header"
           >
-            My Professional Journey
+            Professional <span className="gradient-text">Journey</span>
           </motion.h1>
-          <div className="w-24 h-1 bg-gradient-primary mx-auto rounded-full"></div>
+          <motion.p
+            className="page-subheader mb-6"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            Building scalable infrastructure and leading technical teams
+          </motion.p>
+          <div className="section-divider"></div>
         </div>
         <div className="relative">
           <AnimatedLine delay={0.20} />
           <StaggeredList>
             {/* Platform Engineer, Anti-Spam Systems */}
+            <div data-agent-target="experience-1">
             <ExperienceCard
               title="Platform Engineer, Anti-Spam Systems"
               company="Verizon"
               type="Full-time"
-              duration={`Aug 2025 - Present · ${currentDuration}`}
+              duration={`Sep 2025 - Present · ${currentDuration}`}
               location="Bedminster, NJ · Hybrid"
               details={[
-                "Architecting Verizon's internal next-gen adaptive anti-spam platform integrating AI/ML, agentic automation, and vector search to secure 100M+ messaging endpoints across internal and inter-carrier networks.",
-                "Delivered full system vision within 2 weeks: designed architecture, identified potential stack (Redis, Milvus, BigQuery, Apache Nifi), and presented a 2-hour technical briefing to AI, Data, and Platform orgs.",
-                "Replaced legacy OpenStack+Heat workflows with Terraform-based VM orchestration, reducing large-scale deployment time from 3–4 hours for 6 VMs to 5 minutes for 62 VMs - enabling scalable infrastructure rollout.",
-                "Proposed AI/ML-driven techniques to enhance Verizon's Anti-Spam and Abuse posture — evolving detection from defense to an offensive, intelligence-generating system with adversarial simulation and honeypot engagement.",
-                "Collaborating across AI/ML, Security, and Platform teams to unify orchestration, streaming data ingestion, and model evaluation pipelines - establishing shared frameworks for feature engineering, explainability, and continuous tuning, backed by senior executive sponsorship."
+                "Operate and extend platform protecting 100M+ messaging endpoints from spam across Verizon's internal and inter-carrier networks.",
+                "Replaced legacy OpenStack+Heat workflows with Terraform-based VM orchestration, reducing deployment time from 3-4 hours (6 VMs) to 5 minutes (62 VMs across 4 tenant spaces in multiple states).",
+                "Built URL intelligence microservice in Go processing 3,100+ IP/s for ASN lookups; implemented warm caching layer that increased DNS throughput from 120/s to 75,000+/s for repeated domains.",
+                "Developed agentic workflow that navigates our environment to detect spam patterns and generate threat intelligence reports, reducing manual investigation time.",
+                "Designed data lake architecture for spam intelligence pipeline (BigQuery, Apache NiFi, Redis) with retention policies—currently driving cross-org alignment for implementation."
               ]}
             />
+            </div>
 
             {/* Network Engineer Experience */}
+            <div data-agent-target="experience-2">
             <ExperienceCard
               title="Network Engineer, Edge & Core Implementation"
               company="Verizon"
               type="Full-time"
-              duration={`Jun 2024 - Aug 2025 · ${networkEngineerDuration}`}
+              duration={`Jun 2024 - Sep 2025 · ${networkEngineerDuration}`}
               location="Bedminster, NJ · Hybrid"
               details={[
-                "Led automation efforts across Verizon's Edge sites nationwide, spearheading the development of SOTA Agentic AI tools for assisting Engineers in managing projects and solving problems in edge engineering.",
-                "Developed an automation pipeline for site audits from a data perspective, decreasing preparation time by over 90%, resulting in power savings of over $100,000 per year after piloting the audit program.",
-                "Completely automated FOA network testing a new VZ service for a cloud service provider using terraform, Ansible, bash scripting and python, reducing test-suite deployment time from 3 hours to a few seconds per site.",
-                "Collaborated with engineers nationwide to address power, space, and cooling needs, fostering more open and efficient communication across regional and national teams."
+                "Led automation efforts across Verizon's nationwide Edge sites, developing agentic AI tools to assist engineers in managing projects and troubleshooting edge infrastructure.",
+                "Built automation pipeline for site audits, decreasing preparation time by 90% and enabling $100,000+ annual power savings after pilot program.",
+                "Automated end-to-end FOA network testing for AWS MEC deployments using Terraform, Ansible, and Python—reduced test suite deployment from 3 hours to seconds per site."
               ]}
             />
+            </div>
 
-            {/* Rutgers University - Office of Information Technology Level 3 Supervisor */}
+            {/* Rutgers University - Office of Information Technology */}
+            <div data-agent-target="experience-3">
             <ExperienceCard
-              title="Office of Information Technology Level 3 Supervisor"
-              company="Rutgers University–New Brunswick"
+              title="Level 3 Supervisor, Office of Information Technology"
+              company="Rutgers University"
               type="Part-time"
-              duration="Sep 2023 - Jun 2024"
+              duration="May 2022 - Jun 2024"
               location="Piscataway, NJ"
               details={[
-                "Managed transition to a new organizational structure due to a merger with other Rutgers IT offices, becoming a key resource for specialized issues.",
-                "Supervised and mentored Level 1, Level 2 consultants, Specialists, and Assistant Supervisors, providing training and guidance for over 200 employees.",
-                "Collaborated closely with full-time staff members on complex IT issue resolution, workflow management, and consultant oversight."
+                "Supervised and trained 200+ consultants while managing high-priority technical escalations; achieved top ticket resolution rate with 20% reduction in average response time."
               ]}
             />
-
-            {/* Rutgers University - Office of Information Technology Level 3 Assistant Supervisor */}
-            <ExperienceCard
-              title="Office of Information Technology Level 3 Assistant Supervisor"
-              company="Rutgers University–New Brunswick"
-              type="Part-time"
-              duration="Jul 2023 - Sep 2023"
-              location="Piscataway, NJ"
-              details={[
-                "Acted as an additional level of support, resolving specialized and complex IT issues requiring a comprehensive understanding of Rutgers University's IT systems.",
-                "Oversaw day-to-day operations of the Help Desk to ensure high-quality service delivery and team efficiency.",
-                "Supervised and mentored Level 1 and Level 2 consultants, offering technical assistance and performance feedback.",
-                "Served as a crucial point of contact between consultants and Level 3 Supervisors & Full-Time Staff, streamlining issue escalation processes.",
-                "Conducted advanced tech-related workshops and training sessions for consultants and end-users."
-              ]}
-            />
-
-            {/* Rutgers University - Office of Information Technology Level 2 Specialist */}
-            <ExperienceCard
-              title="Office of Information Technology Level 2 Specialist"
-              company="Rutgers University–New Brunswick"
-              type="Part-time"
-              duration="May 2023 - Jul 2023"
-              location="Piscataway, NJ"
-              details={[
-                "Acted as second-level support, handling more complex technical issues escalated from Level 1 consultants.",
-                "Provided guidance and problem resolution assistance for Level 1 consultants, improving efficiency and knowledge transfer.",
-                "Served as a key point of contact between consultants and supervisory staff, ensuring effective communication.",
-                "Contributed to continuous improvement of support procedures by reviewing resolved cases, identifying patterns, and recommending system enhancements.",
-                "Collaborated with other IT teams across Rutgers University on complex, cross-functional issues.",
-                "Created a simple website to provide consultants with information, templates, and resources to streamline support."
-              ]}
-            />
-
-            {/* Rutgers University - Office of Information Technology Level 1 Consultant */}
-            <ExperienceCard
-              title="Office of Information Technology Level 1 Consultant"
-              company="Rutgers University–New Brunswick"
-              type="Part-time"
-              duration="May 2022 - May 2023"
-              location="Piscataway, New Jersey, United States"
-              details={[
-                "Responded to and resolved tech-related queries through multiple channels (email, phone, and in-person), ensuring a high level of customer satisfaction.",
-                "Provided first-level troubleshooting for hardware, software, and network issues, including printers and other peripherals.",
-                "Assisted faculty, staff, and students with setting up accounts, resetting passwords, installing software, and configuring devices for the university network.",
-                "Documented and tracked support cases in the IT service management system, escalating more complex cases as needed.",
-                "Stayed updated on the latest developments in technology relevant to the role, enhancing the quality of IT support provided."
-              ]}
-            />
+            </div>
           </StaggeredList>
         </div>
       </div>

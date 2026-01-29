@@ -1,43 +1,11 @@
-/**
- * TaskManagementProject.js
- *
- * This React component displays detailed information about the "Task Management Website" project.
- * It highlights the project's key aspects, technologies used, features, and implementation details.
- * Each section is animated using Framer Motion for a smooth user experience.
- *
- * @component
- */
-
 import React from 'react';
-import { motion } from 'framer-motion'; // Used for animations and transitions
-import ButtonLink from '../../components/ButtonLink'; // Custom button component for navigation
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesome icons
-import { faGithub } from '@fortawesome/free-brands-svg-icons'; // GitHub icon
-import { faCode, faServer, faDesktop, faLightbulb, faTasks } from '@fortawesome/free-solid-svg-icons'; // Various icons used for sections
-import { Link } from 'react-router-dom'; // React Router for navigation
-
-/**
- * Section component for displaying project details with a title and icon.
- *
- * @param {string} title - The title of the section.
- * @param {object} icon - The FontAwesome icon for the section header.
- * @param {React.ReactNode} children - The content of the section.
- * @returns {JSX.Element} The rendered section component.
- */
-const Section = ({ title, icon, children }) => (
-  <motion.div
-    className="bg-gray-50 dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center transition-colors duration-300">
-      <FontAwesomeIcon icon={icon} className="mr-2" />
-      {title}
-    </h2>
-    {children}
-  </motion.div>
-);
+import { motion } from 'framer-motion';
+import ButtonLink from '../../components/ButtonLink';
+import Section from '../../components/ProjectSection';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faCode, faServer, faDesktop, faLightbulb, faTasks } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 /**
  * Main TaskManagementProject component that provides an overview, technologies used, and
@@ -137,7 +105,7 @@ const TaskManagementProject = () => {
           See on GitHub <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
         </ButtonLink>
         <Link to="/projects">
-          <button className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
+          <button className="bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
             Back to Projects
           </button>
         </Link>

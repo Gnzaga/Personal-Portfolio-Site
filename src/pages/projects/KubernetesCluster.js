@@ -1,33 +1,8 @@
-/**
- * KubernetesCluster.js
- * 
- * This component showcases my Kubernetes cluster, detailing its hosted applications, technologies,
- * networking, and future plans. It also highlights challenges and solutions in its setup and management.
- * This serves as documentation and a resource for understanding my cluster's capabilities.
- * 
- * @component
- */
-
 import React from 'react';
-import { motion } from 'framer-motion'; // For animations
-import { Link } from 'react-router-dom'; // For navigation
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Icons
-import { faServer, faCogs, faNetworkWired, faCode, faProjectDiagram, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Icons
-
-const Section = ({ title, icon, children }) => (
-  <motion.div
-    className="bg-gray-50 dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-      <FontAwesomeIcon icon={icon} className="mr-2" />
-      {title}
-    </h2>
-    {children}
-  </motion.div>
-);
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import Section from '../../components/ProjectSection';
+import { faServer, faCogs, faNetworkWired, faCode, faProjectDiagram, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 const KubernetesCluster = () => {
   return (
@@ -103,7 +78,7 @@ const KubernetesCluster = () => {
 
       <div className="mt-12 text-center space-x-4">
         <Link to="/projects">
-          <button className="bg-blue-500 dark:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-300">
+          <button className="bg-primary-500 dark:bg-primary-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-primary-600 dark:hover:bg-primary-700 transition-colors duration-300">
             Back to Projects
           </button>
         </Link>

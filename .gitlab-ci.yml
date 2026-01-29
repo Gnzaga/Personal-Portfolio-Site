@@ -1,9 +1,0 @@
-stages:
-  - debug
-
-debug-environment:
-  stage: debug
-  script:
-    - echo "Running as: $(whoami)"
-    - echo "Current directory: $(pwd)"
-    - ls -la

@@ -121,12 +121,12 @@ const DarkModeToggle = () => {
 
       {/* Dropdown menu */}
       {showDropdown && (
-        <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+        <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-dark-800 rounded-lg shadow-lg border border-gray-200 dark:border-dark-700 z-50">
           <div className="py-1">
             <button
-              className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 ${
+              className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200 ${
                 isSystemTheme 
-                  ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-gray-700' 
+                  ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-dark-700' 
                   : 'text-gray-700 dark:text-gray-300'
               }`}
               onClick={() => {
@@ -148,9 +148,9 @@ const DarkModeToggle = () => {
             </button>
             
             <button
-              className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 ${
+              className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200 ${
                 !isSystemTheme && !isDarkMode 
-                  ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-gray-700' 
+                  ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-dark-700' 
                   : 'text-gray-700 dark:text-gray-300'
               }`}
               onClick={() => {
@@ -167,9 +167,9 @@ const DarkModeToggle = () => {
             </button>
             
             <button
-              className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 ${
+              className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors duration-200 ${
                 !isSystemTheme && isDarkMode 
-                  ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-gray-700' 
+                  ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-dark-700' 
                   : 'text-gray-700 dark:text-gray-300'
               }`}
               onClick={() => {

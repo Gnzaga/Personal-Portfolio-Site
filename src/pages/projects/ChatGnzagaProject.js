@@ -1,38 +1,9 @@
-// src/pages/ChatGnzagaProject.js
-
-import React from 'react'; // Import React for JSX and component creation
-import { motion } from 'framer-motion'; // Import motion for animation support
-import ButtonLink from '../../components/ButtonLink'; // Import ButtonLink component for navigation
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icons
-import { faServer, faCode, faNetworkWired, faShield, faTools, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
-import { Link } from 'react-router-dom'; // Import Link for client-side navigation
-
-/**
- * Section Component
- * 
- * @description A reusable component for displaying sections with a title, icon, and content.
- * 
- * @param {Object} props - The properties passed to the component.
- * @param {string} props.title - The title of the section.
- * @param {Object} props.icon - The FontAwesome icon to display next to the title.
- * @param {React.ReactNode} props.children - The content of the section.
- * 
- * @returns {JSX.Element} The rendered Section component.
- */
-const Section = ({ title, icon, children }) => (
-  <motion.div
-    className="bg-gray-50 dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300" // Container styling
-    initial={{ opacity: 0, y: 20 }} // Initial animation state
-    animate={{ opacity: 1, y: 0 }} // Target animation state
-    transition={{ duration: 0.5 }} // Animation duration
-  >
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center transition-colors duration-300">
-      <FontAwesomeIcon icon={icon} className="mr-2" /> {/* Display the icon */}
-      {title} {/* Display the section title */}
-    </h2>
-    {children} {/* Render the children content */}
-  </motion.div>
-);
+import React from 'react';
+import { motion } from 'framer-motion';
+import ButtonLink from '../../components/ButtonLink';
+import Section from '../../components/ProjectSection';
+import { faServer, faCode, faNetworkWired, faShield, faTools, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 /**
  * ChatGnzagaProject Component
@@ -52,7 +23,7 @@ const ChatGnzagaProject = () => {
         animate={{ opacity: 1, y: 0 }} // Target animation state
         transition={{ duration: 0.5 }} // Animation duration
       >
-        <a href="https://chat.gnzaga.com" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300"> {/* Link to the project */}
+        <a href="https://chat.gnzaga.com" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300"> {/* Link to the project */}
           chat.gnzaga.com
         </a>
       </motion.h1>
@@ -137,7 +108,7 @@ const ChatGnzagaProject = () => {
           Go to chat.gnzaga.com!
         </ButtonLink>
         <Link to="/projects">
-          <button className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
+          <button className="bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
             Back to Projects
           </button>
         </Link>
