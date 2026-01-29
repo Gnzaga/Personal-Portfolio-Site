@@ -14,11 +14,24 @@ spec:
       labels:
         app: portfolio-website
     spec:
+      imagePullSecrets:
+      - name: harbor-registry
       containers:
       - name: portfolio-website
-        image: agonzaga/portfolio-website:latest
+        image: harbor.internal/library/portfolio-website:latest
+        imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: NODE_ENV
+          value: "production"
+        - name: BEARER_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: openwebui-api-key
+              key: bearer-token
         resources:
           limits:
             memory: "512Mi"

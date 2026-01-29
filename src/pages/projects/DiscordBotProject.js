@@ -1,39 +1,11 @@
-// src/pages/DiscordBotProject.js
-
-import React from 'react'; // Import React for component functionality
-import { motion } from 'framer-motion'; // Import motion for animation support
-import ButtonLink from '../../components/ButtonLink'; // Import reusable ButtonLink component
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icons
+import React from 'react';
+import { motion } from 'framer-motion';
+import ButtonLink from '../../components/ButtonLink';
+import Section from '../../components/ProjectSection';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faRobot, faCode, faGamepad, faChartLine, faBolt, faLightbulb } from '@fortawesome/free-solid-svg-icons'; // Import solid icons
-import { Link } from 'react-router-dom'; // Import Link for navigation
-
-/**
- * Section Component
- * 
- * @description A reusable component to display a section with a title, icon, and content.
- *
- * @param {Object} props - The properties passed to the component.
- * @param {string} props.title - The title of the section.
- * @param {Object} props.icon - The FontAwesome icon to display next to the title.
- * @param {React.ReactNode} props.children - The content inside the section.
- * 
- * @returns {JSX.Element} The rendered Section component.
- */
-const Section = ({ title, icon, children }) => (
-  <motion.div
-    className="bg-gray-50 dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300" // Styled container
-    initial={{ opacity: 0, y: 20 }} // Initial animation state
-    animate={{ opacity: 1, y: 0 }} // Target animation state
-    transition={{ duration: 0.5 }} // Animation duration
-  >
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center transition-colors duration-300">
-      <FontAwesomeIcon icon={icon} className="mr-2" /> {/* Icon next to the title */}
-      {title}
-    </h2>
-    {children} {/* Content of the section */}
-  </motion.div>
-);
+import { faRobot, faCode, faGamepad, faChartLine, faBolt, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 /**
  * DiscordBotProject Component
@@ -130,7 +102,7 @@ const DiscordBotProject = () => {
           See on GitHub <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
         </ButtonLink>
         <Link to="/projects">
-          <button className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
+          <button className="bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
             Back to Projects
           </button>
         </Link>

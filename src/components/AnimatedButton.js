@@ -23,7 +23,7 @@ const AnimatedButton = ({ children, onClick, className, primary = false }) => {
   
   const primaryClasses = primary ? 
     'bg-primary-500 hover:bg-primary-600 text-white' : 
-    'dark:bg-gray-700 bg-white dark:hover:bg-gray-600 hover:bg-gray-100 dark:text-white text-gray-800';
+    'dark:bg-dark-700 bg-white dark:hover:bg-dark-600 hover:bg-gray-100 dark:text-white text-gray-800';
   
   return (
     <button
