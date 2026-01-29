@@ -1,0 +1,23 @@
+# Apply this directly to the cluster, NOT managed by ArgoCD itself:
+#   kubectl apply -f k8s/argocd-application.yaml
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portfolio-website
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Gnzaga/Personal-Portfolio-Site.git
+    targetRevision: master
+    path: k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: portfolio
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

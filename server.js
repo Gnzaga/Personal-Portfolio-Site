@@ -21,7 +21,7 @@ const fs = require('fs'); // File system module for reading and writing files.
 // Initialize the Express application
 const app = express(); // Creates an Express application instance.
 const PORT = process.env.PORT || 8080; // Sets the server port from an environment variable or defaults to 8080.
-const LLM_API_URL = process.env.LLM_API_URL || 'http://localhost:3000/api/chat/completions'; // LLM API endpoint
+const LLM_API_URL = process.env.LLM_API_URL || 'http://10.100.0.215/api/chat/completions'; // LLM API endpoint
 
 /**
  * @function useCors

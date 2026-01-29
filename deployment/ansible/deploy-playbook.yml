@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: yes
   vars:
-    image_name: "agonzaga/portfolio-website:latest"
+    image_name: "harbor.gnzaga.com/library/portfolio-website:latest"
     deployment_name: "portfolio-website"
     project_dir: "/Users/alex/Code/Personal-Portfolio-Site"
     docker_dir: "{{ project_dir }}/deployment/docker"

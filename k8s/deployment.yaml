@@ -4,6 +4,8 @@ metadata:
   name: portfolio-website
   labels:
     app: portfolio-website
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   replicas: 3
   selector:
@@ -18,7 +20,7 @@ spec:
       - name: harbor-registry
       containers:
       - name: portfolio-website
-        image: harbor.internal/library/portfolio-website:latest
+        image: harbor.gnzaga.com/library/portfolio-website:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
