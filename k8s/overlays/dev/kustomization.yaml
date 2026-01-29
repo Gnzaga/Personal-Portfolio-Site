@@ -28,12 +28,3 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/env/1/value
         value: "development"
-
-  # Change Service type to ClusterIP
-  - target:
-      kind: Service
-      name: portfolio-website
-    patch: |
-      - op: replace
-        path: /spec/type
-        value: ClusterIP
