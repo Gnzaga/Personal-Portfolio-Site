@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+namespace: portfolio-dev
+
+images:
+  - name: harbor.gnzaga.com/library/portfolio-website
+    newTag: dev
+
+patches:
+  # Scale down to 1 replica
+  - target:
+      kind: Deployment
+      name: portfolio-website
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 1
+
+  # Set NODE_ENV to development
+  - target:
+      kind: Deployment
+      name: portfolio-website
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/env/1/value
+        value: "development"
+
+  # Change Service type to ClusterIP
+  - target:
+      kind: Service
+      name: portfolio-website
+    patch: |
+      - op: replace
+        path: /spec/type
+        value: ClusterIP
