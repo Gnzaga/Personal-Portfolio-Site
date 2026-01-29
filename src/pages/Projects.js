@@ -21,63 +21,56 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
  /**
  * ProjectCard component displays individual project details with enhanced styling.
  */
-const ProjectCard = ({ title, description, githubLink, projectLink, technologies }) => (
-  <motion.div 
-    className="bg-gray-100 dark:bg-dark-800/80 backdrop-blur-sm border border-gray-200 dark:border-dark-600/50 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 flex flex-col justify-between h-full group transform hover:scale-105 hover:-translate-y-2"
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-    whileHover={{ y: -8 }}
+const ProjectCard = ({ title, description, githubLink, projectLink, technologies, agentTarget }) => (
+  <motion.div
+    className="card p-6 flex flex-col justify-between h-full group"
+    data-agent-target={agentTarget}
+    whileHover={{ y: -4 }}
+    transition={{ duration: 0.2 }}
   >
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-heading font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+      <div className="flex items-start justify-between mb-3">
+        <h2 className="text-xl font-heading font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 pr-4">
           {title}
         </h2>
-        <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+        <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm group-hover:shadow-glow transition-shadow duration-300">
+          <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
           </svg>
         </div>
       </div>
-      
-      <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed transition-colors duration-300">{description}</p>
-      
-      <div className="flex flex-wrap gap-2 mb-6">
+
+      <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">{description}</p>
+
+      <div className="flex flex-wrap gap-2 mb-5">
         {technologies.map((tech, index) => (
-          <span 
-            key={index} 
-            className="bg-gray-200 dark:bg-dark-700 text-gray-800 dark:text-primary-300 text-xs px-3 py-1 rounded-full font-medium border border-gray-300 dark:border-dark-600 hover:border-primary-500 transition-colors duration-300"
-          >
+          <span key={index} className="tech-tag">
             {tech}
           </span>
         ))}
       </div>
     </div>
-    
-    <div className="flex gap-3 mt-auto">
+
+    <div className="flex gap-3 mt-auto pt-4 border-t border-gray-100 dark:border-dark-700/50">
       {githubLink && (
-        <motion.a
+        <a
           href={githubLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-outline flex items-center space-x-2 flex-1 justify-center text-sm"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          className="btn-outline flex items-center justify-center space-x-2 flex-1 py-2.5 text-sm"
         >
           <FontAwesomeIcon icon={faGithub} />
-          <span>GitHub</span>
-        </motion.a>
+          <span>Code</span>
+        </a>
       )}
-      <motion.div className="flex-1">
-        <Link
-          to={projectLink}
-          className="btn-primary flex items-center space-x-2 w-full justify-center text-sm"
-        >
-          <FontAwesomeIcon icon={faExternalLinkAlt} />
-          <span>View Project</span>
-        </Link>
-      </motion.div>
+      <Link
+        to={projectLink}
+        className="btn-primary flex items-center justify-center space-x-2 flex-1 py-2.5 text-sm"
+        data-agent-target={agentTarget ? `${agentTarget}-detail` : undefined}
+      >
+        <FontAwesomeIcon icon={faExternalLinkAlt} className="text-xs" />
+        <span>Details</span>
+      </Link>
     </div>
   </motion.div>
 );
@@ -91,7 +84,7 @@ const FilterButton = ({ technology, activeFilter, setActiveFilter }) => {
   const handleClick = () => {
     setActiveFilter(technology);
     if (technology === 'All') {
-      navigate('/projects'); 
+      navigate('/projects');
     } else {
       navigate(`/projects?filter=${technology}`);
     }
@@ -99,14 +92,14 @@ const FilterButton = ({ technology, activeFilter, setActiveFilter }) => {
 
   return (
     <motion.button
-      className={`px-6 py-3 rounded-full text-sm font-semibold mr-3 mb-3 transition-all duration-300 border ${
+      className={`px-4 py-2 rounded-lg text-sm font-medium mr-2 mb-2 transition-all duration-200 ${
         activeFilter === technology
-          ? 'bg-gradient-primary text-white border-primary-500 shadow-lg'
-          : 'bg-gray-200 dark:bg-dark-700 text-gray-800 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 border-gray-300 dark:border-dark-600 hover:border-primary-500'
+          ? 'bg-primary-500 text-white shadow-md'
+          : 'bg-gray-100 dark:bg-dark-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-700 hover:text-primary-600 dark:hover:text-primary-400'
       }`}
       onClick={handleClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
       {technology}
     </motion.button>
@@ -128,47 +121,54 @@ const Projects = () => {
       description: "A personal portfolio, self-hosted on a home network using Docker containers, featuring React for the frontend.",
       githubLink: "https://github.com/Gnzaga/Personal-Portfolio-Site",
       projectLink: "/projects/portfolio-project",
-      technologies: ['React', 'Docker', 'Networking']
+      technologies: ['React', 'Docker', 'Networking'],
+      agentTarget: 'project-portfolio'
     },
     {
       title: "chat.gnzaga.com",
       description: "A self-hosted AI chatbot powered by Docker, with networking knowledge used for domain routing.",
       projectLink: "/projects/chat-gnzaga",
-      technologies: ['AI', 'Docker', 'Networking']
+      technologies: ['AI', 'Docker', 'Networking'],
+      agentTarget: 'project-chat-gnzaga'
     },
     {
       title: "Discord Bot",
       description: "A Python-based Discord bot with Dockerized deployment, featuring AI-based Wordle game logic.",
       githubLink: "https://github.com/Gnzaga/DiscordBot",
       projectLink: "/projects/discord-bot",
-      technologies: ['Python', 'Docker', 'AI']
+      technologies: ['Python', 'Docker', 'AI'],
+      agentTarget: 'project-discord-bot'
     },
     {
       title: "Playlist Project",
       description: "A React + Python web app for generating Spotify playlist art and descriptions using AI prompts.",
       githubLink: "https://github.com/gnzaga/spotify-gpt",
       projectLink: "/projects/PlaylistProject",
-      technologies: ['React', 'Python', 'AI']
+      technologies: ['React', 'Python', 'AI'],
+      agentTarget: 'project-playlist'
     },
     {
       title: "Task Management Website",
       description: "A task manager using React for the UI, Java for the backend logic, and containerized deployment with Docker.",
       githubLink: "https://github.com/gnzaga/RUTidy",
       projectLink: "/projects/task-management",
-      technologies: ['React', 'Java', 'Docker']
+      technologies: ['React', 'Java', 'Docker'],
+      agentTarget: 'project-task-management'
     },
     {
       title: "Homelab Project",
       description: "A distributed multi-node Proxmox cluster with GPU passthrough, centralized NFS storage, and Kubernetes-based service orchestration for GitHub, JupyterHub, Jellyfin, and LLM workloads. Features integrated Ollama for serving open-source LLMs via containerized GPU inference pipelines.",
       githubLink: "https://github.com/Gnzaga/homelab-code",
       projectLink: "/projects/homelab",
-      technologies: ['Kubernetes', 'Docker', 'Networking', 'AI']
+      technologies: ['Kubernetes', 'Docker', 'Networking', 'AI'],
+      agentTarget: 'project-homelab'
     },
     {
       title: "Kubernetes Cluster",
       description: "A dedicated cluster for container orchestration, leveraging Docker containers and virtual networks.",
       projectLink: "/projects/kubernetes-cluster",
-      technologies: ['Kubernetes', 'Docker', 'Networking']
+      technologies: ['Kubernetes', 'Docker', 'Networking'],
+      agentTarget: 'project-kubernetes'
     }
   ];
 
@@ -201,38 +201,38 @@ const Projects = () => {
       : projects.filter((project) => project.technologies.includes(activeFilter));
 
   return (
-    <div className="min-h-screen py-24 custom-scrollbar bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+    <div className="min-h-screen py-24 custom-scrollbar bg-white dark:bg-dark-950 transition-colors duration-200">
       <div className="container mx-auto px-6">
         {/* Hero Section */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <motion.h1
-            className="text-5xl md:text-6xl font-heading font-bold  mb-6 text-primary-500"
-            initial={{ opacity: 0, y: -30 }}
+            className="page-header"
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.5 }}
           >
-            My Projects
+            My <span className="gradient-text">Projects</span>
           </motion.h1>
           <motion.p
-            className="text-gray-800 dark:text-gray-300 text-lg md:text-xl max-w-3xl mx-auto mb-8 transition-colors duration-300"
-            initial={{ opacity: 0, y: 20 }}
+            className="page-subheader mb-6"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            A showcase of my technical projects spanning network engineering, full-stack development, 
-            and infrastructure automation. Each project demonstrates my passion for solving complex problems.
+            Technical projects spanning network engineering, full-stack development,
+            and infrastructure automation.
           </motion.p>
-          <div className="w-24 h-1 bg-gradient-primary mx-auto rounded-full"></div>
+          <div className="section-divider"></div>
         </div>
 
         {/* Technology Filter Section */}
-        <motion.div 
-          className="mb-12"
-          initial={{ opacity: 0, y: 30 }}
+        <motion.div
+          className="mb-10"
+          data-agent-target="project-filters"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-center transition-colors duration-300">Filter by Technology</h2>
           <div className="flex flex-wrap justify-center">
             {allTechnologies.map((tech, index) => (
               <motion.div
@@ -281,6 +281,7 @@ const Projects = () => {
                   githubLink={project.githubLink}
                   projectLink={project.projectLink}
                   technologies={project.technologies}
+                  agentTarget={project.agentTarget}
                 />
               </motion.div>
             ))}

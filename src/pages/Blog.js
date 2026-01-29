@@ -34,13 +34,26 @@ const BlogList = () => {
     // If no valid posts, show a message
     if (validBlogPosts.length === 0) {
         return (
-            <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 py-24 transition-colors duration-300">
+            <div className="min-h-screen bg-white dark:bg-dark-950 py-24 transition-colors duration-200">
                 <div className="container mx-auto px-6">
-                    <div className="text-center">
-                        <h1 className="text-5xl md:text-6xl font-heading font-bold gradient-text mb-6">
-                            My Blog
-                        </h1>
-                        <p className="text-gray-600 dark:text-gray-400 text-xl transition-colors duration-300">No blog posts available at the moment.</p>
+                    <div className="text-center mb-12">
+                        <motion.h1
+                            className="page-header"
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            My <span className="gradient-text">Blog</span>
+                        </motion.h1>
+                        <motion.p
+                            className="page-subheader mb-6"
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                        >
+                            No blog posts available at the moment.
+                        </motion.p>
+                        <div className="section-divider"></div>
                     </div>
                 </div>
             </div>
@@ -48,18 +61,26 @@ const BlogList = () => {
     }
 
     return (
-        <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 py-24 transition-colors duration-300">
+        <div className="min-h-screen bg-white dark:bg-dark-950 py-24 transition-colors duration-200">
             <div className="container mx-auto px-6">
-                <div className="text-center mb-16">
+                <div className="text-center mb-12">
                     <motion.h1
+                        className="page-header"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="text-5xl md:text-6xl font-heading font-bold gradient-text mb-6 text-primary-500"
                     >
-                        My Blog
+                        My <span className="gradient-text">Blog</span>
                     </motion.h1>
-                    <div className="w-24 h-1 bg-gradient-primary mx-auto rounded-full"></div>
+                    <motion.p
+                        className="page-subheader mb-6"
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                    >
+                        Thoughts on engineering, infrastructure, and technology
+                    </motion.p>
+                    <div className="section-divider"></div>
                 </div>
 
                 {validBlogPosts.map((post) => {
@@ -77,6 +98,7 @@ const BlogList = () => {
                     return (
                         <motion.div
                             key={post.slug}
+                            data-agent-target={`blog-${post.slug}`}
                             className="bg-gray-100 dark:bg-dark-800/80 backdrop-blur-sm border border-gray-200 dark:border-dark-600/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group p-8 mb-8 card-hover"
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -129,6 +151,7 @@ const BlogList = () => {
                                         <Link
                                             to={`/blog/${post.slug}`}
                                             className="btn-outline flex items-center space-x-2 w-full justify-center text-sm"
+                                            data-agent-target={`blog-${post.slug}-link`}
                                         >
                                             <span>Read Full Article</span>
                                         </Link>
@@ -149,7 +172,7 @@ const BlogList = () => {
                             <AnimatePresence>
                                 {isExpanded && (
                                     <motion.div
-                                        className="mt-8 pt-6 border-t border-gray-300 dark:border-gray-700"
+                                        className="mt-8 pt-6 border-t border-gray-300 dark:border-dark-700"
                                         initial={{ opacity: 0, height: 0 }}
                                         animate={{ opacity: 1, height: "auto" }}
                                         exit={{ opacity: 0, height: 0 }}
@@ -172,7 +195,7 @@ const BlogList = () => {
                                                     return null;
                                                 }
                                                 return (
-                                                    <div key={idx} className="overflow-hidden rounded-lg shadow-lg border border-gray-300 dark:border-gray-700 hover:border-primary-500 transition-colors duration-300">
+                                                    <div key={idx} className="overflow-hidden rounded-lg shadow-lg border border-gray-300 dark:border-dark-700 hover:border-primary-500 transition-colors duration-300">
                                                         <img
                                                             src={img.url}
                                                             alt={img.alt || 'Blog image'}

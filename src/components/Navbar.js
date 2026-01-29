@@ -40,35 +40,34 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      className="glass-dark py-4 fixed w-full z-50 border-b border-dark-600/30" 
-      initial={{ y: -100 }} 
-      animate={{ y: showNavbar ? 0 : -100 }} 
-      transition={{ duration: 0.5 }} 
+      className="bg-white/90 dark:bg-dark-900/90 backdrop-blur-lg py-3 fixed w-full z-50 border-b border-gray-200/50 dark:border-dark-700/50 shadow-sm"
+      initial={{ y: -100 }}
+      animate={{ y: showNavbar ? 0 : -100 }}
+      transition={{ duration: 0.4 }}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
-        <div className="text-white font-heading font-bold text-xl">
-          <Link 
-            to="/" 
-            className="text-primary-500 dark:text-primary-400 hover:scale-105 transition-transform duration-300"
-          >
-            Alessandro Gonzaga
-          </Link>
-        </div>
+        <Link
+          to="/"
+          className="font-heading font-bold text-lg text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+        >
+          Alessandro Gonzaga
+        </Link>
         
         {/* Desktop Navigation */}
         {!isMobile && (
           <motion.ul className="flex space-x-8 items-center">
             {[
-              { path: '/', label: 'Home' },
-              { path: '/about', label: 'About' },
-              { path: '/projects', label: 'Projects' },
-              { path: '/experience', label: 'Experience' },
-              { path: '/blog', label: 'Blog' },
+              { path: '/', label: 'Home', agentTarget: 'nav-home' },
+              { path: '/about', label: 'About', agentTarget: 'nav-about' },
+              { path: '/projects', label: 'Projects', agentTarget: 'nav-projects' },
+              { path: '/experience', label: 'Experience', agentTarget: 'nav-experience' },
+              { path: '/blog', label: 'Blog', agentTarget: 'nav-blog' },
             ].map((item, index) => (
               <motion.li key={item.path}>
-                <Link 
-                  to={item.path} 
+                <Link
+                  to={item.path}
                   className={`nav-link ${location.pathname === item.path ? 'active text-primary-400' : ''}`}
+                  data-agent-target={item.agentTarget}
                 >
                   {item.label}
                 </Link>
@@ -105,22 +104,23 @@ const Navbar = () => {
             >
               <motion.ul className="py-4 px-6 space-y-4">
                 {[
-                  { path: '/', label: 'Home' },
-                  { path: '/about', label: 'About' },
-                  { path: '/projects', label: 'Projects' },
-                  { path: '/experience', label: 'Experience' },
-                  { path: '/blog', label: 'Blog' },
+                  { path: '/', label: 'Home', agentTarget: 'nav-home' },
+                  { path: '/about', label: 'About', agentTarget: 'nav-about' },
+                  { path: '/projects', label: 'Projects', agentTarget: 'nav-projects' },
+                  { path: '/experience', label: 'Experience', agentTarget: 'nav-experience' },
+                  { path: '/blog', label: 'Blog', agentTarget: 'nav-blog' },
                 ].map((item, index) => (
-                  <motion.li 
+                  <motion.li
                     key={item.path}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 + 0.1 }}
                   >
-                    <Link 
-                      to={item.path} 
+                    <Link
+                      to={item.path}
                       className={`nav-link block py-2 text-lg ${location.pathname === item.path ? 'active text-primary-500' : 'text-gray-700 dark:text-gray-200'}`}
                       onClick={handleOpen}
+                      data-agent-target={item.agentTarget}
                     >
                       {item.label}
                     </Link>
