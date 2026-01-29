@@ -27,6 +27,8 @@ spec:
           value: "8080"
         - name: NODE_ENV
           value: "production"
+        - name: LLM_API_URL
+          value: "http://open-webui.openwebui.svc.cluster.local/api/chat/completions"
         - name: BEARER_TOKEN
           valueFrom:
             secretKeyRef:
