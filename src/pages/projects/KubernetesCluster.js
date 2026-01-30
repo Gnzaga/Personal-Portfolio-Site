@@ -65,7 +65,8 @@ const KubernetesCluster = () => {
           <li>Expanded AI/ML capabilities with new compute resources.</li>
           <li>Custom CI/CD workflows for automated deployment of new projects.</li>
           <li>If you can see this message it means my Github Webhook -> tekton -> harbor -> argocd pipeline automated my entire process from a single push to main!</li>
-        </ul>
+          <li>Test test test test</li>
+          </ul>
       </Section>
 
       <Section title="Challenges and Solutions" icon={faCogs}>
