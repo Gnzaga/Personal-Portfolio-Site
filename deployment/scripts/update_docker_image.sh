@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-IMAGE_NAME="harbor.gnzaga.com/library/portfolio-website"
+IMAGE_NAME="harbor.gnzaga.com/apps/portfolio-website"
 TAG="latest"
 
 # Change to the root project directory
