@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define variables (can be overridden via environment variables)
-IMAGE_NAME="${DOCKER_IMAGE:-harbor.gnzaga.com/library/portfolio-website:latest}"
+IMAGE_NAME="${DOCKER_IMAGE:-harbor.gnzaga.com/apps/portfolio-website:latest}"
 SSH_HOST="${K8S_SSH_HOST:-root@192.168.42.16}"
 DEPLOYMENT_NAME="${K8S_DEPLOYMENT:-portfolio-website}"
 DEPLOYMENT_NAMES_SPACE="${K8S_NAMESPACE:-portfolio}"

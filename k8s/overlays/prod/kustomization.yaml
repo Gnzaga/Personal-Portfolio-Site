@@ -7,5 +7,5 @@ resources:
 namespace: portfolio
 
 images:
-  - name: harbor.gnzaga.com/library/portfolio-website
+  - name: harbor.gnzaga.com/apps/portfolio-website
     newTag: latest
