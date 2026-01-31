@@ -111,7 +111,7 @@ const PortfolioGrid = () => {
                 { label: 'Security', icon: Shield },
                 { label: 'CI/CD', icon: Cpu }
               ].map((tech, i) => (
-                <div key={i} className="flex items-center gap-2 p-3 bg-black/20 rounded-xl border border-white/5 text-sm text-white/80 group-hover:border-green-700/30 group-hover:text-green-100 transition-colors">
+                <div key={i} className="flex items-center gap-2 p-3 bg-black/20 rounded-xl border border-white/5 text-sm text-white/80 group-hover:border-green-500/30 group-hover:text-green-100 transition-colors">
                   <tech.icon className="w-4 h-4 text-green-500/70" />
                   <span>{tech.label}</span>
                 </div>
