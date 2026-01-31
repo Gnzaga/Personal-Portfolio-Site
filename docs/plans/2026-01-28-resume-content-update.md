@@ -1,6 +1,5 @@
 # Portfolio Site Resume Content Update
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Update all portfolio site content to match the latest resume (Jan 2026).
 
