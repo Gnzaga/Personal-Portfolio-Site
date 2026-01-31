@@ -1,0 +1,35 @@
+
+> react-portfolio@0.1.0 dev
+> concurrently "cross-env PORT=3006 npm start" "npm run server"
+
+[1] 
+[1] > react-portfolio@0.1.0 server
+[1] > cross-env PORT=3004 node server.js
+[1] 
+[0] 
+[0] > react-portfolio@0.1.0 start
+[0] > cross-env PORT=3006 react-scripts start
+[0] 
+[1] node:events:486
+[1]       throw er; // Unhandled 'error' event
+[1]       ^
+[1] 
+[1] Error: listen EADDRINUSE: address already in use 0.0.0.0:3004
+[1]     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+[1]     at listenInCluster (node:net:1997:12)
+[1]     at node:net:2206:7
+[1]     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+[1] Emitted 'error' event on Server instance at:
+[1]     at emitErrorNT (node:net:1976:8)
+[1]     at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+[1]   code: 'EADDRINUSE',
+[1]   errno: -48,
+[1]   syscall: 'listen',
+[1]   address: '0.0.0.0',
+[1]   port: 3004
+[1] }
+[1] 
+[1] Node.js v25.5.0
+[1] npm run server exited with code 1
+[0] Something is already running on port 3006.
+[0] cross-env PORT=3006 npm start exited with code 0
