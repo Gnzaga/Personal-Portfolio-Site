@@ -4,40 +4,38 @@ import ButtonLink from '../../components/ButtonLink';
 import Section from '../../components/ProjectSection';
 import { faServer, faCode, faNetworkWired, faShield, faTools, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import GlassButton from '../../components/GlassButton';
 
 /**
  * ChatGnzagaProject Component
- * 
- * @description A detailed project page for chat.gnzaga.com, highlighting key aspects like overview,
- * technologies, features, deployment process, and challenges.
- * 
- * @returns {JSX.Element} The rendered ChatGnzagaProject component.
  */
 const ChatGnzagaProject = () => {
   return (
-    <div className="container mx-auto px-4 py-32 space-y-8 transition-colors duration-300"> {/* Main container with padding and spacing */}
+    <div className="w-full max-w-5xl mx-auto space-y-8">
       {/* Page Title */}
-      <motion.h1
-        className="text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center transition-colors duration-300"
-        initial={{ opacity: 0, y: -20 }} // Initial animation state
-        animate={{ opacity: 1, y: 0 }} // Target animation state
-        transition={{ duration: 0.5 }} // Animation duration
+      <motion.div
+        className="text-center mb-12"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        <a href="https://chat.gnzaga.com" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300"> {/* Link to the project */}
-          chat.gnzaga.com
-        </a>
-      </motion.h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+          <a href="https://chat.gnzaga.com" className="hover:text-cyan-300 transition-colors duration-300">
+            chat.gnzaga.com
+          </a>
+        </h1>
+      </motion.div>
 
       {/* Project Overview Section */}
       <Section title="Project Overview" icon={faServer}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg transition-colors duration-300">
+        <p className="mb-4">
           A self-hosted Ollama web interface powered by Docker, providing a seamless and efficient way to interact with OpenAI's language models. This project showcases expertise in containerization, networking, and infrastructure management, demonstrating the ability to deploy and maintain complex web applications.
         </p>
       </Section>
 
       {/* Technologies Used Section */}
       <Section title="Technologies Used" icon={faCode}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Docker for containerization</li>
           <li>Nginx as a reverse proxy</li>
           <li>Ollama for language model interaction</li>
@@ -49,7 +47,7 @@ const ChatGnzagaProject = () => {
 
       {/* Key Features Section */}
       <Section title="Key Features" icon={faNetworkWired}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Containerized deployment for consistency across environments</li>
           <li>Nginx reverse proxy for efficient request routing</li>
           <li>Secure access from the internet via proper networking configuration</li>
@@ -61,10 +59,10 @@ const ChatGnzagaProject = () => {
 
       {/* Deployment Process Section */}
       <Section title="Deployment Process" icon={faTools}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
+        <p className="mb-4">
           The deployment process involved several key steps:
         </p>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Containerizing the Ollama interface using Docker for easy deployment and scaling</li>
           <li>Configuring Nginx as a reverse proxy to handle incoming requests and route them to the appropriate containers</li>
           <li>Setting up port forwarding to ensure accessibility from the internet</li>
@@ -76,10 +74,10 @@ const ChatGnzagaProject = () => {
 
       {/* Security Measures Section */}
       <Section title="Security Measures" icon={faShield}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
+        <p className="mb-4">
           Security was a top priority in this project:
         </p>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Implementation of SSL/TLS encryption for all communications</li>
           <li>Regular security audits and updates to all components</li>
           <li>Strict access controls and user authentication</li>
@@ -90,10 +88,10 @@ const ChatGnzagaProject = () => {
 
       {/* Challenges and Solutions Section */}
       <Section title="Challenges and Solutions" icon={faLightbulb}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
+        <p className="mb-4">
           Several challenges were overcome during the development and deployment:
         </p>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Optimizing container resource allocation for efficient performance</li>
           <li>Ensuring seamless updates without service interruption</li>
           <li>Balancing security measures with user accessibility</li>
@@ -103,18 +101,20 @@ const ChatGnzagaProject = () => {
       </Section>
 
       {/* Navigation Buttons */}
-      <div className="mt-12 text-center space-x-4">
-        <ButtonLink to="https://chat.gnzaga.com">
-          Go to chat.gnzaga.com!
-        </ButtonLink>
+      <div className="mt-16 flex justify-center gap-6">
+        <a href="https://chat.gnzaga.com" target="_blank" rel="noopener noreferrer">
+          <GlassButton variant="primary">
+            Go to chat.gnzaga.com!
+          </GlassButton>
+        </a>
         <Link to="/projects">
-          <button className="bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
+          <GlassButton variant="secondary">
             Back to Projects
-          </button>
+          </GlassButton>
         </Link>
       </div>
     </div>
   );
 };
 
-export default ChatGnzagaProject; // Export the component for use in other parts of the app
+export default ChatGnzagaProject;

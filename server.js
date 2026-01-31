@@ -156,6 +156,36 @@ const pageContextMap = {
  * @param {string} currentPage - The current route path the user is viewing.
  * @returns {string} The full system prompt.
  */
+const validRoutes = [
+  '/',
+  '/about',
+  '/projects',
+  '/experience',
+  '/blog',
+  '/projects/portfolio-project',
+  '/projects/chat-gnzaga',
+  '/projects/discord-bot',
+  '/projects/PlaylistProject',
+  '/projects/task-management',
+  '/projects/homelab',
+  '/projects/kubernetes-cluster',
+  '/projects/k8s-automation',
+  '/projects/unified-iam',
+  '/demo/pathfinding',
+  '/blog/learning-networking',
+  '/blog/self-hosting-begins',
+  '/blog/custom-pc-proxmox-setup',
+  '/blog/learning-ai-at-home',
+  '/blog/teaching-ai-to-help-dad',
+  '/blog/first-work-trip-long-island',
+  '/blog/kubernetes-adventure',
+  '/blog/live-portfolio-announcement',
+  '/blog/starting-anti-spam-journey',
+  '/blog/building-vpn-mesh-network',
+  '/blog/kubernetes-automation-pipeline',
+  '/blog/unified-iam-authentik',
+];
+
 function buildSystemPrompt(currentPage) {
   const pageDesc = pageContextMap[currentPage] || `An unknown page at route "${currentPage}".`;
 
@@ -171,15 +201,8 @@ You can offer to visually guide the user to relevant pages on the portfolio. The
 Emit a tag at the END of your response: [[AGENT:{"nav":"/destination"}]]
 You may also add "target" to highlight a specific element on a page: [[AGENT:{"nav":"/page","target":"element-id"}]]
 
-Available destinations:
-- / (Home)
-- /about
-- /projects (overview grid of all projects)
-- /projects/homelab, /projects/portfolio-project, /projects/chat-gnzaga, /projects/discord-bot, /projects/PlaylistProject, /projects/task-management, /projects/kubernetes-cluster (project detail pages)
-- /experience
-- /demo/pathfinding (interactive navigation pathfinder demo — reachable via Projects → Portfolio → demo link)
-- /blog (list of all blog posts)
-- /blog/learning-networking, /blog/self-hosting-begins, /blog/custom-pc-proxmox-setup, /blog/learning-ai-at-home, /blog/teaching-ai-to-help-dad, /blog/first-work-trip-long-island, /blog/kubernetes-adventure, /blog/live-portfolio-announcement, /blog/starting-anti-spam-journey, /blog/building-vpn-mesh-network (blog post detail pages)
+Available Destinations (STRICTLY LIMITED TO THIS LIST):
+${validRoutes.map(r => `- ${r}`).join('\n')}
 
 Highlight targets (for "target" field, use when user is already on the right page):
 - On /: "quick-stats", "action-cards"
@@ -187,26 +210,19 @@ Highlight targets (for "target" field, use when user is already on the right pag
 - On /experience: "experience-1" (Platform Engineer), "experience-2" (Network Engineer), "experience-3" (Rutgers)
 
 Rules:
-- When your answer relates to a specific page, include the agent tag AND offer to show them (e.g. "Would you like me to take you there?").
-- Always give a brief answer FIRST, then offer. Never respond with only the tag.
-- One tag per response, at the very end.
-- For a specific project → use the detail route (e.g. /projects/homelab), NOT the overview.
-- For a specific blog post → use the detail route (e.g. /blog/teaching-ai-to-help-dad), NOT /blog.
-- If the user is already on the right page, omit "nav" and just use "target".
+1. CHECK if the destination is in the "Available Destinations" list above.
+2. IF AND ONLY IF the destination is in the list, you may offer to take the user there.
+3. If the relevant content is on a page NOT in the list (e.g. a blog post not listed yet), do NOT offer navigation. Just answer the question.
+4. When offering, always ask "Would you like me to take you there?" or similar.
+5. Emit the tag at the very end of your response.
+6. If the user is already on the destination page, omit "nav" and just use "target" if applicable.
 
 Examples:
 - "what does Alex do?" → answer, then: "Would you like me to show you?" [[AGENT:{"nav":"/experience"}]]
 - "tell me about the homelab" → answer, then: "Want me to take you there?" [[AGENT:{"nav":"/projects/homelab"}]]
 - "what did he do for his dad?" → answer, then: "Want to see the blog post?" [[AGENT:{"nav":"/blog/teaching-ai-to-help-dad"}]]
-- "what skills does he have?" → answer, then: "Shall I show you?" [[AGENT:{"nav":"/about","target":"skills-section"}]]
-- User already on /experience, asks about Rutgers → answer, then: "Want me to highlight it?" [[AGENT:{"target":"experience-3"}]]
 
 Do NOT include an agent tag for generic greetings ("hi", "who are you").
-
-PATHFINDER DEMO:
-There is a hidden interactive demo at /demo/pathfinding that visualizes how you navigate between pages. If the user asks about the pathfinder, the navigation demo, or how you find pages, offer to take them there. The path is: Projects → Portfolio project → Pathfinder Demo link. Example:
-- "how do you navigate?" → explain briefly, then: "Want to see it in action?" [[AGENT:{"nav":"/demo/pathfinding"}]]
-- After the user's first agent-guided navigation, mention: "By the way, there's a hidden demo that shows how I navigate the site — want to check it out?"
 `;
 }
 

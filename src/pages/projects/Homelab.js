@@ -3,21 +3,24 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
 import { faServer, faNetworkWired, faCogs, faUserFriends, faCode, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
+import GlassButton from '../../components/GlassButton';
 
 const HomelabProject = () => {
   return (
-    <div className="container mx-auto px-4 py-32 space-y-8 transition-colors duration-300">
-      <motion.h1
-        className="text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center transition-colors duration-300"
+    <div className="w-full max-w-5xl mx-auto space-y-8">
+      <motion.div
+        className="text-center mb-12"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        Homelab Environment Project
-      </motion.h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+          Homelab Environment Project
+        </h1>
+      </motion.div>
 
       <Section title="Project Overview" icon={faServer}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg transition-colors duration-300">
+        <p className="mb-4">
           My homelab environment is a self-built and managed infrastructure designed for high-performance computing,
           AI model training, container orchestration, and efficient web hosting. It serves over 20 active users across
           the United States, Guam, and Japan, hosting educational and collaborative services.
@@ -25,7 +28,7 @@ const HomelabProject = () => {
       </Section>
 
       <Section title="Key Features" icon={faCogs}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>A diverse mix of independent hosts and virtual machines optimized for various workloads.</li>
           <li>Kubernetes cluster with 32 vCPU cores and 96GB of memory for containerized applications.</li>
           <li>AI and compute resources leveraging both consumer and enterprise-grade hardware.</li>
@@ -35,7 +38,7 @@ const HomelabProject = () => {
       </Section>
 
       <Section title="Technologies Used" icon={faCode}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Virtualization: Proxmox for managing virtual machines and containers.</li>
           <li>Orchestration: Kubernetes for scalable application deployment and management.</li>
           <li>Web Hosting: Nginx as a reverse proxy for multiple services.</li>
@@ -45,10 +48,10 @@ const HomelabProject = () => {
       </Section>
 
       <Section title="Networking and Security" icon={faNetworkWired}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
+        <p className="mb-4">
           The homelab features a robust networking infrastructure with advanced security measures:
         </p>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>VLAN segmentation for efficient and secure communication between devices.</li>
           <li>Firewall rules and rate limiting to protect against unauthorized access and abuse.</li>
           <li>Custom port forwarding configurations for external access to services.</li>
@@ -58,7 +61,7 @@ const HomelabProject = () => {
       </Section>
 
       <Section title="Educational Initiatives" icon={faUserFriends}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg transition-colors duration-300">
+        <p className="mb-4">
           My homelab is also a platform for teaching and collaboration. I use it to help friends and family
           learn skills like Kubernetes management, artificial intelligence, and coding. The hosted services
           provide hands-on experiences and resources for their technical growth.
@@ -66,7 +69,7 @@ const HomelabProject = () => {
       </Section>
 
       <Section title="Challenges and Solutions" icon={faShieldAlt}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Balancing performance and energy efficiency across diverse workloads.</li>
           <li>Ensuring high availability and uptime for users spread across different time zones.</li>
           <li>Optimizing Kubernetes deployments for both scalability and resource constraints.</li>
@@ -75,12 +78,11 @@ const HomelabProject = () => {
         </ul>
       </Section>
 
-      <div className="mt-12 text-center space-x-4">
-
+      <div className="mt-16 text-center">
         <Link to="/projects">
-          <button className="bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
+          <GlassButton variant="secondary">
             Back to Projects
-          </button>
+          </GlassButton>
         </Link>
       </div>
     </div>

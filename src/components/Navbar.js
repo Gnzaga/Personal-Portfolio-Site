@@ -1,144 +1,117 @@
 // src/components/Navbar.js
 
-import React, { useState, useEffect } from 'react'; // Import React and hooks for state and effects
-import { Link, useLocation } from 'react-router-dom'; // Import Link and useLocation for navigation and location detection
-import { useMediaQuery } from 'react-responsive'; // Import useMediaQuery for responsive design
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon for icon rendering
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'; // Import specific icons for menu
-import { motion, AnimatePresence } from 'framer-motion'; // Import motion and AnimatePresence for animation support
-import DarkModeToggle from './DarkModeToggle'; // Import DarkModeToggle component
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import GlassButton from './GlassButton';
 
-/**
- * Navbar Component
- * 
- * @description A responsive navigation bar that animates into view, adapts to mobile screens with a collapsible menu, and highlights the current active page.
- * 
- * @returns {JSX.Element} The rendered Navbar component.
- */
 const Navbar = () => {
-  const isMobile = useMediaQuery({ maxWidth: 768 }); // Check if the screen size is mobile
-  const [open, setOpen] = useState(false); // State to track if the mobile menu is open
-  const [showNavbar, setShowNavbar] = useState(false); // State to control navbar visibility with animation
-  const location = useLocation(); // Detect the current route location
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const [open, setOpen] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(false);
+  const location = useLocation();
 
-  // Toggle the mobile menu open/close state
-  const handleOpen = () => {
-    setOpen(!open);
-  };
+  const handleOpen = () => setOpen(!open);
 
-  // Control the delayed appearance of the navbar on the homepage
   useEffect(() => {
-    if (location.pathname === '/') {
-      const timer = setTimeout(() => {
-        setShowNavbar(true);
-      }, 1500); // Delay of 1.5 seconds for the homepage
-      return () => clearTimeout(timer); // Clean up timer on unmount or route change
-    } else {
-      setShowNavbar(true); // Show navbar immediately on other pages
-    }
-  }, [location]);
+    // Slight delay on mount for smooth entrance
+    const timer = setTimeout(() => setShowNavbar(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const navLinks = [
+    { path: '/', label: 'Home' },
+    { path: '/about', label: 'About' },
+    { path: '/experience', label: 'Experience' },
+    { path: '/projects', label: 'Projects' },
+    { path: '/blog', label: 'Blog' },
+  ];
 
   return (
     <motion.nav
-      className="bg-white/90 dark:bg-dark-900/90 backdrop-blur-lg py-3 fixed w-full z-50 border-b border-gray-200/50 dark:border-dark-700/50 shadow-sm"
-      initial={{ y: -100 }}
-      animate={{ y: showNavbar ? 0 : -100 }}
-      transition={{ duration: 0.4 }}
+      className="fixed top-0 left-0 right-0 z-50 flex justify-center py-4 px-4"
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: showNavbar ? 0 : -100, opacity: showNavbar ? 1 : 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
+      <div className="w-full max-w-5xl bg-black/30 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3 shadow-lg flex justify-between items-center">
         <Link
           to="/"
-          className="font-heading font-bold text-lg text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+          className="font-heading font-bold text-lg text-white tracking-wide hover:text-purple-300 transition-colors"
         >
           Alessandro Gonzaga
         </Link>
         
         {/* Desktop Navigation */}
         {!isMobile && (
-          <motion.ul className="flex space-x-8 items-center">
-            {[
-              { path: '/', label: 'Home', agentTarget: 'nav-home' },
-              { path: '/about', label: 'About', agentTarget: 'nav-about' },
-              { path: '/projects', label: 'Projects', agentTarget: 'nav-projects' },
-              { path: '/experience', label: 'Experience', agentTarget: 'nav-experience' },
-              { path: '/blog', label: 'Blog', agentTarget: 'nav-blog' },
-            ].map((item, index) => (
-              <motion.li key={item.path}>
-                <Link
-                  to={item.path}
-                  className={`nav-link ${location.pathname === item.path ? 'active text-primary-400' : ''}`}
-                  data-agent-target={item.agentTarget}
-                >
-                  {item.label}
-                </Link>
-              </motion.li>
-            ))}
-            {/* Dark Mode Toggle in desktop menu */}
-            <motion.li>
-              <DarkModeToggle />
-            </motion.li>
-          </motion.ul>
+          <ul className="flex space-x-1 items-center bg-white/5 rounded-full px-2 py-1 border border-white/5">
+            {navLinks.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 block ${
+                      isActive 
+                        ? 'text-black bg-white shadow-md' 
+                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="nav-pill"
+                        className="absolute inset-0 bg-white rounded-full"
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        style={{ zIndex: -1 }}
+                      />
+                    )}
+                    <span className="relative z-10">{item.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         )}
         
         {/* Mobile Menu Button */}
         {isMobile && (
-          <motion.button 
+          <button 
             onClick={handleOpen} 
-            className="glass p-3 text-white rounded-lg hover:bg-white/20 transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-colors"
           >
-            <FontAwesomeIcon icon={open ? faTimes : faBars} className="text-lg" />
-          </motion.button>
+            {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         )}
         
         {/* Mobile Navigation Menu */}
         <AnimatePresence>
           {isMobile && open && (
             <motion.div
-              className="absolute top-full left-0 w-full bg-gray-100/95 dark:bg-dark-800/95 backdrop-blur-md border-t border-gray-200 dark:border-dark-600/50"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="absolute top-full left-0 right-0 mt-4 mx-4 bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
             >
-              <motion.ul className="py-4 px-6 space-y-4">
-                {[
-                  { path: '/', label: 'Home', agentTarget: 'nav-home' },
-                  { path: '/about', label: 'About', agentTarget: 'nav-about' },
-                  { path: '/projects', label: 'Projects', agentTarget: 'nav-projects' },
-                  { path: '/experience', label: 'Experience', agentTarget: 'nav-experience' },
-                  { path: '/blog', label: 'Blog', agentTarget: 'nav-blog' },
-                ].map((item, index) => (
-                  <motion.li
-                    key={item.path}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 + 0.1 }}
-                  >
+              <ul className="py-4 px-2 space-y-1">
+                {navLinks.map((item) => (
+                  <li key={item.path}>
                     <Link
                       to={item.path}
-                      className={`nav-link block py-2 text-lg ${location.pathname === item.path ? 'active text-primary-500' : 'text-gray-700 dark:text-gray-200'}`}
-                      onClick={handleOpen}
-                      data-agent-target={item.agentTarget}
+                      className={`block px-4 py-3 rounded-xl text-center font-medium transition-colors ${
+                        location.pathname === item.path 
+                          ? 'bg-white/10 text-white' 
+                          : 'text-white/60 hover:text-white hover:bg-white/5'
+                      }`}
+                      onClick={() => setOpen(false)}
                     >
                       {item.label}
                     </Link>
-                  </motion.li>
+                  </li>
                 ))}
-                {/* Dark Mode Toggle in mobile menu */}
-                <motion.li 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 5 * 0.1 + 0.1 }}
-                  className="border-t border-gray-300 dark:border-dark-600 pt-4"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg text-gray-700 dark:text-gray-200">Theme</span>
-                    <DarkModeToggle />
-                  </div>
-                </motion.li>
-              </motion.ul>
+              </ul>
             </motion.div>
           )}
         </AnimatePresence>
@@ -147,4 +120,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; // Export the component for use in other parts of the app
+export default Navbar;
