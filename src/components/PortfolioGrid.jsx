@@ -62,7 +62,7 @@ const PortfolioGrid = () => {
                  <a href="https://www.linkedin.com/in/agnzaga/" target="_blank" rel="noopener noreferrer" className="flex-1 p-3 bg-white/5 rounded-xl hover:bg-blue-600/20 hover:border-blue-500/30 border border-white/5 transition-all flex items-center justify-center group">
                    <Linkedin className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
                  </a>
-                 <a href="mailto:hello@gnzaga.com" className="flex-1 p-3 bg-white/5 rounded-xl hover:bg-green-600/20 hover:border-green-500/30 border border-white/5 transition-all flex items-center justify-center group">
+                 <a href="mailto:alessandro@gnzaga.com" className="flex-1 p-3 bg-white/5 rounded-xl hover:bg-green-600/20 hover:border-green-500/30 border border-white/5 transition-all flex items-center justify-center group">
                    <Mail className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
                  </a>
                </div>
