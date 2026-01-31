@@ -61,6 +61,10 @@
     ]
   },
   "proxy": "http://localhost:3004",
+  "overrides": {
+    "nth-check": ">=2.0.1",
+    "postcss": ">=8.4.31"
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3"
