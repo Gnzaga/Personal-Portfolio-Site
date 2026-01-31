@@ -1,82 +1,86 @@
-/**
- * Projects.js
- *
- * This component renders a showcase of all projects with filtering capabilities. Each project is displayed
- * as a card, allowing users to view details, visit the project, or check its GitHub repository. The file
- * also includes a technology filter for dynamic project exploration. This documentation is designed for
- * a Retrieval-Augmented Generation (RAG) system to aid in understanding and answering questions related
- * to the codebase.
- *
- * @component
- */
+// src/pages/Projects.js
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom'; 
 import { motion, AnimatePresence } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { Github, ExternalLink, Terminal, Server, Globe, Cpu, Database, Music, MessageSquare } from 'lucide-react';
+import GlassCard from '../components/GlassCard';
+import GlassButton from '../components/GlassButton';
 
 /**
- /**
- * ProjectCard component displays individual project details with enhanced styling.
+ * ProjectCard component displays individual project details with glass styling.
  */
-const ProjectCard = ({ title, description, githubLink, projectLink, technologies, agentTarget }) => (
-  <motion.div
-    className="card p-6 flex flex-col justify-between h-full group"
-    data-agent-target={agentTarget}
-    whileHover={{ y: -4 }}
-    transition={{ duration: 0.2 }}
-  >
-    <div>
-      <div className="flex items-start justify-between mb-3">
-        <h2 className="text-xl font-heading font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 pr-4">
+const ProjectCard = ({ title, description, githubLink, projectLink, technologies, agentTarget }) => {
+  // Select an icon based on title/tech
+  const getIcon = () => {
+    const t = title.toLowerCase();
+    if (t.includes('chat')) return <MessageSquare className="w-6 h-6 text-green-400" />;
+    if (t.includes('playlist') || t.includes('spotify')) return <Music className="w-6 h-6 text-emerald-400" />;
+    if (t.includes('kubernetes') || t.includes('cluster')) return <Server className="w-6 h-6 text-green-500" />;
+    if (t.includes('bot')) return <Terminal className="w-6 h-6 text-green-400" />;
+    if (t.includes('homelab')) return <Cpu className="w-6 h-6 text-emerald-500" />;
+    if (t.includes('data') || t.includes('task')) return <Database className="w-6 h-6 text-green-400" />;
+    return <Globe className="w-6 h-6 text-white" />;
+  };
+
+  return (
+    <GlassCard 
+      className="flex flex-col h-full mb-6 break-inside-avoid" 
+      hoverEffect={true}
+      data-agent-target={agentTarget}
+    >
+      <div className="flex items-start justify-between mb-4">
+        <h2 className="text-xl font-bold text-white pr-4 leading-tight">
           {title}
         </h2>
-        <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm group-hover:shadow-glow transition-shadow duration-300">
-          <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-          </svg>
+        <div className="p-2 bg-white/10 rounded-lg backdrop-blur-md border border-white/10 shadow-inner">
+          {getIcon()}
         </div>
       </div>
 
-      <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">{description}</p>
+      <p className="text-white/70 text-sm mb-6 leading-relaxed flex-grow">
+        {description}
+      </p>
 
-      <div className="flex flex-wrap gap-2 mb-5">
+      <div className="flex flex-wrap gap-2 mb-6">
         {technologies.map((tech, index) => (
-          <span key={index} className="tech-tag">
+          <span key={index} className="px-2.5 py-1 bg-white/5 rounded-md text-xs font-medium text-white/60 border border-white/5">
             {tech}
           </span>
         ))}
       </div>
-    </div>
 
-    <div className="flex gap-3 mt-auto pt-4 border-t border-gray-100 dark:border-dark-700/50">
-      {githubLink && (
-        <a
-          href={githubLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-outline flex items-center justify-center space-x-2 flex-1 py-2.5 text-sm"
+      <div className="flex gap-3 mt-auto pt-4 border-t border-white/10">
+        {githubLink && (
+          <a
+            href={githubLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1"
+          >
+            <GlassButton variant="secondary" className="w-full text-xs py-2 px-3 gap-2">
+              <Github className="w-4 h-4" />
+              <span>Code</span>
+            </GlassButton>
+          </a>
+        )}
+        <Link
+          to={projectLink}
+          className="flex-1"
+          data-agent-target={agentTarget ? `${agentTarget}-detail` : undefined}
         >
-          <FontAwesomeIcon icon={faGithub} />
-          <span>Code</span>
-        </a>
-      )}
-      <Link
-        to={projectLink}
-        className="btn-primary flex items-center justify-center space-x-2 flex-1 py-2.5 text-sm"
-        data-agent-target={agentTarget ? `${agentTarget}-detail` : undefined}
-      >
-        <FontAwesomeIcon icon={faExternalLinkAlt} className="text-xs" />
-        <span>Details</span>
-      </Link>
-    </div>
-  </motion.div>
-);
+          <GlassButton variant="primary" className="w-full text-xs py-2 px-3 gap-2 bg-white/20 hover:bg-white/30">
+            <ExternalLink className="w-4 h-4" />
+            <span>Details</span>
+          </GlassButton>
+        </Link>
+      </div>
+    </GlassCard>
+  );
+};
 
 /**
- * FilterButton component for filtering projects by technology.
+ * FilterButton component for filtering projects.
  */
 const FilterButton = ({ technology, activeFilter, setActiveFilter }) => {
   const navigate = useNavigate();
@@ -91,30 +95,26 @@ const FilterButton = ({ technology, activeFilter, setActiveFilter }) => {
   };
 
   return (
-    <motion.button
-      className={`px-4 py-2 rounded-lg text-sm font-medium mr-2 mb-2 transition-all duration-200 ${
-        activeFilter === technology
-          ? 'bg-primary-500 text-white shadow-md'
-          : 'bg-gray-100 dark:bg-dark-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-700 hover:text-primary-600 dark:hover:text-primary-400'
-      }`}
+    <button
       onClick={handleClick}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      className={`px-4 py-2 rounded-full text-sm font-medium mr-2 mb-2 transition-all duration-300 backdrop-blur-md border ${
+        activeFilter === technology
+          ? 'bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] transform scale-105'
+          : 'bg-black/30 text-white/60 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/30'
+      }`}
     >
       {technology}
-    </motion.button>
+    </button>
   );
 };
 
 /**
- * Main Projects component to display all projects with filtering functionality.
+ * Main Projects component
  */
 const Projects = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('All');
 
-  // We reduced the total categories to 7, but each project has more of them.
   const projects = [
     {
       title: "Portfolio Website",
@@ -169,13 +169,26 @@ const Projects = () => {
       projectLink: "/projects/kubernetes-cluster",
       technologies: ['Kubernetes', 'Docker', 'Networking'],
       agentTarget: 'project-kubernetes'
+    },
+    {
+      title: "K8s Automation Pipeline",
+      description: "Automated CI/CD infrastructure using Tekton, Harbor, and ArgoCD for GitOps-driven Kubernetes deployments.",
+      githubLink: "https://github.com/Gnzaga/homelab-tekton-pipelines",
+      projectLink: "/projects/k8s-automation",
+      technologies: ['Kubernetes', 'Tekton', 'GitOps', 'ArgoCD'],
+      agentTarget: 'project-k8s-automation'
+    },
+    {
+      title: "Unified IAM System",
+      description: "Centralized Identity & Access Management using Authentik and OIDC to secure Kubernetes infrastructure and apps.",
+      projectLink: "/projects/unified-iam",
+      technologies: ['Authentik', 'IAM', 'OIDC', 'Kubernetes', 'Vault'],
+      agentTarget: 'project-unified-iam'
     }
   ];
 
-  // Extract all unique technologies from the projects to create filter buttons
   const allTechnologies = ['All', ...new Set(projects.flatMap(project => project.technologies))];
 
-  // On mount or when URL changes, parse ?filter= from the query, case-insensitive
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const urlFilter = searchParams.get('filter');
@@ -190,31 +203,28 @@ const Projects = () => {
         return;
       }
     }
-    // If we get here, no valid filter param => default to 'All'
     setActiveFilter('All');
-  }, [location.search, allTechnologies]);
+  }, [location.search]);
 
-  // Filter the projects based on the active technology filter
   const filteredProjects =
     activeFilter === 'All'
       ? projects
       : projects.filter((project) => project.technologies.includes(activeFilter));
 
   return (
-    <div className="min-h-screen py-24 custom-scrollbar bg-white dark:bg-dark-950 transition-colors duration-200">
-      <div className="container mx-auto px-6">
+    <div className="w-full">
         {/* Hero Section */}
         <div className="text-center mb-12">
           <motion.h1
-            className="page-header"
+            className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            My <span className="gradient-text">Projects</span>
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">Projects</span>
           </motion.h1>
           <motion.p
-            className="page-subheader mb-6"
+            className="text-xl text-white/80 max-w-2xl mx-auto drop-shadow-md"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
@@ -222,24 +232,23 @@ const Projects = () => {
             Technical projects spanning network engineering, full-stack development,
             and infrastructure automation.
           </motion.p>
-          <div className="section-divider"></div>
         </div>
 
         {/* Technology Filter Section */}
         <motion.div
-          className="mb-10"
+          className="mb-12"
           data-agent-target="project-filters"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center p-2 rounded-2xl">
             {allTechnologies.map((tech, index) => (
               <motion.div
                 key={tech}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 * index, duration: 0.3 }}
+                transition={{ delay: 0.05 * index, duration: 0.3 }}
               >
                 <FilterButton
                   technology={tech}
@@ -251,12 +260,12 @@ const Projects = () => {
           </div>
         </motion.div>
 
-        {/* Projects Grid */}
+        {/* Projects Grid (Masonry using CSS Columns) */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeFilter}
             layout
-            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
+            className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -268,10 +277,10 @@ const Projects = () => {
                 layout
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
+                exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ 
-                  duration: 0.6,
-                  delay: index * 0.1,
+                  duration: 0.4,
+                  delay: index * 0.05,
                   ease: "easeOut"
                 }}
               >
@@ -291,21 +300,18 @@ const Projects = () => {
         {/* Empty State */}
         {filteredProjects.length === 0 && (
           <motion.div 
-            className="text-center py-16"
+            className="text-center py-24"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-24 h-24 bg-dark-700 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-12 h-12 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-              </svg>
+            <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/10">
+              <Database className="w-10 h-10 text-white/20" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-600 mb-2 transition-colors duration-300">No projects found</h3>
-            <p className="text-gray-600 dark:text-gray-700 transition-colors duration-300">Try selecting a different technology filter.</p>
+            <h3 className="text-xl font-semibold text-white mb-2">No projects found</h3>
+            <p className="text-white/50">Try selecting a different technology filter.</p>
           </motion.div>
         )}
-      </div>
     </div>
   );
 };

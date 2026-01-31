@@ -29,6 +29,8 @@ const nodes = {
   '/projects/task-management':    { parent: '/projects', card: 'project-task-management',  detail: 'project-task-management-detail' },
   '/projects/homelab':            { parent: '/projects', card: 'project-homelab',           detail: 'project-homelab-detail' },
   '/projects/kubernetes-cluster': { parent: '/projects', card: 'project-kubernetes',        detail: 'project-kubernetes-detail' },
+  '/projects/k8s-automation':     { parent: '/projects', card: 'project-k8s-automation',   detail: 'project-k8s-automation-detail' },
+  '/projects/unified-iam':        { parent: '/projects', card: 'project-unified-iam',      detail: 'project-unified-iam-detail' },
 
   // ── Blog detail pages ──
   '/blog/learning-networking':         { parent: '/blog', card: 'blog-learning-networking',         detail: 'blog-learning-networking-link' },

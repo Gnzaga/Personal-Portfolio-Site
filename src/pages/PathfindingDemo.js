@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import GlassCard from '../components/GlassCard';
+import GlassButton from '../components/GlassButton';
 
 // ─── Graph Data ───────────────────────────────────────────
 const NODES = [
@@ -26,93 +28,58 @@ const NODES = [
   { id: '/demo/pathfinding', label: 'Pathfinder', type: 'sub', x: 540, y: 560 },
 ];
 
-// Visible edges drawn on the graph
 const VISIBLE_EDGES = [
-  // Navbar ring
   { source: '/', target: '/about', type: 'navbar', label: 'Navbar' },
   { source: '/about', target: '/projects', type: 'navbar', label: 'Navbar' },
   { source: '/projects', target: '/experience', type: 'navbar', label: 'Navbar' },
   { source: '/experience', target: '/blog', type: 'navbar', label: 'Navbar' },
   { source: '/blog', target: '/', type: 'navbar', label: 'Navbar' },
-  // Cross-links to show full navbar connectivity
   { source: '/', target: '/projects', type: 'navbar', label: 'Navbar' },
   { source: '/', target: '/experience', type: 'navbar', label: 'Navbar' },
   { source: '/about', target: '/blog', type: 'navbar', label: 'Navbar' },
   { source: '/about', target: '/experience', type: 'navbar', label: 'Navbar' },
   { source: '/projects', target: '/blog', type: 'navbar', label: 'Navbar' },
-
-  // Project detail links
-  { source: '/projects', target: '/projects/homelab', type: 'card', label: 'Details btn' },
-  { source: '/projects', target: '/projects/kubernetes-cluster', type: 'card', label: 'Details btn' },
-  { source: '/projects', target: '/projects/portfolio-project', type: 'card', label: 'Details btn' },
-  { source: '/projects', target: '/projects/chat-gnzaga', type: 'card', label: 'Details btn' },
-  { source: '/projects', target: '/projects/discord-bot', type: 'card', label: 'Details btn' },
-  { source: '/projects', target: '/projects/PlaylistProject', type: 'card', label: 'Details btn' },
-  { source: '/projects', target: '/projects/task-management', type: 'card', label: 'Details btn' },
-
-  // Blog links
-  { source: '/blog', target: '/blog/posts', type: 'card', label: 'Read article' },
-
-  // Portfolio → Pathfinder demo
-  { source: '/projects/portfolio-project', target: '/demo/pathfinding', type: 'card', label: 'Demo link' },
+  { source: '/projects', target: '/projects/homelab', type: 'card', label: 'Details' },
+  { source: '/projects', target: '/projects/kubernetes-cluster', type: 'card', label: 'Details' },
+  { source: '/projects', target: '/projects/portfolio-project', type: 'card', label: 'Details' },
+  { source: '/projects', target: '/projects/chat-gnzaga', type: 'card', label: 'Details' },
+  { source: '/projects', target: '/projects/discord-bot', type: 'card', label: 'Details' },
+  { source: '/projects', target: '/projects/PlaylistProject', type: 'card', label: 'Details' },
+  { source: '/projects', target: '/projects/task-management', type: 'card', label: 'Details' },
+  { source: '/blog', target: '/blog/posts', type: 'card', label: 'Read' },
+  { source: '/projects/portfolio-project', target: '/demo/pathfinding', type: 'card', label: 'Demo' },
 ];
 
-// ─── Pathfinding ──────────────────────────────────────────
 function buildAdjacency() {
   const adj = {};
   NODES.forEach(n => { adj[n.id] = []; });
-
   const mainPages = NODES.filter(n => n.type === 'main');
-
-  // Every node can reach every main page via navbar
   NODES.forEach(node => {
     mainPages.forEach(main => {
       if (node.id !== main.id) {
         adj[node.id].push({
           to: main.id,
           type: 'navbar',
-          label: `Click "${main.label}" in navbar`,
+          label: `Navbar to ${main.label}`,
         });
       }
     });
   });
-
-  // Projects → sub-pages via card click
   NODES.filter(n => n.id.startsWith('/projects/') && n.id !== '/projects').forEach(sub => {
-    adj['/projects'].push({
-      to: sub.id,
-      type: 'card',
-      label: `Click "Details" on ${sub.label} card`,
-    });
+    adj['/projects'].push({ to: sub.id, type: 'card', label: `View ${sub.label}` });
   });
-
-  // Blog → posts
-  adj['/blog'].push({
-    to: '/blog/posts',
-    type: 'card',
-    label: 'Click "Read Full Article"',
-  });
-
-  // Portfolio project → Pathfinder demo
-  adj['/projects/portfolio-project'].push({
-    to: '/demo/pathfinding',
-    type: 'card',
-    label: 'Click "Pathfinder Demo" link',
-  });
-
+  adj['/blog'].push({ to: '/blog/posts', type: 'card', label: 'Read Article' });
+  adj['/projects/portfolio-project'].push({ to: '/demo/pathfinding', type: 'card', label: 'Demo Link' });
   return adj;
 }
 
 function findShortestPath(adj, startId, endId) {
   if (startId === endId) return [{ nodeId: startId, action: null }];
-
   const visited = new Set([startId]);
   const queue = [[{ nodeId: startId, action: null }]];
-
   while (queue.length > 0) {
     const path = queue.shift();
     const current = path[path.length - 1].nodeId;
-
     for (const neighbor of (adj[current] || [])) {
       if (!visited.has(neighbor.to)) {
         const newPath = [...path, {
@@ -129,7 +96,6 @@ function findShortestPath(adj, startId, endId) {
   return null;
 }
 
-// ─── SVG Helpers ──────────────────────────────────────────
 function hexPoints(cx, cy, r) {
   const pts = [];
   for (let i = 0; i < 6; i++) {
@@ -145,7 +111,6 @@ function diamondPts(cx, cy, r) {
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-// ─── Component ────────────────────────────────────────────
 export default function PathfindingDemo() {
   const [selectedStart, setSelectedStart] = useState(null);
   const [selectedEnd, setSelectedEnd] = useState(null);
@@ -159,12 +124,8 @@ export default function PathfindingDemo() {
 
   const adj = useMemo(() => buildAdjacency(), []);
 
-
-  // Node click
   const onNodeClick = useCallback((id) => {
     if (isAnimating) return;
-
-    // After a completed path, treat next click as a fresh start
     if (hasPathRef.current) {
       hasPathRef.current = false;
       setSelectedStart(id);
@@ -175,7 +136,6 @@ export default function PathfindingDemo() {
       setActiveEdge(null);
       return;
     }
-
     if (!selectedStart) {
       setSelectedStart(id);
       setSelectedEnd(null);
@@ -195,27 +155,22 @@ export default function PathfindingDemo() {
     }
   }, [isAnimating, selectedStart, adj]);
 
-  // Step-by-step animation
   const runAnimation = useCallback(async (steps) => {
     setIsAnimating(true);
     setCompleted(new Set());
     setAnimStep(-1);
     setActiveEdge(null);
-
     for (let i = 0; i < steps.length; i++) {
       setAnimStep(i);
-
       if (i > 0) {
         setActiveEdge({ from: steps[i - 1].nodeId, to: steps[i].nodeId });
-        await sleep(450);
+        await sleep(400);
       }
-
-      await sleep(550);
+      await sleep(400);
       setCompleted(prev => new Set([...prev, i]));
       setActiveEdge(null);
     }
-
-    await sleep(1200);
+    await sleep(1000);
     hasPathRef.current = true;
     setIsAnimating(false);
   }, []);
@@ -231,7 +186,6 @@ export default function PathfindingDemo() {
     setIsAnimating(false);
   }, []);
 
-  // Edge status helpers
   const edgeIsActive = useCallback((src, tgt) => {
     if (!activeEdge) return false;
     return (activeEdge.from === src && activeEdge.to === tgt) ||
@@ -249,7 +203,6 @@ export default function PathfindingDemo() {
     return false;
   }, [path, completed]);
 
-  // Node status
   const nodeStatus = useCallback((id) => {
     if (id === selectedStart && !path) return 'start';
     if (!path) return 'idle';
@@ -260,292 +213,165 @@ export default function PathfindingDemo() {
     return 'pending';
   }, [selectedStart, path, animStep, completed]);
 
-  // Colours
-  const nodeFill = (node) => {
-    const s = nodeStatus(node.id);
-    if (s === 'active') return '#3fd888';
-    if (s === 'start') return '#3fd888';
-    if (s === 'done') return '#0fa968';
-    return node.type === 'main' ? '#178c57' : '#14b8a6';
-  };
-
-  const nodeStroke = (node) => {
-    const s = nodeStatus(node.id);
-    if (s === 'active' || s === 'start') return '#3fd888';
-    if (s === 'done') return '#0fa968';
-    return 'transparent';
-  };
-
-  // Is this a hidden edge (not in VISIBLE_EDGES) being shown during animation?
   const hiddenEdgeActive = activeEdge && !VISIBLE_EDGES.some(e =>
     (e.source === activeEdge.from && e.target === activeEdge.to) ||
     (e.source === activeEdge.to && e.target === activeEdge.from));
 
   return (
-    <div className="min-h-screen bg-white dark:bg-dark-950 py-24 px-4">
-      <div className="max-w-5xl mx-auto">
-
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
-          <h1 className="page-header">
-            Navigation <span className="gradient-text">Pathfinder</span>
-          </h1>
-          <p className="page-subheader mt-2">
-            {selectedStart
-              ? 'Now click a destination node'
-              : 'Click any node to set a starting point'}
-          </p>
-        </motion.div>
-
-        {/* Graph */}
-        <div className="relative">
-          {/* SVG */}
-          <svg
-            viewBox="0 0 950 580"
-            className="w-full rounded-2xl border border-gray-200 dark:border-dark-700 bg-gray-50/80 dark:bg-dark-900/80"
-            style={{ minHeight: 380 }}
+    <div className="w-full">
+      <div className="container mx-auto px-6 max-w-6xl space-y-8">
+        <div className="text-center mb-12">
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg"
           >
-            <defs>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="4" result="b" />
-                <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
-              <filter id="glow-strong">
-                <feGaussianBlur stdDeviation="7" result="b" />
-                <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
-            </defs>
-
-            {/* ── Edges ── */}
-            {VISIBLE_EDGES.map((e, i) => {
-              const s = NODES.find(n => n.id === e.source);
-              const t = NODES.find(n => n.id === e.target);
-              const active = edgeIsActive(e.source, e.target);
-              const inPath = edgeInPath(e.source, e.target);
-              const mx = (s.x + t.x) / 2;
-              const my = (s.y + t.y) / 2;
-
-              return (
-                <g key={`e${i}`}>
-                  <line
-                    x1={s.x} y1={s.y} x2={t.x} y2={t.y}
-                    stroke={active ? '#3fd888' : inPath ? '#178c57' : e.type === 'card' ? '#5eead4' : '#94a3b8'}
-                    strokeWidth={active ? 3 : inPath ? 2.5 : e.type === 'navbar' ? 0.8 : 1.4}
-                    opacity={active ? 1 : inPath ? 0.85 : e.type === 'navbar' ? 0.25 : 0.5}
-                    strokeDasharray={active ? '8 4' : undefined}
-                    className={active ? 'pathfinder-edge-pulse' : undefined}
-                    filter={active ? 'url(#glow)' : undefined}
-                  />
-                  {/* Diamond connector */}
-                  <polygon
-                    points={diamondPts(mx, my, active || inPath ? 7 : 5)}
-                    fill={active ? '#3fd888' : inPath ? '#178c57' : e.type === 'card' ? '#5eead4' : '#94a3b8'}
-                    opacity={active ? 1 : inPath ? 0.85 : 0.35}
-                    filter={active ? 'url(#glow)' : undefined}
-                  />
-                  {/* Edge label */}
-                  {(active || inPath) && (
-                    <text x={mx} y={my - 12} textAnchor="middle" fill="#3fd888" fontSize="9" fontWeight="600">
-                      {e.label}
-                    </text>
-                  )}
-                </g>
-              );
-            })}
-
-            {/* Hidden edge shown during animation */}
-            {hiddenEdgeActive && (() => {
-              const s = NODES.find(n => n.id === activeEdge.from);
-              const t = NODES.find(n => n.id === activeEdge.to);
-              if (!s || !t) return null;
-              const mx = (s.x + t.x) / 2;
-              const my = (s.y + t.y) / 2;
-              return (
-                <g>
-                  <line
-                    x1={s.x} y1={s.y} x2={t.x} y2={t.y}
-                    stroke="#3fd888" strokeWidth={3} opacity={0.8}
-                    strokeDasharray="6 4"
-                    className="pathfinder-edge-pulse"
-                    filter="url(#glow)"
-                  />
-                  <polygon points={diamondPts(mx, my, 7)} fill="#3fd888" filter="url(#glow)" />
-                  <text x={mx} y={my - 12} textAnchor="middle" fill="#3fd888" fontSize="9" fontWeight="600">
-                    Navbar
-                  </text>
-                </g>
-              );
-            })()}
-
-            {/* ── Nodes ── */}
-            {NODES.map(node => {
-              const s = nodeStatus(node.id);
-              const isMain = node.type === 'main';
-              const r = isMain ? 30 : 22;
-              const isHov = hovered === node.id;
-              const fill = nodeFill(node);
-              const stroke = nodeStroke(node);
-              const glowFilter = s === 'active' ? 'url(#glow-strong)' : (s === 'done' || s === 'start') ? 'url(#glow)' : undefined;
-
-              return (
-                <g
-                  key={node.id}
-                  onClick={() => onNodeClick(node.id)}
-                  onMouseEnter={() => setHovered(node.id)}
-                  onMouseLeave={() => setHovered(null)}
-                  style={{ cursor: !isAnimating ? 'pointer' : 'default' }}
-                  className={s === 'active' ? 'pathfinder-node-pulse' : ''}
-                >
-                  {/* Hover ring */}
-                  {isHov && !isAnimating && (
-                    isMain
-                      ? <circle cx={node.x} cy={node.y} r={r + 5} fill="none" stroke="#3fd888" strokeWidth={2} opacity={0.5} />
-                      : <polygon points={hexPoints(node.x, node.y, r + 5)} fill="none" stroke="#3fd888" strokeWidth={2} opacity={0.5} />
-                  )}
-
-                  {/* Shape */}
-                  {isMain ? (
-                    <circle
-                      cx={node.x} cy={node.y} r={r}
-                      fill={fill}
-                      stroke={stroke}
-                      strokeWidth={s !== 'idle' ? 3 : 0}
-                      filter={glowFilter}
-                    />
-                  ) : (
-                    <polygon
-                      points={hexPoints(node.x, node.y, r)}
-                      fill={fill}
-                      stroke={stroke}
-                      strokeWidth={s !== 'idle' ? 3 : 0}
-                      filter={glowFilter}
-                    />
-                  )}
-
-                  {/* Label */}
-                  <text
-                    x={node.x} y={node.y + 1}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fill="white"
-                    fontSize={isMain ? 11 : 9}
-                    fontWeight={isMain ? 700 : 600}
-                    style={{ pointerEvents: 'none', userSelect: 'none' }}
-                  >
-                    {node.label}
-                  </text>
-
-                  {/* START / END badges */}
-                  {((s === 'start' && !path) || (path && path[0]?.nodeId === node.id)) && (
-                    <text x={node.x} y={node.y - r - 10} textAnchor="middle" fill="#3fd888" fontSize="10" fontWeight="800" style={{ pointerEvents: 'none' }}>
-                      START
-                    </text>
-                  )}
-                  {path && path[path.length - 1]?.nodeId === node.id && (
-                    <text x={node.x} y={node.y - r - 10} textAnchor="middle" fill="#14b8a6" fontSize="10" fontWeight="800" style={{ pointerEvents: 'none' }}>
-                      END
-                    </text>
-                  )}
-                </g>
-              );
-            })}
-          </svg>
+            Site <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500">Pathfinder</span>
+          </motion.h1>
+          <p className="text-white/60">
+            {selectedStart
+              ? 'Select a destination to visualize the shortest path.'
+              : 'Click any node to begin the simulation.'}
+          </p>
         </div>
 
-        {/* Steps panel */}
+        {/* Graph Card */}
+        <GlassCard className="p-0 overflow-hidden relative border-white/10 bg-black/40 group hover:backdrop-blur-none transition-all duration-500">
+          <div className="overflow-x-auto overflow-y-hidden">
+            <svg viewBox="0 0 950 600" className="w-[950px] md:w-full h-auto min-w-[950px] md:min-w-0">
+              <defs>
+                <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+
+                          {VISIBLE_EDGES.map((e, i) => {
+                            const s = NODES.find(n => n.id === e.source);
+                            const t = NODES.find(n => n.id === e.target);
+                            const active = edgeIsActive(e.source, e.target);
+                            const inPath = edgeInPath(e.source, e.target);
+                            const mx = (s.x + t.x) / 2;
+                            const my = (s.y + t.y) / 2;
+                            const color = active ? '#4ade80' : inPath ? '#16a34a' : '#ffffff';
+                            const opacity = active ? 1 : inPath ? 0.8 : 0.2; // Increased base opacity
+              
+                            return (
+                              <g key={`e${i}`}>
+                                <line
+                                  x1={s.x} y1={s.y} x2={t.x} y2={t.y}
+                                  stroke={color}
+                                  strokeWidth={active ? 4 : inPath ? 3 : 1.5} // Thicker strokes
+                                  opacity={opacity}
+                                  strokeDasharray={active ? '8 4' : undefined}
+                                  filter={active ? 'url(#neon-glow)' : undefined}
+                                  className={active ? 'animate-pulse' : ''}
+                                />
+                                {(active || inPath) && (
+                                  <text x={mx} y={my - 10} textAnchor="middle" fill={color} fontSize="12" fontWeight="700"> {/* Larger font */}
+                                    {e.label}
+                                  </text>
+                                )}
+                              </g>
+                            );
+                          })}
+              
+                          {hiddenEdgeActive && (() => {
+                            const s = NODES.find(n => n.id === activeEdge.from);
+                            const t = NODES.find(n => n.id === activeEdge.to);
+                            if (!s || !t) return null;
+                            return (
+                              <line
+                                x1={s.x} y1={s.y} x2={t.x} y2={t.y}
+                                stroke="#4ade80" strokeWidth={3} opacity={0.7}
+                                strokeDasharray="4 4"
+                              />
+                            );
+                          })()}
+              
+                          {NODES.map(node => {
+                            const s = nodeStatus(node.id);
+                            const isMain = node.type === 'main';
+                            const r = isMain ? 32 : 24; // Larger nodes
+                            const activeColor = '#4ade80'; // Green-400
+                            const doneColor = '#16a34a'; // Green-600
+                            const baseColor = isMain ? '#ffffff' : '#94a3b8';
+                            
+                            let fill = 'transparent';
+                            let stroke = baseColor;
+                            let strokeWidth = 2; // Thicker border
+                            let opacity = 0.5;
+              
+                            if (s === 'active') { stroke = activeColor; strokeWidth = 4; opacity = 1; fill = 'rgba(74, 222, 128, 0.2)'; }
+                            else if (s === 'start') { stroke = activeColor; strokeWidth = 4; opacity = 1; fill = 'rgba(74, 222, 128, 0.2)'; }
+                            else if (s === 'done') { stroke = doneColor; strokeWidth = 3; opacity = 1; fill = 'rgba(22, 163, 74, 0.2)'; }
+                            else if (hovered === node.id) { stroke = activeColor; opacity = 0.9; }
+                return (
+                  <g
+                    key={node.id}
+                    onClick={() => onNodeClick(node.id)}
+                    onMouseEnter={() => setHovered(node.id)}
+                    onMouseLeave={() => setHovered(null)}
+                    className="cursor-pointer transition-all duration-300"
+                  >
+                    {isMain ? (
+                      <circle cx={node.x} cy={node.y} r={r} fill={fill} stroke={stroke} strokeWidth={strokeWidth} opacity={opacity} filter={s === 'active' ? 'url(#neon-glow)' : undefined} />
+                    ) : (
+                      <polygon points={hexPoints(node.x, node.y, r)} fill={fill} stroke={stroke} strokeWidth={strokeWidth} opacity={opacity} filter={s === 'active' ? 'url(#neon-glow)' : undefined} />
+                    )}
+                    <text x={node.x} y={node.y + 5} textAnchor="middle" fill="white" fontSize={isMain ? 12 : 10} fontWeight="600" opacity={1} style={{ pointerEvents: 'none' }}>
+                      {node.label}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+        </GlassCard>
+
+        {/* How it Works Section */}
+        <div className="text-center text-white/60 text-sm max-w-2xl mx-auto leading-relaxed">
+          <p className="mb-2">
+            <strong>How the Agent Navigates:</strong> It's a bit of a magic trick! 🪄
+          </p>
+          <p>
+            The LLM intelligently selects the <em>destination</em> based on your request. Then, this deterministic pathfinder algorithm takes over to calculate the exact, shortest visual path (button clicks and scrolls) to get you there seamlessly.
+          </p>
+        </div>
+
         <AnimatePresence>
           {path && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="mt-6 card p-6"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-heading font-semibold text-gray-900 dark:text-white">
-                  Navigation Steps
-                </h3>
-                <button
-                  onClick={reset}
-                  className="px-4 py-1.5 text-sm rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
-                >
-                  Reset
-                </button>
-              </div>
-              <ol className="space-y-2">
-                {path.map((step, i) => {
-                  const isDone = completed.has(i);
-                  const isCurrent = animStep === i;
-                  const nodeLabel = NODES.find(n => n.id === step.nodeId)?.label || step.nodeId;
-
-                  return (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.08 }}
-                      className={`flex items-center gap-3 text-sm transition-colors duration-300 ${isDone
-                        ? 'text-primary-600 dark:text-primary-400'
-                        : isCurrent
-                          ? 'text-primary-500 font-medium'
-                          : 'text-gray-400 dark:text-gray-500'
-                        }`}
-                    >
-                      <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${isDone
-                        ? 'bg-primary-500 text-white'
-                        : isCurrent
-                          ? 'bg-primary-400 text-white pathfinder-step-pulse'
-                          : 'bg-gray-200 dark:bg-dark-600 text-gray-500 dark:text-gray-400'
-                        }`}>
-                        {isDone ? '\u2713' : i + 1}
-                      </span>
-                      <span>
-                        {i === 0
-                          ? `Start at ${nodeLabel}`
-                          : step.action || `Navigate to ${nodeLabel}`}
-                      </span>
-                    </motion.li>
-                  );
-                })}
-              </ol>
+              <GlassCard className="p-6">
+                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-4">
+                  <h3 className="text-xl font-bold text-white">Execution Log</h3>
+                  <GlassButton variant="outline" onClick={reset} className="py-1 px-3 text-xs">Reset Simulation</GlassButton>
+                </div>
+                <div className="space-y-3 font-mono text-sm">
+                  {path.map((step, i) => {
+                    const isDone = completed.has(i);
+                    const isCurrent = animStep === i;
+                    const nodeLabel = NODES.find(n => n.id === step.nodeId)?.label;
+                    return (
+                      <div key={i} className={`flex items-center gap-3 ${isDone ? 'text-green-400' : isCurrent ? 'text-cyan-400' : 'text-white/30'}`}>
+                        <span className="w-6 text-right">{i + 1}.</span>
+                        <span>{i === 0 ? `Initialize at [${nodeLabel}]` : `Action: ${step.action} -> [${nodeLabel}]`}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </GlassCard>
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Legend */}
-        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 justify-center text-sm text-gray-600 dark:text-gray-400">
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-5 h-5 rounded-full" style={{ background: '#178c57' }} />
-            <span>Main Page</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-5 h-5" style={{ background: '#14b8a6', clipPath: 'polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)' }} />
-            <span>Sub-page</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-4 h-4" style={{ background: '#94a3b8', clipPath: 'polygon(50% 0%,100% 50%,50% 100%,0% 50%)' }} />
-            <span>Nav Action</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-6 border-t border-gray-400" />
-            <span>Navbar link</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-6 border-t-2" style={{ borderColor: '#5eead4' }} />
-            <span>Card / Button link</span>
-          </div>
-        </div>
-
-        {/* Instructions */}
-        {!selectedStart && !path && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center text-sm text-gray-400 dark:text-gray-500 mt-4"
-          >
-            Tip: select any two nodes to see how the agent navigates between them
-          </motion.p>
-        )}
       </div>
     </div>
   );
