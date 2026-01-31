@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
       {/* Content Layer */}
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-grow pt-32 px-4 pb-12 w-full max-w-7xl mx-auto">
+        <main className={`flex-grow px-4 pb-12 w-full max-w-7xl mx-auto transition-all duration-500 ${pathname === '/' ? 'pt-12' : 'pt-32'}`}>
            {children}
         </main>
       </div>

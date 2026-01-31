@@ -7,7 +7,7 @@ import Alessandro_Gonzaga_Resume from '../res/Alessandro_Gonzaga_Resume.pdf';
 
 const PortfolioGrid = () => {
   return (
-    <div className="min-h-screen p-6 md:p-12 max-w-7xl mx-auto flex flex-col justify-center">
+    <div className="min-h-screen p-6 lg:pt-0 lg:px-12 lg:pb-12 max-w-7xl mx-auto flex flex-col justify-center">
       
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -41,7 +41,7 @@ const PortfolioGrid = () => {
             <img 
               src="/images/alex.jpg" 
               alt="Alessandro Gonzaga" 
-              className="w-full h-full object-cover object-center lg:object-[75%_20%]"
+              className="w-full h-full object-cover object-[center_25%] lg:object-[75%_20%]"
             />
           </div>
           
