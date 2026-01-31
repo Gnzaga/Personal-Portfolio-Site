@@ -6,36 +6,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faCode, faServer, faDesktop, faLightbulb, faTasks } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import GlassButton from '../../components/GlassButton';
 
 /**
- * Main TaskManagementProject component that provides an overview, technologies used, and
- * key features of the "Task Management Website" project.
- *
- * @returns {JSX.Element} The rendered TaskManagementProject component.
+ * Main TaskManagementProject component
  */
 const TaskManagementProject = () => {
   return (
-    <div className="container mx-auto px-4 py-32 space-y-8 transition-colors duration-300">
+    <div className="w-full max-w-5xl mx-auto space-y-8">
       {/* Project title with animation */}
-      <motion.h1
-        className="text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center transition-colors duration-300"
+      <motion.div
+        className="text-center mb-12"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        Task Management Website
-      </motion.h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+          Task Management Website
+        </h1>
+        <p className="text-white/60 text-lg">Full-stack application for productivity</p>
+      </motion.div>
 
       {/* Project overview section */}
       <Section title="Project Overview" icon={faLightbulb}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg transition-colors duration-300">
+        <p className="mb-4">
           A robust and scalable web application for task management, featuring a Spring Boot back-end API and a React front-end. This project demonstrates proficiency in full-stack development, RESTful API design, and modern web technologies.
         </p>
       </Section>
 
       {/* Technologies used section */}
       <Section title="Technologies Used" icon={faCode}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Back-end: Spring Boot, Java</li>
           <li>Front-end: React, Axios</li>
           <li>Database: SQL (MySQL/PostgreSQL)</li>
@@ -47,7 +48,7 @@ const TaskManagementProject = () => {
 
       {/* Key features section */}
       <Section title="Key Features" icon={faTasks}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>User authentication and authorization with JWT</li>
           <li>CRUD operations for tasks</li>
           <li>Task assignment and team collaboration</li>
@@ -59,10 +60,10 @@ const TaskManagementProject = () => {
 
       {/* Back-end implementation details */}
       <Section title="Back-end Implementation" icon={faServer}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
+        <p className="mb-4">
           The back-end API, built with Spring Boot, provides a robust foundation for the application. Key aspects include:
         </p>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>RESTful API design following best practices</li>
           <li>Secure user authentication and authorization using JWT</li>
           <li>Data persistence with SQL database integration</li>
@@ -73,10 +74,10 @@ const TaskManagementProject = () => {
 
       {/* Front-end implementation details */}
       <Section title="Front-end Implementation" icon={faDesktop}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
+        <p className="mb-4">
           The React front-end provides a smooth and responsive user experience. Notable features include:
         </p>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Intuitive user interface for task management</li>
           <li>Real-time updates using React hooks and state management</li>
           <li>Efficient API communication using Axios</li>
@@ -87,10 +88,10 @@ const TaskManagementProject = () => {
 
       {/* Challenges and solutions section */}
       <Section title="Challenges and Solutions" icon={faLightbulb}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4 transition-colors duration-300">
+        <p className="mb-4">
           During the development of this project, several challenges were overcome:
         </p>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2 transition-colors duration-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Implementing secure and efficient JWT authentication</li>
           <li>Designing a scalable database schema for complex task relationships</li>
           <li>Optimizing API performance for large datasets</li>
@@ -100,14 +101,17 @@ const TaskManagementProject = () => {
       </Section>
 
       {/* GitHub and back to projects button */}
-      <div className="mt-12 text-center space-x-4">
-        <ButtonLink to="https://github.com/Gnzaga/TaskManagementProject">
-          See on GitHub <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
-        </ButtonLink>
+      <div className="mt-16 flex justify-center gap-6">
+        <a href="https://github.com/Gnzaga/TaskManagementProject" target="_blank" rel="noopener noreferrer">
+          <GlassButton variant="primary" className="gap-2">
+            <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />
+            See on GitHub
+          </GlassButton>
+        </a>
         <Link to="/projects">
-          <button className="bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-300">
+          <GlassButton variant="secondary">
             Back to Projects
-          </button>
+          </GlassButton>
         </Link>
       </div>
     </div>
