@@ -117,12 +117,12 @@ const Projects = () => {
 
   const projects = [
     {
-      title: "Portfolio Website",
-      description: "A personal portfolio, self-hosted on a home network using Docker containers, featuring React for the frontend.",
-      githubLink: "https://github.com/Gnzaga/Personal-Portfolio-Site",
-      projectLink: "/projects/portfolio-project",
-      technologies: ['React', 'Docker', 'Networking'],
-      agentTarget: 'project-portfolio'
+      title: "Homelab Project",
+      description: "A distributed multi-node Proxmox cluster with GPU passthrough, centralized NFS storage, and Kubernetes-based service orchestration for GitHub, JupyterHub, Jellyfin, and LLM workloads. Features integrated Ollama for serving open-source LLMs via containerized GPU inference pipelines.",
+      githubLink: "https://github.com/Gnzaga/homelab-code",
+      projectLink: "/projects/homelab",
+      technologies: ['Kubernetes', 'Docker', 'Networking', 'AI'],
+      agentTarget: 'project-homelab'
     },
     {
       title: "chat.gnzaga.com",
@@ -140,12 +140,12 @@ const Projects = () => {
       agentTarget: 'project-discord-bot'
     },
     {
-      title: "Playlist Project",
-      description: "A React + Python web app for generating Spotify playlist art and descriptions using AI prompts.",
-      githubLink: "https://github.com/gnzaga/spotify-gpt",
-      projectLink: "/projects/PlaylistProject",
-      technologies: ['React', 'Python', 'AI'],
-      agentTarget: 'project-playlist'
+      title: "Portfolio Website",
+      description: "A personal portfolio, self-hosted on a home network using Docker containers, featuring React for the frontend.",
+      githubLink: "https://github.com/Gnzaga/Personal-Portfolio-Site",
+      projectLink: "/projects/portfolio-project",
+      technologies: ['React', 'Docker', 'Networking'],
+      agentTarget: 'project-portfolio'
     },
     {
       title: "Task Management Website",
@@ -156,12 +156,12 @@ const Projects = () => {
       agentTarget: 'project-task-management'
     },
     {
-      title: "Homelab Project",
-      description: "A distributed multi-node Proxmox cluster with GPU passthrough, centralized NFS storage, and Kubernetes-based service orchestration for GitHub, JupyterHub, Jellyfin, and LLM workloads. Features integrated Ollama for serving open-source LLMs via containerized GPU inference pipelines.",
-      githubLink: "https://github.com/Gnzaga/homelab-code",
-      projectLink: "/projects/homelab",
-      technologies: ['Kubernetes', 'Docker', 'Networking', 'AI'],
-      agentTarget: 'project-homelab'
+      title: "Playlist Project",
+      description: "A React + Python web app for generating Spotify playlist art and descriptions using AI prompts.",
+      githubLink: "https://github.com/gnzaga/spotify-gpt",
+      projectLink: "/projects/PlaylistProject",
+      technologies: ['React', 'Python', 'AI'],
+      agentTarget: 'project-playlist'
     },
     {
       title: "Kubernetes Cluster",
@@ -187,7 +187,8 @@ const Projects = () => {
     }
   ];
 
-  const allTechnologies = ['All', ...new Set(projects.flatMap(project => project.technologies))];
+  // Limit filters to the main categories
+  const allTechnologies = ['All', 'Kubernetes', 'Docker', 'Networking', 'AI', 'Python', 'React', 'Java'];
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
