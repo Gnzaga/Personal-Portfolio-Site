@@ -1,175 +1,147 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { User, Code, Users, Award, Briefcase, Zap, Server, Shield } from 'lucide-react';
 import StaggeredList from '../components/StaggeredList';
 import SkillsComponent from '../components/SkillsComponent';
+import GlassCard from '../components/GlassCard';
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-dark-950 py-24 transition-colors duration-200">
-    <div className="container mx-auto px-6 space-y-12 custom-scrollbar">
+    <div className="w-full">
         {/* Hero Section */}
         <div className="text-center mb-12">
           <motion.h1
-            className="page-header"
+            className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            About <span className="gradient-text">Me</span>
+            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">Me</span>
           </motion.h1>
           <motion.p
-            className="page-subheader mb-6"
+            className="text-xl text-white/80 max-w-2xl mx-auto drop-shadow-md"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             Platform Engineer building scalable infrastructure and security systems
           </motion.p>
-          <div className="section-divider"></div>
         </div>
 
       <StaggeredList>
 
-        {/* Introduction Section */}
-        <div className="card p-8 md:p-12">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="md:w-2/3">
-              <h2 className="text-2xl font-heading font-semibold text-dark-800 dark:text-white mb-4 transition-colors duration-300">
-                Passionate Technology Professional
-              </h2>
-              <p className="text-gray-800 dark:text-gray-300 text-lg leading-relaxed transition-colors duration-300">
-                I am Alessandro Gonzaga, a Platform Engineer at Verizon specializing in Anti-Spam Systems.
-                I operate and extend platforms protecting 100M+ messaging endpoints, building microservices in Go,
-                designing data lake architectures, and driving automation with Terraform and agentic AI workflows.
-                Previously, I led automation across Verizon's nationwide Edge sites and supervised 200+ consultants
-                at Rutgers University's Office of Information Technology.
-              </p>
-            </div>
-            <div className="md:w-1/3">
-              <div className="w-48 h-48 mx-auto bg-gradient-primary rounded-full flex items-center justify-center">
-                <svg className="w-24 h-24 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                </svg>
-              </div>
-            </div>
+        {/* Dashboard Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          
+          {/* Profile Card (2x1) */}
+          <div className="md:col-span-2">
+            <GlassCard className="h-full flex flex-col md:flex-row items-center gap-8 p-8 bg-gradient-to-br from-white/10 to-white/5">
+                <div className="flex-1 space-y-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    <User className="w-6 h-6 text-green-500" />
+                    <h2 className="text-2xl font-bold text-white">Passionate Technologist</h2>
+                  </div>
+                  <p className="text-white/80 text-lg leading-relaxed">
+                    I am <span className="text-green-500 font-semibold">Alessandro Gonzaga</span>, a Platform Engineer at Verizon specializing in Anti-Spam Systems.
+                    I operate and extend platforms protecting 100M+ messaging endpoints, building microservices in Go,
+                    designing data lake architectures, and driving automation with Terraform and agentic AI workflows.
+                  </p>
+                </div>
+                <div className="w-40 h-40 flex-shrink-0 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(21,128,61,0.3)] border-4 border-green-800/30 overflow-hidden">
+                    <img src="/images/alex.jpg" alt="Alessandro Gonzaga" className="w-full h-full object-cover object-[75%_20%]" />
+                </div>
+            </GlassCard>
+          </div>
+
+          {/* Stats / Leadership (1x1) */}
+          <div className="md:col-span-1">
+             <GlassCard className="h-full flex flex-col justify-center bg-gradient-to-br from-green-900/40 to-black/40">
+                <div className="text-center space-y-6">
+                    <div>
+                        <div className="text-4xl font-bold text-white mb-1">200+</div>
+                        <div className="text-green-300 text-sm font-medium uppercase tracking-wider">Team Members Led</div>
+                    </div>
+                    <div className="w-16 h-1 bg-white/10 mx-auto rounded-full"></div>
+                    <div>
+                        <div className="text-4xl font-bold text-white mb-1">100M+</div>
+                        <div className="text-emerald-300 text-sm font-medium uppercase tracking-wider">Endpoints Secured</div>
+                    </div>
+                </div>
+             </GlassCard>
           </div>
         </div>
 
-        {/* Current Role Section */}
-        <div className="card p-8 md:p-12" data-agent-target="current-role">
-          <div className="grid md:grid-cols-2 gap-8">
+        {/* Current Role Section - Wide Card */}
+        <GlassCard className="mb-8 border-l-4 border-l-green-700" data-agent-target="current-role">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <h3 className="text-xl font-heading font-semibold text-primary-400 mb-4">
-                Current Role at Verizon
-              </h3>
-              <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed transition-colors duration-300">
+              <div className="flex items-center gap-3 mb-4">
+                 <Briefcase className="w-6 h-6 text-green-500" />
+                 <h3 className="text-2xl font-bold text-white">Current Role at Verizon</h3>
+              </div>
+              <p className="text-white/80 text-lg leading-relaxed">
                 At Verizon, I operate and extend the platform protecting 100M+ messaging endpoints from spam.
                 My work includes replacing legacy workflows with Terraform-based orchestration, building Go
-                microservices for URL intelligence, and designing data lake architectures with BigQuery,
-                Apache NiFi, and Redis.
+                microservices for URL intelligence, and designing data lake architectures.
               </p>
             </div>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-primary-400 rounded-full"></div>
-                <span className="text-gray-700 dark:text-gray-300 transition-colors duration-300">Anti-Spam Platform Engineering</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-primary-400 rounded-full"></div>
-                <span className="text-gray-700 dark:text-gray-300 transition-colors duration-300">Infrastructure Automation (Terraform, Go)</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-primary-400 rounded-full"></div>
-                <span className="text-gray-700 dark:text-gray-300 transition-colors duration-300">Data & Intelligence Pipelines</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-primary-400 rounded-full"></div>
-                <span className="text-gray-700 dark:text-gray-300 transition-colors duration-300">Cross-org Technical Leadership</span>
-              </div>
+            <div className="grid grid-cols-1 gap-3">
+              {[
+                { label: "Anti-Spam Platform Engineering", icon: Shield },
+                { label: "Infrastructure Automation (Terraform, Go)", icon: Server },
+                { label: "Data & Intelligence Pipelines", icon: Zap },
+                { label: "Cross-org Technical Leadership", icon: Users }
+              ].map((item, index) => (
+                  <div key={index} className="flex items-center space-x-3 bg-white/5 p-3 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
+                    <item.icon className="w-5 h-5 text-green-500" />
+                    <span className="text-white/90 font-medium">{item.label}</span>
+                  </div>
+              ))}
             </div>
           </div>
-        </div>
+        </GlassCard>
 
-        {/* Skills Component */}
-        <div data-agent-target="skills-section">
+        {/* Skills Component - Updated Container */}
+        <div data-agent-target="skills-section" className="mb-8">
           <SkillsComponent />
         </div>
 
-        {/* Leadership Experience */}
-        <div className="card p-8 md:p-12">
-          <h3 className="text-2xl font-heading font-semibold text-gray-900 dark:text-white mb-6 text-center transition-colors duration-300">
-            Leadership & Mentorship
-          </h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
-                </svg>
-              </div>
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 transition-colors duration-300">Team Management</h4>
-              <p className="text-gray-700 dark:text-gray-300 transition-colors duration-300">Supervised over 200+ consultants at Rutgers University</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-accent-500 to-accent-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 transition-colors duration-300">Technical Training</h4>
-              <p className="text-gray-700 dark:text-gray-300 transition-colors duration-300">Conducted advanced technical workshops and mentoring</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-primary-700 to-primary-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 transition-colors duration-300">Problem Solving</h4>
-              <p className="text-gray-700 dark:text-gray-300 transition-colors duration-300">Resolved complex IT issues and organizational transitions</p>
-            </div>
-          </div>
-        </div>
+        {/* Technical Expertise - Grid of Glass Cards */}
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+            <GlassCard className="bg-gradient-to-br from-black/40 to-transparent">
+               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                 <Zap className="w-5 h-5 text-yellow-300" /> Core Specializations
+               </h3>
+               <ul className="space-y-4">
+                {[
+                    "Anti-Spam & Security Platforms",
+                    "Infrastructure Automation (Terraform, Ansible)",
+                    "Data Pipelines (BigQuery, NiFi, Redis)",
+                    "Kubernetes & Container Orchestration"
+                ].map((skill, i) => (
+                    <li key={i} className="flex items-center space-x-3 group">
+                        <span className="w-1.5 h-1.5 bg-green-600 rounded-full group-hover:shadow-[0_0_8px_rgba(21,128,61,0.8)] transition-shadow"></span>
+                        <span className="text-white/80 group-hover:text-white transition-colors">{skill}</span>
+                    </li>
+                ))}
+               </ul>
+            </GlassCard>
 
-        {/* Technical Expertise */}
-        <div className="card p-8 md:p-12">
-          <h3 className="text-2xl font-heading font-semibold text-gray-900 dark:text-white mb-6 transition-colors duration-300">Technical Expertise</h3>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h4 className="text-lg font-semibold text-primary-400 mb-4">Core Specializations</h4>
-              <ul className="space-y-2 text-gray-700 dark:text-gray-300 transition-colors duration-300">
-                <li className="flex items-center space-x-3">
-                  <span className="w-2 h-2 bg-accent-400 rounded-full"></span>
-                  <span>Anti-Spam & Security Platforms</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <span className="w-2 h-2 bg-accent-400 rounded-full"></span>
-                  <span>Infrastructure Automation (Terraform, Ansible)</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <span className="w-2 h-2 bg-accent-400 rounded-full"></span>
-                  <span>Data Pipelines (BigQuery, NiFi, Redis)</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <span className="w-2 h-2 bg-accent-400 rounded-full"></span>
-                  <span>Kubernetes & Container Orchestration</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-primary-400 mb-4">Development Skills</h4>
-              <div className="flex flex-wrap gap-2">
+            <GlassCard className="bg-gradient-to-bl from-black/40 to-transparent">
+               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                 <Code className="w-5 h-5 text-emerald-500" /> Development Skills
+               </h3>
+               <div className="flex flex-wrap gap-2">
                 {['Python', 'Go', 'Terraform', 'Bash', 'SQL', 'JavaScript', 'Docker', 'Kubernetes'].map((skill) => (
-                  <span key={skill} className="bg-gray-300 dark:bg-dark-700 text-gray-800 dark:text-primary-300 px-3 py-1 rounded-full text-sm font-medium transition-colors duration-300">
+                  <span key={skill} className="bg-white/10 hover:bg-white/20 text-white/90 px-4 py-2 rounded-lg text-sm font-medium border border-white/10 transition-all hover:scale-105 cursor-default">
                     {skill}
                   </span>
                 ))}
               </div>
-            </div>
-          </div>
+            </GlassCard>
         </div>
+
       </StaggeredList>
-    </div>
     </div>
   );
 };
