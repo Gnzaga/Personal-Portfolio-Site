@@ -3,21 +3,24 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
 import { faServer, faCogs, faNetworkWired, faCode, faProjectDiagram, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import GlassButton from '../../components/GlassButton';
 
 const KubernetesCluster = () => {
   return (
-    <div className="container mx-auto px-4 py-32 space-y-8">
-      <motion.h1
-        className="text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center transition-colors duration-300"
+    <div className="w-full max-w-5xl mx-auto space-y-8">
+      <motion.div
+        className="text-center mb-12"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        Kubernetes Cluster Overview
-      </motion.h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+          Kubernetes Cluster Overview
+        </h1>
+      </motion.div>
 
       <Section title="Cluster Overview" icon={faServer}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg">
+        <p className="mb-4">
           My Kubernetes cluster is a self-hosted infrastructure designed to manage a wide array of applications. It powers 
           my portfolio website, developer tools, AI services, and ongoing experimental projects. Built for flexibility and scalability,
           it features robust networking, authentication, and orchestration capabilities.
@@ -25,7 +28,7 @@ const KubernetesCluster = () => {
       </Section>
 
       <Section title="Hosted Applications" icon={faProjectDiagram}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li><strong>Portfolio Website:</strong> React and Tailwind CSS site hosted with NGINX.</li>
           <li><strong>Coder:</strong> A web-based IDE at <code>code.gnzaga.com</code>.</li>
           <li><strong>JupyterHub:</strong> Hosted for data analysis and educational purposes at <code>py.gnzaga.com</code>.</li>
@@ -37,7 +40,7 @@ const KubernetesCluster = () => {
       </Section>
 
       <Section title="Technologies and Architecture" icon={faCode}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li><strong>Container Orchestration:</strong> Kubernetes with MetalLB for load balancing.</li>
           <li><strong>Authentication:</strong> Authentik for LDAP-based central authentication.</li>
           <li><strong>Networking:</strong> VLAN segmentation with robust firewall configurations.</li>
@@ -47,10 +50,10 @@ const KubernetesCluster = () => {
       </Section>
 
       <Section title="Networking and Security" icon={faNetworkWired}>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">
+        <p className="mb-4">
           The cluster is built with a focus on secure and efficient communication:
         </p>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>VLANs for isolating traffic between services and devices.</li>
           <li>SSL/TLS encryption for secure data transmission.</li>
           <li>Custom firewall rules for access control and rate limiting.</li>
@@ -59,7 +62,7 @@ const KubernetesCluster = () => {
       </Section>
 
       <Section title="Future Plans and Experimentation" icon={faLightbulb}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>MediaWiki for collaborative documentation and knowledge sharing.</li>
           <li>A personal blog showcasing experiments and technical insights.</li>
           <li>Expanded AI/ML capabilities with new compute resources.</li>
@@ -68,7 +71,7 @@ const KubernetesCluster = () => {
       </Section>
 
       <Section title="Challenges and Solutions" icon={faCogs}>
-        <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-lg space-y-2">
+        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
           <li>Optimizing resource allocation for AI inference workloads.</li>
           <li>Maintaining uptime and performance across multiple services.</li>
           <li>Streamlining updates and scalability with Kubernetes best practices.</li>
@@ -76,11 +79,11 @@ const KubernetesCluster = () => {
         </ul>
       </Section>
 
-      <div className="mt-12 text-center space-x-4">
+      <div className="mt-16 text-center">
         <Link to="/projects">
-          <button className="bg-primary-500 dark:bg-primary-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-primary-600 dark:hover:bg-primary-700 transition-colors duration-300">
+          <GlassButton variant="secondary">
             Back to Projects
-          </button>
+          </GlassButton>
         </Link>
       </div>
     </div>

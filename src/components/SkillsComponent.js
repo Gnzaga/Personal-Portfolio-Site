@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ThemeContext } from '../context/ThemeContext';
+import GlassCard from './GlassCard';
 
 // skills.js (or wherever you define your skills array)
 export const skills = [
@@ -42,11 +42,9 @@ export const skills = [
   }
 ];
 
-
 const SkillBar = ({ skill }) => {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
-  const { theme } = useContext(ThemeContext);
 
   const handleClick = () => {
     navigate(skill.projectRoute);
@@ -54,46 +52,44 @@ const SkillBar = ({ skill }) => {
 
   return (
     <div
-      className="mb-4 cursor-pointer"
+      className="mb-6 cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
     >
-      <div className="flex justify-between mb-1">
-        <span className="text-base font-medium dark:text-gray-300 text-gray-900">{skill.name}</span>
-        <span className="text-sm font-medium dark:text-gray-300 text-gray-900">{skill.level}%</span>
+      <div className="flex justify-between mb-2">
+        <span className="text-base font-medium text-white group-hover:text-green-500 transition-colors duration-300">{skill.name}</span>
+        <span className="text-sm font-medium text-white/80">{skill.level}%</span>
       </div>
-      <div className="w-full dark:bg-dark-700 bg-gray-200 rounded-full h-2.5">
+      <div className="w-full bg-white/5 rounded-full h-2.5 backdrop-blur-sm border border-white/5">
         <motion.div
-          className="bg-primary-500 h-2.5 rounded-full"
+          className="bg-gradient-to-r from-green-800 to-emerald-900 h-2.5 rounded-full shadow-[0_0_10px_rgba(20,83,45,0.4)]"
           initial={{ width: 0 }}
           animate={{ width: `${skill.level}%` }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 1, ease: "easeOut" }}
         />
       </div>
-      {isHovered && (
-        <motion.p
-          className="text-sm dark:text-gray-400 text-gray-800 mt-1"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          Click to see projects using {skill.name}
-        </motion.p>
-      )}
+      <motion.p
+        className="text-xs text-green-600 mt-2 h-4 font-medium"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isHovered ? 1 : 0 }}
+      >
+        {isHovered ? `Click to see projects using ${skill.name}` : ''}
+      </motion.p>
     </div>
   );
 };
 
 const SkillsComponent = () => {
-  const { theme } = useContext(ThemeContext);
-  
   return (
-    <div className="bg-white dark:bg-dark-800 shadow-md rounded-lg p-6 transition-colors duration-300">
-      <h2 className="text-2xl font-bold dark:text-white text-gray-800 mb-4">Technical Skills</h2>
-      {skills.map((skill, index) => (
-        <SkillBar key={index} skill={skill} />
-      ))}
-    </div>
+    <GlassCard className="p-8">
+      <h2 className="text-2xl font-bold text-white mb-8 border-b border-white/10 pb-4">Technical Proficiency</h2>
+      <div className="space-y-2">
+        {skills.map((skill, index) => (
+          <SkillBar key={index} skill={skill} />
+        ))}
+      </div>
+    </GlassCard>
   );
 };
 
