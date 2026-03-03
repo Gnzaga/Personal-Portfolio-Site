@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faLaptopCode, faServer, faNetworkWired, faPalette, faTools, faGlobe } from '@fortawesome/free-solid-svg-icons';
-import ButtonLink from '../../components/ButtonLink';
+import { faLaptopCode, faPalette, faTools, faServer, faNetworkWired, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import Section from '../../components/ProjectSection';
 import GlassButton from '../../components/GlassButton';
 
