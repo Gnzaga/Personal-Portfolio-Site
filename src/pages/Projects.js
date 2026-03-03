@@ -14,6 +14,7 @@ const ProjectCard = ({ title, description, githubLink, projectLink, technologies
   // Select an icon based on title/tech
   const getIcon = () => {
     const t = title.toLowerCase();
+    if (t.includes('kaiwa')) return <Globe className="w-6 h-6 text-green-400" />;
     if (t.includes('chat')) return <MessageSquare className="w-6 h-6 text-green-400" />;
     if (t.includes('playlist') || t.includes('spotify')) return <Music className="w-6 h-6 text-emerald-400" />;
     if (t.includes('kubernetes') || t.includes('cluster')) return <Server className="w-6 h-6 text-green-500" />;
@@ -116,6 +117,14 @@ const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('All');
 
   const projects = [
+    {
+      title: "Kaiwa",
+      description: "A multi-national media intelligence platform aggregating law and economics news from Japan, the US, the Philippines, and Taiwan. Features AI-powered translation, summarization, sentiment analysis, and an autonomous Sentinel intelligence system that tracks developing stories, generates hypotheses, and researches information gaps.",
+      githubLink: "https://github.com/Gnzaga/kaiwa",
+      projectLink: "/projects/kaiwa",
+      technologies: ['AI', 'Python', 'React', 'Kubernetes'],
+      agentTarget: 'project-kaiwa'
+    },
     {
       title: "Homelab Project",
       description: "A distributed multi-node Proxmox cluster with GPU passthrough, centralized NFS storage, and Kubernetes-based service orchestration for GitHub, JupyterHub, Jellyfin, and LLM workloads. Features integrated Ollama for serving open-source LLMs via containerized GPU inference pipelines.",
