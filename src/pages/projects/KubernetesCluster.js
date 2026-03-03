@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
-import { faServer, faCogs, faNetworkWired, faCode, faProjectDiagram, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { faServer, faCogs, faProjectDiagram, faDatabase } from '@fortawesome/free-solid-svg-icons';
 import GlassButton from '../../components/GlassButton';
 
 const KubernetesCluster = () => {
@@ -15,73 +15,102 @@ const KubernetesCluster = () => {
         transition={{ duration: 0.5 }}
       >
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Kubernetes Cluster Overview
+          Kubernetes Platform
         </h1>
+        <p className="text-white/60 text-lg">Talos Linux — Production Cluster</p>
       </motion.div>
 
       <Section title="Cluster Overview" icon={faServer}>
-        <p className="mb-4">
-          My Kubernetes cluster is a self-hosted infrastructure designed to manage a wide array of applications. It powers 
-          my portfolio website, developer tools, AI services, and ongoing experimental projects. Built for flexibility and scalability,
-          it features robust networking, authentication, and orchestration capabilities.
+        <ul className="list-disc list-inside space-y-2 marker:text-green-500 mb-4">
+          <li><strong>Distribution:</strong> Talos Linux v1.9.3 — immutable OS, API-only management, no SSH</li>
+          <li><strong>Kubernetes:</strong> v1.32.1 with containerd 2.0.2</li>
+          <li><strong>CNI:</strong> Flannel (VXLAN)</li>
+          <li><strong>Load Balancer:</strong> MetalLB (BGP + Layer 2)</li>
+          <li><strong>Ingress:</strong> Traefik</li>
+          <li><strong>Storage:</strong> NFS CSI Driver with 8 storage classes</li>
+          <li><strong>Topology:</strong> 5 control plane nodes + 5 worker nodes (80 GB total worker RAM)</li>
+        </ul>
+        <p>
+          All cluster state is managed declaratively with Kustomize and continuously synced to the live
+          cluster via ArgoCD. No manual <code className="text-white/80">kubectl apply</code> in production —
+          every change goes through Git.
         </p>
       </Section>
 
-      <Section title="Hosted Applications" icon={faProjectDiagram}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
-          <li><strong>Portfolio Website:</strong> React and Tailwind CSS site hosted with NGINX.</li>
-          <li><strong>Coder:</strong> A web-based IDE at <code>code.gnzaga.com</code>.</li>
-          <li><strong>JupyterHub:</strong> Hosted for data analysis and educational purposes at <code>py.gnzaga.com</code>.</li>
-          <li><strong>OpenWebUI:</strong> Frontend with separate backend AI compute servers for inference.</li>
-          <li><strong>Authentik:</strong> Centralized authentication via LDAP for unified user management.</li>
-          <li><strong>Rancher:</strong> Simplified Kubernetes cluster management interface.</li>
-          <li><strong>Pi-hole:</strong> Network-wide ad-blocker & DNS server to enhance privacy and security.</li>
+      <Section title="Node Inventory" icon={faProjectDiagram}>
+        <p className="mb-3 font-semibold text-white/80">Control Plane (5 nodes — 2 GB RAM each)</p>
+        <ul className="list-disc list-inside space-y-1 marker:text-green-500 mb-6 text-sm">
+          <li>cp1, cp2, cp3 on ag-pm1 — 10.100.0.150–152</li>
+          <li>cp4, cp5 on ag-pm3 — 10.100.0.156–157</li>
+        </ul>
+        <p className="mb-3 font-semibold text-white/80">Workers (5 nodes — 16 GB RAM each)</p>
+        <ul className="list-disc list-inside space-y-1 marker:text-green-500 text-sm">
+          <li>wn1 on ag-pm1 — GTX 1080 Ti (GPU passthrough)</li>
+          <li>wn2 on ag-pm1 — GTX 1070 (GPU passthrough)</li>
+          <li>wn3 on ag-pm2 — general compute</li>
+          <li>wn4, wn5 on ag-pm3 — general compute</li>
         </ul>
       </Section>
 
-      <Section title="Technologies and Architecture" icon={faCode}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
-          <li><strong>Container Orchestration:</strong> Kubernetes with MetalLB for load balancing.</li>
-          <li><strong>Authentication:</strong> Authentik for LDAP-based central authentication.</li>
-          <li><strong>Networking:</strong> VLAN segmentation with robust firewall configurations.</li>
-          <li><strong>Storage:</strong> Persistent storage solutions for applications like JupyterHub and OpenWebUI.</li>
-          <li><strong>Monitoring:</strong> Tools for performance tracking and security audits.</li>
+      <Section title="Deployed Services" icon={faCogs}>
+        <ul className="space-y-3">
+          <li>
+            <strong className="text-white">AI/ML</strong>
+            <p className="text-sm text-white/70 mt-0.5">Ollama (GPU inference), Open WebUI (2–6 replicas, HPA-scaled), KubeAI (16 model endpoints), JupyterHub</p>
+          </li>
+          <li>
+            <strong className="text-white">Monitoring</strong>
+            <p className="text-sm text-white/70 mt-0.5">Prometheus, Grafana, Loki + Promtail, DCGM Exporter (per-GPU metrics)</p>
+          </li>
+          <li>
+            <strong className="text-white">Storage</strong>
+            <p className="text-sm text-white/70 mt-0.5">MinIO (500 Gi NVMe-backed S3-compatible object storage), Harbor container registry</p>
+          </li>
+          <li>
+            <strong className="text-white">Productivity</strong>
+            <p className="text-sm text-white/70 mt-0.5">Wiki.js, Nextcloud, Paperless-NGX, Bookstack, Vaultwarden, FreshRSS, n8n</p>
+          </li>
+          <li>
+            <strong className="text-white">Identity & Security</strong>
+            <p className="text-sm text-white/70 mt-0.5">Authentik (SSO/IdP with OIDC and LDAP), HashiCorp Vault, External Secrets Operator</p>
+          </li>
+          <li>
+            <strong className="text-white">Backup</strong>
+            <p className="text-sm text-white/70 mt-0.5">Velero — daily backups of critical namespaces and weekly full-cluster backups, stored in MinIO S3</p>
+          </li>
+          <li>
+            <strong className="text-white">Databases</strong>
+            <p className="text-sm text-white/70 mt-0.5">PostgreSQL (9 separate databases), Redis</p>
+          </li>
         </ul>
       </Section>
 
-      <Section title="Networking and Security" icon={faNetworkWired}>
+      <Section title="Storage Architecture" icon={faDatabase}>
         <p className="mb-4">
-          The cluster is built with a focus on secure and efficient communication:
+          Storage is tiered across three backends, exposed to workloads through 8 named storage classes
+          so applications declare exactly what they need.
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
-          <li>VLANs for isolating traffic between services and devices.</li>
-          <li>SSL/TLS encryption for secure data transmission.</li>
-          <li>Custom firewall rules for access control and rate limiting.</li>
-          <li>Port forwarding configurations for seamless external access to hosted services.</li>
-        </ul>
+        <div className="space-y-4 mb-4">
+          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
+            <h4 className="text-green-400 font-bold mb-2">ag-pm1 (RAID5 + NVMe)</h4>
+            <p className="text-sm">7.3 TB RAID5 array for general-purpose PVCs. Dedicated 2 TB NVMe for MinIO object storage, providing low-latency S3-compatible block access.</p>
+          </div>
+          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
+            <h4 className="text-green-400 font-bold mb-2">TrueNAS on ag-pm2 (ZFS)</h4>
+            <p className="text-sm">14.5 TB ZFS pool managed by TrueNAS, shared over NFS. Used for application workloads requiring large or durable storage (Nextcloud, media, backups).</p>
+          </div>
+          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
+            <h4 className="text-green-400 font-bold mb-2">Storage Classes</h4>
+            <p className="text-sm">8 classes available: <code className="text-white/80">nfs-csi</code>, <code className="text-white/80">nfs-csi-retain</code>, <code className="text-white/80">nfs-minio-nvme</code>, <code className="text-white/80">nfs-fast</code>, <code className="text-white/80">nfs-bulk</code>, <code className="text-white/80">nfs-csi-nextcloud</code>, <code className="text-white/80">nfs-k8s-apps</code>, <code className="text-white/80">nfs-k8s-apps-retain</code></p>
+          </div>
+          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
+            <h4 className="text-green-400 font-bold mb-2">Velero Backup Schedule</h4>
+            <p className="text-sm">Daily backups of critical namespaces with 30-day retention. Weekly full-cluster backups with 90-day retention. All snapshots stored in MinIO S3.</p>
+          </div>
+        </div>
       </Section>
 
-      <Section title="Future Plans and Experimentation" icon={faLightbulb}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
-          <li>MediaWiki for collaborative documentation and knowledge sharing.</li>
-          <li>A personal blog showcasing experiments and technical insights.</li>
-          <li>Expanded AI/ML capabilities with new compute resources.</li>
-          <li>Custom CI/CD workflows for automated deployment of new projects.</li>
-          <li>If you can see this message it means my Github Webhook -> tekton -> harbor -> argocd pipeline automated my entire process from a single push to main!</li>
-          <li>Test test test test</li>
-          </ul>
-      </Section>
-
-      <Section title="Challenges and Solutions" icon={faCogs}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
-          <li>Optimizing resource allocation for AI inference workloads.</li>
-          <li>Maintaining uptime and performance across multiple services.</li>
-          <li>Streamlining updates and scalability with Kubernetes best practices.</li>
-          <li>Implementing advanced security measures to safeguard sensitive data.</li>
-        </ul>
-      </Section>
-
-      <div className="mt-16 text-center">
+      <div className="mt-16 flex justify-center gap-6">
         <Link to="/projects">
           <GlassButton variant="secondary">
             Back to Projects
