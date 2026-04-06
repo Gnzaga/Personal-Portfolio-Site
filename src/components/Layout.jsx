@@ -21,9 +21,6 @@ const Layout = ({ children }) => {
 
   const activeBg = activeKey ? backgrounds[activeKey] : backgrounds['/'];
 
-  console.log('Current Path:', pathname);
-  console.log('Active Background:', activeBg);
-
   return (
     <div className="relative min-h-screen font-sans text-white selection:bg-purple-500/30">
       {/* Dynamic Background Layer */}
