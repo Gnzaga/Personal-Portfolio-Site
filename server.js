@@ -18,6 +18,8 @@ const cors = require('cors'); // Middleware for enabling Cross-Origin Resource S
 const axios = require('axios'); // HTTP client for making HTTP requests.
 const path = require('path'); // Utility module for handling and transforming file paths.
 const fs = require('fs'); // File system module for reading and writing files.
+const { createChatMiddleware } = require('@shippilot/core/server');
+const siteGraph = require('./src/shippilot/site-graph.json');
 // Initialize the Express application
 const app = express(); // Creates an Express application instance.
 const PORT = process.env.PORT || 8080; // Sets the server port from an environment variable or defaults to 8080.
@@ -56,112 +58,17 @@ app.use((req, res, next) => {
 
 const { systemMessage, buildSystemPrompt } = require('./src/utils/promptBuilder');
 
-/**
- * @function chatEndpoint
- * @description Endpoint to handle POST requests to the '/chat' route. It sends the user's message to an external LLM model
- * and streams the response back to the client in real-time.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- */
-app.post('/chat', async (req, res) => {
-    const { message, currentPage, history } = req.body;
-    if (!message || typeof message !== 'string') {
-      return res.status(400).json({ error: 'Invalid message format' });
-    }
-
-    // Validate and limit history to last 10 entries
-    const validatedHistory = Array.isArray(history)
-      ? history
-          .filter(
-            (h) =>
-              h &&
-              typeof h.content === 'string' &&
-              (h.role === 'user' || h.role === 'assistant')
-          )
-          .slice(-10)
-      : [];
-
-    // Build the messages array with system prompt, history, and current message
-    const messagesArray = [
-      { role: 'system', content: buildSystemPrompt(currentPage || '/') },
-      ...validatedHistory,
-      { role: 'user', content: message },
-    ];
-
-    try {
-      const upstream = await axios.post(
-        LLM_API_URL,
-        {
-          model: 'gnzaga',
-          messages: messagesArray,
-          stream: true,
-        },
-        {
-          headers: {
-            // accept either BEARER_TOKEN="Bearer sk-..." or "sk-..."
-            Authorization: process.env.BEARER_TOKEN.startsWith('Bearer')
-              ? process.env.BEARER_TOKEN
-              : `Bearer ${process.env.BEARER_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          responseType: 'stream',
-        },
-      );
-  
-      // --- prepare SSE down to browser ---
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-        // Heroku / Nginx buffering hacks (optional):
-        'X-Accel-Buffering': 'no',
-      });
-      res.flushHeaders?.();            // send headers immediately if compression middleware is present
-  
-      upstream.data.on('data', chunk => {
-        const lines = chunk.toString().split('\n').filter(Boolean);
-  
-        for (let line of lines) {
-          if (line.trim() === 'data: [DONE]') {
-            res.write('data: [DONE]\n\n');
-            res.end();
-            return;
-          }
-  
-          // strip leading "data:"
-          if (line.startsWith('data:')) line = line.replace(/^data:\s*/, '');
-          if (!line.trim()) continue;
-  
-          try {
-            const payload = JSON.parse(line);
-  
-            // OpenAI-style incremental tokens live here:
-            const delta = payload.choices?.[0]?.delta?.content;
-            if (delta !== undefined) {
-              res.write(`data: ${JSON.stringify({ delta })}\n\n`);
-              res.flush?.();           // push right away (Node ≥18)
-            }
-          } catch (err) {
-            console.error('Bad JSON:', err, line);
-          }
-        }
-      });
-  
-      upstream.data.on('end', () => {
-        res.write('data: [DONE]\n\n');
-        res.end();
-      });
-  
-      upstream.data.on('error', err => {
-        console.error('Upstream error:', err);
-        if (!res.headersSent) res.status(502).json({ error: 'Upstream failed' });
-        else res.end();
-      });
-    } catch (err) {
-      console.error('Request failed:', err);
-      if (!res.headersSent) res.status(500).json({ error: 'Internal server error' });
-    }
-  });
+// ShipPilot chat endpoint — replaces hand-rolled LLM proxy
+app.post('/chat', createChatMiddleware({
+  model: {
+    endpoint: LLM_API_URL,
+    apiKey: process.env.BEARER_TOKEN || '',
+    modelName: process.env.LLM_MODEL || 'gnzaga',
+  },
+  siteGraph,
+  siteContext: "Alessandro Gonzaga's personal portfolio site. Full-stack engineer with a focus on TypeScript, React, Kubernetes, and homelab infrastructure. Shows projects, blog posts, and professional experience.",
+  maxHistoryMessages: 10,
+}));
 
 /**
  * @function loadModelEndpoint
