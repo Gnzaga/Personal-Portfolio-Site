@@ -31,6 +31,10 @@ const nodes = {
   '/projects/kubernetes-cluster': { parent: '/projects', card: 'project-kubernetes',        detail: 'project-kubernetes-detail' },
   '/projects/k8s-automation':     { parent: '/projects', card: 'project-k8s-automation',   detail: 'project-k8s-automation-detail' },
   '/projects/unified-iam':        { parent: '/projects', card: 'project-unified-iam',      detail: 'project-unified-iam-detail' },
+  '/projects/kaiwa':              { parent: '/projects', card: 'project-kaiwa',            detail: 'project-kaiwa-detail' },
+  '/projects/agent-mesh':         { parent: '/projects', card: 'project-agent-mesh',        detail: 'project-agent-mesh-detail' },
+  '/projects/matrix-server':      { parent: '/projects', card: 'project-matrix-server',     detail: 'project-matrix-server-detail' },
+  '/projects/agent-orchestration': { parent: '/projects', card: 'project-agent-orchestration', detail: 'project-agent-orchestration-detail' },
 
   // ── Blog detail pages ──
   '/blog/learning-networking':         { parent: '/blog', card: 'blog-learning-networking',         detail: 'blog-learning-networking-link' },
@@ -43,6 +47,12 @@ const nodes = {
   '/blog/live-portfolio-announcement': { parent: '/blog', card: 'blog-live-portfolio-announcement', detail: 'blog-live-portfolio-announcement-link' },
   '/blog/starting-anti-spam-journey':  { parent: '/blog', card: 'blog-starting-anti-spam-journey',  detail: 'blog-starting-anti-spam-journey-link' },
   '/blog/building-vpn-mesh-network':   { parent: '/blog', card: 'blog-building-vpn-mesh-network',   detail: 'blog-building-vpn-mesh-network-link' },
+  '/blog/kaiwa-world-view-maritime-anomaly-detection':       { parent: '/blog', card: 'blog-kaiwa-world-view-maritime-anomaly-detection',       detail: 'blog-kaiwa-world-view-maritime-anomaly-detection-link' },
+  '/blog/designing-a-multi-agent-orchestration-system':      { parent: '/blog', card: 'blog-designing-a-multi-agent-orchestration-system',      detail: 'blog-designing-a-multi-agent-orchestration-system-link' },
+  '/blog/kaiwa-self-curating-feeds-llm-judge':                { parent: '/blog', card: 'blog-kaiwa-self-curating-feeds-llm-judge',                detail: 'blog-kaiwa-self-curating-feeds-llm-judge-link' },
+  '/blog/matrix-auth-delegation-authentik-mas-msc3861':      { parent: '/blog', card: 'blog-matrix-auth-delegation-authentik-mas-msc3861',      detail: 'blog-matrix-auth-delegation-authentik-mas-msc3861-link' },
+  '/blog/homelab-architecture-modernization-five-phase-plan': { parent: '/blog', card: 'blog-homelab-architecture-modernization-five-phase-plan', detail: 'blog-homelab-architecture-modernization-five-phase-plan-link' },
+  '/blog/debugging-postgres-crash-recovery-slow-nfs':        { parent: '/blog', card: 'blog-debugging-postgres-crash-recovery-slow-nfs',        detail: 'blog-debugging-postgres-crash-recovery-slow-nfs-link' },
 };
 
 /**

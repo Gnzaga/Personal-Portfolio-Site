@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShieldAlt, faKey, faNetworkWired, faLock, faProjectDiagram, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { faShieldAlt, faKey, faNetworkWired, faLock, faProjectDiagram, faDatabase, faComments } from '@fortawesome/free-solid-svg-icons';
 import Section from '../../components/ProjectSection';
 import GlassButton from '../../components/GlassButton';
 import GlassCard from '../../components/GlassCard';
@@ -50,6 +50,25 @@ const UnifiedIAMProject = () => {
             <p className="text-xs text-white/60 leading-relaxed">Grafana (with group-to-role mapping), OpenWebUI, and JupyterHub.</p>
           </div>
         </div>
+      </Section>
+
+      <Section title="Extending IAM to Chat" icon={faComments}>
+        <p className="mb-4">
+          Authentik's role as the homelab's single identity provider now extends to a self-hosted Matrix chat server
+          (Synapse + Element). Rather than integrating Synapse directly as an OIDC client, authentication is brokered
+          through <span className="text-green-400">matrix-authentication-service (MAS)</span>, a dedicated delegation
+          layer purpose-built for Matrix homeservers under the MSC3861 spec. This kept the chat server's user accounts,
+          sessions, and login UI fully backed by the same Authentik identity store as every other homelab application —
+          including a custom authorization policy to control exactly which profile data gets shared with the chat client.
+          Standing up this integration surfaced (and fixed) an SSO redirect loop caused by a CDN TLS-mode mismatch, along
+          with a claims-mapping bug in the delegation layer's userinfo response.
+        </p>
+        <p>
+          Separately, Google was added as a federated OAuth2/OIDC login source with auto-enrollment for new sign-ins
+          and self-service linking for existing users. Approval-gated self-registration was replaced with scoped,
+          least-privilege default access via expression-based policies, and an implicit allow-all gap was closed by
+          rolling out access-control policies to nine previously unrestricted internal applications.
+        </p>
       </Section>
 
       <Section title="Security & Reliability" icon={faShieldAlt}>

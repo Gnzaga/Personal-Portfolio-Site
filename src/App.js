@@ -28,6 +28,9 @@ const KubernetesCluster = lazy(() => import('./pages/projects/KubernetesCluster'
 const K8sAutomationPipeline = lazy(() => import('./pages/projects/K8sAutomationPipeline'));
 const UnifiedIAMProject = lazy(() => import('./pages/projects/UnifiedIAMProject'));
 const KaiwaProject = lazy(() => import('./pages/projects/KaiwaProject'));
+const AgentMeshWorkspace = lazy(() => import('./pages/projects/AgentMeshWorkspace'));
+const MatrixServer = lazy(() => import('./pages/projects/MatrixServer'));
+const AgentOrchestrationPlatform = lazy(() => import('./pages/projects/AgentOrchestrationPlatform'));
 
 const PathfindingDemo = lazy(() => import('./pages/PathfindingDemo'));
 const Chatbot = lazy(() => import('./components/ChatBot'));
@@ -71,6 +74,9 @@ function App() {
                                                     <Route path="/projects/k8s-automation" element={<K8sAutomationPipeline />} />
                                                     <Route path="/projects/unified-iam" element={<UnifiedIAMProject />} />
                                                     <Route path="/projects/kaiwa" element={<KaiwaProject />} />
+                                                    <Route path="/projects/agent-mesh" element={<AgentMeshWorkspace />} />
+                                                    <Route path="/projects/matrix-server" element={<MatrixServer />} />
+                                                    <Route path="/projects/agent-orchestration" element={<AgentOrchestrationPlatform />} />
                                                     <Route path="/experience" element={<Experience />} />                <Route path="/demo/pathfinding" element={<PathfindingDemo />} />
                 <Route path="/error" element={<ErrorPage />} />
                 <Route path="*" element={<NotFound />} />

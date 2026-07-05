@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Portfolio Update — H1 2026 Findings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1b1f23;
+    --muted: #5b6270;
+    --border: #e3e6ea;
+    --card: #f7f8fa;
+    --accent: #0f6b4c;
+    --accent-soft: #e6f3ee;
+    --tier1: #0f6b4c;
+    --tier2: #9a6b00;
+    --code-bg: #eef1f4;
+    --warn-bg: #fff4e5;
+    --warn-border: #f0c36d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --fg: #e8eaed;
+      --muted: #9aa2ad;
+      --border: #2b2f36;
+      --card: #1b1e23;
+      --accent: #4fd3a0;
+      --accent-soft: #163a2d;
+      --tier1: #4fd3a0;
+      --tier2: #e0b34d;
+      --code-bg: #20242a;
+      --warn-bg: #2a230f;
+      --warn-border: #6b5323;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+  }
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+  }
+  h1 { font-size: 1.9rem; margin: 0 0 .3rem; letter-spacing: -0.01em; }
+  h2 {
+    font-size: 1.35rem;
+    margin: 3rem 0 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 { font-size: 1.05rem; margin: 1.75rem 0 .5rem; }
+  h4 { font-size: .95rem; margin: 1.1rem 0 .35rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; font-weight: 600; }
+  p { margin: 0 0 .9rem; }
+  .subtitle { color: var(--muted); font-size: 1rem; margin-bottom: 1.75rem; }
+  .banner {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: 10px;
+    padding: .9rem 1.1rem;
+    font-size: .92rem;
+    margin-bottom: 1.75rem;
+  }
+  .banner strong { display: block; margin-bottom: .25rem; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    margin: 1rem 0 1.5rem;
+  }
+  .tag {
+    display: inline-block;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    padding: .2rem .55rem;
+    border-radius: 999px;
+    margin: 0 .35rem .35rem 0;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .tag.tier1 { color: var(--tier1); border-color: var(--tier1); }
+  .tag.tier2 { color: var(--tier2); border-color: var(--tier2); }
+  .pill-row { margin-bottom: .5rem; }
+  code, pre {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .82rem;
+  }
+  code { background: var(--code-bg); padding: .1rem .35rem; border-radius: 5px; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    max-width: 100%;
+    white-space: pre;
+  }
+  pre code { background: none; padding: 0; }
+  details {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .7rem 1rem;
+    margin: .8rem 0;
+    background: var(--card);
+  }
+  details > summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: .92rem;
+    list-style: revert;
+  }
+  details[open] > summary { margin-bottom: .8rem; }
+  ul, ol { padding-left: 1.3rem; margin: .4rem 0 .9rem; }
+  li { margin-bottom: .35rem; }
+  .toc { columns: 2; column-gap: 2rem; font-size: .9rem; }
+  .toc a { text-decoration: none; color: var(--fg); }
+  .toc a:hover { color: var(--accent); }
+  .meta-row { font-size: .82rem; color: var(--muted); margin: .2rem 0 .8rem; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: .88rem; margin: .8rem 0 1.2rem; }
+  th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+  .excluded {
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: .8rem 1.1rem;
+    color: var(--muted);
+    font-size: .9rem;
+  }
+  .checklist li { margin-bottom: .55rem; }
+  a { color: var(--accent); }
+  @media (max-width: 600px) {
+    .toc { columns: 1; }
+    .wrap { padding: 2rem 1rem 4rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Portfolio Update — Findings &amp; Suggestions</h1>
+  <p class="subtitle">What shipped between March and July 2026, and what to do about it on the portfolio site.</p>
+
+  <div class="banner">
+    <strong>⚠ Scrubbed for public use</strong>
+    Every summary, highlight, and draft below has been rewritten from the internal ops wiki with all internal IPs,
+    credentials, tokens, Vault paths, and topology detail removed or genericized. Content describes architecture
+    and decisions at the pattern level. Before publishing anything, do one more pass yourself — especially on the
+    two postmortem-style blog drafts, which reference real production incidents.
+  </div>
+
+  <div class="excluded">
+    <strong>Deliberately excluded this round:</strong> ShipPilot (portfolio chatbot library) and the Quant Finance
+    platform were both researched but are intentionally left out of this document — not ready to be represented
+    in their current state. Revisit once there's more to show.
+  </div>
+
+  <h2 id="toc">Contents</h2>
+  <div class="toc">
+    <a href="#shipped">① What you shipped</a><br>
+    <a href="#tier1">② Tier 1 — new headline projects</a><br>
+    <a href="#kaiwa">③ Kaiwa — full rewrite</a><br>
+    <a href="#tier2">④ Tier 2 — existing project updates</a><br>
+    <a href="#blog">⑤ Blog post drafts</a><br>
+    <a href="#plumbing">⑥ Site plumbing notes &amp; gaps</a><br>
+    <a href="#actions">⑦ Suggested next actions</a>
+  </div>
+
+  <h2 id="shipped">① What you shipped (Mar–Jul 2026)</h2>
+  <p>Pulled from the homelab wiki, grouped by theme. This is the raw material; recommendations follow in the next sections.</p>
+
+  <h3>Kaiwa — platform-scale expansion</h3>
+  <p>Grew from a media-intelligence news aggregator into an OSINT platform: a real-time geospatial "World View"
+  (live aircraft/vessel tracking via PostGIS + a Rust tile server), a "Sentinel" engine correlating news/weather/markets/macro
+  signals, ML-based maritime anomaly detection, a LangGraph autonomous research agent, and a self-curating RSS feed
+  system driven by LLM-as-a-Judge scoring. Now ~8 coordinated microservices.</p>
+
+  <h3>Multi-agent orchestration systems</h3>
+  <p>Two linked builds: a terminal coding-agent framework (interview-driven planning, task DAGs, specialized subagent
+  dispatch, human-approval gates) with a companion MCP backend; and a separate web-based "Agent Mesh" workspace —
+  a browser control room for managing persistent terminal sessions of coding-agent CLIs, with a live multi-session
+  grid and AI-generated per-session progress summaries.</p>
+
+  <h3>Identity &amp; chat infrastructure</h3>
+  <p>Stood up a self-hosted, federated Matrix chat server (Synapse + Element), delegating authentication to the
+  existing Authentik identity provider via matrix-authentication-service (MAS). Also added Google as a federated
+  login source to Authentik and replaced approval-gated registration with scoped self-registration.</p>
+
+  <h3>Homelab platform modernization</h3>
+  <p>Ran a full architecture audit and turned it into a five-phase modernization plan (ingress consolidation,
+  storage cleanup, CNI migration, DNS/network cleanup, segmentation) — phase 0 (dead service cleanup, IP-pool
+  drift fix, SSO secret backfill) is complete. Added a real internal platform layer: private container registry,
+  S3-compatible object storage, CI/CD pipeline, multi-user Jupyter/GPU notebooks, local LLM inference, and backup/DR
+  tooling. New self-hosted services: photo backup, password manager, personal finance, RSS reader, ROM library
+  manager, and more.</p>
+
+  <h3>Production incidents, handled and documented</h3>
+  <p>Several real incidents this window, each turned into a concrete hardening change rather than just a restart:
+  a database crash-recovery loop caused by synchronous NFS fighting a liveness probe timeout, a silent multi-day
+  outage from a pod that looked healthy but wasn't, and a reverted DNS change that failed fast and safely.</p>
+
+  <hr class="divider">
+
+  <h2 id="tier1">② Tier 1 — new headline projects</h2>
+  <p>Three candidates strong enough to be standalone portfolio entries: visually distinct, technically deep, or both.
+  Each includes a summary, tech tags, a ready-to-drop <code>projects</code> array entry, and a full project-page draft.</p>
+
+  <!-- AGENT MESH WORKSPACE -->
+  <h3 id="agent-mesh">Agent Mesh Workspace <span class="tag tier1">Recommended first</span></h3>
+  <p class="meta-row">Why first: the only one of the three with a real visual surface — a demoable, screenshot-friendly UI, not just an architecture story.</p>
+  <p>A web-based control center for managing long-running AI coding-agent sessions from any browser — persistent
+  terminals that survive disconnects, a "Mission Control" grid of up to nine live sessions with AI-generated
+  one-line status summaries, and a Librarian chat that streams answers token-by-token via SSE. Cyberpunk/glassmorphic
+  UI, its own repo (<code>agent-mesh-workspace</code>).</p>
+
+  <div class="pill-row">
+    <span class="tag">Node.js</span><span class="tag">TypeScript</span><span class="tag">WebSockets</span>
+    <span class="tag">AI</span><span class="tag">LLM Agents</span><span class="tag">OIDC/OAuth2</span>
+  </div>
+
+  <details>
+    <summary>Suggested <code>projects</code> array entry (Projects.js)</summary>
+    <pre><code>{
+  title: "Agent Mesh Workspace",
+  description: "A browser-based control room for managing multiple long-running AI coding-agent sessions at once — persistent terminals that survive disconnects, a live multi-session grid with AI-generated status summaries, and a knowledge-base chat that streams answers in real time.",
+  githubLink: "https://github.com/Gnzaga/agent-mesh-workspace",
+  projectLink: "/projects/agent-mesh",
+  technologies: ["Node.js", "TypeScript", "WebSockets", "AI", "OAuth"],
+  agentTarget: "project-agent-mesh"
+}</code></pre>
+  </details>
+
+  <details>
+    <summary>Full project page draft</summary>
+    <h4>Overview</h4>
+    <p>Running AI coding agents from a terminal works fine for one task at a time, but juggling several long-running
+    sessions — one refactoring a service, one investigating a bug, one scaffolding a new feature — quickly turns
+    into a mess of terminal tabs and lost context about which one is doing what. Agent Mesh Workspace turns that
+    into a proper multi-session control room: a browser-based dashboard for launching, monitoring, and interacting
+    with several coding-agent CLI sessions at once, with a live overview built for exactly the "which of these needs
+    my attention" question.</p>
+    <h4>Architecture &amp; how it works</h4>
+    <p>The backend is a Node/Express service that spawns and owns a pseudo-terminal (PTY) per session and streams
+    its I/O to the browser over a WebSocket. Because the PTY process is independent of any browser connection,
+    closing a tab — or losing the network entirely — doesn't kill the underlying agent session; reconnecting
+    re-attaches to the same live process. The frontend renders each session with an embedded terminal emulator, and
+    a "Mission Control" grid view can display up to nine of these simultaneously, each with click-to-type focus and
+    a maximize control that hands the same terminal component off between grid and full-screen views without a
+    reconnect.</p>
+    <p>Because a live wall of scrolling terminal text isn't actually scannable at a glance, each panel is paired
+    with a short AI-generated summary of what that session is currently doing, produced by a lightweight model call
+    over the session's recent output. Generation is deliberately throttled — both by a minimum time interval and a
+    minimum amount of new output — so cost and latency stay low even with several sessions active. The workspace
+    also ships a "Librarian" chat backed by a Model Context Protocol server for searching an internal knowledge
+    base; its query handling was rebuilt around Server-Sent Events so tool-call progress and the final answer both
+    stream to the browser in real time rather than arriving all at once after a long silent wait.</p>
+    <h4>Tech stack</h4>
+    <p>Node.js + Express backend with <code>node-pty</code> for terminal process management and native WebSockets
+    for streaming; Vite + Tailwind CSS frontend using xterm.js for terminal rendering; a standalone MCP server
+    (stdio transport) providing the knowledge-search tool consumed by both the workspace's chat feature and external
+    coding-agent CLIs directly; OIDC (Authorization Code + PKCE) for authentication.</p>
+    <h4>Challenges &amp; lessons learned</h4>
+    <p>The hardest engineering problem was terminal lifecycle management: making a live xterm.js instance and its
+    WebSocket survive being detached from the DOM, moved between a grid panel and a full-tab view, and reattached —
+    all without the user perceiving a reconnect or losing scrollback. Getting AI-generated session summaries to
+    feel "live" without becoming an expensive background job required tuning throttling around both elapsed time
+    and actual output delta, rather than polling on a fixed timer. Replacing a blocking wiki-chat request with a
+    proper two-round SSE stream (tool execution, then synthesis) was a good reminder that perceived latency is
+    often more about visible progress than raw response time.</p>
+  </details>
+
+  <p class="meta-row">Gaps: no screenshots/GIF referenced in the wiki yet — this project would benefit strongly from
+  a short screen recording. Unclear if Goose is a core or experimental harness alongside Claude Code and Pi.</p>
+
+  <!-- MATRIX CHAT SERVER -->
+  <h3 id="matrix-server">Self-Hosted Matrix Chat Server <span class="tag tier1">Recommended</span></h3>
+  <p>A federation-capable Matrix homeserver (Synapse) with Element as the web client — a self-hosted alternative
+  to Slack/Discord for private chat, DMs, and voice/video. Authentication is fully delegated to the existing
+  Authentik identity provider via matrix-authentication-service (MAS), so logging into chat uses the same account
+  and MFA as everything else in the homelab.</p>
+
+  <div class="pill-row">
+    <span class="tag">Matrix</span><span class="tag">Synapse</span><span class="tag">OIDC</span>
+    <span class="tag">Kubernetes</span><span class="tag">PostgreSQL</span>
+  </div>
+
+  <details>
+    <summary>Suggested <code>projects</code> array entry (Projects.js)</summary>
+    <pre><code>{
+  title: "Self-Hosted Matrix Chat Server",
+  description: "A federation-capable Matrix homeserver (Synapse + Element) with authentication fully delegated to my existing identity provider via matrix-authentication-service — private chat and voice/video backed by the same login and MFA as the rest of the homelab.",
+  projectLink: "/projects/matrix-server",
+  technologies: ["Kubernetes", "Networking", "OIDC"],
+  agentTarget: "project-matrix-server"
+}</code></pre>
+  </details>
+
+  <details>
+    <summary>Full project page draft</summary>
+    <h4>Overview</h4>
+    <p>A self-hosted, federation-capable Matrix homeserver (Synapse) with Element as the web client, giving me
+    private group chat, DMs, and voice/video without depending on a third-party chat provider. Originally built on
+    Dendrite, later migrated to Synapse for broader client compatibility and to take advantage of Matrix's newer
+    OIDC-delegation model for single sign-on.</p>
+    <h4>Architecture &amp; how it works</h4>
+    <p>A reverse proxy routes chat traffic to the homeserver and web client; a small <code>.well-known</code>
+    delegation service tells any Matrix client where to find the homeserver and its identity provider. The
+    homeserver delegates authentication to a dedicated auth-delegation service (MAS), which in turn federates to
+    my existing identity provider (Authentik) via OIDC — so logging into chat uses the same account and MFA as
+    everything else in the homelab. Media uploads and backups are stored in a self-hosted S3-compatible object
+    store on a scheduled backup job.</p>
+    <h4>Tech stack</h4>
+    <p>Synapse, Element Web, matrix-authentication-service (MAS), PostgreSQL, OIDC/OAuth2, Kubernetes, Traefik
+    ingress, S3-compatible object storage, GitOps deployment.</p>
+    <h4>Challenges &amp; lessons learned</h4>
+    <p>Migrating an existing chat server to a new homeserver implementation without losing message history; wiring
+    a three-legged OIDC delegation chain (client → auth-delegation service → identity provider) and adapting it
+    when the client didn't yet support the newest delegation spec; resolving a CDN/proxy TLS-mode mismatch that
+    caused an infinite login redirect loop; authoring a custom authorization policy to unblock a required OAuth
+    scope; and recovering from a production outage caused by configuration drift, which led to moving the whole
+    deployment under declarative, Git-managed config.</p>
+  </details>
+
+  <p class="meta-row">Alternative: fold this into the Unified IAM update instead of a standalone page — see
+  the <a href="#tier2">Tier 2</a> section for that version. Standalone is recommended since the migration story,
+  debugging narratives, and architecture have enough independent depth.</p>
+
+  <!-- MULTI-AGENT ORCHESTRATION PLATFORM -->
+  <h3 id="agent-orchestration">Multi-Agent Orchestration Platform <span class="tag tier2">Architecture-depth, no visual surface</span></h3>
+  <p>A terminal-native coding-agent framework that plans and executes multi-step engineering work through a
+  coordinated team of specialized AI subagents: an interview-driven planning phase, a task dependency graph,
+  parallel/chained/async subagent dispatch, and human-approval gate checkpoints between phases. A companion backend
+  ("vm-agents") re-exposes the same primitives over MCP for a browser chat interface.</p>
+
+  <div class="pill-row">
+    <span class="tag">AI</span><span class="tag">LLM Agents</span><span class="tag">TypeScript</span>
+    <span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">MCP</span>
+  </div>
+
+  <details>
+    <summary>Suggested <code>projects</code> array entry (Projects.js)</summary>
+    <pre><code>{
+  title: "Multi-Agent Orchestration Platform",
+  description: "A terminal coding-agent framework that plans work through a structured interview, decomposes it into a task dependency graph, and dispatches specialized subagents in parallel, chained, or background modes — with human-approval gates between every phase.",
+  projectLink: "/projects/agent-orchestration",
+  technologies: ["AI", "TypeScript", "Docker", "Kubernetes"],
+  agentTarget: "project-agent-orchestration"
+}</code></pre>
+  </details>
+
+  <details>
+    <summary>Full project page draft</summary>
+    <h4>Overview</h4>
+    <p>Most AI coding assistants operate as a single model working through one long conversation — which works for
+    small tasks but breaks down on larger engineering work where requirements need clarifying, multiple subsystems
+    need touching, and mistakes compound silently. This project takes a different approach: it treats a coding task
+    like an engineering manager would, spending an explicit planning phase up front, breaking approved work into a
+    dependency graph, and delegating each piece to a specialist rather than one generalist trying to hold the whole
+    task in its head.</p>
+    <h4>Architecture &amp; how it works</h4>
+    <p>The system is built around a plan-mode state machine: entering plan mode locks the agent into a read-only
+    workspace where it can only write inside a scoped planning directory, and blocks destructive commands outright.
+    Planning proceeds through a structured interview — one question at a time, each with a recommended answer and
+    its reasoning — until every open design decision has been resolved. The output is a plan package: a
+    requirements spec, an architecture document, gathered domain context, and a DAG of task specs, each naming
+    exactly which specialized agent should execute it. Only once every one of those artifacts exists and validates
+    can the plan be approved for execution.</p>
+    <p>Execution walks the DAG phase by phase. Same-numbered tasks dispatch concurrently to their assigned domain
+    agents; the orchestrating agent reviews every phase's combined output for completeness and internal consistency
+    before allowing the next phase to start, and pauses at designated checkpoints for human sign-off. If a task
+    fails, the orchestrator diagnoses before acting — retrying once, adjusting the task and retrying, or escalating
+    to a human with its diagnosis, but never retrying blindly. After completion, learnings captured during
+    execution are consolidated back into a persistent knowledge base organized by domain, so the next planning
+    cycle starts smarter than the last.</p>
+    <p>A separate deployment takes the same orchestration ideas and exposes them as tools behind a standard
+    agent-tooling protocol (MCP), consumed by a browser chat interface instead of a terminal. Multiple specialized
+    agent "stations" live behind one service, selected by which access token a request presents, giving a single
+    backend multiple distinct working personas without duplicating infrastructure.</p>
+    <h4>Tech stack</h4>
+    <p>TypeScript-based extension and skill system for the core agent; pluggable LLM provider adapters; a
+    task/subagent dispatch layer supporting parallel, chained, and background execution modes; a containerized
+    backend service (Docker Compose) exposing orchestration tools over MCP's HTTP streaming transport; a wiki-backed
+    knowledge store for accumulated domain context.</p>
+    <h4>Challenges &amp; lessons learned</h4>
+    <p>The central design tension was autonomy versus control: enough agent independence to actually save time,
+    without letting a multi-phase plan run unsupervised into a bad state. The gate-checkpoint model — approve
+    before executing, review after every phase, escalate rather than silently retry — was the resolution that
+    stuck. A second challenge was making domain knowledge durable: without a deliberate two-tier capture-then-
+    consolidate process, hard-won context evaporated at the end of every session instead of compounding.
+    Structuring the planning phase as an explicit interview, rather than trusting a single prompt to convey full
+    intent, turned out to matter more than any dispatch-mechanics decision — most plan failures traced back to
+    unclear requirements, not execution bugs.</p>
+  </details>
+
+  <p class="meta-row">Gaps: no usage metrics (plans executed, tasks dispatched) surfaced in the wiki — a concrete
+  stat would strengthen this page. No obvious visual surface; consider an architecture diagram instead of
+  screenshots. Confirm whether a public repo exists before linking one.</p>
+
+  <hr class="divider">
+
+  <h2 id="kaiwa">③ Kaiwa — full rewrite</h2>
+  <p>The single biggest content update on the whole site. Kaiwa's existing entry describes a "media intelligence
+  platform" — it has grown well past that. Replace the existing description and page content wholesale.</p>
+
+  <div class="pill-row">
+    <span class="tag tier1">Existing flagship project</span>
+    <span class="tag">Geospatial</span><span class="tag">Next.js</span><span class="tag">Machine Learning</span>
+    <span class="tag">Python</span><span class="tag">AI</span>
+  </div>
+
+  <details open>
+    <summary>Rewritten summary (for the Projects.js array entry)</summary>
+    <p>Kaiwa began as a two-week side project — a multi-national news aggregator — and has grown into a full
+    open-source-intelligence platform. A real-time geospatial layer renders live aircraft and vessel positions
+    (from ADS-B and AIS feeds) as vector tiles straight out of a PostGIS database. A cross-domain correlation
+    engine ("Sentinel") fuses that geospatial data with global news events, weather, and financial/macroeconomic
+    indicators into synthesized intelligence events with confidence scoring, while a maritime anomaly detector
+    applies unsupervised ML (Isolation Forest, DBSCAN, topic modeling) to flag dark-ship behavior, AIS spoofing,
+    and vessel clustering around global chokepoints. An autonomous research agent can independently search and
+    read the live web to fill gaps the system identifies on its own, and a self-curating feed system continuously
+    discovers, scores, and promotes or retires its own RSS sources via an LLM-as-a-Judge pipeline. What started as
+    a handful of scripts is now an ~8-microservice platform running on Kubernetes.</p>
+  </details>
+
+  <details>
+    <summary>Full project page rewrite</summary>
+    <h4>Overview</h4>
+    <p>Kaiwa started as a two-week side project: a self-hosted news aggregator pulling law-and-economics coverage
+    from Japan, the US, the Philippines, and Taiwan so I could track cross-regional stories without losing
+    non-English context to aggregators that strip it out. It's since grown into a full open-source-intelligence
+    platform spanning geospatial tracking, cross-domain signal correlation, autonomous research, and self-managing
+    data pipelines — roughly eight services now, all still running on the same homelab Kubernetes cluster as my
+    other projects.</p>
+    <p>The centerpiece is World View, a real-time map that renders live aircraft and vessel positions — civilian
+    ADS-B tracks, AIS vessel positions — as vector tiles served directly from a PostGIS database. Layered on top
+    is Sentinel, an intelligence engine that continuously polls global news, flight activity, weather, and
+    financial/macro data, deduplicates the signals, and synthesizes them into structured "events" with entity
+    tracking, confidence scoring, and testable hypotheses about what's actually happening. A maritime anomaly
+    detector runs unsupervised ML models against the same vessel data to flag suspicious behavior — AIS spoofing,
+    dark ships, chokepoint congestion — and an autonomous research agent can go read the live web to fill in gaps
+    the system identifies on its own.</p>
+    <p>The most recent addition is a self-curating feed system: Kaiwa now discovers its own RSS sources, scores
+    them with an LLM-as-a-Judge pipeline, and promotes or retires them without manual intervention. The platform
+    increasingly maintains itself.</p>
+    <h4>Architecture &amp; how it works</h4>
+    <p>Articles flow through a per-region pipeline (sync → scrape → translate → summarize → embed), with each
+    stage a queued background job that hands off to the next. A separate "ledger" stage links related articles
+    into running topics and can trigger the research agent when a topic reaches enough independent corroboration.
+    Recovery jobs continuously sweep for anything stuck mid-pipeline so transient failures never require manual
+    intervention.</p>
+    <p>The Sentinel engine runs on its own cycle: independent pollers pull in global news events, flight activity,
+    weather alerts, market data, and macroeconomic indicators on schedules ranging from 5 minutes to 6 hours.
+    Everything funnels through a deduplication layer before a synthesis job — running every 15 minutes — turns
+    matched signals into structured intelligence events, with a slower cross-domain correlation pass every 2 hours
+    to catch relationships between events that aren't obvious in real time.</p>
+    <p>On the geospatial side, live aircraft and vessel positions are mirrored into a dedicated PostGIS database
+    every 5 minutes and exposed as vector tiles through a Rust tile server, so the frontend map never queries the
+    transactional database directly. The same position data feeds a two-tier anomaly detection pipeline: fast
+    rule-based checks (AIS gaps, speed and route deviation, vessel clustering) run every 5 minutes, while a slower
+    ML pass — Isolation Forest, DBSCAN, topic modeling, and time-series decomposition — looks for subtler patterns
+    across a set of defined maritime chokepoints.</p>
+    <p>The research agent and feed-curation system share a two-tier LLM router: a fast, cheap model handles
+    routine work like feed discovery and quality scoring, while a stronger model is reserved for harder tasks like
+    diagnosing coverage gaps. A discovery job searches the web for new RSS sources every 4 hours and registers them
+    in a trial state; a weekly LLM-as-a-Judge pass scores trial feeds on relevance, consistency, fluency, and
+    conciseness, promoting good sources and blacklisting bad ones automatically. Trial feeds are isolated from the
+    intelligence pipeline until they've proven trustworthy, so an unvetted source can't pollute a correlated event.</p>
+    <h4>Tech stack</h4>
+    <p>Next.js 16, React 19, TypeScript, Tailwind CSS 4, Drizzle ORM, PostgreSQL + pgvector, pg-boss, Python/FastAPI,
+    LangGraph, PostGIS, Rust (vector tile serving), scikit-learn (Isolation Forest, DBSCAN), sentence-transformers,
+    Playwright, SearXNG, LibreTranslate, Kubernetes, ArgoCD, Harbor, Authentik OIDC.</p>
+    <h4>Challenges &amp; lessons learned</h4>
+    <p>Running a platform with this many moving parts surfaced real lessons about operating self-hosted
+    infrastructure at a scale that actually matters. A production database incident taught me that backup scripts
+    need to validate their own output — a "successful" backup that's silently empty is worse than no backup at
+    all, because it hides the problem until the moment you actually need it. I rebuilt the backup pipeline with
+    integrity and size sanity checks, and pruning old backups now only happens after a fresh one verifies clean.</p>
+    <p>A separate extended outage — a database pod that looked healthy to Kubernetes but had actually wedged well
+    below that layer — reinforced that "the pod is running" and "the service is reachable" are different claims,
+    and only one of them matters to users. I added active health probes and a proper alerting pipeline so failures
+    like this get caught in minutes, not left to be discovered days later.</p>
+    <p>On the data side, growing the schema alongside a live intelligence pipeline meant occasionally shipping a
+    migration that didn't get fully threaded through every downstream consumer. Chasing one down doubled as an
+    audit of the whole correlation engine, and it came out more resilient than before — per-record error isolation
+    instead of one bad row blocking a whole batch, canonicalized entity names, and configurable similarity
+    thresholds instead of hardcoded ones.</p>
+  </details>
+
+  <p class="meta-row">Open questions: confirm "World View" and "Sentinel" are the actual public-facing feature
+  names before publishing. Decide whether to link a live demo, given the app sits behind OIDC. Double-check the
+  GitHub repo itself doesn't leak anything the wiki scrub was meant to avoid, since this is now the flagship
+  project.</p>
+
+  <hr class="divider">
+
+  <h2 id="tier2">④ Tier 2 — existing project updates</h2>
+  <p>Lighter-touch additions to projects already on the site. These are addenda, not rewrites.</p>
+
+  <h3>Unified IAM System</h3>
+  <p class="meta-row">Add as a new subsection, e.g. "Extending IAM to Chat."</p>
+  <div class="card">
+    <p>Authentik's role as the homelab's single identity provider now extends to a self-hosted Matrix chat server
+    (Synapse + Element). Rather than integrating Synapse directly as an OIDC client, authentication is brokered
+    through matrix-authentication-service (MAS), a dedicated delegation layer purpose-built for Matrix homeservers.
+    This let me keep the chat server's user accounts, sessions, and login UI fully backed by the same Authentik
+    identity store as every other homelab application — including a custom authorization policy to control exactly
+    which profile data gets shared with the chat client. Standing up this integration surfaced (and fixed) an SSO
+    redirect loop caused by a CDN TLS-mode mismatch and a claims-mapping bug in the delegation layer's userinfo
+    response.</p>
+    <p>Separately: added Google as a federated OAuth2/OIDC login source (auto-enrollment for new sign-ins,
+    self-service linking for existing users), replaced approval-gated self-registration with scoped least-privilege
+    default access via expression-based policies, and closed an implicit allow-all gap by rolling out access-control
+    policies to nine previously unrestricted internal applications.</p>
+  </div>
+  <p class="meta-row">Suggested new tags: <span class="tag">OIDC</span><span class="tag">Matrix</span><span class="tag">Open Policy Agent</span></p>
+  <details>
+    <summary>Alternative: fold Matrix server fully into this page instead of a standalone project</summary>
+    <p>If you'd rather not add a fourth new project entry, use this as the Matrix write-up instead of the
+    standalone version in Tier 1 — same content, framed as belonging to IAM rather than as its own page.</p>
+  </details>
+
+  <h3>Homelab Project</h3>
+  <div class="card">
+    <p>Since the initial write-up, the homelab has grown a genuine self-hosted service catalog spanning media,
+    photo backup (a Google Photos alternative with face/content search), password management, personal finance with
+    AI-assisted transaction categorization, RSS, and a self-hosted federated chat server — all running as first-class
+    citizens of the Kubernetes platform rather than one-off VMs. In parallel, a full architecture audit turned into
+    a five-phase modernization plan covering ingress consolidation, storage cleanup, and a CNI migration to get
+    network policy enforcement actually working — phase 0 (removing dead services, fixing a drifted load-balancer
+    IP pool, backfilling broken SSO secrets) is already complete. Real production incidents this window — a database
+    that recovered too slowly on network storage, a stale-mount networking bug, a node that quietly went down before
+    anything noticed — each drove a concrete change (probe tuning, storage architecture, monitoring gaps) rather
+    than just a restart.</p>
+  </div>
+
+  <h3>Kubernetes Cluster</h3>
+  <div class="card">
+    <p>The cluster now runs a real internal platform layer on top of application workloads: a private,
+    vulnerability-scanned container registry, S3-compatible object storage backing that registry plus backups and
+    media, and a CI/CD pipeline that builds and rolls out every application automatically on every push. On the ML
+    side, a multi-user notebook platform gives on-demand, GPU-aware Jupyter environments per user, and a local LLM
+    inference server exposes an OpenAI-compatible API, with a Kubernetes-native model-serving operator in progress
+    for lifecycle management and autoscaling. A backup/restore operator provides namespace- and cluster-level
+    disaster recovery, currently being hardened after an initial storage-integration issue. Together these turn the
+    cluster from "a place that runs my apps" into a small internal platform with its own registry, CI/CD, object
+    storage, backup, and ML-serving layers.</p>
+  </div>
+
+  <h3>Homelab services gallery</h3>
+  <p>A scannable list for either the Homelab or Kubernetes Cluster page — curated for interest, not exhaustive.</p>
+  <table>
+    <tr><th>Service</th><th>What it does</th></tr>
+    <tr><td><strong>Immich</strong></td><td>Self-hosted photo/video backup with face and content-based search — a Google Photos alternative</td></tr>
+    <tr><td><strong>JupyterHub</strong></td><td>Multi-user Jupyter notebook platform with selectable CPU/GPU profiles, on demand per user</td></tr>
+    <tr><td><strong>Ollama</strong></td><td>GPU-accelerated local LLM inference server exposing an OpenAI-compatible API</td></tr>
+    <tr><td><strong>KubeAI</strong></td><td>Kubernetes-native operator for LLM model lifecycle and autoscaling (currently being reworked)</td></tr>
+    <tr><td><strong>Harbor</strong></td><td>Private container registry with automatic vulnerability scanning</td></tr>
+    <tr><td><strong>MinIO</strong></td><td>S3-compatible object storage underpinning the registry, backups, and media</td></tr>
+    <tr><td><strong>Velero</strong></td><td>Kubernetes-native backup and disaster-recovery tooling (mid-repair after a storage-backend issue)</td></tr>
+    <tr><td><strong>Tekton</strong></td><td>CI/CD pipeline — builds and rolls out an update on every push</td></tr>
+    <tr><td><strong>Gitea</strong></td><td>Self-hosted, GitHub-style git hosting for private repos and code review</td></tr>
+    <tr><td><strong>Vaultwarden</strong></td><td>Self-hosted, Bitwarden-compatible password manager</td></tr>
+    <tr><td><strong>Miniflux</strong></td><td>Minimalist self-hosted RSS reader with SSO login</td></tr>
+    <tr><td><strong>Actual Budget</strong></td><td>Self-hosted personal finance app with AI-assisted transaction categorization</td></tr>
+    <tr><td><strong>Matrix (Synapse + Element)</strong></td><td>Self-hosted, federated chat server — own Slack/Discord equivalent</td></tr>
+    <tr><td><strong>RomM</strong></td><td>Web-based ROM library manager with in-browser emulation and metadata scraping</td></tr>
+  </table>
+  <p class="meta-row">Note: KubeAI and Velero are currently in a non-working state per the wiki (KubeAI: zero
+  active models; Velero: no successful backups yet) — either hold these two until fixed, or keep the honest
+  "actively being reworked" framing used above.</p>
+
+  <hr class="divider">
+
+  <h2 id="blog">⑤ Blog post drafts</h2>
+  <p>All ready to drop into <code>src/data/blogPosts/</code> as a new <code>.js</code> file — no route or
+  registration changes needed. Ranked by strength; all six are fully drafted below.</p>
+
+  <h3>Recommended first</h3>
+
+  <details>
+    <summary><strong>1. Real-time geospatial + maritime-anomaly intelligence at home</strong> (Kaiwa)</summary>
+    <p class="meta-row"><code>slug: "kaiwa-world-view-maritime-anomaly-detection"</code> ·
+    tags: Geospatial, Machine Learning, Kubernetes</p>
+    <p><em>Summary:</em> "I added a live map to my homelab intelligence project that tracks every plane and ship in
+    view in real time — then layered unsupervised ML on top to flag the ones behaving strangely."</p>
+    <ol>
+      <li>I added a live map to my homelab project that shows, in real time, roughly every aircraft and vessel in view — and then built a layer on top that flags which of them are behaving strangely. It started as a curiosity and turned into one of the more technically interesting things I've built.</li>
+      <li>Kaiwa began as a news aggregator, and the geospatial layer grew out of a simple observation: a lot of the news I was tracking had a physical location, and I was throwing that information away. If a story mentions a strait, a border, or a shipping lane, I wanted to see what was actually happening there, not just read about it after the fact.</li>
+      <li>The data comes from live feeds: AIS vessel positions over a persistent WebSocket connection, and ADS-B aircraft tracking. Positions get mirrored into a dedicated PostGIS database on a five-minute cycle via batch upserts, kept deliberately separate from the main application database so a spike in position updates never touches transactional data.</li>
+      <li>Serving that data to a browser at interactive frame rates is its own problem. Rather than querying PostGIS directly from the frontend, I run a small Rust tile server that generates vector tiles straight from SQL functions with spatial indexes behind them. The frontend map just requests tiles for whatever's in view; the heavy lifting happens once, server-side, and gets cached.</li>
+      <li>Raw positions on a map are neat for about five minutes. The interesting part is deciding which ones matter. So I built a two-tier detection pipeline: fast rule-based checks running every five minutes — gaps in AIS transmission (a classic "going dark" signature), speed and route deviations, and unusual vessel density around known chokepoints — feeding into a slower ML pass.</li>
+      <li>The ML side runs an ensemble rather than a single model: Isolation Forest for general outlier scoring, DBSCAN for spatial clustering (are vessels bunching up somewhere they shouldn't?), LDA topic modeling against the news signals happening in the same area, and time-series decomposition to catch trend breaks that a point-in-time check would miss.</li>
+      <li>A dozen maritime chokepoints — major straits where global shipping funnels through narrow geography — are defined as specific geofences, because that's where anomalous behavior is both more likely and more interesting. Vessel clustering or a sudden drop in expected traffic through one of these means something, even before you know what.</li>
+      <li>None of this happens in isolation. Anomaly scores feed into the same correlation engine that processes news, weather, and market signals, so a vessel anomaly near a chokepoint can get automatically checked against whatever else was happening in the news at the same time. A cluster of unusual activity stops being a data point and starts being a lead.</li>
+      <li>Building this taught me more about spatial indexing and tile-generation performance than I expected going in, but the bigger lesson was about the nature of the work itself: most of what looks like "intelligence" is really just disciplined data engineering — normalizing noisy real-time feeds, deduplicating aggressively, and being honest with yourself about false positives before you call something an anomaly.</li>
+      <li>It's still evolving — more geofences, better baselining for what "normal" traffic looks like per region, and tighter integration with the research agent so a flagged anomaly can trigger its own investigation automatically.</li>
+    </ol>
+  </details>
+
+  <details>
+    <summary><strong>2. Designing a multi-agent orchestration system</strong> (Agent Orchestration)</summary>
+    <p class="meta-row"><code>slug: "designing-a-multi-agent-orchestration-system"</code> ·
+    tags: AI, LLM Agents, Software Architecture, Automation</p>
+    <p><em>Summary:</em> "How a coding agent framework plans multi-step engineering work as a task DAG, dispatches
+    specialized subagents against it, and stays safe with human approval gates between phases."</p>
+    <ol>
+      <li>A single AI model working through one long conversation is a fine coding assistant for small, well-scoped tasks. It falls apart on anything bigger: a task that spans infrastructure, a database migration, and a frontend change all at once, where requirements need clarifying before any code should be written, and where a single wrong turn early on compounds silently through everything downstream. The interesting engineering problem isn't making the model smarter — it's designing the process around it.</li>
+      <li>The system I built treats this like an engineering manager would treat a project: plan first, delegate the pieces, review before moving on, and stop at defined points to check in. That shows up as three linked ideas — an interview-driven planning phase, a dependency-graph representation of the approved work, and a dispatch layer that routes each piece of the graph to a specialist.</li>
+      <li>Planning as an interview, not a prompt. Most agent failures I ran into didn't come from bad code — they came from the agent guessing at intent it was never actually given. So planning starts as a structured interview: one question at a time, starting broad and narrowing to specifics, with the agent proposing a recommended answer and its reasoning at each step. The interview doesn't end until every branch of the decision tree is explicitly resolved.</li>
+      <li>That interview produces a small set of durable artifacts: a requirements spec, an architecture document, per-domain context files, and — the part that matters most for execution — a task DAG. Approval is a hard gate: every artifact has to exist and validate before anything is allowed to run.</li>
+      <li>The DAG, and why numeric prefixes turned out to be enough. Task decomposition needed a dependency representation simple enough for an agent to both write correctly and reason about at dispatch time. The convention that worked: task directories get a numeric prefix, tasks sharing a prefix are safe to run in parallel, and a higher-numbered task depends on every lower-numbered one completing first.</li>
+      <li>Dispatch modes: parallel, chained, and async. Each task in the DAG names the specialized agent that should execute it — infrastructure, database, API, frontend, containerization — and the dispatch layer supports a handful of modes to match how those tasks actually relate to each other.</li>
+      <li>Gates: where the system chooses to stop and ask. The DAG has designated checkpoints — entry, exit, and per-phase gates — pausing the pipeline until a human says to continue. If a task fails outright, the response is bounded: retry once, adjust and retry once more, or escalate to a human with a diagnosis — never a silent retry loop.</li>
+      <li>What accumulates, and what doesn't. Knowledge captured during execution was disappearing at the end of every session on the first pass. The fix was a two-tier capture model — agents log raw learnings while they work, and after the plan completes those notes get consolidated into a structured, domain-organized knowledge base that the next planning cycle reads from before it even starts interviewing.</li>
+      <li>The overall lesson: the hard part of multi-agent systems isn't the agents. Every piece of this is in service of one goal — making a multi-step, multi-agent process legible enough that a human can trust it with real infrastructure work. The bottleneck was always process design, not model capability.</li>
+    </ol>
+  </details>
+
+  <details>
+    <summary><strong>3. Self-curating RSS feeds with LLM-as-a-Judge</strong> (Kaiwa)</summary>
+    <p class="meta-row"><code>slug: "kaiwa-self-curating-feeds-llm-judge"</code> · tags: AI, Python, Kubernetes</p>
+    <p><em>Summary:</em> "Every self-hosted RSS aggregator eventually turns into a graveyard of dead and noisy feeds
+    someone has to manually prune. I got tired of being that someone, so I automated it."</p>
+    <ol>
+      <li>Every self-hosted RSS aggregator I've ever run eventually turns into a graveyard: feeds that silently die, feeds that turn into aggregator spam, feeds that were fine a year ago and aren't anymore. Someone has to notice and prune them. I got tired of being that someone, so I built a system that curates its own feed list.</li>
+      <li>The core of it is a discovery agent that runs every four hours and finds new candidate feeds on its own, using web search rather than a hand-maintained list. It builds search queries from the regions and topics I care about, plus whatever stories are actively "hot" in the correlation engine at the time.</li>
+      <li>Discovery works like this: search results get fetched with a headless browser, an LLM reads the page and extracts the actual RSS/Atom endpoint (most sites don't expose this obviously), and candidates get validated and deduplicated against what's already registered before being added — capped at a handful of new feeds per cycle so the system can't runaway-grow.</li>
+      <li>New feeds don't go straight into production. They start in a trial state, and a weekly LLM-as-a-Judge pass scores every trial feed still active on four weighted criteria — relevance to what I actually track, internal consistency, writing fluency, and conciseness. Score high enough and a feed graduates to production automatically; score too low and it's blacklisted, no human review required either way.</li>
+      <li>The part I think about the most is isolation: trial feeds are explicitly filtered out of the correlation engine before their articles ever reach signal processing. An unvetted source can influence nothing until it's proven itself.</li>
+      <li>Production feeds aren't exempt from scrutiny either. A monthly audit checks error rates and consecutive failures on every source already in production, and repeat offenders get circuit-broken into a cooldown state.</li>
+      <li>There's also a blind-spot detector that runs independently of all this: it tracks article volume per region against an expected baseline, and if a region's coverage quietly drops and stays down, it has an LLM generate an actual research directive describing what kind of source is likely missing.</li>
+      <li>Cost control mattered here, so the whole thing runs on a two-tier LLM setup: a fast, cheap model handles the routine, high-volume work, while a stronger model is reserved for the harder reasoning task.</li>
+      <li>The broader takeaway generalizes past RSS feeds: automating curation doesn't have to mean giving up quality control. The trick is isolating anything unvetted from anything that matters until it's earned trust, and building in a scoring threshold instead of a binary human gate.</li>
+      <li>It's a small subsystem next to the rest of the platform, but it's the one that's made the most day-to-day difference: I genuinely don't think about feed hygiene anymore.</li>
+    </ol>
+  </details>
+
+  <details>
+    <summary><strong>4. Delegating Matrix auth to Authentik with MAS and MSC3861</strong> (Matrix / IAM)</summary>
+    <p class="meta-row"><code>slug: "matrix-auth-delegation-authentik-mas-msc3861"</code> ·
+    tags: Matrix, Synapse, OIDC, Authentik, Self-Hosting, Homelab</p>
+    <p><em>Summary:</em> "How I delegated authentication for a self-hosted Matrix chat server to my existing
+    identity provider using matrix-authentication-service — and the redirect loops, scope denials, and
+    claims-mapping bugs it took to get there."</p>
+    <ol>
+      <li>I run most of my homelab behind a single identity provider — one login, one set of credentials, MFA everywhere. So when I stood up a self-hosted Matrix chat server, the one thing I wasn't willing to accept was yet another standalone password. This is the story of wiring Matrix into my existing single sign-on, and everything that broke along the way.</li>
+      <li>The chat server itself had actually been running for a while on Dendrite, a lighter-weight Matrix homeserver implementation. I migrated it to Synapse, mainly for broader client compatibility and because Synapse had a clearer path to native OIDC delegation.</li>
+      <li>That "native OIDC delegation" path is a relatively new piece of the Matrix spec (MSC3861), and it works through a companion service called matrix-authentication-service, or MAS. Instead of the homeserver talking to an identity provider directly, MAS sits in between: the homeserver delegates all authentication decisions to MAS, and MAS itself federates out to an upstream OIDC provider — in my case, Authentik.</li>
+      <li>Getting the first version working meant registering a new OIDC application in Authentik, standing up MAS with its own database, and wiring the homeserver's config to point at MAS via MSC3861 instead of managing accounts locally.</li>
+      <li>In practice, the native delegation flow assumes the client knows how to speak that flow. The Element Web client version I was running didn't yet support the MSC3861 native SSO redirect, so logins would silently fail at exactly the step where the client was supposed to hand off to MAS. Rather than wait on a client upgrade, I fell back to the traditional relying-party pattern — a good reminder that a "better" spec doesn't help if the client in the loop hasn't caught up yet.</li>
+      <li>The next problem showed up as an infinite redirect loop on login. The root cause turned out to be upstream of anything Matrix-related: my CDN was connecting to my reverse proxy over plain HTTP (its "flexible" TLS mode), so the app behind the proxy only ever saw an insecure request and kept trying to force a redirect to HTTPS — which the CDN would then re-terminate and hand back over HTTP again, forever. The fix was a single header: forcing the reverse proxy to tell the app the original request had, in fact, arrived over HTTPS.</li>
+      <li>Once login itself worked, the chat client would authenticate fine but come back with a permissions error. MAS ships with a policy engine — a small WebAssembly module written against Open Policy Agent — that decides which OAuth scopes a client is allowed to request. The default policy only allowed the bare minimum, but the chat homeserver was requesting an additional scope and getting flatly denied. The fix meant writing and compiling a custom policy that explicitly allowed it.</li>
+      <li>Scopes granted, the next bug was in the claims themselves. I'd assumed the identity provider's userinfo response would include a display name the way most OIDC providers do, and mapped the chat server's username generation off of that. It turned out the delegation layer's userinfo endpoint only returns a bare username claim, so every new login was generating a mangled username until I rewrote the mapping template.</li>
+      <li>Even after all of that was stable, the integration broke once more in production — this time from drift rather than a new bug. A scaling or rollback event had quietly zeroed out the delegation service's replicas and stripped the delegation config, causing a full authentication outage. The lasting fix wasn't just restoring service — it was moving all of the delegation configuration into version control so a dropped config block shows up as a diff instead of a mystery outage.</li>
+      <li>The bigger lesson, past the specific bugs: delegated auth chains are only as strong as their weakest hop, and every hop — proxy, delegation service, identity provider, client — needs to agree on the same assumptions about scopes, claims, and even something as basic as which protocol the request arrived over.</li>
+    </ol>
+  </details>
+
+  <h3>Also ready</h3>
+
+  <details>
+    <summary><strong>5. Homelab architecture modernization: a five-phase plan</strong></summary>
+    <p class="meta-row"><code>slug: "homelab-architecture-modernization-five-phase-plan"</code> ·
+    tags: homelab, kubernetes, networking, infrastructure, platform-engineering</p>
+    <p><em>Summary:</em> "A full audit of my homelab Kubernetes platform turned up IP-pool drift, silently-failing
+    SSO integrations, and a CNI that wasn't enforcing policies — here's the five-phase plan to fix it, including
+    one fix I had to revert."</p>
+    <ol>
+      <li>Homelab infrastructure has a way of accreting decisions — a load balancer IP grabbed in a hurry, a storage class created for one workload that becomes the default for everything, an ingress pattern that seemed fine until there were three of them. Enough of that had piled up that I set aside time to do a full architecture audit and turn what I found into a formal, phased modernization plan.</li>
+      <li>The audit covered three layers: how traffic gets from the public internet into the cluster, the local network topology, and the internal Kubernetes services themselves — ingress, storage, secrets, and the CNI. The result was a five-phase plan: ingress consolidation, storage-class cleanup, a CNI migration, network/DNS cleanup, and finally network segmentation.</li>
+      <li>Phase 0 was immediate triage, done the same day as the audit. Five services were flat-out redundant or broken — an old RSS reader superseded by a replacement, a wiki tool stuck in a multi-thousand-restart crash loop, a database that only existed to serve decommissioned apps, and an orphaned Service with zero live endpoints. Deleting them freed up load-balancer IPs and let GitOps reconcile cleanly.</li>
+      <li>The most interesting Phase 0 find was a load-balancer IP pool that had quietly desynced from its own source of truth. Fifteen services were running on IPs outside the range defined in the git-tracked config — meaning re-applying that config from git would have yanked IPs out from under a third of my running services.</li>
+      <li>A second Phase 0 fix: several apps had SSO logins failing silently because their OIDC client secrets had never been written to the secrets store when the identity-provider side was configured. Backfilling the secrets and confirming each one synced cleared it up, and it's now a checklist item for onboarding any new SSO client.</li>
+      <li>Stepping back, the audit surfaced structural problems Phase 0 couldn't touch: over fifty LoadBalancer-type services competing for a nearly exhausted IP range, three different ingress patterns in simultaneous use, about ten storage classes where four would do, and — the big one — a CNI that wasn't enforcing any of the network policies I'd already written. They'd been silently doing nothing.</li>
+      <li>Phase 1 tackles ingress: deploy certificate automation with a proper wildcard certificate, evaluate a tunnel-based ingress path, and consolidate everything onto one ingress controller's native routing objects. Phase 2 is a storage audit collapsing ten ad-hoc storage classes down to four real tiers. Phase 3 is the CNI migration to one that actually enforces network policies.</li>
+      <li>Phase 0 also included one attempt that didn't survive contact with reality: I tried to fix internal DNS so pods calling internal services by their public hostname would resolve straight to the internal address instead of round-tripping through the edge proxy — a classic hairpin-routing fix. It broke immediately: internal services present self-signed or cluster-issued certificates, not the publicly-trusted certificate my CDN terminates for external traffic, so anything doing certificate verification failed the moment it hit an internal IP directly.</li>
+      <li>I reverted it the same day. The honest lesson is that I'd tried to skip a phase: split-horizon DNS is only safe once there's a proper wildcard certificate available internally too, which is a Phase 1 deliverable, not a Phase 0 one. Phase ordering in a plan like this usually isn't arbitrary.</li>
+      <li>As of now, Phase 0 is complete and phases 1 through 5 are scoped but not yet started. The plan itself — with explicit dependencies between phases instead of a backlog of unrelated tickets — has already paid for itself once, by catching the DNS attempt before it turned into a longer outage.</li>
+    </ol>
+  </details>
+
+  <details>
+    <summary><strong>6. How I debug infrastructure: Postgres crash recovery vs. slow NFS</strong></summary>
+    <p class="meta-row"><code>slug: "debugging-postgres-crash-recovery-slow-nfs"</code> ·
+    tags: homelab, postgresql, kubernetes, debugging, nfs</p>
+    <p><em>Summary:</em> "A database crash loop that looked identical to a past incident turned out to have a
+    completely different root cause — synchronous NFS turning WAL replay into a race against the liveness probe."</p>
+    <ol>
+      <li>A self-hosted service I run went down, and the database pod behind it was stuck in a hard restart loop — up, crash, up, crash, every thirty seconds. I'd seen this exact symptom before on this same service, so my first move was to reach for the fix that had worked last time.</li>
+      <li>That instinct was wrong. The earlier incident had been a stale lock file left behind by an unclean shutdown — a five-minute fix. This time the lock file wasn't the problem. Same symptom, different disease.</li>
+      <li>Watching the pod logs directly showed Postgres wasn't refusing to start — it was actively replaying its write-ahead log, doing normal crash recovery, and getting killed by the liveness probe partway through, every single time. That reframed the question from "why won't it start" to "why is crash recovery taking longer than my probe timeout allows."</li>
+      <li>The database's storage lived on an NFS-backed volume configured for synchronous writes — every disk flush during WAL replay became a network round-trip that had to be acknowledged before the next step could proceed. On local disk that's milliseconds; over synchronous NFS, replaying a real backlog of WAL segments stretched into minutes, past the probe's patience. Separately, some previously force-deleted pods had left stale NFS mounts behind on two worker nodes, blocking the volume from mounting cleanly until I restarted the kubelet on those nodes and the NFS server itself.</li>
+      <li>So there were two independent problems wearing the same crash loop as a costume: an infrastructure-level one (stale mounts blocking the volume) and a performance-level one (synchronous NFS making recovery too slow for the probe). Fixing only one would have left the pod crash-looping for a different reason.</li>
+      <li>I cleared the stale mounts first, which let the pod schedule and start recovery at all. Extending the liveness probe timeout bought some room but wasn't enough on its own — the recovery checkpoint at the end of WAL replay still couldn't complete before the probe's patience ran out. At that point I made the call to force a clean restart of Postgres directly against the data files rather than continue waiting, accepting the small risk of losing whatever transactions hadn't been durably committed yet.</li>
+      <li>That worked immediately — Postgres came up clean within seconds, and the dependent service reconnected within about a minute.</li>
+      <li>The fix that actually prevents a repeat isn't just "don't crash the database." It's tuning the liveness probe for the storage backend it's actually running on — a database on network storage needs a recovery grace period measured in minutes, not the default tuned for local disks — and it's prompted a longer look at whether synchronous NFS is the right choice for stateful workloads at all.</li>
+      <li>The broader takeaway: a crash loop is a symptom, not a diagnosis, even when it looks exactly like an incident you've already solved. Reading what the process is actually doing when it dies — not just that it died — is what separates "apply yesterday's fix" from finding the actual root cause.</li>
+    </ol>
+  </details>
+
+  <p class="meta-row">Backlog (researched but not drafted in full): a postmortem on the Kaiwa production
+  database-drop incident (a forgotten port-forward, a <code>DROP DATABASE</code> against prod, and the recovery) —
+  candid and human, worth writing once you're comfortable with how much detail to include.</p>
+
+  <hr class="divider">
+
+  <h2 id="plumbing">⑥ Site plumbing notes &amp; gaps</h2>
+  <ul>
+    <li><strong>Blog is drop-in.</strong> <code>src/data/blogData.js</code> uses <code>require.context('./blogPosts', …)</code> —
+    adding a post is just a new <code>.js</code> file in <code>src/data/blogPosts/</code> exporting
+    <code>{ slug, date, title, summary, paragraphs: [], tags: [], images: [], links: [] }</code>. No route or
+    registration edit needed.</li>
+    <li><strong>Projects are heavier.</strong> Each needs: an entry in the <code>projects</code> array in
+    <code>src/pages/Projects.js</code>, a hand-written page component in <code>src/pages/projects/</code>, and a
+    <code>lazy()</code> import + <code>&lt;Route&gt;</code> in <code>src/App.js</code>.</li>
+    <li><strong>Filter tags.</strong> <code>allTechnologies</code> in <code>Projects.js</code> currently only lists
+    Kubernetes, Docker, Networking, AI, Python, React, Java — several new tags suggested above (Matrix, OIDC,
+    Geospatial, Machine Learning) would need adding there to be filterable.</li>
+    <li><strong><code>getIcon()</code> keyword matching.</strong> In <code>Projects.js</code>, the icon lookup
+    matches on keywords in the title (e.g. "kubernetes"/"cluster" → Server icon). New project titles should be
+    checked against this or the icon list extended.</li>
+    <li><strong><code>siteGraph.js</code> is already drifting.</strong> The agent-navigation graph
+    (<code>src/utils/siteGraph.js</code>) is missing a node for the existing Kaiwa project and doesn't track every
+    blog post — it's hand-maintained and already out of sync before any of this update lands. Any new
+    projects/posts added from this doc should get nodes here too, or the drift will compound.</li>
+    <li><strong>Layout background map.</strong> <code>src/components/Layout.jsx</code> switches background images
+    by route prefix; new project routes under <code>/projects/*</code> inherit the existing background
+    automatically, no change needed there.</li>
+    <li><strong>Homepage doesn't surface new content.</strong> <code>PortfolioGrid.jsx</code> (the home page) is
+    fully static and won't reflect any of these additions on its own — out of scope for this round, but worth a
+    future pass if you want "recent work" visible on landing.</li>
+  </ul>
+
+  <hr class="divider">
+
+  <h2 id="actions">⑦ Suggested next actions</h2>
+  <ol class="checklist">
+    <li>Pick which Tier 1 projects to build first — Agent Mesh Workspace is the strongest standalone candidate given
+    it's demoable; Matrix and Multi-Agent Orchestration can follow.</li>
+    <li>Decide standalone vs. folded for the Matrix write-up (affects whether it's a new route or an IAM addendum).</li>
+    <li>Rewrite the Kaiwa project page and its <code>projects</code> array entry — this is the highest-value single change.</li>
+    <li>Apply the Tier 2 addenda to Unified IAM, Homelab, and Kubernetes Cluster pages.</li>
+    <li>Drop in the top 2-4 blog posts as new files in <code>src/data/blogPosts/</code> — no plumbing required, fastest win.</li>
+    <li>Extend <code>allTechnologies</code> and <code>siteGraph.js</code> nodes for whatever actually gets added, to avoid compounding the existing drift.</li>
+    <li>Once ShipPilot and Quant Finance are in a state you're happy showing, revisit — full scrubbed research already exists from this session's agents.</li>
+  </ol>
+
+</div>
+</body>
+</html>

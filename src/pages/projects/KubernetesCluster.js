@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
-import { faServer, faCogs, faProjectDiagram, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { faServer, faCogs, faProjectDiagram, faDatabase, faLayerGroup, faListUl } from '@fortawesome/free-solid-svg-icons';
 import GlassButton from '../../components/GlassButton';
 
 const KubernetesCluster = () => {
@@ -108,6 +108,47 @@ const KubernetesCluster = () => {
             <p className="text-sm">Daily backups of critical namespaces with 30-day retention. Weekly full-cluster backups with 90-day retention. All snapshots stored in MinIO S3.</p>
           </div>
         </div>
+      </Section>
+
+      <Section title="Platform Services Layer" icon={faLayerGroup}>
+        <p>
+          The cluster now runs a real internal platform layer on top of application workloads: a private,
+          vulnerability-scanned container registry, S3-compatible object storage backing that registry plus
+          backups and media, and a CI/CD pipeline that builds and rolls out every application automatically on
+          every push. On the ML side, a multi-user notebook platform gives on-demand, GPU-aware Jupyter
+          environments per user, and a local LLM inference server exposes an OpenAI-compatible API, with a
+          Kubernetes-native model-serving operator in progress for lifecycle management and autoscaling. A
+          backup/restore operator provides namespace- and cluster-level disaster recovery, currently being
+          hardened after an initial storage-integration issue. Together these turn the cluster from "a place that
+          runs my apps" into a small internal platform with its own registry, CI/CD, object storage, backup, and
+          ML-serving layers.
+        </p>
+      </Section>
+
+      <Section title="Services Gallery" icon={faListUl}>
+        <p className="mb-4">
+          A curated (not exhaustive) look at what's running on top of the platform layer.
+        </p>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 list-disc list-inside marker:text-green-500 text-sm">
+          <li><strong className="text-white">Immich</strong> — Self-hosted photo/video backup with face and content-based search, a Google Photos alternative</li>
+          <li><strong className="text-white">JupyterHub</strong> — Multi-user Jupyter notebook platform with selectable CPU/GPU profiles, on demand per user</li>
+          <li><strong className="text-white">Ollama</strong> — GPU-accelerated local LLM inference server exposing an OpenAI-compatible API</li>
+          <li><strong className="text-white">KubeAI</strong> — Kubernetes-native operator for LLM model lifecycle and autoscaling</li>
+          <li><strong className="text-white">Harbor</strong> — Private container registry with automatic vulnerability scanning</li>
+          <li><strong className="text-white">MinIO</strong> — S3-compatible object storage underpinning the registry, backups, and media</li>
+          <li><strong className="text-white">Velero</strong> — Kubernetes-native backup and disaster-recovery tooling</li>
+          <li><strong className="text-white">Tekton</strong> — CI/CD pipeline that builds and rolls out an update on every push</li>
+          <li><strong className="text-white">Gitea</strong> — Self-hosted, GitHub-style git hosting for private repos and code review</li>
+          <li><strong className="text-white">Vaultwarden</strong> — Self-hosted, Bitwarden-compatible password manager</li>
+          <li><strong className="text-white">Miniflux</strong> — Minimalist self-hosted RSS reader with SSO login</li>
+          <li><strong className="text-white">Actual Budget</strong> — Self-hosted personal finance app with AI-assisted transaction categorization</li>
+          <li><strong className="text-white">Matrix (Synapse + Element)</strong> — Self-hosted, federated chat server, my own Slack/Discord equivalent</li>
+          <li><strong className="text-white">RomM</strong> — Web-based ROM library manager with in-browser emulation and metadata scraping</li>
+        </ul>
+        <p className="text-sm text-white/60 mt-4">
+          Note: KubeAI and Velero are actively being reworked right now, so treat those two as in-progress rather
+          than fully production-hardened.
+        </p>
       </Section>
 
       <div className="mt-16 flex justify-center gap-6">

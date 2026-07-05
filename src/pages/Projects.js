@@ -119,10 +119,10 @@ const Projects = () => {
   const projects = [
     {
       title: "Kaiwa",
-      description: "A multi-national media intelligence platform aggregating law and economics news from Japan, the US, the Philippines, and Taiwan. Features AI-powered translation, summarization, sentiment analysis, and an autonomous Sentinel intelligence system that tracks developing stories, generates hypotheses, and researches information gaps.",
+      description: "Kaiwa began as a two-week side project — a multi-national news aggregator — and has grown into a full open-source-intelligence platform. A real-time geospatial layer renders live aircraft and vessel positions as vector tiles from a PostGIS database, a cross-domain correlation engine fuses that with global news, weather, and financial/macro data, and a maritime anomaly detector applies unsupervised ML to flag suspicious vessel behavior. An autonomous research agent and a self-curating RSS feed system round out an ~8-microservice platform.",
       githubLink: "https://github.com/Gnzaga/kaiwa",
       projectLink: "/projects/kaiwa",
-      technologies: ['AI', 'Python', 'React', 'Kubernetes'],
+      technologies: ['AI', 'Python', 'React', 'Kubernetes', 'Geospatial', 'Machine Learning'],
       agentTarget: 'project-kaiwa'
     },
     {
@@ -193,11 +193,33 @@ const Projects = () => {
       projectLink: "/projects/unified-iam",
       technologies: ['Authentik', 'IAM', 'OIDC', 'Kubernetes', 'Vault'],
       agentTarget: 'project-unified-iam'
+    },
+    {
+      title: "Agent Mesh Workspace",
+      description: "A browser-based control room for managing multiple long-running AI coding-agent sessions at once — persistent terminals that survive disconnects, a live multi-session grid with AI-generated status summaries, and a knowledge-base chat that streams answers in real time.",
+      githubLink: "https://github.com/Gnzaga/agent-mesh-workspace",
+      projectLink: "/projects/agent-mesh",
+      technologies: ["Node.js", "TypeScript", "AI"],
+      agentTarget: "project-agent-mesh"
+    },
+    {
+      title: "Self-Hosted Matrix Chat Server",
+      description: "A federation-capable Matrix homeserver (Synapse + Element) with authentication fully delegated to my existing identity provider via matrix-authentication-service — private chat and voice/video backed by the same login and MFA as the rest of the homelab.",
+      projectLink: "/projects/matrix-server",
+      technologies: ["Kubernetes", "Networking", "OIDC"],
+      agentTarget: "project-matrix-server"
+    },
+    {
+      title: "Multi-Agent Orchestration Platform",
+      description: "A terminal coding-agent framework that plans work through a structured interview, decomposes it into a task dependency graph, and dispatches specialized subagents in parallel, chained, or background modes — with human-approval gates between every phase.",
+      projectLink: "/projects/agent-orchestration",
+      technologies: ["AI", "TypeScript", "Docker", "Kubernetes"],
+      agentTarget: "project-agent-orchestration"
     }
   ];
 
   // Limit filters to the main categories
-  const allTechnologies = ['All', 'Kubernetes', 'Docker', 'Networking', 'AI', 'Python', 'React', 'Java'];
+  const allTechnologies = ['All', 'Kubernetes', 'Docker', 'Networking', 'AI', 'Python', 'React', 'Java', 'TypeScript', 'Node.js', 'OIDC', 'Geospatial', 'Machine Learning'];
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);

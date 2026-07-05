@@ -101,6 +101,32 @@ const HomelabProject = () => {
         </p>
       </Section>
 
+      <Section title="Recent Expansion" icon={faShieldAlt}>
+        <p className="mb-4">
+          The service catalog has grown well past the original stack: self-hosted photo backup with
+          face and content search (a Google Photos alternative), password management, personal
+          finance with AI-assisted transaction categorization, an RSS reader, and a federated chat
+          server now run as first-class citizens of the Kubernetes platform rather than one-off VMs.
+          Highlights:
+        </p>
+        <ul className="list-disc list-inside space-y-2 marker:text-green-500 mb-4">
+          <li><strong>Immich</strong> — photo/video backup with face and content search</li>
+          <li><strong>Vaultwarden</strong> — Bitwarden-compatible password manager</li>
+          <li><strong>Miniflux</strong> — minimalist RSS reader with SSO login</li>
+          <li><strong>Actual Budget</strong> — personal finance with AI-assisted categorization</li>
+          <li><strong>Matrix (Synapse + Element)</strong> — self-hosted, federated chat server</li>
+        </ul>
+        <p>
+          In parallel, a full architecture audit turned into a five-phase modernization plan —
+          ingress consolidation, storage cleanup, a CNI migration, network/DNS cleanup, and
+          segmentation — with phase 0 (dead service cleanup, a drifted load-balancer IP pool fix,
+          and backfilled SSO secrets) already complete. Several production incidents this window —
+          a database recovering too slowly on network storage, a stale-mount networking bug, and a
+          node that quietly went down before anything noticed — each drove a concrete hardening
+          change rather than just a restart.
+        </p>
+      </Section>
+
       <div className="mt-16 flex justify-center gap-6">
         <a href="https://github.com/Gnzaga/homelab-code" target="_blank" rel="noopener noreferrer">
           <GlassButton variant="primary" className="gap-2">
