@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ShipPilotProvider, ChatWidget } from '@shippilot/react';
+import { ShipPilotProvider } from '@shippilot/react';
 import siteGraph from '../shippilot/site-graph.json';
+import ShipPilotWidget from './ShipPilotWidget';
 
 export function ShipPilotRoot({ children }) {
   const navigate = useNavigate();
@@ -16,14 +17,13 @@ export function ShipPilotRoot({ children }) {
       config={{
         chatEndpoint: '/chat',
         siteGraph,
-        accentColor: '#a855f7',
         welcomeMessage: "Hi! I can help you navigate this site or answer questions about Alex's work.",
-        position: 'bottom-right',
+        agentModeLabel: 'Agent Navigating...',
       }}
       router={router}
     >
       {children}
-      <ChatWidget />
+      <ShipPilotWidget />
     </ShipPilotProvider>
   );
 }
