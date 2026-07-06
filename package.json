@@ -37,10 +37,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env PORT=3006 react-scripts start",
+    "start": "cross-env PORT=3006 react-app-rewired start",
     "server": "cross-env PORT=3004 node server.js",
     "dev": "concurrently \"cross-env PORT=3006 npm start\" \"npm run server\"",
-    "build": "react-scripts build",
+    "build": "react-app-rewired build",
     "start-prod": "concurrently \"npm run build\" \"npm run server\"",
     "eject": "react-scripts eject"
   },
@@ -69,6 +69,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "react-app-rewired": "^2.2.1"
   }
 }

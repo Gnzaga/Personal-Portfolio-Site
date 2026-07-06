@@ -34,7 +34,6 @@ const MatrixServer = lazy(() => import('./pages/projects/MatrixServer'));
 const AgentOrchestrationPlatform = lazy(() => import('./pages/projects/AgentOrchestrationPlatform'));
 
 const PathfindingDemo = lazy(() => import('./pages/PathfindingDemo'));
-const Chatbot = lazy(() => import('./components/ChatBot'));
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center">
