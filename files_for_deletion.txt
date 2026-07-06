@@ -1,0 +1,8 @@
+src/pages/Home.js
+src/components/FadeInSection.js
+src/components/ConnectWithMe.js
+src/components/DarkModeToggle.js
+src/components/ButtonLink.js
+src/res/Alessandro_Gonzaga_Resume_Prev.pdf
+src/res/images/
+dev_environment.log

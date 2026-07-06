@@ -1,0 +1,750 @@
+{
+  "scope": "public",
+  "nodes": {
+    "/": {
+      "path": "/",
+      "type": "top-level",
+      "navbar": "nav-home",
+      "parent": null,
+      "card": null,
+      "detail": null,
+      "contentSummary": "Platform — System Status: Online",
+      "contentChunks": [
+        {
+          "id": "/#chunk-0",
+          "text": "Platform: System Status: Online",
+          "route": "/",
+          "heading": "Platform"
+        },
+        {
+          "id": "/#chunk-1",
+          "text": "Alessandro Gonzaga: Engineering",
+          "route": "/",
+          "heading": "Alessandro Gonzaga"
+        },
+        {
+          "id": "/#chunk-2",
+          "text": "Technical Arsenal: Reliability, Scale, & Intelligent Automation",
+          "route": "/",
+          "heading": "Technical Arsenal"
+        },
+        {
+          "id": "/#chunk-3",
+          "text": "Builder / Engineer New York Metropolitan Area Download Resume Full-Stack & Infrastructure",
+          "route": "/",
+          "heading": null
+        }
+      ]
+    },
+    "/about": {
+      "path": "/about",
+      "type": "top-level",
+      "navbar": "nav-about",
+      "parent": null,
+      "card": null,
+      "detail": null,
+      "contentSummary": "Passionate Technologist — Me",
+      "contentChunks": [
+        {
+          "id": "/about#chunk-0",
+          "text": "Passionate Technologist: Me",
+          "route": "/about",
+          "heading": "Passionate Technologist"
+        },
+        {
+          "id": "/about#chunk-1",
+          "text": "Current Role at Verizon: I am , a Platform Engineer at Verizon specializing in Anti-Spam Systems.\n                    I operate and extend platforms protecting 100M+ messaging endpoints, building microservices in Go,\n                    designing data lake architectures, and driving automation with Terraform and agentic AI workflows.",
+          "route": "/about",
+          "heading": "Current Role at Verizon"
+        },
+        {
+          "id": "/about#chunk-2",
+          "text": "Core Specializations: Alessandro Gonzaga",
+          "route": "/about",
+          "heading": "Core Specializations"
+        },
+        {
+          "id": "/about#chunk-3",
+          "text": "Development Skills: At Verizon, I operate and extend the platform protecting 100M+ messaging endpoints from spam.\n                My work includes replacing legacy workflows with Terraform-based orchestration, building Go\n                microservices for URL intelligence, and designing data lake architectures.",
+          "route": "/about",
+          "heading": "Development Skills"
+        }
+      ]
+    },
+    "/projects": {
+      "path": "/projects",
+      "type": "top-level",
+      "navbar": "nav-projects",
+      "parent": null,
+      "card": null,
+      "detail": null,
+      "contentSummary": "No projects found — Code",
+      "contentChunks": [
+        {
+          "id": "/projects#chunk-0",
+          "text": "No projects found: Code",
+          "route": "/projects",
+          "heading": "No projects found"
+        },
+        {
+          "id": "/projects#chunk-1",
+          "text": "Details Projects Try selecting a different technology filter.",
+          "route": "/projects",
+          "heading": null
+        }
+      ]
+    },
+    "/blog": {
+      "path": "/blog",
+      "type": "top-level",
+      "navbar": "nav-blog",
+      "parent": null,
+      "card": null,
+      "detail": null,
+      "contentSummary": "blog — Blog",
+      "contentChunks": [
+        {
+          "id": "/blog#chunk-0",
+          "text": "Blog No blog posts available at the moment. Blog ...",
+          "route": "/blog",
+          "heading": null
+        }
+      ]
+    },
+    "/blog/:slug": {
+      "path": "/blog/:slug",
+      "type": "dynamic",
+      "navbar": null,
+      "parent": null,
+      "card": null,
+      "detail": null,
+      "contentSummary": "",
+      "contentChunks": []
+    },
+    "/projects/task-management": {
+      "path": "/projects/task-management",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-task-management",
+      "detail": "project-task-management-detail",
+      "contentSummary": "Task Management Website — Full-stack application for productivity",
+      "contentChunks": [
+        {
+          "id": "/projects/task-management#chunk-0",
+          "text": "Task Management Website: Full-stack application for productivity",
+          "route": "/projects/task-management",
+          "heading": "Task Management Website"
+        },
+        {
+          "id": "/projects/task-management#chunk-1",
+          "text": "A robust and scalable web application for task management, featuring a Spring Boot back-end API and a React front-end. This project demonstrates proficiency in full-stack development, RESTful API design, and modern web technologies. The back-end API, built with Spring Boot, provides a robust foundation for the application. Key aspects include: The React front-end provides a smooth and responsive user experience. Notable features include: During the development of this project, several challenges were overcome:",
+          "route": "/projects/task-management",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/playlist-generator": {
+      "path": "/projects/playlist-generator",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-playlist-generator",
+      "detail": "project-playlist-generator-detail",
+      "contentSummary": "Playlist Description & Art Generator — A sophisticated web application that enhances the Spotify experience by gener...",
+      "contentChunks": [
+        {
+          "id": "/projects/playlist-generator#chunk-0",
+          "text": "Playlist Description & Art Generator: A sophisticated web application that enhances the Spotify experience by generating detailed descriptions and custom cover art for playlists. This project showcases the integration of multiple APIs, AI-powered content generation, and a seamless user interface to create a unique tool for music enthusiasts.",
+          "route": "/projects/playlist-generator",
+          "heading": "Playlist Description & Art Generator"
+        },
+        {
+          "id": "/projects/playlist-generator#chunk-1",
+          "text": "The React-based frontend provides an intuitive and interactive user experience: The Python-powered backend orchestrates the complex processes behind the scenes: The project leverages advanced AI capabilities: Several challenges were overcome during development:",
+          "route": "/projects/playlist-generator",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/PlaylistProject": {
+      "path": "/projects/PlaylistProject",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-PlaylistProject",
+      "detail": "project-PlaylistProject-detail",
+      "contentSummary": "Playlist Description & Art Generator — A sophisticated web application that enhances the Spotify experience by gener...",
+      "contentChunks": [
+        {
+          "id": "/projects/PlaylistProject#chunk-0",
+          "text": "Playlist Description & Art Generator: A sophisticated web application that enhances the Spotify experience by generating detailed descriptions and custom cover art for playlists. This project showcases the integration of multiple APIs, AI-powered content generation, and a seamless user interface to create a unique tool for music enthusiasts.",
+          "route": "/projects/PlaylistProject",
+          "heading": "Playlist Description & Art Generator"
+        },
+        {
+          "id": "/projects/PlaylistProject#chunk-1",
+          "text": "The React-based frontend provides an intuitive and interactive user experience: The Python-powered backend orchestrates the complex processes behind the scenes: The project leverages advanced AI capabilities: Several challenges were overcome during development:",
+          "route": "/projects/PlaylistProject",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/discord-bot": {
+      "path": "/projects/discord-bot",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-discord-bot",
+      "detail": "project-discord-bot-detail",
+      "contentSummary": "Discord Bot Project — A versatile Discord bot built with Python, showcasing advanced programming te...",
+      "contentChunks": [
+        {
+          "id": "/projects/discord-bot#chunk-0",
+          "text": "Discord Bot Project: A versatile Discord bot built with Python, showcasing advanced programming techniques and integration with external APIs. This project demonstrates proficiency in asynchronous programming, API interactions, and creating engaging user experiences within a chat platform.",
+          "route": "/projects/discord-bot",
+          "heading": "Discord Bot Project"
+        },
+        {
+          "id": "/projects/discord-bot#chunk-1",
+          "text": "One of the standout features is the implementation of asynchronous programming to host multiple instances of the Wordle game simultaneously: The bot interfaces with the Alpha Vantage API to provide real-time financial data: During the development of this project, several challenges were overcome:",
+          "route": "/projects/discord-bot",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/chat-gnzaga": {
+      "path": "/projects/chat-gnzaga",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-chat-gnzaga",
+      "detail": "project-chat-gnzaga-detail",
+      "contentSummary": "chat-gnzaga — A self-hosted Ollama web interface powered by Docker, providing a seamless an...",
+      "contentChunks": [
+        {
+          "id": "/projects/chat-gnzaga#chunk-0",
+          "text": "A self-hosted Ollama web interface powered by Docker, providing a seamless and efficient way to interact with OpenAI's language models. This project showcases expertise in containerization, networking, and infrastructure management, demonstrating the ability to deploy and maintain complex web applications. The deployment process involved several key steps: Security was a top priority in this project: Several challenges were overcome during the development and deployment:",
+          "route": "/projects/chat-gnzaga",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/portfolio-project": {
+      "path": "/projects/portfolio-project",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-portfolio-project",
+      "detail": "project-portfolio-project-detail",
+      "contentSummary": "Portfolio Website Project — This portfolio website showcases my projects and achievements, featuring a mo...",
+      "contentChunks": [
+        {
+          "id": "/projects/portfolio-project#chunk-0",
+          "text": "Portfolio Website Project: This portfolio website showcases my projects and achievements, featuring a modern and responsive design. Built with React and Tailwind CSS, it demonstrates my proficiency in front-end development, UI/UX design, and self-hosting capabilities.",
+          "route": "/projects/portfolio-project",
+          "heading": "Portfolio Website Project"
+        },
+        {
+          "id": "/projects/portfolio-project#chunk-1",
+          "text": "The website is fully self-hosted, showcasing my skills in server management and network configuration: Robust networking and security measures ensure reliable and safe access: Several challenges were overcome during the development and deployment: Explore an interactive visualization of how the site's AI assistant navigates between pages. Click any two nodes to see the shortest path animated step-by-step.",
+          "route": "/projects/portfolio-project",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/kubernetes-cluster": {
+      "path": "/projects/kubernetes-cluster",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-kubernetes-cluster",
+      "detail": "project-kubernetes-cluster-detail",
+      "contentSummary": "Kubernetes Platform — Talos Linux — Production Cluster",
+      "contentChunks": [
+        {
+          "id": "/projects/kubernetes-cluster#chunk-0",
+          "text": "Kubernetes Platform: Talos Linux — Production Cluster",
+          "route": "/projects/kubernetes-cluster",
+          "heading": "Kubernetes Platform"
+        },
+        {
+          "id": "/projects/kubernetes-cluster#chunk-1",
+          "text": "ag-pm1 (RAID5 + NVMe): All cluster state is managed declaratively with Kustomize and continuously synced to the live\n          cluster via ArgoCD. No manual in production —\n          every change goes through Git.",
+          "route": "/projects/kubernetes-cluster",
+          "heading": "ag-pm1 (RAID5 + NVMe)"
+        },
+        {
+          "id": "/projects/kubernetes-cluster#chunk-2",
+          "text": "TrueNAS on ag-pm2 (ZFS): Control Plane (5 nodes — 2 GB RAM each)",
+          "route": "/projects/kubernetes-cluster",
+          "heading": "TrueNAS on ag-pm2 (ZFS)"
+        },
+        {
+          "id": "/projects/kubernetes-cluster#chunk-3",
+          "text": "Storage Classes: Workers (5 nodes — 16 GB RAM each)",
+          "route": "/projects/kubernetes-cluster",
+          "heading": "Storage Classes"
+        },
+        {
+          "id": "/projects/kubernetes-cluster#chunk-4",
+          "text": "Velero Backup Schedule: Ollama (GPU inference), Open WebUI (2–6 replicas, HPA-scaled), KubeAI (16 model endpoints), JupyterHub",
+          "route": "/projects/kubernetes-cluster",
+          "heading": "Velero Backup Schedule"
+        },
+        {
+          "id": "/projects/kubernetes-cluster#chunk-5",
+          "text": "Prometheus, Grafana, Loki + Promtail, DCGM Exporter (per-GPU metrics) MinIO (500 Gi NVMe-backed S3-compatible object storage), Harbor container registry Wiki.js, Nextcloud, Paperless-NGX, Bookstack, Vaultwarden, FreshRSS, n8n Authentik (SSO/IdP with OIDC and LDAP), HashiCorp Vault, External Secrets Operator Velero — daily backups of critical namespaces and weekly full-cluster backups, stored in MinIO S3 PostgreSQL (9 separate databases), Redis Storage is tiered across three backends, exposed to workloads through 8 named storage classes\n          so applications declare exactly what they need. 7.3 TB RAID5 array for general-purpose PVCs. Dedicated 2 TB NVMe for MinIO object storage, providing low-latency S3-compatible block access. 14.5 TB ZFS pool managed by TrueNAS, shared over NFS. Used for application workloads requiring large or durable storage (Nextcloud, media, backups). 8 classes available: , , , , , , , Daily backups of critical namespaces with 30-day retention. Weekly full-cluster backups with 90-day retention. All snapshots stored in MinIO S3.",
+          "route": "/projects/kubernetes-cluster",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/homelab": {
+      "path": "/projects/homelab",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-homelab",
+      "detail": "project-homelab-detail",
+      "contentSummary": "Homelab Infrastructure — A self-built and managed distributed infrastructure spanning three Proxmox hy...",
+      "contentChunks": [
+        {
+          "id": "/projects/homelab#chunk-0",
+          "text": "Homelab Infrastructure: A self-built and managed distributed infrastructure spanning three Proxmox hypervisor nodes,\n          34 physical cores, 208 GB of RAM, 40+ TB of storage across RAID5 and ZFS arrays, and two\n          NVIDIA GPUs dedicated to AI inference. A cloud edge layer on Hetzner handles public ingress\n          without ever exposing the home IP.",
+          "route": "/projects/homelab",
+          "heading": "Homelab Infrastructure"
+        },
+        {
+          "id": "/projects/homelab#chunk-1",
+          "text": "The platform serves 20+ active users with services spanning AI, development, productivity,\n          and education — all running on self-hosted Kubernetes with GitOps-driven deployments. AMD Ryzen 9 5900X (12C/24T) · 64 GB RAM · 7.3 TB RAID5 + 2 TB NVMe + 448 GB NVMe Hosts K8s control planes and workers, NFS server, MinIO object storage AMD Ryzen 7 3700X (8C/16T) · 64 GB RAM · 14.5 TB ZFS (TrueNAS) Media server, TrueNAS backend storage, K8s worker node Intel Core i5-8500T (6C) · 64 GB RAM · 68 GB NVMe K8s control plane expansion, development workloads Intel i5-12450H (8C) · 16 GB RAM DNS (PiHole), VPN (WireGuard), reverse proxy, Step-CA, monitoring 2 vCPU · 2 GB RAM Public edge proxy, Headscale coordination server, CoreDNS, Uptime Kuma Traffic is segmented into 7 VLANs, each with its own firewall policy and routing rules: TP-Link ER605 gateway, managed GBE and 10G switches, EAP670 and EAP615 access points with 802.11r fast roaming, managed by an Omada controller. Internet → Cloudflare CDN/WAF → Hetzner VPS edge proxy → Tailscale WireGuard tunnel → home network. The home IP is never directly exposed. A self-hosted Tailscale coordination server (Headscale) runs on the Hetzner VPS at . It connects three separate\n          homelabs (mine and two friends') along with the Hetzner node into a single mesh network\n          where each participant advertises its local subnet routes to all others. The setup required solving a circular dependency: Headscale requires Authentik for OIDC\n          authentication, but Authentik runs on the homelab that is only accessible via Headscale.\n          This is resolved by an OIDC watchdog sidecar that starts Headscale without OIDC enabled,\n          polls until is reachable through the\n          mesh, and then dynamically enables OIDC without restarting the process.",
+          "route": "/projects/homelab",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/k8s-automation": {
+      "path": "/projects/k8s-automation",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-k8s-automation",
+      "detail": "project-k8s-automation-detail",
+      "contentSummary": "Automated Kubernetes Delivery Engine — GitOps-Driven CI/CD Infrastructure",
+      "contentChunks": [
+        {
+          "id": "/projects/k8s-automation#chunk-0",
+          "text": "Automated Kubernetes Delivery Engine: GitOps-Driven CI/CD Infrastructure",
+          "route": "/projects/k8s-automation",
+          "heading": "Automated Kubernetes Delivery Engine"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-1",
+          "text": "1. Event Detection: A robust, event-driven CI/CD infrastructure designed to orchestrate containerized deployments\n          across multiple environments using a GitOps methodology. This engine powers the automated delivery\n          of microservices directly to a bare-metal Kubernetes cluster.",
+          "route": "/projects/k8s-automation",
+          "heading": "1. Event Detection"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-2",
+          "text": "2. Logic Branching: Talos Linux",
+          "route": "/projects/k8s-automation",
+          "heading": "2. Logic Branching"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-3",
+          "text": "3. Secure Build & Push: Tekton Pipelines",
+          "route": "/projects/k8s-automation",
+          "heading": "3. Secure Build & Push"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-4",
+          "text": "4. GitOps Sync: Harbor Registry",
+          "route": "/projects/k8s-automation",
+          "heading": "4. GitOps Sync"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-5",
+          "text": "Portfolio → master: ArgoCD",
+          "route": "/projects/k8s-automation",
+          "heading": "Portfolio → master"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-6",
+          "text": "Portfolio → dev: Kaniko",
+          "route": "/projects/k8s-automation",
+          "heading": "Portfolio → dev"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-7",
+          "text": "What2Read → backend: HashiCorp Vault",
+          "route": "/projects/k8s-automation",
+          "heading": "What2Read → backend"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-8",
+          "text": "What2Read → frontend: GitHub webhooks notify a Tekton EventListener exposed via a LoadBalancer. The webhook secret is verified at ingress using a token pulled from HashiCorp Vault via the External Secrets Operator, ensuring only authenticated push events trigger the pipeline.",
+          "route": "/projects/k8s-automation",
+          "heading": "What2Read → frontend"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-9",
+          "text": "Portfolio Website: CEL-based interceptors evaluate push events, routing to branch-specific triggers. Pushes to map to the Production environment (3 replicas), while pushes to map to the Staging environment (1 replica).",
+          "route": "/projects/k8s-automation",
+          "heading": "Portfolio Website"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-10",
+          "text": "Portfolio Website: master",
+          "route": "/projects/k8s-automation",
+          "heading": "Portfolio Website"
+        },
+        {
+          "id": "/projects/k8s-automation#chunk-11",
+          "text": "dev Pipelines clone the repo and build via , running rootless in-cluster with an NFS-backed workspace for build context. Each successful build produces a dual-tag push to Harbor: a mutable branch tag (e.g., or ) for easy rollout targeting, and an immutable commit SHA tag for precise auditability and rollback. Kaniko ArgoCD detects the new artifact and synchronizes the deployment automatically across the cluster. Auto-sync is configured with and policies, ensuring the live cluster always converges to the desired state defined in Git. prune: true selfHeal: true Repo: gnzaga/Personal-Portfolio-Site Branch: master Image tag: Deploys to: portfolio Replicas: Repo: gnzaga/Personal-Portfolio-Site Branch: dev Image tag: Deploys to: portfolio-dev Replicas: Repo: gnzaga/What2Read Filter: Image tag: Service: backend Repo: gnzaga/What2Read Filter: Image tag: Service: frontend PROD Namespace: portfolio Replicas: Tracked branch: master Image tag: Auto-sync: ✓ prune + selfHeal DEV Namespace: portfolio-dev Replicas: Tracked branch: dev Image tag: Auto-sync: ✓ prune + selfHeal",
+          "route": "/projects/k8s-automation",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/unified-iam": {
+      "path": "/projects/unified-iam",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-unified-iam",
+      "detail": "project-unified-iam-detail",
+      "contentSummary": "Unified Identity & Access Management (IAM) — Centralized SSO & Zero-Trust Infrastructure",
+      "contentChunks": [
+        {
+          "id": "/projects/unified-iam#chunk-0",
+          "text": "Unified Identity & Access Management (IAM): Centralized SSO & Zero-Trust Infrastructure",
+          "route": "/projects/unified-iam",
+          "heading": "Unified Identity & Access Management (IAM)"
+        },
+        {
+          "id": "/projects/unified-iam#chunk-1",
+          "text": "Infrastructure: Implemented a centralized, self-hosted Identity Provider (IdP) using to secure a multi-service Kubernetes cluster. \n          This system provides a unified Single Sign-On (SSO) experience, Multi-Factor Authentication (MFA), and automated \n          Role-Based Access Control (RBAC) across both infrastructure and application layers.",
+          "route": "/projects/unified-iam",
+          "heading": "Infrastructure"
+        },
+        {
+          "id": "/projects/unified-iam#chunk-2",
+          "text": "Monitoring & Dev: Authentik",
+          "route": "/projects/unified-iam",
+          "heading": "Monitoring & Dev"
+        },
+        {
+          "id": "/projects/unified-iam#chunk-3",
+          "text": "HA Database: OIDC (OpenID Connect)",
+          "route": "/projects/unified-iam",
+          "heading": "HA Database"
+        },
+        {
+          "id": "/projects/unified-iam#chunk-4",
+          "text": "Enforced MFA: HashiCorp Vault",
+          "route": "/projects/unified-iam",
+          "heading": "Enforced MFA"
+        },
+        {
+          "id": "/projects/unified-iam#chunk-5",
+          "text": "ArgoCD, Harbor Registry, MinIO (S3), and HashiCorp Vault. Grafana (with group-to-role mapping), OpenWebUI, and JupyterHub. High-availability backend using a persistent PostgreSQL store. Strict Multi-Factor Authentication for all administrative and infrastructure accounts.",
+          "route": "/projects/unified-iam",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/kaiwa": {
+      "path": "/projects/kaiwa",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-kaiwa",
+      "detail": "project-kaiwa-detail",
+      "contentSummary": "Kaiwa — Multi-National Media Intelligence Platform",
+      "contentChunks": [
+        {
+          "id": "/projects/kaiwa#chunk-0",
+          "text": "Kaiwa: Multi-National Media Intelligence Platform",
+          "route": "/projects/kaiwa",
+          "heading": "Kaiwa"
+        },
+        {
+          "id": "/projects/kaiwa#chunk-1",
+          "text": "1. Sync: Kaiwa is a personal media intelligence platform that aggregates law and economics news from\n          Japan, the US, the Philippines, and Taiwan. It was built in roughly two weeks across 224 git\n          commits as a self-hosted tool for tracking cross-regional stories without relying on aggregators\n          that strip context or skip non-English sources.",
+          "route": "/projects/kaiwa",
+          "heading": "1. Sync"
+        },
+        {
+          "id": "/projects/kaiwa#chunk-2",
+          "text": "2. Scrape: Polls Miniflux every 15 minutes, maps RSS entries to a region/category structure, and enqueues new articles for processing.",
+          "route": "/projects/kaiwa",
+          "heading": "2. Scrape"
+        },
+        {
+          "id": "/projects/kaiwa#chunk-3",
+          "text": "3. Translate: Full article content is extracted via the Readability algorithm. Reddit sources fetch the top comment thread via the JSON API instead of scraping HTML.",
+          "route": "/projects/kaiwa",
+          "heading": "3. Translate"
+        },
+        {
+          "id": "/projects/kaiwa#chunk-4",
+          "text": "4. Summarize: LibreTranslate handles fast, self-hosted machine translation. An LLM is used as a fallback for languages or passages where LibreTranslate underperforms. English articles pass through unchanged.",
+          "route": "/projects/kaiwa",
+          "heading": "4. Summarize"
+        },
+        {
+          "id": "/projects/kaiwa#chunk-5",
+          "text": "5. Embed: An LLM generates a TL;DR, structured bullet points, sentiment scores across 8 categories, topical tags, and a boolean \"sentinel signal\" flag indicating whether the article warrants intelligence tracking.",
+          "route": "/projects/kaiwa",
+          "heading": "5. Embed"
+        },
+        {
+          "id": "/projects/kaiwa#chunk-6",
+          "text": "6. Cleanup: 384-dimension vector embeddings are generated via sentence-transformers (all-MiniLM-L6-v2) and stored in pgvector for semantic search and signal clustering.",
+          "route": "/projects/kaiwa",
+          "heading": "6. Cleanup"
+        },
+        {
+          "id": "/projects/kaiwa#chunk-7",
+          "text": "An hourly recovery job detects and requeues articles that have become stuck in intermediate pipeline states due to transient failures. Queues are partitioned per region (e.g., , ), giving each region independent concurrency controls. The entire job system is powered by pg-boss on PostgreSQL — no separate message broker required. Sentinel is the autonomous backend subsystem that tracks developing stories. Articles flagged\n          as high-saliency during summarization become \"Sentinel Signals,\" which are continuously\n          synthesized into structured intelligence Events. A LangGraph-based agentic research system lets users run natural language queries against\n          both the local article database and the live web, with results streamed in real time. Kaiwa is a Next.js full-stack application backed by PostgreSQL, with a pg-boss job queue\n          worker handling all pipeline stages. Three specialized Python microservices run alongside\n          it: an embedder (sentence-transformers), a researcher (LangGraph agent), and a webreader\n          (Playwright). All four services are deployed to the homelab Kubernetes cluster using the\n          same Tekton CI/CD pipeline, Harbor registry, and ArgoCD GitOps workflow as my other projects.\n          Secrets are injected at runtime from HashiCorp Vault via the External Secrets Operator.",
+          "route": "/projects/kaiwa",
+          "heading": null
+        }
+      ]
+    },
+    "/experience": {
+      "path": "/experience",
+      "type": "top-level",
+      "navbar": "nav-experience",
+      "parent": null,
+      "card": null,
+      "detail": null,
+      "contentSummary": "experience — •",
+      "contentChunks": [
+        {
+          "id": "/experience#chunk-0",
+          "text": "• Journey",
+          "route": "/experience",
+          "heading": null
+        }
+      ]
+    },
+    "/demo/pathfinding": {
+      "path": "/demo/pathfinding",
+      "type": "top-level",
+      "navbar": "nav-demo",
+      "parent": null,
+      "card": null,
+      "detail": null,
+      "contentSummary": "Execution Log — Pathfinder",
+      "contentChunks": [
+        {
+          "id": "/demo/pathfinding#chunk-0",
+          "text": "Execution Log: Pathfinder",
+          "route": "/demo/pathfinding",
+          "heading": "Execution Log"
+        },
+        {
+          "id": "/demo/pathfinding#chunk-1",
+          "text": "It's a bit of a magic trick! 🪄 The LLM intelligently selects the based on your request. Then, this deterministic pathfinder algorithm takes over to calculate the exact, shortest visual path (button clicks and scrolls) to get you there seamlessly. .",
+          "route": "/demo/pathfinding",
+          "heading": null
+        }
+      ]
+    },
+    "/error": {
+      "path": "/error",
+      "type": "top-level",
+      "navbar": "nav-error",
+      "parent": null,
+      "card": null,
+      "detail": null,
+      "contentSummary": "Something Went Wrong — We encountered an unexpected error. Please try again later.",
+      "contentChunks": [
+        {
+          "id": "/error#chunk-0",
+          "text": "Something Went Wrong: We encountered an unexpected error. Please try again later.",
+          "route": "/error",
+          "heading": "Something Went Wrong"
+        }
+      ]
+    },
+    "*": {
+      "path": "*",
+      "type": "dynamic",
+      "navbar": null,
+      "parent": null,
+      "card": null,
+      "detail": null,
+      "contentSummary": "",
+      "contentChunks": []
+    }
+  },
+  "edges": [
+    {
+      "from": "/",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/blog/:slug",
+      "to": "/blog",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/task-management",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/playlist-generator",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/PlaylistProject",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/discord-bot",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/chat-gnzaga",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/portfolio-project",
+      "to": "/demo/pathfinding",
+      "element": "link-try-the-pathfinder-demo",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/portfolio-project",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/kubernetes-cluster",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/homelab",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/k8s-automation",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/unified-iam",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/kaiwa",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/error",
+      "to": "/",
+      "element": "link-return-to-home",
+      "action": "navClick"
+    },
+    {
+      "from": "*",
+      "to": "/",
+      "element": "link-go-back-to-home",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/task-management",
+      "element": "project-task-management-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/playlist-generator",
+      "element": "project-playlist-generator-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/PlaylistProject",
+      "element": "project-PlaylistProject-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/discord-bot",
+      "element": "project-discord-bot-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/chat-gnzaga",
+      "element": "project-chat-gnzaga-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/portfolio-project",
+      "element": "project-portfolio-project-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/kubernetes-cluster",
+      "element": "project-kubernetes-cluster-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/homelab",
+      "element": "project-homelab-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/k8s-automation",
+      "element": "project-k8s-automation-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/unified-iam",
+      "element": "project-unified-iam-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/kaiwa",
+      "element": "project-kaiwa-detail",
+      "action": "clickDetail"
+    }
+  ],
+  "generatedAt": "2026-04-06T22:02:47.341Z",
+  "framework": "react-router",
+  "pageCount": 18
+}

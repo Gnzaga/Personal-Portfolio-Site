@@ -6,6 +6,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/Layout'; // Import the new Layout component
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
+import { ShipPilotRoot } from './components/ShipPilotRoot';
 
 // Lazy load pages
 const About = lazy(() => import('./pages/About'));
@@ -53,6 +54,7 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
+        <ShipPilotRoot>
         <ScrollToTop />
         <Layout>
           <PageTransition>
@@ -85,9 +87,7 @@ function App() {
           </PageTransition>
           <Footer />
         </Layout>
-        <Suspense fallback={null}>
-          <Chatbot />
-        </Suspense>
+        </ShipPilotRoot>
       </Router>
     </ThemeProvider>
   );

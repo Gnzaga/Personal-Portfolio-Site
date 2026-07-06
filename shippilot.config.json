@@ -1,0 +1,31 @@
+{
+  "framework": "react-router",
+  "entryPoint": "./src/App.js",
+  "outputDir": "./src/shippilot",
+  "model": {
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "modelName": "gpt-4o-mini",
+    "apiKeyEnv": "OPENAI_API_KEY"
+  },
+  "site": {
+    "context": "Alessandro Gonzaga's personal portfolio site. Full-stack engineer with a focus on TypeScript, React, Kubernetes, and homelab infrastructure. Shows projects, blog posts, and professional experience.",
+    "scope": "public"
+  },
+  "rag": {
+    "enabled": false,
+    "threshold": 20,
+    "topK": 3,
+    "chunkSize": 400,
+    "chunkOverlap": 40
+  },
+  "chat": {
+    "maxHistoryMessages": 10,
+    "welcomeMessage": "Hi! I can help you navigate this site or answer questions about Alex's work.",
+    "agentModeLabel": "Navigating..."
+  },
+  "theme": {
+    "mode": "dark",
+    "accentColor": "#a855f7",
+    "position": "bottom-right"
+  }
+}
