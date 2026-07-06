@@ -36,6 +36,13 @@ spec:
             secretKeyRef:
               name: openwebui-api-key
               key: bearer-token
+        - name: OPENROUTER_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: openrouter-api-key
+              key: api-key
+        - name: SHIPPILOT_MODEL
+          value: "deepseek/deepseek-v4-flash"
         resources:
           limits:
             memory: "512Mi"

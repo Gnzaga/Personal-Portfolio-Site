@@ -1,6 +1,7 @@
 # Use an official Node.js runtime as the base image
 # The 'alpine' version is used for a smaller image footprint.
-FROM node:16-alpine AS build
+# Node >= 18 is required: @shippilot/core's chat middleware uses global fetch.
+FROM node:20-alpine AS build
 
 # Set the working directory inside the container
 # This is where all subsequent commands will be executed.
@@ -8,7 +9,10 @@ WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json (if available)
 # This ensures npm install is run only when dependencies change, optimizing build caching.
+# vendor/ holds the packed @shippilot tarballs referenced by package.json,
+# so it must be present before npm install.
 COPY package*.json ./
+COPY vendor ./vendor
 
 # Install dependencies using npm
 # Installs the necessary packages specified in package.json.
