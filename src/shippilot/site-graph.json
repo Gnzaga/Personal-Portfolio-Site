@@ -294,7 +294,7 @@
         },
         {
           "id": "/projects/kubernetes-cluster#chunk-5",
-          "text": "Prometheus, Grafana, Loki + Promtail, DCGM Exporter (per-GPU metrics) MinIO (500 Gi NVMe-backed S3-compatible object storage), Harbor container registry Wiki.js, Nextcloud, Paperless-NGX, Bookstack, Vaultwarden, FreshRSS, n8n Authentik (SSO/IdP with OIDC and LDAP), HashiCorp Vault, External Secrets Operator Velero — daily backups of critical namespaces and weekly full-cluster backups, stored in MinIO S3 PostgreSQL (9 separate databases), Redis Storage is tiered across three backends, exposed to workloads through 8 named storage classes\n          so applications declare exactly what they need. 7.3 TB RAID5 array for general-purpose PVCs. Dedicated 2 TB NVMe for MinIO object storage, providing low-latency S3-compatible block access. 14.5 TB ZFS pool managed by TrueNAS, shared over NFS. Used for application workloads requiring large or durable storage (Nextcloud, media, backups). 8 classes available: , , , , , , , Daily backups of critical namespaces with 30-day retention. Weekly full-cluster backups with 90-day retention. All snapshots stored in MinIO S3.",
+          "text": "Prometheus, Grafana, Loki + Promtail, DCGM Exporter (per-GPU metrics) MinIO (500 Gi NVMe-backed S3-compatible object storage), Harbor container registry Wiki.js, Nextcloud, Paperless-NGX, Bookstack, Vaultwarden, FreshRSS, n8n Authentik (SSO/IdP with OIDC and LDAP), HashiCorp Vault, External Secrets Operator Velero — daily backups of critical namespaces and weekly full-cluster backups, stored in MinIO S3 PostgreSQL (9 separate databases), Redis Storage is tiered across three backends, exposed to workloads through 8 named storage classes\n          so applications declare exactly what they need. 7.3 TB RAID5 array for general-purpose PVCs. Dedicated 2 TB NVMe for MinIO object storage, providing low-latency S3-compatible block access. 14.5 TB ZFS pool managed by TrueNAS, shared over NFS. Used for application workloads requiring large or durable storage (Nextcloud, media, backups). 8 classes available: , , , , , , , Daily backups of critical namespaces with 30-day retention. Weekly full-cluster backups with 90-day retention. All snapshots stored in MinIO S3. The cluster now runs a real internal platform layer on top of application workloads: a private,\n          vulnerability-scanned container registry, S3-compatible object storage backing that registry plus\n          backups and media, and a CI/CD pipeline that builds and rolls out every application automatically on\n          every push. On the ML side, a multi-user notebook platform gives on-demand, GPU-aware Jupyter\n          environments per user, and a local LLM inference server exposes an OpenAI-compatible API, with a\n          Kubernetes-native model-serving operator in progress for lifecycle management and autoscaling. A\n          backup/restore operator provides namespace- and cluster-level disaster recovery, currently being\n          hardened after an initial storage-integration issue. Together these turn the cluster from \"a place that\n          runs my apps\" into a small internal platform with its own registry, CI/CD, object storage, backup, and\n          ML-serving layers. A curated (not exhaustive) look at what's running on top of the platform layer. Note: KubeAI and Velero are actively being reworked right now, so treat those two as in-progress rather\n          than fully production-hardened.",
           "route": "/projects/kubernetes-cluster",
           "heading": null
         }
@@ -317,7 +317,7 @@
         },
         {
           "id": "/projects/homelab#chunk-1",
-          "text": "The platform serves 20+ active users with services spanning AI, development, productivity,\n          and education — all running on self-hosted Kubernetes with GitOps-driven deployments. AMD Ryzen 9 5900X (12C/24T) · 64 GB RAM · 7.3 TB RAID5 + 2 TB NVMe + 448 GB NVMe Hosts K8s control planes and workers, NFS server, MinIO object storage AMD Ryzen 7 3700X (8C/16T) · 64 GB RAM · 14.5 TB ZFS (TrueNAS) Media server, TrueNAS backend storage, K8s worker node Intel Core i5-8500T (6C) · 64 GB RAM · 68 GB NVMe K8s control plane expansion, development workloads Intel i5-12450H (8C) · 16 GB RAM DNS (PiHole), VPN (WireGuard), reverse proxy, Step-CA, monitoring 2 vCPU · 2 GB RAM Public edge proxy, Headscale coordination server, CoreDNS, Uptime Kuma Traffic is segmented into 7 VLANs, each with its own firewall policy and routing rules: TP-Link ER605 gateway, managed GBE and 10G switches, EAP670 and EAP615 access points with 802.11r fast roaming, managed by an Omada controller. Internet → Cloudflare CDN/WAF → Hetzner VPS edge proxy → Tailscale WireGuard tunnel → home network. The home IP is never directly exposed. A self-hosted Tailscale coordination server (Headscale) runs on the Hetzner VPS at . It connects three separate\n          homelabs (mine and two friends') along with the Hetzner node into a single mesh network\n          where each participant advertises its local subnet routes to all others. The setup required solving a circular dependency: Headscale requires Authentik for OIDC\n          authentication, but Authentik runs on the homelab that is only accessible via Headscale.\n          This is resolved by an OIDC watchdog sidecar that starts Headscale without OIDC enabled,\n          polls until is reachable through the\n          mesh, and then dynamically enables OIDC without restarting the process.",
+          "text": "The platform serves 20+ active users with services spanning AI, development, productivity,\n          and education — all running on self-hosted Kubernetes with GitOps-driven deployments. AMD Ryzen 9 5900X (12C/24T) · 64 GB RAM · 7.3 TB RAID5 + 2 TB NVMe + 448 GB NVMe Hosts K8s control planes and workers, NFS server, MinIO object storage AMD Ryzen 7 3700X (8C/16T) · 64 GB RAM · 14.5 TB ZFS (TrueNAS) Media server, TrueNAS backend storage, K8s worker node Intel Core i5-8500T (6C) · 64 GB RAM · 68 GB NVMe K8s control plane expansion, development workloads Intel i5-12450H (8C) · 16 GB RAM DNS (PiHole), VPN (WireGuard), reverse proxy, Step-CA, monitoring 2 vCPU · 2 GB RAM Public edge proxy, Headscale coordination server, CoreDNS, Uptime Kuma Traffic is segmented into 7 VLANs, each with its own firewall policy and routing rules: TP-Link ER605 gateway, managed GBE and 10G switches, EAP670 and EAP615 access points with 802.11r fast roaming, managed by an Omada controller. Internet → Cloudflare CDN/WAF → Hetzner VPS edge proxy → Tailscale WireGuard tunnel → home network. The home IP is never directly exposed. A self-hosted Tailscale coordination server (Headscale) runs on the Hetzner VPS at . It connects three separate\n          homelabs (mine and two friends') along with the Hetzner node into a single mesh network\n          where each participant advertises its local subnet routes to all others. The setup required solving a circular dependency: Headscale requires Authentik for OIDC\n          authentication, but Authentik runs on the homelab that is only accessible via Headscale.\n          This is resolved by an OIDC watchdog sidecar that starts Headscale without OIDC enabled,\n          polls until is reachable through the\n          mesh, and then dynamically enables OIDC without restarting the process. The service catalog has grown well past the original stack: self-hosted photo backup with\n          face and content search (a Google Photos alternative), password management, personal\n          finance with AI-assisted transaction categorization, an RSS reader, and a federated chat\n          server now run as first-class citizens of the Kubernetes platform rather than one-off VMs.\n          Highlights: In parallel, a full architecture audit turned into a five-phase modernization plan —\n          ingress consolidation, storage cleanup, a CNI migration, network/DNS cleanup, and\n          segmentation — with phase 0 (dead service cleanup, a drifted load-balancer IP pool fix,\n          and backfilled SSO secrets) already complete. Several production incidents this window —\n          a database recovering too slowly on network storage, a stale-mount networking bug, and a\n          node that quietly went down before anything noticed — each drove a concrete hardening\n          change rather than just a restart.",
           "route": "/projects/homelab",
           "heading": null
         }
@@ -447,7 +447,7 @@
         },
         {
           "id": "/projects/unified-iam#chunk-5",
-          "text": "ArgoCD, Harbor Registry, MinIO (S3), and HashiCorp Vault. Grafana (with group-to-role mapping), OpenWebUI, and JupyterHub. High-availability backend using a persistent PostgreSQL store. Strict Multi-Factor Authentication for all administrative and infrastructure accounts.",
+          "text": "ArgoCD, Harbor Registry, MinIO (S3), and HashiCorp Vault. Grafana (with group-to-role mapping), OpenWebUI, and JupyterHub. Authentik's role as the homelab's single identity provider now extends to a self-hosted Matrix chat server\n          (Synapse + Element). Rather than integrating Synapse directly as an OIDC client, authentication is brokered\n          through , a dedicated delegation\n          layer purpose-built for Matrix homeservers under the MSC3861 spec. This kept the chat server's user accounts,\n          sessions, and login UI fully backed by the same Authentik identity store as every other homelab application —\n          including a custom authorization policy to control exactly which profile data gets shared with the chat client.\n          Standing up this integration surfaced (and fixed) an SSO redirect loop caused by a CDN TLS-mode mismatch, along\n          with a claims-mapping bug in the delegation layer's userinfo response. matrix-authentication-service (MAS) Separately, Google was added as a federated OAuth2/OIDC login source with auto-enrollment for new sign-ins\n          and self-service linking for existing users. Approval-gated self-registration was replaced with scoped,\n          least-privilege default access via expression-based policies, and an implicit allow-all gap was closed by\n          rolling out access-control policies to nine previously unrestricted internal applications. High-availability backend using a persistent PostgreSQL store. Strict Multi-Factor Authentication for all administrative and infrastructure accounts.",
           "route": "/projects/unified-iam",
           "heading": null
         }
@@ -460,17 +460,17 @@
       "parent": "/projects",
       "card": "project-kaiwa",
       "detail": "project-kaiwa-detail",
-      "contentSummary": "Kaiwa — Multi-National Media Intelligence Platform",
+      "contentSummary": "Kaiwa — Open-Source Intelligence Platform — Geospatial Tracking & Cross-Domain Correl...",
       "contentChunks": [
         {
           "id": "/projects/kaiwa#chunk-0",
-          "text": "Kaiwa: Multi-National Media Intelligence Platform",
+          "text": "Kaiwa: Open-Source Intelligence Platform — Geospatial Tracking & Cross-Domain Correlation",
           "route": "/projects/kaiwa",
           "heading": "Kaiwa"
         },
         {
           "id": "/projects/kaiwa#chunk-1",
-          "text": "1. Sync: Kaiwa is a personal media intelligence platform that aggregates law and economics news from\n          Japan, the US, the Philippines, and Taiwan. It was built in roughly two weeks across 224 git\n          commits as a self-hosted tool for tracking cross-regional stories without relying on aggregators\n          that strip context or skip non-English sources.",
+          "text": "1. Sync: Kaiwa started as a two-week side project — a self-hosted news aggregator pulling law-and-economics\n          coverage from Japan, the US, the Philippines, and Taiwan so cross-regional stories didn't lose\n          non-English context to aggregators that strip it out. It's since grown into a full open-source-intelligence\n          platform spanning geospatial tracking, cross-domain signal correlation, autonomous research, and\n          self-managing data pipelines — roughly eight coordinated services now, all running on the same\n          homelab Kubernetes cluster as my other projects.",
           "route": "/projects/kaiwa",
           "heading": "1. Sync"
         },
@@ -500,14 +500,107 @@
         },
         {
           "id": "/projects/kaiwa#chunk-6",
-          "text": "6. Cleanup: 384-dimension vector embeddings are generated via sentence-transformers (all-MiniLM-L6-v2) and stored in pgvector for semantic search and signal clustering.",
+          "text": "6. Ledger: 384-dimension vector embeddings are generated via sentence-transformers (all-MiniLM-L6-v2) and stored in pgvector for semantic search and signal clustering.",
           "route": "/projects/kaiwa",
-          "heading": "6. Cleanup"
+          "heading": "6. Ledger"
         },
         {
           "id": "/projects/kaiwa#chunk-7",
-          "text": "An hourly recovery job detects and requeues articles that have become stuck in intermediate pipeline states due to transient failures. Queues are partitioned per region (e.g., , ), giving each region independent concurrency controls. The entire job system is powered by pg-boss on PostgreSQL — no separate message broker required. Sentinel is the autonomous backend subsystem that tracks developing stories. Articles flagged\n          as high-saliency during summarization become \"Sentinel Signals,\" which are continuously\n          synthesized into structured intelligence Events. A LangGraph-based agentic research system lets users run natural language queries against\n          both the local article database and the live web, with results streamed in real time. Kaiwa is a Next.js full-stack application backed by PostgreSQL, with a pg-boss job queue\n          worker handling all pipeline stages. Three specialized Python microservices run alongside\n          it: an embedder (sentence-transformers), a researcher (LangGraph agent), and a webreader\n          (Playwright). All four services are deployed to the homelab Kubernetes cluster using the\n          same Tekton CI/CD pipeline, Harbor registry, and ArgoCD GitOps workflow as my other projects.\n          Secrets are injected at runtime from HashiCorp Vault via the External Secrets Operator.",
+          "text": "7. Cleanup: A separate ledger stage links related articles into running topics and can trigger the autonomous research agent once a topic accumulates enough independent corroboration.",
           "route": "/projects/kaiwa",
+          "heading": "7. Cleanup"
+        },
+        {
+          "id": "/projects/kaiwa#chunk-8",
+          "text": "An hourly recovery job detects and requeues articles that have become stuck in intermediate pipeline states due to transient failures. Queues are partitioned per region (e.g., , ), giving each region independent concurrency controls. The entire job system is powered by pg-boss on PostgreSQL — no separate message broker required. Sentinel is the cross-domain correlation engine that fuses everything Kaiwa ingests — news,\n          flight activity, weather, and financial/macro data — into structured intelligence Events with\n          confidence scoring and testable hypotheses. Layered alongside it is World View, a real-time\n          geospatial map of live aircraft and vessel positions, backed by a two-tier maritime anomaly detector. A LangGraph-based agentic research system lets users run natural language queries against\n          both the local article database and the live web, with results streamed in real time. The\n          same two-tier LLM router — a fast, cheap model for routine work, a stronger model for harder\n          reasoning — also drives a self-curating feed system that discovers, evaluates, and manages\n          Kaiwa's own RSS sources without manual intervention. Kaiwa is a Next.js full-stack application backed by PostgreSQL, with a pg-boss job queue\n          worker handling the ingestion pipeline. Around it run several specialized Python and Rust\n          services — an embedder (sentence-transformers), a LangGraph research agent, a Playwright-based\n          web reader, an ML-based maritime anomaly detector (scikit-learn), and a Rust tile server for\n          the geospatial layer (PostGIS) — roughly eight coordinated services in total. All of them\n          deploy to the homelab Kubernetes cluster through the same Tekton CI/CD pipeline, Harbor\n          registry, and ArgoCD GitOps workflow as my other projects, with secrets injected at runtime\n          from HashiCorp Vault via the External Secrets Operator. Running a platform with this many moving parts surfaced real lessons about operating\n          self-hosted infrastructure at a scale that actually matters. A production database incident\n          taught me that backup scripts need to validate their own output — a \"successful\" backup\n          that's silently empty is worse than no backup at all, because it hides the problem until the\n          moment it's actually needed. The backup pipeline now runs integrity and size sanity checks,\n          and pruning old backups only happens after a fresh one verifies clean. A separate extended outage — a database pod that looked healthy to Kubernetes but had\n          actually wedged well below that layer — reinforced that \"the pod is running\" and \"the service\n          is reachable\" are different claims, and only one of them matters to users. Active health\n          probes and a proper alerting pipeline now catch failures like this in minutes instead of days. On the data side, growing the schema alongside a live intelligence pipeline meant\n          occasionally shipping a migration that didn't get fully threaded through every downstream\n          consumer. Chasing one down doubled as an audit of the whole correlation engine, which came\n          out more resilient than before: per-record error isolation instead of one bad row blocking a\n          whole batch, canonicalized entity names, and configurable similarity thresholds instead of\n          hardcoded ones.",
+          "route": "/projects/kaiwa",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/agent-mesh": {
+      "path": "/projects/agent-mesh",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-agent-mesh",
+      "detail": "project-agent-mesh-detail",
+      "contentSummary": "Agent Mesh Workspace — A browser-based control room for managing multiple long-running AI coding-age...",
+      "contentChunks": [
+        {
+          "id": "/projects/agent-mesh#chunk-0",
+          "text": "Agent Mesh Workspace: A browser-based control room for managing multiple long-running AI coding-agent sessions",
+          "route": "/projects/agent-mesh",
+          "heading": "Agent Mesh Workspace"
+        },
+        {
+          "id": "/projects/agent-mesh#chunk-1",
+          "text": "Running AI coding agents from a terminal works fine for one task at a time, but juggling several\n          long-running sessions — one refactoring a service, one investigating a bug, one scaffolding a new\n          feature — quickly turns into a mess of terminal tabs and lost context about which one is doing what.\n          Agent Mesh Workspace turns that into a proper multi-session control room: a browser-based dashboard\n          for launching, monitoring, and interacting with several coding-agent CLI sessions at once, with a\n          live overview built for exactly the \"which of these needs my attention\" question. The backend is a Node/Express service that spawns and owns a pseudo-terminal (PTY) per session and\n          streams its I/O to the browser over a WebSocket. Because the PTY process is independent of any\n          browser connection, closing a tab — or losing the network entirely — doesn't kill the underlying\n          agent session; reconnecting re-attaches to the same live process. The frontend renders each session\n          with an embedded terminal emulator, and a \"Mission Control\" grid view can display up to nine of\n          these simultaneously, each with click-to-type focus and a maximize control that hands the same\n          terminal component off between grid and full-screen views without a reconnect. Because a live wall of scrolling terminal text isn't actually scannable at a glance, each panel is\n          paired with a short AI-generated summary of what that session is currently doing, produced by a\n          lightweight model call over the session's recent output. Generation is deliberately throttled —\n          both by a minimum time interval and a minimum amount of new output — so cost and latency stay low\n          even with several sessions active. The workspace also ships a \"Librarian\" chat backed by a Model\n          Context Protocol server for searching an internal knowledge base; its query handling was rebuilt\n          around Server-Sent Events so tool-call progress and the final answer both stream to the browser in\n          real time rather than arriving all at once after a long silent wait. Node.js + Express backend with for terminal process\n          management and native WebSockets for streaming; Vite + Tailwind CSS frontend using xterm.js for\n          terminal rendering; a standalone MCP server (stdio transport) providing the knowledge-search tool\n          consumed by both the workspace's chat feature and external coding-agent CLIs directly; OIDC\n          (Authorization Code + PKCE) for authentication. The hardest engineering problem was terminal lifecycle management: making a live xterm.js instance\n          and its WebSocket survive being detached from the DOM, moved between a grid panel and a full-tab\n          view, and reattached — all without the user perceiving a reconnect or losing scrollback. Getting\n          AI-generated session summaries to feel \"live\" without becoming an expensive background job required\n          tuning throttling around both elapsed time and actual output delta, rather than polling on a fixed\n          timer. Replacing a blocking wiki-chat request with a proper two-round SSE stream (tool execution,\n          then synthesis) was a good reminder that perceived latency is often more about visible progress\n          than raw response time.",
+          "route": "/projects/agent-mesh",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/matrix-server": {
+      "path": "/projects/matrix-server",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-matrix-server",
+      "detail": "project-matrix-server-detail",
+      "contentSummary": "Self-Hosted Matrix Chat Server — A federation-capable Matrix homeserver with SSO delegated to my identity prov...",
+      "contentChunks": [
+        {
+          "id": "/projects/matrix-server#chunk-0",
+          "text": "Self-Hosted Matrix Chat Server: A federation-capable Matrix homeserver with SSO delegated to my identity provider",
+          "route": "/projects/matrix-server",
+          "heading": "Self-Hosted Matrix Chat Server"
+        },
+        {
+          "id": "/projects/matrix-server#chunk-1",
+          "text": "Client → Homeserver: A self-hosted, federation-capable Matrix homeserver (Synapse) with Element as the web client,\n          giving me private group chat, DMs, and voice/video without depending on a third-party chat\n          provider. Originally built on Dendrite, later migrated to Synapse for broader client\n          compatibility and to take advantage of Matrix's newer OIDC-delegation model for single sign-on.",
+          "route": "/projects/matrix-server",
+          "heading": "Client → Homeserver"
+        },
+        {
+          "id": "/projects/matrix-server#chunk-2",
+          "text": "Homeserver → MAS: A reverse proxy routes chat traffic to the homeserver and the Element web client, and a small delegation service tells any Matrix client\n          where to find the homeserver and its identity provider. Authentication itself is a three-hop\n          delegation chain:",
+          "route": "/projects/matrix-server",
+          "heading": "Homeserver → MAS"
+        },
+        {
+          "id": "/projects/matrix-server#chunk-3",
+          "text": "MAS → Authentik: Element (or any Matrix client) connects to Synapse, which no longer manages accounts or passwords locally.",
+          "route": "/projects/matrix-server",
+          "heading": "MAS → Authentik"
+        },
+        {
+          "id": "/projects/matrix-server#chunk-4",
+          "text": "Synapse delegates all authentication decisions to matrix-authentication-service (MAS) via MSC3861. MAS federates out to Authentik via OIDC, so logging into chat uses the same account and MFA as everything else in the homelab. Media uploads and backups are stored in a self-hosted S3-compatible object store, written on a scheduled backup job. Synapse and Element Web form the core chat server and client, backed by PostgreSQL for storage.\n          matrix-authentication-service handles the OIDC delegation chain to Authentik. The whole stack\n          runs on the homelab Kubernetes cluster behind Traefik ingress, with media and backups in\n          S3-compatible object storage, and the deployment itself managed declaratively via GitOps.",
+          "route": "/projects/matrix-server",
+          "heading": null
+        }
+      ]
+    },
+    "/projects/agent-orchestration": {
+      "path": "/projects/agent-orchestration",
+      "type": "detail",
+      "navbar": null,
+      "parent": "/projects",
+      "card": "project-agent-orchestration",
+      "detail": "project-agent-orchestration-detail",
+      "contentSummary": "Multi-Agent Orchestration Platform — A terminal coding-agent framework that plans, delegates, and gates multi-step...",
+      "contentChunks": [
+        {
+          "id": "/projects/agent-orchestration#chunk-0",
+          "text": "Multi-Agent Orchestration Platform: A terminal coding-agent framework that plans, delegates, and gates multi-step engineering work",
+          "route": "/projects/agent-orchestration",
+          "heading": "Multi-Agent Orchestration Platform"
+        },
+        {
+          "id": "/projects/agent-orchestration#chunk-1",
+          "text": "Most AI coding assistants operate as a single model working through one long conversation —\n          which works for small tasks but breaks down on larger engineering work where requirements need\n          clarifying, multiple subsystems need touching, and mistakes compound silently. This project takes\n          a different approach: it treats a coding task like an engineering manager would, spending an\n          explicit planning phase up front, breaking approved work into a dependency graph, and delegating\n          each piece to a specialist rather than one generalist trying to hold the whole task in its head. The system is built around a plan-mode state machine: entering plan mode locks the agent into a\n          read-only workspace where it can only write inside a scoped planning directory, and blocks\n          destructive commands outright. Planning proceeds through a structured interview — one question at\n          a time, each with a recommended answer and its reasoning — until every open design decision has\n          been resolved. The output is a plan package: a requirements spec, an architecture document,\n          gathered domain context, and a DAG of task specs, each naming exactly which specialized agent\n          should execute it. Only once every one of those artifacts exists and validates can the plan be\n          approved for execution. Execution walks the DAG phase by phase. Same-numbered tasks dispatch concurrently to their\n          assigned domain agents; the orchestrating agent reviews every phase's combined output for\n          completeness and internal consistency before allowing the next phase to start, and pauses at\n          designated checkpoints for human sign-off. If a task fails, the orchestrator diagnoses before\n          acting — retrying once, adjusting the task and retrying, or escalating to a human with its\n          diagnosis, but never retrying blindly. After completion, learnings captured during execution are\n          consolidated back into a persistent knowledge base organized by domain, so the next planning cycle\n          starts smarter than the last. A separate deployment takes the same orchestration ideas and exposes them as tools behind a\n          standard agent-tooling protocol (MCP), consumed by a browser chat interface instead of a terminal.\n          Multiple specialized agent \"stations\" live behind one service, selected by which access token a\n          request presents, giving a single backend multiple distinct working personas without duplicating\n          infrastructure. TypeScript-based extension and skill system for the core agent, with pluggable LLM provider\n          adapters and a task/subagent dispatch layer supporting parallel, chained, and background\n          execution modes. A companion backend runs as a containerized service (Docker Compose), exposing\n          the same orchestration tools over MCP's HTTP streaming transport, backed by a wiki-based knowledge\n          store for accumulated domain context. The central design tension was autonomy versus control: enough agent independence to actually save\n          time, without letting a multi-phase plan run unsupervised into a bad state. The gate-checkpoint\n          model — approve before executing, review after every phase, escalate rather than silently retry —\n          was the resolution that stuck. A second challenge was making domain knowledge durable: without a deliberate two-tier\n          capture-then-consolidate process, hard-won context evaporated at the end of every session instead\n          of compounding. Structuring the planning phase as an explicit interview, rather than trusting a\n          single prompt to convey full intent, turned out to matter more than any dispatch-mechanics\n          decision — most plan failures traced back to unclear requirements, not execution bugs.",
+          "route": "/projects/agent-orchestration",
           "heading": null
         }
       ]
@@ -666,6 +759,24 @@
       "action": "navClick"
     },
     {
+      "from": "/projects/agent-mesh",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/matrix-server",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
+      "from": "/projects/agent-orchestration",
+      "to": "/projects",
+      "element": "link",
+      "action": "navClick"
+    },
+    {
       "from": "/error",
       "to": "/",
       "element": "link-return-to-home",
@@ -742,9 +853,27 @@
       "to": "/projects/kaiwa",
       "element": "project-kaiwa-detail",
       "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/agent-mesh",
+      "element": "project-agent-mesh-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/matrix-server",
+      "element": "project-matrix-server-detail",
+      "action": "clickDetail"
+    },
+    {
+      "from": "/projects",
+      "to": "/projects/agent-orchestration",
+      "element": "project-agent-orchestration-detail",
+      "action": "clickDetail"
     }
   ],
-  "generatedAt": "2026-04-06T22:02:47.341Z",
+  "generatedAt": "2026-07-06T21:59:37.547Z",
   "framework": "react-router",
-  "pageCount": 18
+  "pageCount": 21
 }

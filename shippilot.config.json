@@ -3,9 +3,9 @@
   "entryPoint": "./src/App.js",
   "outputDir": "./src/shippilot",
   "model": {
-    "endpoint": "https://api.openai.com/v1/chat/completions",
-    "modelName": "gpt-4o-mini",
-    "apiKeyEnv": "OPENAI_API_KEY"
+    "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+    "modelName": "deepseek/deepseek-v4-flash",
+    "apiKeyEnv": "OPENROUTER_API_KEY"
   },
   "site": {
     "context": "Alessandro Gonzaga's personal portfolio site. Full-stack engineer with a focus on TypeScript, React, Kubernetes, and homelab infrastructure. Shows projects, blog posts, and professional experience.",
