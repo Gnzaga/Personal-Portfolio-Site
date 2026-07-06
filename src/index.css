@@ -199,3 +199,26 @@
   0%, 100% { opacity: 0; transform: scale(0.5); }
   50% { opacity: 1; transform: scale(1.5); box-shadow: 0 0 10px rgba(21, 128, 61, 0.8); }
 }
+
+/* ShipPilot agent-navigation classes → site design.
+   Overrides the library's injected defaults (square 3px ring, 8px-radius
+   outline), which draw rectangles around pill buttons and rounded cards.
+   !important is required to beat the runtime-injected stylesheet. */
+.shippilot-nav-highlight {
+  border-radius: 9999px !important; /* nav links and detail buttons are pills */
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.65), 0 0 18px 4px rgba(21, 128, 61, 0.35) !important;
+  animation: agent-nav-glow 1.5s ease-in-out;
+}
+
+.shippilot-nav-click {
+  transform: scale(0.95) !important;
+  color: #16a34a !important;
+}
+
+.shippilot-highlight {
+  outline: none !important;
+  border-radius: 1.5rem !important; /* GlassCard rounded-3xl */
+  position: relative;
+  z-index: 40;
+  animation: agent-highlight 2s ease-in-out infinite;
+}
