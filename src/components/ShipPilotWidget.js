@@ -6,7 +6,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComments, faTimes, faExpand, faCompress, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faComments, faTimes, faExpand, faCompress, faPaperPlane, faStop } from '@fortawesome/free-solid-svg-icons';
 import ReactMarkdown from 'react-markdown';
 import { useShipPilot, useShipPilotChat } from '@shippilot/react';
 
@@ -181,14 +181,24 @@ const ShipPilotWidget = () => {
                   aria-label="Chat input"
                   className="flex-1 bg-black/20 border border-white/10 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-green-500/50 transition-colors placeholder:text-white/30"
                 />
-                <button
-                  onClick={() => void chat.sendMessage()}
-                  disabled={!chat.input.trim() || chat.isLoading}
-                  aria-label="Send message"
-                  className="p-2 bg-white/10 hover:bg-green-600/80 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <FontAwesomeIcon icon={faPaperPlane} className="text-sm" />
-                </button>
+                {chat.isLoading ? (
+                  <button
+                    onClick={() => chat.stopStreaming()}
+                    aria-label="Stop response"
+                    className="p-2 bg-red-900/40 hover:bg-red-800/60 border border-red-500/30 text-white rounded-xl transition-all"
+                  >
+                    <FontAwesomeIcon icon={faStop} className="text-sm" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => void chat.sendMessage()}
+                    disabled={!chat.input.trim()}
+                    aria-label="Send message"
+                    className="p-2 bg-white/10 hover:bg-green-600/80 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <FontAwesomeIcon icon={faPaperPlane} className="text-sm" />
+                  </button>
+                )}
               </div>
             </div>
           </div>

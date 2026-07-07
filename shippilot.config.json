@@ -21,11 +21,11 @@
   "chat": {
     "maxHistoryMessages": 10,
     "welcomeMessage": "Hi! I can help you navigate this site or answer questions about Alex's work.",
-    "agentModeLabel": "Navigating..."
+    "agentModeLabel": "Agent Navigating..."
   },
   "theme": {
     "mode": "dark",
-    "accentColor": "#a855f7",
+    "accentColor": "#15803d",
     "position": "bottom-right"
   }
 }
