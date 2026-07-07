@@ -1,17 +1,20 @@
 # Apply this directly to the cluster, NOT managed by ArgoCD itself:
 #   kubectl apply -f k8s/argocd-application.yaml
+# NOTE: kept in sync with the live Application (name `portfolio`, project `homelab`,
+# path k8s/base) — the app was renamed/patched live in 2026; re-applying the old
+# `portfolio-website` spec would create a duplicate stale Application.
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: portfolio-website
+  name: portfolio
   namespace: argocd
 spec:
-  project: default
+  project: homelab
   source:
     repoURL: https://github.com/Gnzaga/Personal-Portfolio-Site.git
     targetRevision: master
-    path: k8s/overlays/prod
+    path: k8s/base
   destination:
     server: https://kubernetes.default.svc
     namespace: portfolio
