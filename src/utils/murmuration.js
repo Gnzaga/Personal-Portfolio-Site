@@ -11,9 +11,9 @@
  */
 
 export const CONFIG = {
-  minBirds: 400,
-  maxBirds: 700,
-  areaPerBird: 600, // px² of canvas per bird before clamping to [min, max]
+  minBirds: 700,
+  maxBirds: 1500,
+  areaPerBird: 350, // px² of canvas per bird before clamping to [min, max]
 
   minSpeed: 70,
   maxSpeed: 150,

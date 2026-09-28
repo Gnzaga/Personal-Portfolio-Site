@@ -21,7 +21,7 @@ describe('birdCountForArea', () => {
   test('clamps to the configured range', () => {
     expect(birdCountForArea(100, 100)).toBe(CONFIG.minBirds);
     expect(birdCountForArea(4000, 4000)).toBe(CONFIG.maxBirds);
-    expect(birdCountForArea(800, 450)).toBe(600);
+    expect(birdCountForArea(800, 450)).toBe(1029);
   });
 });
 
