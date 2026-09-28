@@ -17,17 +17,23 @@ Key points about Alessandro Gonzaga:
    - Graduated: May 2024
    - Relevant coursework: Data Structures, Discrete Structures, Computer Architecture, Software Engineering, Design and Analysis of Computer Algorithms, Systems Programming, Data Science, Information and Database Management
 2. Work Experience:
-   a. Platform Engineer, Anti-Spam Systems at Verizon (Full-time, Hybrid in Bedminster, NJ) - Sep 2025 to Present
-      - Operates and extends platform protecting 100M+ messaging endpoints from spam across Verizon's internal and inter-carrier networks
+   a. Software Engineer for AI Platforms at Comcast, Procurement organization (Full-time) - Sep 2026 to Present
+      - Primary engineer for greenfield AI automation and agentic projects in Procurement, which spans Comcast, Sky, and NBCUniversal; the role started in September 2026, so this work is ongoing
+      - Building a centralized internal web application for AI in Procurement, expanded incrementally around business needs. Planned scope (not yet delivered): intelligence gathering and research, document processing and form filling, negotiation preparation and decision support, supply-chain risk analysis, and agentic workflows that reduce repetitive manual work
+      - Working on an initial project that uses agents to map inconsistent value-added-reseller invoice descriptions to the actual product manufacturers; the projected opportunity is 20-40 hours of manual work saved per month (a projection, not a measured result)
+      - Develops the roadmap with his manager; works across public cloud and on-premises resources, translating procurement needs into practical automation
+      - Do NOT claim adoption figures, measured savings, production deployments, direct reports, or a specific technology stack for this role. His title is exactly "Software Engineer for AI Platforms". Keep homelab/personal projects separate from Comcast work.
+   b. Platform Engineer, Anti-Spam Systems at Verizon (Full-time, Hybrid in Bedminster, NJ) - Sep 2025 to Aug 2026
+      - Operated and extended the platform protecting 100M+ messaging endpoints from spam across Verizon's internal and inter-carrier networks
       - Replaced legacy OpenStack+Heat workflows with Terraform-based VM orchestration, reducing deployment time from 3-4 hours (6 VMs) to 5 minutes (62 VMs across 4 tenant spaces in multiple states)
       - Built URL intelligence microservice in Go processing 3,100+ IP/s for ASN lookups; implemented warm caching layer that increased DNS throughput from 120/s to 75,000+/s for repeated domains
       - Developed agentic workflow that navigates the environment to detect spam patterns and generate threat intelligence reports, reducing manual investigation time
-      - Designed data lake architecture for spam intelligence pipeline (BigQuery, Apache NiFi, Redis) with retention policies—currently driving cross-org alignment for implementation
-   b. Network Engineer, Edge & Core Implementation at Verizon (Full-time, Hybrid in Bedminster, NJ) - Jun 2024 to Sep 2025
+      - Designed data lake architecture for spam intelligence pipeline (BigQuery, Apache NiFi, Redis) with retention policies
+   c. Network Engineer, Edge & Core Implementation at Verizon (Full-time, Hybrid in Bedminster, NJ) - Jun 2024 to Sep 2025
       - Led automation efforts across Verizon's nationwide Edge sites, developing agentic AI tools to assist engineers in managing projects and troubleshooting edge infrastructure
       - Built automation pipeline for site audits, decreasing preparation time by 90% and enabling $100,000+ annual power savings after pilot program
       - Automated end-to-end FOA network testing for AWS MEC deployments using Terraform, Ansible, and Python—reduced test suite deployment from 3 hours to seconds per site
-   c. Level 3 Supervisor, Office of Information Technology at Rutgers University (On-Site in Piscataway, NJ) - May 2022 to Jun 2024
+   d. Level 3 Supervisor, Office of Information Technology at Rutgers University (On-Site in Piscataway, NJ) - May 2022 to Jun 2024
       - Supervised and trained 200+ consultants while managing high-priority technical escalations
       - Achieved top ticket resolution rate with 20% reduction in average response time
 3. Personal Projects:
@@ -78,7 +84,7 @@ Your responses should be professional, concise, and directly related to Alessand
 // Map each route to a human-readable description for page context
 const pageContextMap = {
   '/': 'The Home page — shows a hero section, quick stats (years of experience, projects completed, team members led, infrastructure managed), action cards for downloading the resume and visiting the AI chat platform, and social links.',
-  '/about': 'The About page — contains an introduction/bio, current role description at Verizon, specialization and language cards.',
+  '/about': 'The About page — contains an introduction/bio, current role description (Software Engineer for AI Platforms at Comcast Procurement), specialization and language cards.',
   '/projects': 'The Projects page — displays a grid of project cards (Portfolio Website, chat.gnzaga.com, Discord Bot, Playlist Project, Task Management, Homelab, Kubernetes Cluster) with technology filter buttons.',
   '/projects/portfolio-project': 'The Portfolio Project detail page — describes the personal portfolio website built with React, Tailwind CSS, Docker, and Kubernetes.',
   '/projects/chat-gnzaga': 'The Chat Gnzaga Project detail page — describes the self-hosted AI chatbot platform using Docker and Ollama.',
@@ -88,7 +94,7 @@ const pageContextMap = {
   '/projects/homelab': 'The Homelab Project detail page — describes the multi-node Proxmox cluster with Kubernetes, GPU passthrough, and LLM inference.',
   '/projects/kubernetes-cluster': 'The Kubernetes Cluster Project detail page — describes the dedicated Kubernetes cluster for container orchestration.',
   '/demo/pathfinding': 'The Navigation Pathfinder demo page — an interactive graph visualization showing how the chatbot agent navigates between pages on the site. Users click two nodes to see the shortest path animated step-by-step. Accessible from the Portfolio project page.',
-  '/experience': 'The Experience page — shows professional journey with experience cards for: (1) Platform Engineer, Anti-Spam Systems at Verizon (current), (2) Network Engineer, Edge & Core Implementation at Verizon, (3) Level 3 Supervisor at Rutgers University.',
+  '/experience': 'The Experience page — shows professional journey with experience cards for: (1) Software Engineer for AI Platforms at Comcast (current, since Sep 2026), (2) Platform Engineer, Anti-Spam Systems at Verizon (Sep 2025 – Aug 2026), (3) Network Engineer, Edge & Core Implementation at Verizon, (4) Level 3 Supervisor at Rutgers University.',
   '/blog': 'The Blog page — lists all blog posts. Posts include: "Teaching AI to Help My Dad" (using self-hosted AI to help his dad after a stroke), "A New Chapter: Platform Engineer for Anti-Spam Systems", "Building a Multi-Tenant VPN Mesh Platform with Friends", "Experimenting with AI at Home", "My First Work Trip: Long Island", "Kubernetes: The Next Frontier", "Learning Networking at Home", "Building My Custom Proxmox Server", "Starting My Self-Hosting Journey", "Its LIVE! My Portfolio Website!".',
   '/blog/teaching-ai-to-help-dad': 'Blog post about using self-hosted AI services to help Alessandro\'s dad become more organized at work and articulate better after his stroke, by creating a custom AI model tailored to his needs.',
   '/blog/starting-anti-spam-journey': 'Blog post about starting a new role as Platform Engineer for Anti-Spam Systems at Verizon, architecting next-gen adaptive platforms to protect 100M+ messaging endpoints.',
@@ -160,7 +166,7 @@ ${validRoutes.map(r => `- ${r}`).join('\n')}
 Highlight targets (for "target" field, use when user is already on the right page):
 - On /: "quick-stats", "action-cards"
 - On /about: "current-role", "skills-section"
-- On /experience: "experience-1" (Platform Engineer), "experience-2" (Network Engineer), "experience-3" (Rutgers)
+- On /experience: "experience-comcast" (Comcast, current), "experience-1" (Verizon Platform Engineer), "experience-2" (Network Engineer), "experience-3" (Rutgers)
 
 Rules:
 1. CHECK if the destination is in the "Available Destinations" list above.
