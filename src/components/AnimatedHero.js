@@ -10,8 +10,9 @@ const BIRD_RGB = '110, 231, 183';
 // wispy-edge look of a real murmuration. One fill() per bucket keeps draw
 // calls constant regardless of bird count.
 const DENSITY_ALPHAS = [0.5, 0.7, 0.85, 1];
-const BIRD_LENGTH = 4;
-const BIRD_HALF_WIDTH = 1.5;
+// Bird silhouette (px): nose-to-wingtip length and half wingspan.
+const BIRD_LENGTH = 9;
+const BIRD_HALF_WINGSPAN = 5.5;
 const MAX_DPR = 2;
 
 /**
@@ -87,10 +88,14 @@ const AnimatedHero = ({ className }) => {
           const speed = Math.hypot(vx[i], vy[i]) || 1;
           const dx = vx[i] / speed;
           const dy = vy[i] / speed;
-          // Small triangle pointing along the direction of travel.
-          ctx.moveTo(x[i] + dx * BIRD_LENGTH, y[i] + dy * BIRD_LENGTH);
-          ctx.lineTo(x[i] - dx * BIRD_LENGTH * 0.6 - dy * BIRD_HALF_WIDTH, y[i] - dy * BIRD_LENGTH * 0.6 + dx * BIRD_HALF_WIDTH);
-          ctx.lineTo(x[i] - dx * BIRD_LENGTH * 0.6 + dy * BIRD_HALF_WIDTH, y[i] - dy * BIRD_LENGTH * 0.6 - dx * BIRD_HALF_WIDTH);
+          // Swept-wing starling silhouette pointing along the direction of travel:
+          // nose, left wingtip, tail notch, right wingtip.
+          const backX = x[i] - dx * BIRD_LENGTH * 0.55;
+          const backY = y[i] - dy * BIRD_LENGTH * 0.55;
+          ctx.moveTo(x[i] + dx * BIRD_LENGTH * 0.45, y[i] + dy * BIRD_LENGTH * 0.45);
+          ctx.lineTo(backX - dy * BIRD_HALF_WINGSPAN, backY + dx * BIRD_HALF_WINGSPAN);
+          ctx.lineTo(x[i] - dx * BIRD_LENGTH * 0.2, y[i] - dy * BIRD_LENGTH * 0.2);
+          ctx.lineTo(backX + dy * BIRD_HALF_WINGSPAN, backY - dx * BIRD_HALF_WINGSPAN);
           ctx.closePath();
         }
         ctx.fillStyle = `rgba(${BIRD_RGB}, ${DENSITY_ALPHAS[b]})`;

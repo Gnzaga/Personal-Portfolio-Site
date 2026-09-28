@@ -19,9 +19,9 @@ export const CONFIG = {
   maxSpeed: 150,
   maxSteer: 420, // cap on each individual steering force
 
-  neighborRadius: 38, // also the spatial-grid cell size
+  neighborRadius: 55, // also the spatial-grid cell size
   topologicalNeighbors: 7, // real starlings track ~7 nearest birds regardless of distance
-  separationRadius: 8,
+  separationRadius: 16, // roughly 1.5 bird lengths so silhouettes don't overlap
 
   // Steering weights. Cohesion is kept weak so the flock stretches and folds.
   separation: 1.5,
@@ -33,7 +33,7 @@ export const CONFIG = {
   edgeTurn: 900,
 
   // Cursor acts as a falcon: birds flee it and pass the panic to neighbours.
-  falconRadius: 110,
+  falconRadius: 140,
   falconSpeedRadius: 0.12, // extra radius per px/s of cursor speed
   falconMaxExtraRadius: 130,
   falconForce: 1600,
