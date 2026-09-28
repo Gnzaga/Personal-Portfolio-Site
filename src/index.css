@@ -1,30 +1,61 @@
 /* index.css */
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+/* Editorial type system: Newsreader (display), Source Serif 4 (reading), IBM Plex Mono (metadata). */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
-/* Import Tailwind's base, component, and utility layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles applied to the base layer */
 @layer base {
+  /* Palette tokens as RGB channels (consumed by tailwind.config.js).
+     Light "paper" is the default; dark swaps in via the OS preference. */
+  :root {
+    --paper: 250 248 243;   /* #FAF8F3 */
+    --surface: 242 239 231; /* #F2EFE7 — code, inset boxes */
+    --ink: 26 26 23;        /* #1A1A17 — body text, 16.4:1 on paper */
+    --muted: 85 84 79;      /* #55544F — metadata, summaries, 7.2:1 on paper */
+    --rule: 220 216 205;    /* #DCD8CD — hairlines */
+    --accent: 31 95 67;     /* #1F5F43 — links and marks, 7.1:1 on paper */
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: 23 22 18;    /* #171612 */
+      --surface: 33 32 27;  /* #21201B */
+      --ink: 236 232 223;   /* #ECE8DF — 14.8:1 on paper */
+      --muted: 166 162 152; /* #A6A298 — 7.1:1 on paper */
+      --rule: 54 52 45;     /* #36342D */
+      --accent: 140 199 166;/* #8CC7A6 — 9.3:1 on paper */
+      color-scheme: dark;
+    }
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply antialiased text-white font-sans transition-colors duration-200 bg-black;
+    @apply bg-paper text-ink font-serif antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
   }
 
-  /* Poppins was loaded but only applied in two places; make it the heading face everywhere. */
   h1, h2, h3, h4 {
-    @apply font-heading tracking-tight;
+    @apply font-display text-ink;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  ::selection {
+    @apply bg-accent/20;
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-emerald-400/80 ring-offset-2 ring-offset-black;
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-paper;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -38,129 +69,70 @@
 }
 
 @layer components {
-  /* Custom scrollbar styling */
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    scrollbar-color: rgb(var(--rule)) transparent;
   }
 
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
+  /* Small-caps style label used for kickers, dates and stacks. */
+  .meta {
+    @apply font-mono text-[0.8125rem] leading-6 text-muted;
+    letter-spacing: 0.01em;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-transparent;
+  .kicker {
+    @apply font-mono text-xs uppercase text-muted;
+    letter-spacing: 0.08em;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-white/20 rounded-full transition-colors duration-200;
+  /* Inline text link: accent, underlined on a hairline offset. */
+  .link {
+    @apply text-accent underline decoration-accent/40 underline-offset-[3px] transition-colors hover:decoration-accent;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-white/40;
+  /* Long-form reading column shared by case studies and articles. Also
+     normalises the ad-hoc markup inside project detail pages. */
+  .prose-editorial {
+    @apply max-w-measure text-ink;
   }
+  /* :where() keeps these at single-class specificity so utilities written
+     inside the detail pages still win. */
+  .prose-editorial :where(p) { @apply mb-5; }
+  .prose-editorial :where(p:last-child) { @apply mb-0; }
+  .prose-editorial :where(h3, h4) { @apply font-display text-lg; }
+  .prose-editorial :where(ul) { @apply list-disc pl-5 mb-5 space-y-2 marker:text-accent; }
+  .prose-editorial :where(ol) { @apply list-decimal pl-5 mb-5 space-y-2 marker:text-muted; }
+  /* Detail pages use `list-inside`; hanging bullets read better in a column. */
+  .prose-editorial .list-inside { @apply list-outside pl-5; }
+  .prose-editorial :where(a) { @apply text-accent underline decoration-accent/40 underline-offset-[3px]; }
+  .prose-editorial :where(strong) { @apply font-semibold text-ink; }
+  .prose-editorial :where(code) { @apply font-mono text-[0.85em] bg-surface px-1 py-0.5 rounded-sm; }
+  .prose-editorial :where(pre) { @apply font-mono text-sm bg-surface p-4 overflow-x-auto rounded-sm mb-5; }
 
-  /* Glass morphism effect (Updated for new design) */
-  .glass-panel {
-    @apply bg-white/10 dark:bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl;
+  .figure img {
+    @apply w-full h-auto block;
   }
-  
-  /* Text readability on complex backgrounds */
-  .text-shadow-sm {
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-  }
-
-  /* Gradient text */
-  .gradient-text {
-    @apply bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-transparent font-bold;
-  }
-
-  /* Primary button */
-  .btn-primary {
-    @apply relative bg-white/20 hover:bg-white/30 border border-white/20 backdrop-blur-md text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200;
-  }
-
-  /* Secondary button */
-  .btn-secondary {
-    @apply bg-black/40 hover:bg-black/60 text-white font-semibold py-3 px-6 rounded-full border border-white/10 backdrop-blur-md shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200;
-  }
-
-  /* Outline button */
-  .btn-outline {
-    @apply border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold py-3 px-6 rounded-full transition-all duration-200 hover:-translate-y-0.5 backdrop-blur-sm;
-  }
-
-  /* Card styles */
-  .card {
-    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur-xl shadow-lg hover:shadow-2xl transition-all duration-300;
-  }
-
-  .card-hover {
-    @apply hover:-translate-y-1 hover:bg-white/15;
-  }
-
-  /* Tech tag/badge */
-  .tech-tag {
-    @apply bg-white/10 text-white/90 text-xs px-3 py-1.5 rounded-full font-medium border border-white/20 hover:bg-white/20 transition-colors duration-200;
-  }
-
-  /* Page header styling */
-  .page-header {
-    @apply text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-4 drop-shadow-lg;
-  }
-
-  /* Page subheader */
-  .page-subheader {
-    @apply text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed drop-shadow-md;
-  }
-
-  /* Section divider */
-  .section-divider {
-    @apply w-24 h-1 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full my-8;
+  .figure figcaption {
+    @apply meta mt-2;
   }
 }
 
-@layer utilities {
-  .animate-fade-in-up {
-    animation: fadeInUp 0.5s ease-out;
-  }
+/* ===== Agent Mode (ShipPilot) =====
+   Same behaviour as before, recoloured to the single accent green. */
 
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
-/* ===== Agent Mode Animations ===== */
-
-/* D1: Full-viewport pulsating deep forest green border */
 @keyframes agent-pulse {
-  0%, 100% {
-    box-shadow: inset 0 0 8px 2px rgba(21, 128, 61, 0.4), /* green-700 */
-                inset 0 0 20px 4px rgba(20, 83, 45, 0.2); /* green-900 */
-  }
-  50% {
-    box-shadow: inset 0 0 16px 3px rgba(21, 128, 61, 0.7),
-                inset 0 0 40px 8px rgba(20, 83, 45, 0.3);
-  }
+  0%, 100% { box-shadow: inset 0 0 0 2px rgb(var(--accent) / 0.55); }
+  50%      { box-shadow: inset 0 0 0 4px rgb(var(--accent) / 0.8); }
 }
 
 .agent-mode-border {
-  border: 2px solid rgba(21, 128, 61, 0.6);
+  border: 2px solid rgb(var(--accent) / 0.6);
   animation: agent-pulse 2s ease-in-out infinite;
 }
 
-/* D2: Navbar link highlight glow */
 @keyframes agent-nav-glow {
-  0% { text-shadow: none; color: inherit; }
-  50% { text-shadow: 0 0 15px rgba(21, 128, 61, 1); color: #16a34a; /* green-600 */ }
-  100% { text-shadow: none; color: inherit; }
+  0%, 100% { color: inherit; }
+  50% { color: rgb(var(--accent)); }
 }
 
 .agent-nav-highlight {
@@ -168,75 +140,50 @@
 }
 
 .agent-nav-click {
-  transform: scale(0.95);
-  transition: transform 0.15s ease;
-  color: #16a34a !important;
+  color: rgb(var(--accent)) !important;
 }
 
-/* D3: Element highlight with magical sparkle border */
 @keyframes agent-highlight {
-  0%, 100% { box-shadow: 0 0 0 0px rgba(21, 128, 61, 0); border-color: rgba(255,255,255,0.1); }
-  50% { box-shadow: 0 0 20px 2px rgba(21, 128, 61, 0.6); border-color: #15803d; }
+  0%, 100% { box-shadow: 0 0 0 0 rgb(var(--accent) / 0); }
+  50% { box-shadow: 0 0 0 3px rgb(var(--accent) / 0.45); }
 }
 
 .agent-highlight {
   position: relative;
   z-index: 40;
   animation: agent-highlight 2s ease-in-out infinite;
-  border-radius: 12px;
+  border-radius: 2px;
 }
 
-/* D4: Agent mode indicator pill pulsing dot */
 @keyframes agent-dot-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.2); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .agent-dot {
   animation: agent-dot-pulse 1.5s ease-in-out infinite;
 }
 
-/* D5: Pixie dust sparkle */
-.agent-highlight::before,
-.agent-highlight::after {
-  content: '';
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, rgba(255,255,255,1), rgba(21, 128, 61, 0));
-  border-radius: 50%;
-  pointer-events: none;
-  animation: agent-sparkle 1.5s ease-in-out infinite;
-  z-index: 50;
-}
-
-.agent-highlight::before { top: -4px; right: -4px; animation-delay: 0s; }
-.agent-highlight::after { bottom: -4px; left: -4px; animation-delay: 0.75s; }
-
-@keyframes agent-sparkle {
-  0%, 100% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1.5); box-shadow: 0 0 10px rgba(21, 128, 61, 0.8); }
-}
-
 /* ShipPilot agent-navigation classes → site design.
-   Overrides the library's injected defaults (square 3px ring, 8px-radius
-   outline), which draw rectangles around pill buttons and rounded cards.
-   !important is required to beat the runtime-injected stylesheet. */
+   Overrides the library's injected defaults; !important is required to beat
+   the runtime-injected stylesheet. Text links, so a tight underline-box ring. */
 .shippilot-nav-highlight {
-  border-radius: 9999px !important; /* nav links and detail buttons are pills */
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.65), 0 0 18px 4px rgba(21, 128, 61, 0.35) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 0 0 3px rgb(var(--accent) / 0.35) !important;
+  background-color: rgb(var(--accent) / 0.08) !important;
   animation: agent-nav-glow 1.5s ease-in-out;
 }
 
 .shippilot-nav-click {
-  transform: scale(0.95) !important;
-  color: #16a34a !important;
+  color: rgb(var(--accent)) !important;
+  text-decoration: underline !important;
 }
 
 .shippilot-highlight {
   outline: none !important;
-  border-radius: 1.5rem !important; /* GlassCard rounded-3xl */
+  border-radius: 2px !important;
   position: relative;
   z-index: 40;
+  background-color: rgb(var(--accent) / 0.06);
   animation: agent-highlight 2s ease-in-out infinite;
 }

@@ -219,17 +219,12 @@ export default function PathfindingDemo() {
 
   return (
     <div className="w-full">
-      <div className="container mx-auto px-6 max-w-6xl space-y-8">
-        <div className="text-center mb-12">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg"
-          >
-            Site <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500">Pathfinder</span>
-          </motion.h1>
-          <p className="text-white/60">
+      <div className="space-y-8">
+        <div className="max-w-measure mb-10">
+          <h1 className="text-4xl sm:text-5xl mb-4">
+            Site Pathfinder
+          </h1>
+          <p className="text-muted">
             {selectedStart
               ? 'Select a destination to visualize the shortest path.'
               : 'Click any node to begin the simulation.'}
@@ -237,7 +232,8 @@ export default function PathfindingDemo() {
         </div>
 
         {/* Graph Card */}
-        <GlassCard className="p-0 overflow-hidden relative border-white/10 bg-black/40 group hover:backdrop-blur-none transition-all duration-500">
+        {/* Fixed dark plate: the SVG palette below is drawn for a dark ground in both themes. */}
+        <GlassCard className="p-0 overflow-hidden relative bg-[#1A1A17] border-rule">
           <div className="overflow-x-auto overflow-y-hidden">
             <svg viewBox="0 0 950 600" className="w-[950px] md:w-full h-auto min-w-[950px] md:min-w-0">
               <defs>
@@ -334,7 +330,7 @@ export default function PathfindingDemo() {
         </GlassCard>
 
         {/* How it Works Section */}
-        <div className="text-center text-white/60 text-sm max-w-2xl mx-auto leading-relaxed">
+        <div className="text-muted max-w-measure">
           <p className="mb-2">
             <strong>How the Agent Navigates:</strong> It's a bit of a magic trick! 🪄
           </p>
@@ -351,8 +347,8 @@ export default function PathfindingDemo() {
               exit={{ opacity: 0, y: 20 }}
             >
               <GlassCard className="p-6">
-                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-4">
-                  <h3 className="text-xl font-bold text-white">Execution Log</h3>
+                <div className="flex justify-between items-center mb-4 border-b border-rule pb-4">
+                  <h3 className="text-xl">Execution log</h3>
                   <GlassButton variant="outline" onClick={reset} className="py-1 px-3 text-xs">Reset Simulation</GlassButton>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
@@ -361,7 +357,7 @@ export default function PathfindingDemo() {
                     const isCurrent = animStep === i;
                     const nodeLabel = NODES.find(n => n.id === step.nodeId)?.label;
                     return (
-                      <div key={i} className={`flex items-center gap-3 ${isDone ? 'text-green-400' : isCurrent ? 'text-cyan-400' : 'text-white/30'}`}>
+                      <div key={i} className={`flex items-center gap-3 ${isDone ? 'text-accent' : isCurrent ? 'text-ink font-medium' : 'text-muted'}`}>
                         <span className="w-6 text-right">{i + 1}.</span>
                         <span>{i === 0 ? `Initialize at [${nodeLabel}]` : `Action: ${step.action} -> [${nodeLabel}]`}</span>
                       </div>

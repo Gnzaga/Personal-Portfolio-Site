@@ -19,6 +19,7 @@ export function ShipPilotRoot({ children }) {
         siteGraph,
         welcomeMessage: "Hi! I can help you navigate this site or answer questions about Alex's work.",
         agentModeLabel: 'Agent Navigating...',
+        accentColor: '#1F5F43', // editorial accent (--accent in src/index.css)
       }}
       router={router}
     >

@@ -1,28 +1,27 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+// Kept under its old name for existing consumers. Quiet, square-ish buttons
+// with no scale/hover motion; primary is the only filled variant.
 const GlassButton = ({ children, onClick, className, variant = 'primary', ...props }) => {
-  const baseStyles = "px-6 py-3 rounded-full font-medium transition-all backdrop-blur-md flex items-center justify-center gap-2";
-  
+  const baseStyles = 'inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm font-mono text-sm transition-colors';
+
   const variants = {
-    primary: "bg-green-800/40 hover:bg-green-700/50 border border-green-700/50 text-white shadow-lg shadow-green-950/30",
-    secondary: "bg-green-950/40 hover:bg-green-900/50 border border-green-800/20 text-white shadow-md",
-    outline: "border-2 border-white/30 text-white hover:bg-white/10",
-    ghost: "hover:bg-white/10 text-white"
+    primary: 'bg-accent text-paper border border-accent hover:bg-accent/90',
+    secondary: 'border border-rule text-ink hover:border-ink',
+    outline: 'border border-ink/60 text-ink hover:border-ink',
+    ghost: 'text-accent hover:underline',
   };
 
   return (
-    <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+    <button
+      type="button"
       onClick={onClick}
       className={twMerge(baseStyles, variants[variant], className)}
       {...props}
     >
       {children}
-    </motion.button>
+    </button>
   );
 };
 

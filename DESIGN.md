@@ -1,81 +1,58 @@
 # Design System: Alessandro Gonzaga Portfolio
 
-A comprehensive library of design keys, components, and aesthetic principles used in the **Alessandro Gonzaga Portfolio**. This system prioritizes a **Bento Glassmorphism** aesthetic with a dark **Forest Green** motif.
+**Direction: Editorial.** The site reads like a well-edited engineering journal: case studies and writing are the product, decoration gets out of the way. Light "paper" first, with a dark variant that follows the OS.
 
 ---
 
-## 🎨 Color Palette
+## Color
 
-### Primary Motif: Forest Green
-Used for interactive elements, highlights, and status indicators.
-- **Base Green (Primary 500):** `#178C57` (`text-green-500`, `bg-green-500`)
-- **Deep Forest (Primary 600):** `#13734A` (`bg-green-600`)
-- **Highlight (Emerald):** `#10B981` (`text-emerald-400`)
-- **Dark Shadow:** `rgba(5, 46, 22, 0.3)` (Custom Green-950 shadow)
+Tokens live on `:root` in `src/index.css` as RGB channels and are exposed to Tailwind in `tailwind.config.js` (`bg-paper`, `text-ink`, `text-muted`, `border-rule`, `text-accent`, `bg-surface`; opacity modifiers work, e.g. `bg-accent/10`). Dark values swap in under `@media (prefers-color-scheme: dark)`.
 
-### Neutral & Glass Base
-- **Background:** `#000000` (`bg-black`)
-- **Glass Tint:** `rgba(0, 0, 0, 0.2)` (`bg-black/20`)
-- **Glass Border:** `rgba(255, 255, 255, 0.1)` (`border-white/10`)
-- **Text Primary:** `#FFFFFF` (`text-white`)
-- **Text Muted:** `rgba(255, 255, 255, 0.6)` (`text-white/60`)
+| Token | Light | Dark | Use | Contrast on paper (L / D) |
+| :--- | :--- | :--- | :--- | :--- |
+| `paper` | `#FAF8F3` | `#171612` | page background | — |
+| `surface` | `#F2EFE7` | `#21201B` | code, inset boxes | — |
+| `ink` | `#1A1A17` | `#ECE8DF` | body text, headings | 16.4 / 14.8 |
+| `muted` | `#55544F` | `#A6A298` | metadata, summaries | 7.2 / 7.1 |
+| `rule` | `#DCD8CD` | `#36342D` | hairlines | — |
+| `accent` | `#1F5F43` | `#8CC7A6` | links, list markers, active nav | 7.1 / 9.3 |
 
----
+One accent only. No gradients, glass, glows or background photos.
 
-## ✨ UI Components
+## Type
 
-### 1. GlassCard (Bento Base)
-The fundamental building block for the Bento grid.
-- **Classes:** `bg-black/20 backdrop-blur-sm border border-white/10 rounded-3xl`
-- **Hover Behavior:** `scale: 1.01`, `bg-white/15` (Framer Motion)
-- **Shadow:** `shadow-lg`
+Loaded from Google Fonts in `src/index.css`.
 
-### 2. GlassButton
-Interactive elements following the glass aesthetic.
-- **Primary:** `bg-green-800/40 hover:bg-green-700/50 border border-green-700/50`
-- **Secondary:** `bg-green-950/40 hover:bg-green-900/50 border border-green-800/20`
-- **Behavior:** `whileHover: { scale: 1.05 }`, `whileTap: { scale: 0.95 }`
+- **Display** — Newsreader (`font-display` / `font-heading`), weight 500, used for all `h1–h4`, the home thesis and list titles.
+- **Reading** — Source Serif 4 (`font-serif`, the body default), 17px / 1.7.
+- **Metadata** — IBM Plex Mono (`font-mono`) via `.meta` (dates, stacks, captions) and `.kicker` (uppercase section labels).
+- Reading measure: `max-w-measure` (68ch).
 
-### 3. Typography
-- **Headings:** `Poppins` font, `font-bold`, `tracking-tight`.
-- **Body:** `Inter` font, `antialiased`.
-- **Gradients:** `bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-transparent`
+## Components & utilities
 
----
+- **Masthead** (`Navbar.js`) — name left, text links right (Work, Writing, About, Experience), hairline below; links wrap on mobile. Nav links carry the ShipPilot `nav-*` targets.
+- **Footer** (`Footer.js`) — hairline colophon with plain links.
+- **Figure** (`Figure.js`) — personal photos as captioned figures; data in `src/data/photos.js` (home: Santa Barbara, About: Door Peninsula).
+- **Case study** — `CaseStudy.js` provides the shared header (kicker, title, dek, mono stack/links row) and footer (back link, related writing, GitHub); `ProjectSection.js` is a serif h2 over a hairline with a `.prose-editorial` column. All 13 pages in `src/pages/projects/` use these.
+- **`.prose-editorial`** — long-form column: paragraph rhythm, hanging bullets with accent markers, mono code. Rules use `:where()` so utilities inside detail pages still win.
+- **`.link`** — accent text with a hairline underline.
+- `GlassCard` / `GlassButton` keep their names for existing consumers but are now a hairline box and a quiet square button.
 
-## 🍱 Layout & Structure
+## Data
 
-### Bento Grid Configuration
-The home page utilizes a 3-column masonry/bento layout.
-- **Max Width:** `max-w-7xl`
-- **Desktop Padding:** `pt-36` (Home) / `pt-32` (Subpages)
-- **Gap:** `gap-8`
+`src/data/projects.js` is the single source for project metadata (title, dek, summary, stack, year of first write-up, links, `featured`, `agentTarget`). Read by the home page, `/projects` and every case-study header/footer. `?filter=<tech>` on `/projects` filters by `stack`.
 
-### Dynamic Backgrounds
-Cross-fading background images mapped to routes:
-- **Home:** `/images/sunset-main.jpg`
-- **Experience:** `/images/chicago-infra.jpg`
-- **Projects:** `/images/mountains-purple.jpg`
-- **Blog:** `/images/lake-blue.jpg`
-- **About:** `/images/waterfall-vertical.jpg`
-- **Overlay:** `bg-gradient-to-b from-black/30 via-black/20 to-black/60`
+## Layout
 
----
+- Container `max-w-5xl`, 16px side gutter on mobile (`px-4`), 32px from `sm`.
+- Lists are typographic: numbered rows separated by `border-rule` hairlines, mono metadata underneath.
+- Home: thesis + figure, Selected work (4), Recent writing (5), contact line with résumé.
+- Writing index grouped by year; Experience as a résumé timeline with a mono date column.
 
-## 🤖 Agent Mode (AI Identity)
+## Motion
 
-The AI Agent utilizes a specific set of "magical" visual cues:
-- **Pulsing Border:** 2px solid green with a `green-700` inner glow.
-- **Nav Highlight:** `agent-nav-glow` using `green-600` text shadows.
-- **Sparkles:** Pixie dust particles using `radial-gradient(circle, #fff, rgba(21, 128, 61, 0))`.
+A 200ms opacity fade on page mount (`PageTransition.js`), nothing else. No hover scaling. `MotionConfig reducedMotion="user"` plus a global reduced-motion CSS rule.
 
----
+## Agent mode (ShipPilot)
 
-## 🛠 Utility Classes
-
-| Key | Tailwind Classes |
-| :--- | :--- |
-| **Glass Panel** | `.glass-panel` (backdrop-blur-xl + border-white/20) |
-| **Forest Text** | `text-green-500` / `text-emerald-400` |
-| **Bento Rounding** | `rounded-3xl` |
-| **Section Icons** | `p-4 bg-white/5 rounded-2xl border border-white/5` |
+`.shippilot-*` and `.agent-*` classes in `src/index.css` use the accent token: a tight ring and faint tint on highlighted links and rows, an inset accent border around the viewport while navigating. The chat widget (`ShipPilotWidget.js`) is a paper panel with surface/accent bubbles. Keep every `data-agent-target` in place when editing pages (see `src/utils/siteGraph.js`).

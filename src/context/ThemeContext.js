@@ -8,21 +8,22 @@ export const ThemeContext = createContext();
  * ThemeProvider Component
  *
  * @description Provides a simplified theme context. 
- * Since the new Glass aesthetic is permanently "dark mode" / transparent,
- * we removed the complex toggling logic to prevent conflicts.
+ * Light/dark now follows the OS via prefers-color-scheme in CSS
+ * (src/index.css), so there is nothing to toggle here.
  *
  * @param {object} props - Component props
  * @param {React.ReactNode} props.children - Child components
  * @returns {JSX.Element} Provider component with theme context
  */
 export const ThemeProvider = ({ children }) => {
-  // We force "dark" mode context values for compatibility with any components 
-  // that might still rely on 'isDarkMode' check, but we don't toggle the class on <html>
-  // because the Layout handles the background permanently.
-  
+  // Kept for compatibility; reports the OS preference at mount.
+  const prefersDark = typeof window !== 'undefined' && window.matchMedia
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+    : false;
+
   const themeValues = {
-    isDarkMode: true,
-    isSystemTheme: false,
+    isDarkMode: prefersDark,
+    isSystemTheme: true,
     toggleTheme: () => {}, // No-op
     toggleSystemTheme: () => {}, // No-op
     setLightTheme: () => {}, // No-op

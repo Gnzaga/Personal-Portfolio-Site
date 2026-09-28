@@ -1,28 +1,16 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faLaptopCode, faPalette, faTools, faServer, faNetworkWired, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import Section from '../../components/ProjectSection';
-import GlassButton from '../../components/GlassButton';
+import { CaseStudyHeader, CaseStudyFooter } from '../../components/CaseStudy';
 
 /**
  * PortfolioProject Component
  */
 const PortfolioProject = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Portfolio Website Project
-        </h1>
-      </motion.div>
+    <article className="w-full max-w-3xl">
+      <CaseStudyHeader slug="portfolio-project" />
 
       {/* Project Overview Section */}
       <Section title="Project Overview" icon={faLaptopCode}>
@@ -33,7 +21,7 @@ const PortfolioProject = () => {
 
       {/* Key Features Section */}
       <Section title="Key Features" icon={faPalette}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Responsive design ensuring compatibility across various devices</li>
           <li>Dynamic project showcase with detailed descriptions</li>
           <li>Interactive UI elements for enhanced user engagement</li>
@@ -45,7 +33,7 @@ const PortfolioProject = () => {
 
       {/* Technologies Used Section */}
       <Section title="Technologies Used" icon={faTools}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Frontend: React.js for building dynamic UI components</li>
           <li>Styling: Tailwind CSS for a clean and responsive design</li>
           <li>Backend: Node.js for serving the React application</li>
@@ -60,9 +48,9 @@ const PortfolioProject = () => {
         <p className="mb-4">
           The website is fully self-hosted, showcasing my skills in server management and network configuration:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Deployed on a local Nginx server within my home network</li>
-          <li>Custom domain configuration for <a href="http://gnzaga.com" className="text-cyan-300 hover:underline transition-colors duration-300">gnzaga.com</a></li>
+          <li>Custom domain configuration for <a href="http://gnzaga.com" className="text-accent hover:underline transition-colors duration-300">gnzaga.com</a></li>
           <li>SSL/TLS implementation for secure connections</li>
           <li>Regular backups and maintenance procedures</li>
           <li>Monitoring setup for performance and security</li>
@@ -74,7 +62,7 @@ const PortfolioProject = () => {
         <p className="mb-4">
           Robust networking and security measures ensure reliable and safe access:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Configured port forwarding for external access</li>
           <li>Implemented firewall rules for enhanced security</li>
           <li>Set up DDoS protection measures</li>
@@ -88,7 +76,7 @@ const PortfolioProject = () => {
         <p className="mb-4">
           Several challenges were overcome during the development and deployment:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Optimizing site performance for fast loading times</li>
           <li>Ensuring cross-browser compatibility</li>
           <li>Implementing a secure and reliable self-hosting solution</li>
@@ -104,27 +92,14 @@ const PortfolioProject = () => {
         </p>
         <Link
           to="/demo/pathfinding"
-          className="inline-flex items-center gap-2 text-cyan-300 hover:text-white font-semibold transition-colors duration-200"
+          className="inline-flex items-center gap-2 text-accent hover:text-ink font-semibold transition-colors duration-200"
         >
           Try the Pathfinder Demo &rarr;
         </Link>
       </Section>
 
-      {/* Call-to-Action Buttons */}
-      <div className="mt-16 flex justify-center gap-6">
-        <a href="https://github.com/Gnzaga/portfolio-website" target="_blank" rel="noopener noreferrer">
-          <GlassButton variant="primary" className="gap-2">
-            <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />
-            See on GitHub
-          </GlassButton>
-        </a>
-        <Link to="/projects">
-          <GlassButton variant="secondary">
-            Back to Projects
-          </GlassButton>
-        </Link>
-      </div>
-    </div>
+      <CaseStudyFooter slug="portfolio-project" />
+    </article>
   );
 };
 

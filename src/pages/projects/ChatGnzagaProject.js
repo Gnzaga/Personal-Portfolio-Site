@@ -1,29 +1,15 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import Section from '../../components/ProjectSection';
+import { CaseStudyHeader, CaseStudyFooter } from '../../components/CaseStudy';
 import { faServer, faCode, faNetworkWired, faShield, faTools, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-import GlassButton from '../../components/GlassButton';
 
 /**
  * ChatGnzagaProject Component
  */
 const ChatGnzagaProject = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      {/* Page Title */}
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          <a href="https://chat.gnzaga.com" className="hover:text-cyan-300 transition-colors duration-300">
-            chat.gnzaga.com
-          </a>
-        </h1>
-      </motion.div>
+    <article className="w-full max-w-3xl">
+      <CaseStudyHeader slug="chat-gnzaga" />
 
       {/* Project Overview Section */}
       <Section title="Project Overview" icon={faServer}>
@@ -34,7 +20,7 @@ const ChatGnzagaProject = () => {
 
       {/* Technologies Used Section */}
       <Section title="Technologies Used" icon={faCode}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Docker for containerization</li>
           <li>Nginx as a reverse proxy</li>
           <li>Ollama for language model interaction</li>
@@ -46,7 +32,7 @@ const ChatGnzagaProject = () => {
 
       {/* Key Features Section */}
       <Section title="Key Features" icon={faNetworkWired}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Containerized deployment for consistency across environments</li>
           <li>Nginx reverse proxy for efficient request routing</li>
           <li>Secure access from the internet via proper networking configuration</li>
@@ -61,7 +47,7 @@ const ChatGnzagaProject = () => {
         <p className="mb-4">
           The deployment process involved several key steps:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Containerizing the Ollama interface using Docker for easy deployment and scaling</li>
           <li>Configuring Nginx as a reverse proxy to handle incoming requests and route them to the appropriate containers</li>
           <li>Setting up port forwarding to ensure accessibility from the internet</li>
@@ -76,7 +62,7 @@ const ChatGnzagaProject = () => {
         <p className="mb-4">
           Security was a top priority in this project:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Implementation of SSL/TLS encryption for all communications</li>
           <li>Regular security audits and updates to all components</li>
           <li>Strict access controls and user authentication</li>
@@ -90,7 +76,7 @@ const ChatGnzagaProject = () => {
         <p className="mb-4">
           Several challenges were overcome during the development and deployment:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent">
           <li>Optimizing container resource allocation for efficient performance</li>
           <li>Ensuring seamless updates without service interruption</li>
           <li>Balancing security measures with user accessibility</li>
@@ -99,20 +85,8 @@ const ChatGnzagaProject = () => {
         </ul>
       </Section>
 
-      {/* Navigation Buttons */}
-      <div className="mt-16 flex justify-center gap-6">
-        <a href="https://chat.gnzaga.com" target="_blank" rel="noopener noreferrer">
-          <GlassButton variant="primary">
-            Go to chat.gnzaga.com!
-          </GlassButton>
-        </a>
-        <Link to="/projects">
-          <GlassButton variant="secondary">
-            Back to Projects
-          </GlassButton>
-        </Link>
-      </div>
-    </div>
+      <CaseStudyFooter slug="chat-gnzaga" />
+    </article>
   );
 };
 

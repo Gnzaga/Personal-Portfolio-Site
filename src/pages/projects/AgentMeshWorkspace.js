@@ -1,26 +1,12 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { CaseStudyHeader, CaseStudyFooter } from '../../components/CaseStudy';
 import { faInfoCircle, faSitemap, faCode, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import GlassButton from '../../components/GlassButton';
 
 const AgentMeshWorkspace = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Agent Mesh Workspace
-        </h1>
-        <p className="text-white/60 text-lg">A browser-based control room for managing multiple long-running AI coding-agent sessions</p>
-      </motion.div>
+    <article className="w-full max-w-3xl">
+      <CaseStudyHeader slug="agent-mesh" />
 
       <Section title="Overview" icon={faInfoCircle}>
         <p>
@@ -62,11 +48,11 @@ const AgentMeshWorkspace = () => {
             'Vite', 'Tailwind CSS', 'xterm.js', 'Model Context Protocol',
             'OIDC/OAuth2'
           ].map(t => (
-            <span key={t} className="px-2.5 py-1 bg-white/5 rounded-md text-xs font-medium text-white/60 border border-white/5">{t}</span>
+            <span key={t} className="px-2.5 py-1 bg-surface rounded-md text-xs font-medium text-muted border border-rule">{t}</span>
           ))}
         </div>
         <p>
-          Node.js + Express backend with <code className="text-white/80">node-pty</code> for terminal process
+          Node.js + Express backend with <code className="text-ink">node-pty</code> for terminal process
           management and native WebSockets for streaming; Vite + Tailwind CSS frontend using xterm.js for
           terminal rendering; a standalone MCP server (stdio transport) providing the knowledge-search tool
           consumed by both the workspace's chat feature and external coding-agent CLIs directly; OIDC
@@ -87,20 +73,8 @@ const AgentMeshWorkspace = () => {
         </p>
       </Section>
 
-      <div className="mt-16 flex justify-center gap-6">
-        <a href="https://github.com/Gnzaga/agent-mesh-workspace" target="_blank" rel="noopener noreferrer">
-          <GlassButton variant="primary" className="gap-2">
-            <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />
-            View on GitHub
-          </GlassButton>
-        </a>
-        <Link to="/projects">
-          <GlassButton variant="secondary">
-            Back to Projects
-          </GlassButton>
-        </Link>
-      </div>
-    </div>
+      <CaseStudyFooter slug="agent-mesh" />
+    </article>
   );
 };
 

@@ -1,25 +1,12 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { CaseStudyHeader, CaseStudyFooter } from '../../components/CaseStudy';
 import { faServer, faNetworkWired, faShieldAlt, faHdd, faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
-import GlassButton from '../../components/GlassButton';
 
 const HomelabProject = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Homelab Infrastructure
-        </h1>
-      </motion.div>
+    <article className="w-full max-w-3xl">
+      <CaseStudyHeader slug="homelab" />
 
       <Section title="Overview" icon={faServer}>
         <p className="mb-4">
@@ -37,29 +24,29 @@ const HomelabProject = () => {
       <Section title="Physical Nodes" icon={faHdd}>
         <ul className="space-y-4">
           <li>
-            <strong className="text-white">ag-pm1 (Primary)</strong>
-            <p className="text-sm mt-1 text-white/70">AMD Ryzen 9 5900X (12C/24T) · 64 GB RAM · 7.3 TB RAID5 + 2 TB NVMe + 448 GB NVMe</p>
-            <p className="text-sm text-white/50">Hosts K8s control planes and workers, NFS server, MinIO object storage</p>
+            <strong className="text-ink">ag-pm1 (Primary)</strong>
+            <p className="text-sm mt-1 text-ink">AMD Ryzen 9 5900X (12C/24T) · 64 GB RAM · 7.3 TB RAID5 + 2 TB NVMe + 448 GB NVMe</p>
+            <p className="text-sm text-muted">Hosts K8s control planes and workers, NFS server, MinIO object storage</p>
           </li>
           <li>
-            <strong className="text-white">ag-pm2 (Media/Storage)</strong>
-            <p className="text-sm mt-1 text-white/70">AMD Ryzen 7 3700X (8C/16T) · 64 GB RAM · 14.5 TB ZFS (TrueNAS)</p>
-            <p className="text-sm text-white/50">Media server, TrueNAS backend storage, K8s worker node</p>
+            <strong className="text-ink">ag-pm2 (Media/Storage)</strong>
+            <p className="text-sm mt-1 text-ink">AMD Ryzen 7 3700X (8C/16T) · 64 GB RAM · 14.5 TB ZFS (TrueNAS)</p>
+            <p className="text-sm text-muted">Media server, TrueNAS backend storage, K8s worker node</p>
           </li>
           <li>
-            <strong className="text-white">ag-pm3 (Compact)</strong>
-            <p className="text-sm mt-1 text-white/70">Intel Core i5-8500T (6C) · 64 GB RAM · 68 GB NVMe</p>
-            <p className="text-sm text-white/50">K8s control plane expansion, development workloads</p>
+            <strong className="text-ink">ag-pm3 (Compact)</strong>
+            <p className="text-sm mt-1 text-ink">Intel Core i5-8500T (6C) · 64 GB RAM · 68 GB NVMe</p>
+            <p className="text-sm text-muted">K8s control plane expansion, development workloads</p>
           </li>
           <li>
-            <strong className="text-white">fredo (Edge)</strong>
-            <p className="text-sm mt-1 text-white/70">Intel i5-12450H (8C) · 16 GB RAM</p>
-            <p className="text-sm text-white/50">DNS (PiHole), VPN (WireGuard), reverse proxy, Step-CA, monitoring</p>
+            <strong className="text-ink">fredo (Edge)</strong>
+            <p className="text-sm mt-1 text-ink">Intel i5-12450H (8C) · 16 GB RAM</p>
+            <p className="text-sm text-muted">DNS (PiHole), VPN (WireGuard), reverse proxy, Step-CA, monitoring</p>
           </li>
           <li>
-            <strong className="text-white">Hetzner VPS (Cloud)</strong>
-            <p className="text-sm mt-1 text-white/70">2 vCPU · 2 GB RAM</p>
-            <p className="text-sm text-white/50">Public edge proxy, Headscale coordination server, CoreDNS, Uptime Kuma</p>
+            <strong className="text-ink">Hetzner VPS (Cloud)</strong>
+            <p className="text-sm mt-1 text-ink">2 vCPU · 2 GB RAM</p>
+            <p className="text-sm text-muted">Public edge proxy, Headscale coordination server, CoreDNS, Uptime Kuma</p>
           </li>
         </ul>
       </Section>
@@ -68,7 +55,7 @@ const HomelabProject = () => {
         <p className="mb-4">
           Traffic is segmented into 7 VLANs, each with its own firewall policy and routing rules:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-green-500 mb-4">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent mb-4">
           <li><strong>Default</strong> — management and general LAN</li>
           <li><strong>IoT</strong> — isolated smart devices</li>
           <li><strong>user-network</strong> — personal devices and WiFi clients</li>
@@ -88,7 +75,7 @@ const HomelabProject = () => {
       <Section title="Headscale Mesh Network" icon={faProjectDiagram}>
         <p className="mb-4">
           A self-hosted Tailscale coordination server (Headscale) runs on the Hetzner VPS at
-          <code className="text-white/80 ml-1">vpn.gnzaga.com</code>. It connects three separate
+          <code className="text-ink ml-1">vpn.gnzaga.com</code>. It connects three separate
           homelabs (mine and two friends') along with the Hetzner node into a single mesh network
           where each participant advertises its local subnet routes to all others.
         </p>
@@ -96,7 +83,7 @@ const HomelabProject = () => {
           The setup required solving a circular dependency: Headscale requires Authentik for OIDC
           authentication, but Authentik runs on the homelab that is only accessible via Headscale.
           This is resolved by an OIDC watchdog sidecar that starts Headscale without OIDC enabled,
-          polls until <code className="text-white/80">auth.gnzaga.com</code> is reachable through the
+          polls until <code className="text-ink">auth.gnzaga.com</code> is reachable through the
           mesh, and then dynamically enables OIDC without restarting the process.
         </p>
       </Section>
@@ -109,7 +96,7 @@ const HomelabProject = () => {
           server now run as first-class citizens of the Kubernetes platform rather than one-off VMs.
           Highlights:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-green-500 mb-4">
+        <ul className="list-disc list-inside space-y-2 marker:text-accent mb-4">
           <li><strong>Immich</strong> — photo/video backup with face and content search</li>
           <li><strong>Vaultwarden</strong> — Bitwarden-compatible password manager</li>
           <li><strong>Miniflux</strong> — minimalist RSS reader with SSO login</li>
@@ -127,20 +114,8 @@ const HomelabProject = () => {
         </p>
       </Section>
 
-      <div className="mt-16 flex justify-center gap-6">
-        <a href="https://github.com/Gnzaga/homelab-code" target="_blank" rel="noopener noreferrer">
-          <GlassButton variant="primary" className="gap-2">
-            <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />
-            View on GitHub
-          </GlassButton>
-        </a>
-        <Link to="/projects">
-          <GlassButton variant="secondary">
-            Back to Projects
-          </GlassButton>
-        </Link>
-      </div>
-    </div>
+      <CaseStudyFooter slug="homelab" />
+    </article>
   );
 };
 

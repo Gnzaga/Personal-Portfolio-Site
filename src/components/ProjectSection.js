@@ -1,31 +1,20 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import GlassCard from './GlassCard';
 
 /**
- * Reusable Section component for displaying project details with a title and icon.
+ * A section of a case study: serif heading over a hairline, then the
+ * reading column. Every page under src/pages/projects/ is built from these.
+ * `icon` is still accepted for compatibility but no longer rendered.
  *
  * @param {string} title - The title of the section.
- * @param {object} icon - The FontAwesome icon for the section header.
  * @param {React.ReactNode} children - The content of the section.
- * @returns {JSX.Element} The rendered section component.
  */
 const ProjectSection = ({ title, icon, children }) => (
-  <GlassCard
-    className="mb-8"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    <h2 className="text-2xl font-bold text-white mb-6 flex items-center border-b border-white/10 pb-4">
-      <FontAwesomeIcon icon={icon} className="mr-3 text-green-500" />
-      {title}
-    </h2>
-    <div className="text-white/80 leading-relaxed">
+  <section className="border-t border-rule pt-8 mt-12">
+    <h2 className="text-2xl sm:text-[1.75rem] mb-5">{title}</h2>
+    <div className="prose-editorial">
       {children}
     </div>
-  </GlassCard>
+  </section>
 );
 
 export default ProjectSection;
