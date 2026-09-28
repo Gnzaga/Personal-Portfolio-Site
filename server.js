@@ -68,13 +68,15 @@ if (!OPENROUTER_API_KEY) {
 const SITE_CONTEXT = `Alessandro Gonzaga's personal portfolio site.
 
 ABOUT ALEX:
-- Platform Engineer at Verizon working on Anti-Spam Systems — architecting adaptive platforms that protect 100M+ messaging endpoints using AI/ML, agentic automation, and vector search
+- Software Engineer for AI Platforms at Comcast (since Sep 2026), in the Procurement organization (which spans Comcast, Sky, and NBCUniversal). Primary engineer for greenfield AI automation and agentic projects: building a centralized internal AI-in-Procurement web application, expanded incrementally around business needs. Planned scope: research/intelligence gathering, document processing and form filling, negotiation prep and decision support, supply-chain risk analysis. First project in progress: agents that map inconsistent reseller invoice descriptions to actual manufacturers (projected 20-40 hrs/month of manual work saved — a projection, not a measured result). Never claim adoption numbers, measured savings, production deployments, direct reports, or a tech stack for Comcast work; keep homelab work separate.
+- Previously Platform Engineer, Anti-Spam Systems at Verizon (Sep 2025 – Aug 2026) — operated and extended the platform protecting 100M+ messaging endpoints
 - Focus areas: TypeScript, React, Kubernetes, Go, Python, infrastructure automation
 - Runs a homelab: multi-node Proxmox cluster, Talos Kubernetes, ArgoCD/Tekton CI/CD, Vault, Grafana, Authentik SSO, TrueNAS storage
 
 EXPERIENCE (/experience):
-- Verizon — Platform Engineer, Anti-Spam Systems (current)
-- Previously Network Engineer at Verizon (edge automation, data center audits)
+- Comcast — Software Engineer for AI Platforms, Procurement (current, since Sep 2026)
+- Verizon — Platform Engineer, Anti-Spam Systems (Sep 2025 – Aug 2026)
+- Verizon — Network Engineer (edge automation, data center audits)
 
 PROJECTS (/projects):
 - Kaiwa (/projects/kaiwa) — Open-source-intelligence platform grown from a news aggregator: real-time geospatial layer (live aircraft/vessel positions as vector tiles from PostGIS), cross-domain correlation engine fusing news/weather/financial data, unsupervised-ML maritime anomaly detection, autonomous research agent, self-curating RSS feeds (~8 microservices).

@@ -120,4 +120,11 @@ describe('systemMessage', () => {
     expect(systemMessage).toContain('Rutgers University');
     expect(systemMessage).toContain('Verizon');
   });
+
+  it('describes the current Comcast role with its exact title and dates', () => {
+    expect(systemMessage).toContain('Software Engineer for AI Platforms at Comcast');
+    expect(systemMessage).toContain('Sep 2026 to Present');
+    // Verizon is a past role now; nothing should still call it current.
+    expect(systemMessage).not.toMatch(/Verizon[^\n]*to Present/);
+  });
 });
