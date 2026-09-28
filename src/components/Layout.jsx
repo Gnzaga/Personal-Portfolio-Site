@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
   const activeBg = activeKey ? backgrounds[activeKey] : backgrounds['/'];
 
   return (
-    <div className="relative min-h-screen font-sans text-white selection:bg-purple-500/30">
+    <div className="relative min-h-screen font-sans text-white selection:bg-emerald-500/30">
       {/* Dynamic Background Layer */}
       <div className="fixed inset-0 z-0 bg-black">
         <AnimatePresence mode="popLayout">

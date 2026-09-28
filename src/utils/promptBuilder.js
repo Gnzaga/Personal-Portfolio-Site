@@ -78,7 +78,7 @@ Your responses should be professional, concise, and directly related to Alessand
 // Map each route to a human-readable description for page context
 const pageContextMap = {
   '/': 'The Home page — shows a hero section, quick stats (years of experience, projects completed, team members led, infrastructure managed), action cards for downloading the resume and visiting the AI chat platform, and social links.',
-  '/about': 'The About page — contains an introduction/bio, current role description at Verizon, a skills component, leadership & mentorship section, and technical expertise details.',
+  '/about': 'The About page — contains an introduction/bio, current role description at Verizon, specialization and language cards.',
   '/projects': 'The Projects page — displays a grid of project cards (Portfolio Website, chat.gnzaga.com, Discord Bot, Playlist Project, Task Management, Homelab, Kubernetes Cluster) with technology filter buttons.',
   '/projects/portfolio-project': 'The Portfolio Project detail page — describes the personal portfolio website built with React, Tailwind CSS, Docker, and Kubernetes.',
   '/projects/chat-gnzaga': 'The Chat Gnzaga Project detail page — describes the self-hosted AI chatbot platform using Docker and Ollama.',

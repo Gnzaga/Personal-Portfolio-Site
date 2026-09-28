@@ -7,6 +7,7 @@ import Layout from './components/Layout'; // Import the new Layout component
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
 import { ShipPilotRoot } from './components/ShipPilotRoot';
+import { MotionConfig } from 'framer-motion';
 
 // Lazy load pages
 const About = lazy(() => import('./pages/About'));
@@ -37,7 +38,7 @@ const PathfindingDemo = lazy(() => import('./pages/PathfindingDemo'));
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center">
-    <div className="w-12 h-12 border-4 border-white/20 border-t-purple-500 rounded-full animate-spin" />
+    <div className="w-12 h-12 border-4 border-white/20 border-t-emerald-400 rounded-full animate-spin" />
   </div>
 );
 
@@ -52,6 +53,8 @@ function ScrollToTop() {
 function App() {
   return (
     <ThemeProvider>
+      {/* Honor the OS reduced-motion setting for every framer-motion animation. */}
+      <MotionConfig reducedMotion="user">
       <Router>
         <ShipPilotRoot>
         <ScrollToTop />
@@ -70,15 +73,16 @@ function App() {
                 <Route path="/projects/discord-bot" element={<DiscordBotProject />} />
                 <Route path="/projects/chat-gnzaga" element={<ChatGnzagaProject />} />
                 <Route path="/projects/portfolio-project" element={<PortfolioProject />} />
-                                  <Route path="/projects/kubernetes-cluster" element={<KubernetesCluster />} />
-                                                    <Route path="/projects/homelab" element={<HomelabProject />} />
-                                                    <Route path="/projects/k8s-automation" element={<K8sAutomationPipeline />} />
-                                                    <Route path="/projects/unified-iam" element={<UnifiedIAMProject />} />
-                                                    <Route path="/projects/kaiwa" element={<KaiwaProject />} />
-                                                    <Route path="/projects/agent-mesh" element={<AgentMeshWorkspace />} />
-                                                    <Route path="/projects/matrix-server" element={<MatrixServer />} />
-                                                    <Route path="/projects/agent-orchestration" element={<AgentOrchestrationPlatform />} />
-                                                    <Route path="/experience" element={<Experience />} />                <Route path="/demo/pathfinding" element={<PathfindingDemo />} />
+                <Route path="/projects/kubernetes-cluster" element={<KubernetesCluster />} />
+                <Route path="/projects/homelab" element={<HomelabProject />} />
+                <Route path="/projects/k8s-automation" element={<K8sAutomationPipeline />} />
+                <Route path="/projects/unified-iam" element={<UnifiedIAMProject />} />
+                <Route path="/projects/kaiwa" element={<KaiwaProject />} />
+                <Route path="/projects/agent-mesh" element={<AgentMeshWorkspace />} />
+                <Route path="/projects/matrix-server" element={<MatrixServer />} />
+                <Route path="/projects/agent-orchestration" element={<AgentOrchestrationPlatform />} />
+                <Route path="/experience" element={<Experience />} />
+                <Route path="/demo/pathfinding" element={<PathfindingDemo />} />
                 <Route path="/error" element={<ErrorPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
@@ -88,6 +92,7 @@ function App() {
         </Layout>
         </ShipPilotRoot>
       </Router>
+      </MotionConfig>
     </ThemeProvider>
   );
 }

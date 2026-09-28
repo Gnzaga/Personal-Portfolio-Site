@@ -39,7 +39,7 @@ const Navbar = () => {
       <div className="w-full max-w-5xl bg-black/30 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3 shadow-lg flex justify-between items-center">
         <Link
           to="/"
-          className="font-heading font-bold text-lg text-white tracking-wide hover:text-purple-300 transition-colors"
+          className="font-heading font-bold text-lg text-white tracking-wide hover:text-emerald-300 transition-colors"
         >
           Alessandro Gonzaga
         </Link>

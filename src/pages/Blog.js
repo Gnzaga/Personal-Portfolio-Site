@@ -23,7 +23,7 @@ const Blog = () => {
                 <div className="text-center mb-12">
                     <motion.h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg"
                         initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                        My <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">Blog</span>
+                        My <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-green-400">Blog</span>
                     </motion.h1>
                     <p className="text-xl text-white/80">No blog posts available at the moment.</p>
                 </div>
@@ -40,7 +40,7 @@ const Blog = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    My <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">Blog</span>
+                    My <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-green-400">Blog</span>
                 </motion.h1>
                 <motion.p
                     className="text-xl text-white/80 max-w-2xl mx-auto drop-shadow-md"

@@ -68,7 +68,7 @@ const Experience = () => {
             transition={{ duration: 0.5 }}
             className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg"
           >
-            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">Journey</span>
+            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-green-400">Journey</span>
           </motion.h1>
           <motion.p
             className="text-xl text-white/80 max-w-2xl mx-auto"

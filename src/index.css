@@ -17,6 +17,24 @@
   body {
     @apply antialiased text-white font-sans transition-colors duration-200 bg-black;
   }
+
+  /* Poppins was loaded but only applied in two places; make it the heading face everywhere. */
+  h1, h2, h3, h4 {
+    @apply font-heading tracking-tight;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-emerald-400/80 ring-offset-2 ring-offset-black;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer components {
@@ -54,7 +72,7 @@
 
   /* Gradient text */
   .gradient-text {
-    @apply bg-gradient-to-r from-purple-300 to-orange-300 bg-clip-text text-transparent font-bold;
+    @apply bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-transparent font-bold;
   }
 
   /* Primary button */
@@ -98,7 +116,7 @@
 
   /* Section divider */
   .section-divider {
-    @apply w-24 h-1 bg-gradient-to-r from-purple-400 to-orange-400 mx-auto rounded-full my-8;
+    @apply w-24 h-1 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full my-8;
   }
 }
 

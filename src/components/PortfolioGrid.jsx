@@ -7,13 +7,13 @@ import Alessandro_Gonzaga_Resume from '../res/Alessandro_Gonzaga_Resume.pdf';
 
 const PortfolioGrid = () => {
   return (
-    <div className="min-h-screen p-6 lg:pt-0 lg:px-12 lg:pb-12 max-w-7xl mx-auto flex flex-col justify-center">
+    <div className="min-h-screen py-6 sm:p-6 lg:pt-0 lg:px-12 lg:pb-12 max-w-7xl mx-auto flex flex-col justify-center">
       
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* 1. Hero Card (Spans 2 columns) */}
-        <GlassCard className="lg:col-span-2 min-h-[450px] relative group flex flex-col justify-end p-10 overflow-hidden bg-black/40 border-white/10">
+        <GlassCard className="lg:col-span-2 min-h-[380px] md:min-h-[450px] relative group flex flex-col justify-end p-6 md:p-10 overflow-hidden bg-black/40 border-white/10">
           <AnimatedHero className="opacity-60 group-hover:opacity-80 transition-opacity duration-1000" />
           
           <div className="relative z-20 max-w-2xl pointer-events-none">
@@ -24,10 +24,10 @@ const PortfolioGrid = () => {
               </span>
               <span className="text-green-500 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">System Status: Online</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight drop-shadow-lg">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight drop-shadow-lg">
               Platform <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-emerald-300">Engineering</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/70 font-light">
+            <p className="text-lg sm:text-xl md:text-2xl text-white/70 font-light">
               Reliability, Scale, &amp; Intelligent Automation
             </p>
           </div>
@@ -40,7 +40,9 @@ const PortfolioGrid = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90 z-10" />
             <img 
               src="/images/alex.jpg" 
-              alt="Alessandro Gonzaga" 
+              alt="Alessandro Gonzaga"
+              loading="eager"
+              decoding="async"
               className="w-full h-full object-cover object-[center_25%] lg:object-[75%_20%]"
             />
           </div>

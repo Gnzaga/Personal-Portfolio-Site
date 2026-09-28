@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Code, Users, Award, Briefcase, Zap, Server, Shield } from 'lucide-react';
 import StaggeredList from '../components/StaggeredList';
-import SkillsComponent from '../components/SkillsComponent';
 import GlassCard from '../components/GlassCard';
 
 const About = () => {
@@ -16,7 +15,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">Me</span>
+            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-green-400">Me</span>
           </motion.h1>
           <motion.p
             className="text-xl text-white/80 max-w-2xl mx-auto drop-shadow-md"
@@ -42,9 +41,9 @@ const About = () => {
                     <h2 className="text-2xl font-bold text-white">Passionate Technologist</h2>
                   </div>
                   <p className="text-white/80 text-lg leading-relaxed">
-                    I am <span className="text-green-500 font-semibold">Alessandro Gonzaga</span>, a Platform Engineer at Verizon specializing in Anti-Spam Systems.
-                    I operate and extend platforms protecting 100M+ messaging endpoints, building microservices in Go,
-                    designing data lake architectures, and driving automation with Terraform and agentic AI workflows.
+                    I am <span className="text-green-500 font-semibold">Alessandro Gonzaga</span>, a platform engineer who likes
+                    owning systems end to end — from the Terraform that provisions them to the dashboards that explain them.
+                    Outside work I run a multi-node homelab that hosts everything on this site, and I write up what breaks.
                   </p>
                 </div>
                 <div className="w-40 h-40 flex-shrink-0 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(21,128,61,0.3)] border-4 border-green-800/30 overflow-hidden">
@@ -101,13 +100,8 @@ const About = () => {
           </div>
         </GlassCard>
 
-        {/* Skills Component - Updated Container */}
-        <div data-agent-target="skills-section" className="mb-8">
-          <SkillsComponent />
-        </div>
-
         {/* Technical Expertise - Grid of Glass Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
+        <div data-agent-target="skills-section" className="grid md:grid-cols-2 gap-6 mb-12">
             <GlassCard className="bg-gradient-to-br from-black/40 to-transparent">
                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                  <Zap className="w-5 h-5 text-yellow-300" /> Core Specializations

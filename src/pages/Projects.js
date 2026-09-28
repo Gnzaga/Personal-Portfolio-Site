@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom'; 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, Terminal, Server, Globe, Cpu, Database, Music, MessageSquare } from 'lucide-react';
+import { Github, ExternalLink, Terminal, Server, Globe, Cpu, Database, Music, MessageSquare, Workflow, KeyRound, Bot, Network, LayoutTemplate } from 'lucide-react';
 import GlassCard from '../components/GlassCard';
 import GlassButton from '../components/GlassButton';
 
@@ -14,7 +14,13 @@ const ProjectCard = ({ title, description, githubLink, projectLink, technologies
   // Select an icon based on title/tech
   const getIcon = () => {
     const t = title.toLowerCase();
+    // Order matters: more specific titles must match before generic keywords like "chat".
     if (t.includes('kaiwa')) return <Globe className="w-6 h-6 text-green-400" />;
+    if (t.includes('matrix')) return <Network className="w-6 h-6 text-green-400" />;
+    if (t.includes('iam')) return <KeyRound className="w-6 h-6 text-green-400" />;
+    if (t.includes('agent')) return <Bot className="w-6 h-6 text-emerald-400" />;
+    if (t.includes('pipeline')) return <Workflow className="w-6 h-6 text-green-400" />;
+    if (t.includes('portfolio')) return <LayoutTemplate className="w-6 h-6 text-emerald-400" />;
     if (t.includes('chat')) return <MessageSquare className="w-6 h-6 text-green-400" />;
     if (t.includes('playlist') || t.includes('spotify')) return <Music className="w-6 h-6 text-emerald-400" />;
     if (t.includes('kubernetes') || t.includes('cluster')) return <Server className="w-6 h-6 text-green-500" />;
@@ -39,7 +45,7 @@ const ProjectCard = ({ title, description, githubLink, projectLink, technologies
         </div>
       </div>
 
-      <p className="text-white/70 text-sm mb-6 leading-relaxed flex-grow">
+      <p className="text-white/70 text-sm mb-6 leading-relaxed flex-grow line-clamp-5">
         {description}
       </p>
 
@@ -98,7 +104,7 @@ const FilterButton = ({ technology, activeFilter, setActiveFilter }) => {
   return (
     <button
       onClick={handleClick}
-      className={`px-4 py-2 rounded-full text-sm font-medium mr-2 mb-2 transition-all duration-300 backdrop-blur-md border ${
+      className={`shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium mr-2 mb-2 transition-all duration-300 backdrop-blur-md border ${
         activeFilter === technology
           ? 'bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] transform scale-105'
           : 'bg-black/30 text-white/60 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/30'
@@ -253,7 +259,7 @@ const Projects = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">Projects</span>
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-green-400">Projects</span>
           </motion.h1>
           <motion.p
             className="text-xl text-white/80 max-w-2xl mx-auto drop-shadow-md"
@@ -274,7 +280,7 @@ const Projects = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="flex flex-wrap justify-center p-2 rounded-2xl">
+          <div className="flex flex-nowrap md:flex-wrap md:justify-center overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 p-2 rounded-2xl">
             {allTechnologies.map((tech, index) => (
               <motion.div
                 key={tech}
