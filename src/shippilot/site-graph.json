@@ -242,11 +242,12 @@
       "card": null,
       "detail": null,
       "targets": [
+        "experience-comcast",
         "experience-1",
         "experience-2",
         "experience-3"
       ],
-      "contentSummary": "experience — •"
+      "contentSummary": "Experience — Software Engineer for AI Platforms at Comcast (current), Verizon Platform Engineer and Network Engineer, Rutgers OIT"
     },
     "/demo/pathfinding": {
       "path": "/demo/pathfinding",
