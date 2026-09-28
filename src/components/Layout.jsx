@@ -2,13 +2,16 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
+import BackgroundMurmuration from './BackgroundMurmuration';
 
+// `horizon` is where the ground/skyline meets the sky, as a fraction of the
+// image's height; the background starlings avoid flying below it.
 const backgrounds = {
-  '/': '/images/sunset-main.jpg',
-  '/experience': '/images/chicago-infra.jpg',
-  '/projects': '/images/mountains-purple.jpg',
-  '/blog': '/images/lake-blue.jpg',
-  '/about': '/images/waterfall-vertical.jpg'
+  '/': { src: '/images/sunset-main.jpg', horizon: 0.575 }, // sea line
+  '/experience': { src: '/images/chicago-infra.jpg', horizon: 0.5 }, // mid-rise rooftops
+  '/projects': { src: '/images/mountains-purple.jpg', horizon: 0.53 }, // ridge line
+  '/blog': { src: '/images/lake-blue.jpg', horizon: 0.41 }, // lake horizon
+  '/about': { src: '/images/waterfall-vertical.jpg', horizon: 0.3 } // cliff lip
 };
 
 const Layout = ({ children }) => {
@@ -27,7 +30,7 @@ const Layout = ({ children }) => {
       <div className="fixed inset-0 z-0 bg-black">
         <AnimatePresence mode="popLayout">
           <motion.div
-            key={activeBg}
+            key={activeBg.src}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -35,7 +38,7 @@ const Layout = ({ children }) => {
             className="absolute inset-0 w-full h-full"
           >
             <img 
-              src={activeBg} 
+              src={activeBg.src} 
               alt="Background" 
               className="w-full h-full object-cover opacity-60" 
             />
@@ -43,6 +46,8 @@ const Layout = ({ children }) => {
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60" />
           </motion.div>
         </AnimatePresence>
+        {/* Outside AnimatePresence so the flock persists across page changes */}
+        <BackgroundMurmuration src={activeBg.src} horizon={activeBg.horizon} />
       </div>
 
       {/* Content Layer */}
