@@ -9,21 +9,47 @@ import Alessandro_Gonzaga_Resume from '../res/Alessandro_Gonzaga_Resume.pdf';
 
 const roles = [
   {
-    target: 'experience-1',
+    // Newest role. Location intentionally omitted (not provided). Keep the
+    // copy to the approved wording: no adoption numbers, measured savings or
+    // stack; the invoice-mapping figure is a projection, not a result.
+    target: 'experience-comcast',
     ref: 'HEAD',
+    title: 'Software Engineer for AI Platforms',
+    company: 'Comcast',
+    org: 'Procurement',
+    type: 'Full-time',
+    start: '2026-09',
+    end: null,
+    startDate: '2026-09-01',
+    details: [
+      "Primary engineer for greenfield AI automation and agentic projects in Comcast's Procurement organization, which spans Comcast, Sky, and NBCUniversal.",
+      'Building a centralized internal web application for AI in Procurement, expanding it incrementally around business needs.',
+      'Working on an initial agentic project that maps inconsistent value-added-reseller invoice descriptions to the actual manufacturers of purchased products — a projected 20–40 hours of manual work saved per month.',
+      'Developing the roadmap with my manager across public cloud and on-premises resources, translating procurement needs into practical automation.',
+    ],
+    plannedScope: [
+      'intelligence gathering and research',
+      'document processing and form filling',
+      'negotiation preparation and decision support',
+      'supply-chain risk analysis',
+    ],
+  },
+  {
+    target: 'experience-1',
     title: 'Platform Engineer, Anti-Spam Systems',
     company: 'Verizon',
     type: 'Full-time',
     start: '2025-09',
-    end: null,
+    end: '2026-08',
     startDate: '2025-09-01',
+    endDate: '2026-09-01',
     location: 'Bedminster, NJ · Hybrid',
     details: [
-      "Operate and extend platform protecting 100M+ messaging endpoints from spam across Verizon's internal and inter-carrier networks.",
+      "Operated and extended the platform protecting 100M+ messaging endpoints from spam across Verizon's internal and inter-carrier networks.",
       'Replaced legacy OpenStack+Heat workflows with Terraform-based VM orchestration, reducing deployment time from 3-4 hours (6 VMs) to 5 minutes (62 VMs across 4 tenant spaces in multiple states).',
       'Built URL intelligence microservice in Go processing 3,100+ IP/s for ASN lookups; implemented warm caching layer that increased DNS throughput from 120/s to 75,000+/s for repeated domains.',
       'Developed agentic workflow that navigates our environment to detect spam patterns and generate threat intelligence reports, reducing manual investigation time.',
-      'Designed data lake architecture for spam intelligence pipeline (BigQuery, Apache NiFi, Redis) with retention policies—currently driving cross-org alignment for implementation.',
+      'Designed data lake architecture for spam intelligence pipeline (BigQuery, Apache NiFi, Redis) with retention policies.',
     ],
   },
   {
@@ -73,7 +99,7 @@ const Experience = () => {
         <div>
           <p className="label">~/experience</p>
           <h1 className="page-title mt-1">git log --career</h1>
-          <p className="page-lede">Building scalable infrastructure and leading technical teams.</p>
+          <p className="page-lede">AI platforms, infrastructure and automation — newest first.</p>
         </div>
         <a
           href={Alessandro_Gonzaga_Resume}
@@ -117,7 +143,7 @@ const Experience = () => {
               </div>
               <h2 className="mt-1.5 font-mono text-base font-semibold text-fg md:text-lg">{r.title}</h2>
               <p className="mt-0.5 font-mono text-xs text-mute">
-                {r.company} · {r.type} · {r.location}
+                {[r.company, r.org, r.type, r.location].filter(Boolean).join(' · ')}
               </p>
               <ul className="mt-3 space-y-2 font-sans text-[15px] leading-relaxed text-fg/85">
                 {r.details.map((d) => (
@@ -127,6 +153,19 @@ const Experience = () => {
                   </li>
                 ))}
               </ul>
+              {r.plannedScope && (
+                <div className="mt-4 border border-line bg-raised px-3 py-2.5">
+                  <p className="label">planned scope</p>
+                  <ul className="mt-1.5 grid gap-x-4 gap-y-1 font-mono text-[13px] text-fg/85 sm:grid-cols-2">
+                    {r.plannedScope.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span className="text-mute" aria-hidden="true">○</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </li>
         ))}

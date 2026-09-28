@@ -24,7 +24,7 @@ const Footer = () => (
     <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
       <div>
         <p className="text-fg">Alessandro Gonzaga</p>
-        <p className="mt-1">Platform engineer · infrastructure, automation, security.</p>
+        <p className="mt-1">Software engineer · AI platforms, agentic automation, infrastructure.</p>
       </div>
       <div className="flex gap-10">
         <ul className="space-y-1.5" aria-label="Site">

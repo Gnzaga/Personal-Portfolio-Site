@@ -13,7 +13,7 @@
         "download-resume",
         "technical-arsenal-full-stack-&-infrastructure"
       ],
-      "contentSummary": "Platform Engineering — System Status: Online"
+      "contentSummary": "Home — whoami (Software Engineer, AI Platforms at Comcast Procurement), personal homelab system map, recent posts"
     },
     "/about": {
       "path": "/about",
@@ -26,7 +26,7 @@
         "current-role",
         "skills-section"
       ],
-      "contentSummary": "Passionate Technologist — Me"
+      "contentSummary": "About — whoami profile, current role at Comcast Procurement (AI platforms), skills"
     },
     "/projects": {
       "path": "/projects",

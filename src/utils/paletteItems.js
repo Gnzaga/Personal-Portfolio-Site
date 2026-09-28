@@ -9,7 +9,7 @@ export const PAGES = [
   { label: 'Projects', route: '/projects', chord: 'p', keywords: 'services registry work' },
   { label: 'Blog', route: '/blog', chord: 'b', keywords: 'posts writing log' },
   { label: 'About', route: '/about', chord: 'a', keywords: 'bio profile whoami' },
-  { label: 'Experience', route: '/experience', chord: 'e', keywords: 'work history resume jobs git log' },
+  { label: 'Experience', route: '/experience', chord: 'e', keywords: 'work history resume jobs git log comcast procurement ai platforms verizon rutgers' },
   { label: 'Pathfinding demo', route: '/demo/pathfinding', keywords: 'agent navigation graph demo' },
 ];
 

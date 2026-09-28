@@ -7,18 +7,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const facts = [
-  { k: 'endpoints protected', v: '100M+', src: 'Verizon anti-spam platform' },
-  { k: 'team members led', v: '200+', src: 'Rutgers OIT, consultants supervised' },
+  { k: 'endpoints protected', v: '100M+', src: 'Verizon anti-spam platform · 2025–26 (previous)' },
+  { k: 'consultants trained', v: '200+', src: 'Rutgers OIT · 2022–24 (previous)' },
 ];
 
 const focus = [
-  'Anti-Spam Platform Engineering',
-  'Infrastructure Automation (Terraform, Go)',
-  'Data & Intelligence Pipelines',
-  'Cross-org Technical Leadership',
+  'Greenfield AI automation & agentic projects',
+  'Centralized AI web app for Procurement',
+  'Roadmap across public cloud & on-prem',
+  'Translating procurement needs into automation',
 ];
 
 const specializations = [
+  'AI Platforms & Agentic Automation',
   'Anti-Spam & Security Platforms',
   'Infrastructure Automation (Terraform, Ansible)',
   'Data Pipelines (BigQuery, NiFi, Redis)',
@@ -32,7 +33,7 @@ const About = () => (
     <header className="mb-6">
       <p className="label">~/about</p>
       <h1 className="page-title mt-1">whoami</h1>
-      <p className="page-lede">Platform Engineer building scalable infrastructure and security systems.</p>
+      <p className="page-lede">Software engineer building AI platforms and agentic automation for enterprise procurement.</p>
     </header>
 
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -50,9 +51,12 @@ const About = () => (
           <div>
             <h2 className="font-mono text-lg font-semibold text-fg">Alessandro Gonzaga</h2>
             <p className="mt-2 max-w-prose font-sans text-[15px] leading-relaxed text-fg/85">
-              I'm a platform engineer who likes owning systems end to end — from the Terraform that provisions
-              them to the dashboards that explain them. Outside work I run a multi-node homelab that hosts
-              everything on this site, and I write up what breaks.
+              I'm a hands-on software engineer building AI platforms and agentic automation for enterprise
+              procurement. Before that I spent two years at Verizon on edge automation and anti-spam platform
+              engineering. The direction I'm working toward: moving agents beyond individual tasks toward
+              bounded operational responsibilities, so people can focus on the work that needs judgment.
+              Outside work I run a multi-node homelab that hosts everything on this site, and I write up what
+              breaks.
             </p>
             <p className="mt-3 font-mono text-xs text-mute">
               see also: <Link to="/projects/homelab" className="text-fg hover:text-signal">~/projects/homelab</Link>
@@ -83,14 +87,16 @@ const About = () => (
       {/* Current role */}
       <section className="panel md:col-span-3" data-agent-target="current-role" aria-labelledby="about-role">
         <div className="panel-header">
-          <span id="about-role">current role · Verizon</span>
+          <span id="about-role">current role · Comcast<span className="hidden sm:inline"> · since 2026-09</span></span>
           <Link to="/experience" className="normal-case tracking-normal hover:text-signal">git log →</Link>
         </div>
         <div className="grid gap-5 p-4 md:grid-cols-2 md:p-5">
           <p className="font-sans text-[15px] leading-relaxed text-fg/85">
-            At Verizon, I operate and extend the platform protecting 100M+ messaging endpoints from spam.
-            My work includes replacing legacy workflows with Terraform-based orchestration, building Go
-            microservices for URL intelligence, and designing data lake architectures.
+            Software Engineer for AI Platforms in Comcast's Procurement organization, which spans Comcast,
+            Sky, and NBCUniversal. I'm the primary engineer for greenfield AI automation and agentic projects:
+            building a centralized internal web application for AI in Procurement, and working on an initial
+            agentic project that maps inconsistent reseller invoice descriptions to the actual manufacturers
+            of purchased products (projected 20–40 hours of manual work saved per month).
           </p>
           <ul className="space-y-1.5 font-mono text-[13px]">
             {focus.map((item) => (

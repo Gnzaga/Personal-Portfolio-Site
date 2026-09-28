@@ -13,8 +13,9 @@ import { toLogDate } from '../utils/dateUtils';
 import Alessandro_Gonzaga_Resume from '../res/Alessandro_Gonzaga_Resume.pdf';
 
 const identity = [
-  ['role', 'Platform Engineer'],
-  ['org', 'Verizon · Anti-Spam Systems'],
+  ['role', 'Software Engineer, AI Platforms'],
+  ['org', 'Comcast · Procurement'],
+  ['since', '2026-09 · building'],
   ['location', 'New York Metropolitan Area'],
 ];
 
@@ -61,7 +62,7 @@ const Home = () => {
             />
             <div className="min-w-0">
               <h1 className="font-mono text-lg font-semibold leading-tight text-fg">Alessandro Gonzaga</h1>
-              <p className="font-mono text-xs text-signal">platform engineer</p>
+              <p className="font-mono text-xs text-signal">software engineer · ai platforms</p>
             </div>
           </div>
 
@@ -75,9 +76,9 @@ const Home = () => {
           </dl>
 
           <p className="mt-4 font-sans text-sm leading-relaxed text-fg/80">
-            I like owning systems end to end — from the Terraform that provisions them to the dashboards
-            that explain them. Outside work I run a multi-node homelab that hosts everything on this site,
-            and I write up what breaks.
+            I'm the primary engineer building AI platforms and agentic automation for Comcast's Procurement
+            organization — a greenfield capability. Outside work I run a multi-node homelab that hosts
+            everything on this site, and I write up what breaks.
           </p>
 
           <div className="mt-4 flex flex-wrap gap-2" data-agent-target="action-cards">
@@ -112,9 +113,10 @@ const Home = () => {
         data-agent-target="technical-arsenal-full-stack-&-infrastructure"
       >
         <div className="panel-header">
-          <span id="system-map">system map</span>
+          {/* Personal homelab topology only — not work infrastructure. */}
+          <span id="system-map">system map · personal homelab</span>
           <span className="normal-case tracking-normal">
-            {mapNodes} nodes · {systemEdges.length} edges<span className="hidden sm:inline"> · static, from project docs</span>
+            {mapNodes} nodes<span className="hidden sm:inline"> · {systemEdges.length} edges</span><span className="hidden sm:inline"> · static, from project docs</span>
           </span>
         </div>
         <SystemMap />
