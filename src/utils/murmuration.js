@@ -47,12 +47,30 @@ export const CONFIG = {
   panicSpeedBoost: 0.6, // maxSpeed multiplier at full panic is 1 + this
   panicAlignBoost: 1.5,
 
-  // Ground avoidance (only when flock.groundY is set): birds increasingly
-  // dislike descending toward the horizon, like a real flock over land/water.
-  groundBand: 0.35, // fraction of the sky height above the horizon where lift ramps in
-  groundLift: 700, // upward acceleration at the horizon; grows quadratically below it
+  // Ground avoidance (only when flock.ground is set): birds increasingly
+  // dislike descending toward the terrain below them, like a real flock.
+  groundBand: 0.35, // fraction of the local sky height above the ground where lift ramps in
+  groundLift: 700, // upward acceleration at ground level; grows quadratically below it
+  groundLookahead: 0.6, // s — birds read terrain this far ahead so they climb before a ridge
 
   maxDt: 0.05, // clamp frame gaps (e.g. after a background tab) to avoid jumps
+};
+
+/**
+ * Terrain height at x. A ground profile is `{ ys, step, offset }`: ys[k] is the
+ * ground's y (canvas px, 0 = top) at x = offset + k * step, linearly
+ * interpolated between samples and held flat beyond either end. With no
+ * profile, the whole canvas is sky and `fallback` (the canvas height) is returned.
+ */
+export const groundAt = (ground, x, fallback) => {
+  if (!ground) return fallback;
+  const { ys, step, offset = 0 } = ground;
+  const f = (x - offset) / step;
+  if (f <= 0) return ys[0];
+  if (f >= ys.length - 1) return ys[ys.length - 1];
+  const k = f | 0;
+  const w = f - k;
+  return ys[k] * (1 - w) + ys[k + 1] * w;
 };
 
 /** Bird count for a canvas area, clamped to the configured range. */
@@ -69,12 +87,12 @@ export const birdCountForArea = (width, height, cfg = CONFIG) =>
  *
  * @param options.random PRNG returning [0, 1), injectable for deterministic tests.
  * @param options.config overrides merged over CONFIG for this flock.
- * @param options.groundY horizon in canvas pixels, or null for no ground.
+ * @param options.ground terrain profile (see groundAt), or null for none.
  */
 export const createFlock = (
   width,
   height,
-  { random = Math.random, config = {}, groundY = null } = {},
+  { random = Math.random, config = {}, ground = null } = {},
 ) => {
   const cfg = { ...CONFIG, ...config };
   const cap = cfg.maxBirds;
@@ -85,7 +103,7 @@ export const createFlock = (
     time: 0,
     random,
     config: cfg,
-    groundY,
+    ground,
     x: new Float32Array(cap),
     y: new Float32Array(cap),
     vx: new Float32Array(cap),
@@ -111,12 +129,11 @@ export const createFlock = (
   };
 
   const count = birdCountForArea(width, height, cfg);
-  const spawnHeight = groundY == null ? height : Math.min(height, groundY);
   for (let i = 0; i < count; i++) {
     const a = random() * Math.PI * 2;
     const s = cfg.minSpeed + random() * (cfg.maxSpeed - cfg.minSpeed) * 0.5;
     flock.x[i] = random() * width;
-    flock.y[i] = random() * spawnHeight;
+    flock.y[i] = random() * Math.min(height, groundAt(ground, flock.x[i], height));
     flock.vx[i] = Math.cos(a) * s;
     flock.vy[i] = Math.sin(a) * s;
   }
@@ -225,14 +242,14 @@ export const stepFlock = (flock, dt, pointer, { pointerEnabled = true } = {}) =>
   }
 
   // With a horizon, the sky above it is the flock's airspace.
-  const groundY = flock.groundY == null ? null : Math.min(height, Math.max(0, flock.groundY));
-  const skyHeight = groundY == null ? height : groundY;
-  const groundBand = Math.max(1, skyHeight * cfg.groundBand);
+  const { ground } = flock;
+  const lookahead = cfg.groundLookahead;
 
-  // Slowly orbiting target keeps the flock sweeping around its airspace when idle.
+  // Slowly orbiting target keeps the flock sweeping around its airspace when
+  // idle; with terrain, it stays within the sky above wherever it is.
   const t = flock.time;
   const targetX = width * (0.5 + 0.32 * Math.sin(t * 0.13) + 0.08 * Math.sin(t * 0.41));
-  const targetY = skyHeight * (0.5 + 0.28 * Math.sin(t * 0.21 + 1.3));
+  const targetY = groundAt(ground, targetX, height) * (0.5 + 0.28 * Math.sin(t * 0.21 + 1.3));
 
   buildGrid(flock);
 
@@ -369,9 +386,17 @@ export const stepFlock = (flock, dt, pointer, { pointerEnabled = true } = {}) =>
 
     // Ground aversion: no push high in the sky, a gentle lift entering the band
     // above the horizon, and a steep (quadratic) one near and below it.
-    if (groundY != null && py > groundY - groundBand) {
-      const depth = (py - (groundY - groundBand)) / groundBand;
-      fy -= cfg.groundLift * depth * depth;
+    // The terrain considered is the higher of what's below and what's ahead.
+    if (ground) {
+      const g = Math.min(
+        groundAt(ground, px, height),
+        groundAt(ground, px + vx[i] * lookahead, height),
+      );
+      const band = Math.max(1, g * cfg.groundBand);
+      if (py > g - band) {
+        const depth = (py - (g - band)) / band;
+        fy -= cfg.groundLift * depth * depth;
+      }
     }
 
     // Soft edges: bank back proportionally to how far into the margin a bird is.

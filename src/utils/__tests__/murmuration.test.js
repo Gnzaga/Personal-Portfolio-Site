@@ -1,6 +1,6 @@
 // src/utils/__tests__/murmuration.test.js
 
-import { CONFIG, birdCountForArea, createFlock, resizeFlock, stepFlock } from '../murmuration';
+import { CONFIG, birdCountForArea, createFlock, groundAt, resizeFlock, stepFlock } from '../murmuration';
 
 // Deterministic PRNG (mulberry32) so tests don't flake.
 const seeded = (seed) => () => {
@@ -65,25 +65,57 @@ describe('stepFlock', () => {
   });
 });
 
+// Flat terrain at y across an 800px-wide canvas.
+const flatGround = (y) => ({ ys: new Float32Array(81).fill(y), step: 10 });
+
+describe('groundAt', () => {
+  test('interpolates between samples and holds flat beyond the ends', () => {
+    const ground = { ys: new Float32Array([100, 200]), step: 50, offset: 10 };
+    expect(groundAt(ground, 35, 999)).toBeCloseTo(150);
+    expect(groundAt(ground, -100, 999)).toBe(100);
+    expect(groundAt(ground, 500, 999)).toBe(200);
+    expect(groundAt(null, 35, 999)).toBe(999);
+  });
+});
+
 describe('ground avoidance', () => {
-  test('birds spawn above the horizon and stay out of the ground', () => {
-    const groundY = 250;
-    const flock = createFlock(800, 450, { random: seeded(4), groundY });
-    for (let i = 0; i < flock.n; i++) expect(flock.y[i]).toBeLessThanOrEqual(groundY);
+  const countBelow = (flock, groundYAt, tolerance) => {
+    let below = 0;
+    for (let i = 0; i < flock.n; i++) if (flock.y[i] > groundYAt(flock.x[i]) + tolerance) below++;
+    return below;
+  };
+
+  test('birds spawn above the terrain and stay out of the ground', () => {
+    const flock = createFlock(800, 450, { random: seeded(4), ground: flatGround(250) });
+    expect(countBelow(flock, () => 250, 0)).toBe(0);
     run(flock, 10);
-    let belowGround = 0;
-    for (let i = 0; i < flock.n; i++) if (flock.y[i] > groundY + 20) belowGround++;
-    expect(belowGround).toBeLessThan(flock.n * 0.02);
+    expect(countBelow(flock, () => 250, 20)).toBeLessThan(flock.n * 0.02);
   });
 
   test('a raised horizon lifts the existing flock', () => {
-    const flock = createFlock(800, 450, { random: seeded(5), groundY: 400 });
+    const flock = createFlock(800, 450, { random: seeded(5), ground: flatGround(400) });
     run(flock, 3);
-    flock.groundY = 150;
+    flock.ground = flatGround(150);
     run(flock, 6);
-    let belowGround = 0;
-    for (let i = 0; i < flock.n; i++) if (flock.y[i] > 170) belowGround++;
-    expect(belowGround).toBeLessThan(flock.n * 0.02);
+    expect(countBelow(flock, () => 150, 20)).toBeLessThan(flock.n * 0.02);
+  });
+
+  test('birds fly lower where the terrain is lower', () => {
+    // Terrain slopes from high on the left (y=120) to low on the right (y=420).
+    const ys = new Float32Array(81);
+    for (let k = 0; k < ys.length; k++) ys[k] = 120 + (300 * k) / (ys.length - 1);
+    const flock = createFlock(800, 450, { random: seeded(7), ground: { ys, step: 10 } });
+    let leftMax = 0;
+    let rightMax = 0;
+    for (let s = 0; s < 20 * 60; s++) {
+      stepFlock(flock, 1 / 60, null);
+      for (let i = 0; i < flock.n; i++) {
+        if (flock.x[i] < 200) leftMax = Math.max(leftMax, flock.y[i]);
+        else if (flock.x[i] > 600) rightMax = Math.max(rightMax, flock.y[i]);
+      }
+    }
+    expect(leftMax).toBeLessThan(260);
+    expect(rightMax).toBeGreaterThan(leftMax + 60);
   });
 });
 
