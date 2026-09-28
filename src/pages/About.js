@@ -23,7 +23,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Platform Engineer building scalable infrastructure and security systems
+            Software engineer building AI platforms and agentic automation
           </motion.p>
         </div>
 
@@ -41,7 +41,7 @@ const About = () => {
                     <h2 className="text-2xl font-bold text-white">Passionate Technologist</h2>
                   </div>
                   <p className="text-white/80 text-lg leading-relaxed">
-                    I am <span className="text-green-500 font-semibold">Alessandro Gonzaga</span>, a platform engineer who likes
+                    I am <span className="text-green-500 font-semibold">Alessandro Gonzaga</span>, a software engineer who likes
                     owning systems end to end — from the Terraform that provisions them to the dashboards that explain them.
                     Outside work I run a multi-node homelab that hosts everything on this site, and I write up what breaks.
                   </p>
@@ -58,12 +58,14 @@ const About = () => {
                 <div className="text-center space-y-6">
                     <div>
                         <div className="text-4xl font-bold text-white mb-1">200+</div>
-                        <div className="text-green-300 text-sm font-medium uppercase tracking-wider">Team Members Led</div>
+                        <div className="text-green-300 text-sm font-medium uppercase tracking-wider">Consultants Supervised</div>
+                        <div className="text-white/40 text-xs mt-1">Rutgers OIT</div>
                     </div>
                     <div className="w-16 h-1 bg-white/10 mx-auto rounded-full"></div>
                     <div>
                         <div className="text-4xl font-bold text-white mb-1">100M+</div>
-                        <div className="text-emerald-300 text-sm font-medium uppercase tracking-wider">Endpoints Secured</div>
+                        <div className="text-emerald-300 text-sm font-medium uppercase tracking-wider">Endpoints Protected</div>
+                        <div className="text-white/40 text-xs mt-1">Verizon anti-spam platform</div>
                     </div>
                 </div>
              </GlassCard>
@@ -76,20 +78,23 @@ const About = () => {
             <div>
               <div className="flex items-center gap-3 mb-4">
                  <Briefcase className="w-6 h-6 text-green-500" />
-                 <h3 className="text-2xl font-bold text-white">Current Role at Verizon</h3>
+                 <h3 className="text-2xl font-bold text-white">Now: AI Platforms at Comcast</h3>
               </div>
               <p className="text-white/80 text-lg leading-relaxed">
-                At Verizon, I operate and extend the platform protecting 100M+ messaging endpoints from spam.
-                My work includes replacing legacy workflows with Terraform-based orchestration, building Go
-                microservices for URL intelligence, and designing data lake architectures.
+                I'm a Software Engineer for AI Platforms in Comcast's Procurement organization, and the primary
+                engineer on its greenfield AI automation and agentic projects. I'm building a centralized internal
+                application for AI in Procurement, starting with agents that map messy reseller invoice descriptions
+                to the real manufacturers. The goal is to move agents from single tasks toward bounded operational
+                responsibilities, so people can spend their time on work that needs judgment.
               </p>
             </div>
             <div className="grid grid-cols-1 gap-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-white/50">Planned scope</p>
               {[
-                { label: "Anti-Spam Platform Engineering", icon: Shield },
-                { label: "Infrastructure Automation (Terraform, Go)", icon: Server },
-                { label: "Data & Intelligence Pipelines", icon: Zap },
-                { label: "Cross-org Technical Leadership", icon: Users }
+                { label: "Intelligence gathering & research", icon: Zap },
+                { label: "Document processing & form filling", icon: Server },
+                { label: "Negotiation prep & decision support", icon: Users },
+                { label: "Supply-chain risk analysis", icon: Shield }
               ].map((item, index) => (
                   <div key={index} className="flex items-center space-x-3 bg-white/5 p-3 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
                     <item.icon className="w-5 h-5 text-green-500" />
@@ -108,6 +113,7 @@ const About = () => {
                </h3>
                <ul className="space-y-4">
                 {[
+                    "AI Platforms & Agentic Automation",
                     "Anti-Spam & Security Platforms",
                     "Infrastructure Automation (Terraform, Ansible)",
                     "Data Pipelines (BigQuery, NiFi, Redis)",

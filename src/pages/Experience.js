@@ -27,10 +27,12 @@ const ExperienceCard = ({ title, company, duration, location, type, details }) =
           <Calendar className="w-4 h-4 mr-2 text-green-500" />
           <span>{duration}</span>
         </div>
-        <div className="flex items-center px-3">
-          <MapPin className="w-4 h-4 mr-2 text-emerald-600" />
-          <span>{location}</span>
-        </div>
+        {location && (
+          <div className="flex items-center px-3">
+            <MapPin className="w-4 h-4 mr-2 text-emerald-600" />
+            <span>{location}</span>
+          </div>
+        )}
       </div>
     </div>
     
@@ -52,10 +54,12 @@ const ExperienceCard = ({ title, company, duration, location, type, details }) =
  */
 const Experience = () => {
   const [currentDuration, setCurrentDuration] = useState('');
+  const [platformEngineerDuration, setPlatformEngineerDuration] = useState('');
   const [networkEngineerDuration, setNetworkEngineerDuration] = useState('');
 
   useEffect(() => {
-    setCurrentDuration(calculateDuration('2025-09-01'));
+    setCurrentDuration(calculateDuration('2026-09-01'));
+    setPlatformEngineerDuration(calculateDuration('2025-09-01', '2026-09-01'));
     setNetworkEngineerDuration(calculateDuration('2024-06-01', '2025-09-01'));
   }, []);
 
@@ -76,7 +80,7 @@ const Experience = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Building scalable infrastructure and leading technical teams
+            From network automation to anti-spam platforms to AI platforms
           </motion.p>
         </div>
         
@@ -85,22 +89,41 @@ const Experience = () => {
           <div className="absolute left-[20px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-800/50 via-white/20 to-transparent hidden md:block"></div>
           
           <StaggeredList>
-            {/* Platform Engineer, Anti-Spam Systems */}
+            {/* Software Engineer for AI Platforms — current role. Scope items are planned, not shipped. */}
             <div className="pl-0 md:pl-12 relative">
                <div className="absolute left-[16px] top-8 w-3 h-3 bg-green-700 rounded-full shadow-[0_0_15px_rgba(21,128,61,0.8)] hidden md:block z-10"></div>
+               <div data-agent-target="experience-comcast">
+                <ExperienceCard
+                  title="Software Engineer for AI Platforms"
+                  company="Comcast · Procurement"
+                  type="Full-time"
+                  duration={`Sep 2026 - Present · ${currentDuration}`}
+                  details={[
+                    "Primary engineer for greenfield AI automation and agentic projects in Comcast's Procurement organization, which spans Comcast, Sky, and NBCUniversal.",
+                    "Building a centralized internal web application for AI in Procurement, expanding it incrementally around business needs. Planned scope includes intelligence gathering and research, document processing and form filling, negotiation preparation and decision support, and supply-chain risk analysis.",
+                    "Working on an initial agentic project that maps inconsistent value-added-reseller invoice descriptions to the actual manufacturers of purchased products — a projected 20–40 hours of manual work saved per month.",
+                    "Developing the roadmap with my manager across public cloud and on-premises resources, translating procurement needs into practical automation."
+                  ]}
+                />
+               </div>
+            </div>
+
+            {/* Platform Engineer, Anti-Spam Systems */}
+            <div className="pl-0 md:pl-12 relative">
+               <div className="absolute left-[16px] top-8 w-3 h-3 bg-green-800/50 rounded-full hidden md:block z-10"></div>
                <div data-agent-target="experience-1">
                 <ExperienceCard
                   title="Platform Engineer, Anti-Spam Systems"
                   company="Verizon"
                   type="Full-time"
-                  duration={`Sep 2025 - Present · ${currentDuration}`}
+                  duration={`Sep 2025 - Aug 2026 · ${platformEngineerDuration}`}
                   location="Bedminster, NJ · Hybrid"
                   details={[
-                    "Operate and extend platform protecting 100M+ messaging endpoints from spam across Verizon's internal and inter-carrier networks.",
+                    "Operated and extended the platform protecting 100M+ messaging endpoints from spam across Verizon's internal and inter-carrier networks.",
                     "Replaced legacy OpenStack+Heat workflows with Terraform-based VM orchestration, reducing deployment time from 3-4 hours (6 VMs) to 5 minutes (62 VMs across 4 tenant spaces in multiple states).",
                     "Built URL intelligence microservice in Go processing 3,100+ IP/s for ASN lookups; implemented warm caching layer that increased DNS throughput from 120/s to 75,000+/s for repeated domains.",
                     "Developed agentic workflow that navigates our environment to detect spam patterns and generate threat intelligence reports, reducing manual investigation time.",
-                    "Designed data lake architecture for spam intelligence pipeline (BigQuery, Apache NiFi, Redis) with retention policies—currently driving cross-org alignment for implementation."
+                    "Designed data lake architecture for spam intelligence pipeline (BigQuery, Apache NiFi, Redis) with retention policies."
                   ]}
                 />
                </div>

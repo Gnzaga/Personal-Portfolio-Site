@@ -22,13 +22,13 @@ const PortfolioGrid = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
               </span>
-              <span className="text-green-500 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">System Status: Online</span>
+              <span className="text-green-500 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Now: AI Platforms @ Comcast</span>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight drop-shadow-lg">
-              Platform <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-emerald-300">Engineering</span>
+              AI Platforms <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-emerald-300">&amp; Automation</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-white/70 font-light">
-              Reliability, Scale, &amp; Intelligent Automation
+              Building agentic automation for enterprise procurement
             </p>
           </div>
         </GlassCard>
@@ -51,7 +51,7 @@ const PortfolioGrid = () => {
           <div className="p-8 flex-grow flex flex-col justify-between">
             <div>
               <h2 className="text-3xl font-bold text-white mb-1">Alessandro Gonzaga</h2>
-              <p className="text-lg text-green-500 mb-4 font-medium">Builder / Engineer</p>
+              <p className="text-lg text-green-500 mb-4 font-medium">Software Engineer, AI Platforms · Comcast</p>
               <div className="flex items-center text-white/50 text-sm mb-6">
                 <MapPin className="w-4 h-4 mr-2 text-green-600" />
                 <span>New York Metropolitan Area</span>

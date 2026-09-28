@@ -35,7 +35,7 @@ const Footer = () => {
               Alessandro Gonzaga
             </h2>
             <p className="text-white/60 text-sm leading-relaxed max-w-xs mx-auto md:mx-0">
-              Platform Engineer passionate about building scalable infrastructure and innovative solutions.
+              Software engineer building AI platforms and agentic automation — and a homelab to run everything else.
             </p>
           </div>
 
