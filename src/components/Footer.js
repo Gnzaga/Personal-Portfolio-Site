@@ -22,7 +22,7 @@ const Footer = () => (
           Alessandro Gonzaga
         </Link>
         <p className="meta mt-1">
-          © {new Date().getFullYear()} · Platform engineer · Self-hosted on a homelab Kubernetes cluster
+          © {new Date().getFullYear()} · Software engineer, AI platforms · Self-hosted on a homelab Kubernetes cluster
         </p>
       </div>
       <ul className="flex flex-wrap gap-x-5 gap-y-1 meta">

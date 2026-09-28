@@ -29,13 +29,14 @@ const Home = () => (
   <div className="w-full">
     <section className="grid gap-10 lg:grid-cols-12 lg:gap-12 items-start">
       <div className="lg:col-span-7">
-        <h1 className="sr-only">Alessandro Gonzaga, platform engineer</h1>
-        <p className="kicker mb-6">Platform engineer · New York Metropolitan Area</p>
+        <h1 className="sr-only">Alessandro Gonzaga, software engineer for AI platforms</h1>
+        <p className="kicker mb-6">Software engineer, AI platforms · Comcast</p>
+        {/* Work first, homelab second: the two are deliberately kept separate. */}
         <p className="font-display text-[1.625rem] sm:text-[2rem] leading-[1.3] text-ink">
-          I’m a platform engineer at Verizon, where I operate and extend the anti-spam
-          platform protecting 100M+ messaging endpoints. Outside work I run a multi-node
-          homelab that hosts everything I build, including this site — and I write up
-          what breaks.
+          At Comcast I’m building AI platforms and agentic automation for the Procurement
+          organization — a new capability, starting from the first projects. Before that I
+          worked on Verizon’s anti-spam platform. Outside work I run a multi-node homelab
+          that hosts everything I build, including this site — and I write up what breaks.
         </p>
         <p className="mt-6 text-lg text-muted max-w-measure">
           This is the record: case studies of the systems, and notes on what they taught me.
