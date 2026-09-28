@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import Section from '../../components/ProjectSection';
+import ProjectHeader from '../../components/ProjectHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faCode, faServer, faDesktop, faLightbulb, faTasks } from '@fortawesome/free-solid-svg-icons';
@@ -12,19 +12,12 @@ import GlassButton from '../../components/GlassButton';
  */
 const TaskManagementProject = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      {/* Project title with animation */}
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Task Management Website
-        </h1>
-        <p className="text-white/60 text-lg">Full-stack application for productivity</p>
-      </motion.div>
+    <div className="w-full max-w-5xl mx-auto space-y-4">
+      <ProjectHeader
+        route="/projects/task-management"
+        title="Task Management Website"
+        subtitle="Full-stack application for productivity"
+      />
 
       {/* Project overview section */}
       <Section title="Project Overview" icon={faLightbulb}>
@@ -35,7 +28,7 @@ const TaskManagementProject = () => {
 
       {/* Technologies used section */}
       <Section title="Technologies Used" icon={faCode}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Back-end: Spring Boot, Java</li>
           <li>Front-end: React, Axios</li>
           <li>Database: SQL (MySQL/PostgreSQL)</li>
@@ -47,7 +40,7 @@ const TaskManagementProject = () => {
 
       {/* Key features section */}
       <Section title="Key Features" icon={faTasks}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>User authentication and authorization with JWT</li>
           <li>CRUD operations for tasks</li>
           <li>Task assignment and team collaboration</li>
@@ -62,7 +55,7 @@ const TaskManagementProject = () => {
         <p className="mb-4">
           The back-end API, built with Spring Boot, provides a robust foundation for the application. Key aspects include:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>RESTful API design following best practices</li>
           <li>Secure user authentication and authorization using JWT</li>
           <li>Data persistence with SQL database integration</li>
@@ -76,7 +69,7 @@ const TaskManagementProject = () => {
         <p className="mb-4">
           The React front-end provides a smooth and responsive user experience. Notable features include:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Intuitive user interface for task management</li>
           <li>Real-time updates using React hooks and state management</li>
           <li>Efficient API communication using Axios</li>
@@ -90,7 +83,7 @@ const TaskManagementProject = () => {
         <p className="mb-4">
           During the development of this project, several challenges were overcome:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Implementing secure and efficient JWT authentication</li>
           <li>Designing a scalable database schema for complex task relationships</li>
           <li>Optimizing API performance for large datasets</li>
@@ -100,7 +93,7 @@ const TaskManagementProject = () => {
       </Section>
 
       {/* GitHub and back to projects button */}
-      <div className="mt-16 flex justify-center gap-6">
+      <div className="flex flex-wrap gap-3 pt-2">
         <a href="https://github.com/Gnzaga/TaskManagementProject" target="_blank" rel="noopener noreferrer">
           <GlassButton variant="primary" className="gap-2">
             <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />

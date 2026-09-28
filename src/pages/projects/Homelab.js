@@ -1,7 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
+import ProjectHeader from '../../components/ProjectHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faServer, faNetworkWired, faShieldAlt, faHdd, faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
@@ -9,17 +9,11 @@ import GlassButton from '../../components/GlassButton';
 
 const HomelabProject = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Homelab Infrastructure
-        </h1>
-      </motion.div>
+    <div className="w-full max-w-5xl mx-auto space-y-4">
+      <ProjectHeader
+        route="/projects/homelab"
+        title="Homelab Infrastructure"
+      />
 
       <Section title="Overview" icon={faServer}>
         <p className="mb-4">
@@ -68,7 +62,7 @@ const HomelabProject = () => {
         <p className="mb-4">
           Traffic is segmented into 7 VLANs, each with its own firewall policy and routing rules:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-green-500 mb-4">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal mb-4">
           <li><strong>Default</strong> — management and general LAN</li>
           <li><strong>IoT</strong> — isolated smart devices</li>
           <li><strong>user-network</strong> — personal devices and WiFi clients</li>
@@ -109,7 +103,7 @@ const HomelabProject = () => {
           server now run as first-class citizens of the Kubernetes platform rather than one-off VMs.
           Highlights:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-green-500 mb-4">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal mb-4">
           <li><strong>Immich</strong> — photo/video backup with face and content search</li>
           <li><strong>Vaultwarden</strong> — Bitwarden-compatible password manager</li>
           <li><strong>Miniflux</strong> — minimalist RSS reader with SSO login</li>
@@ -127,7 +121,7 @@ const HomelabProject = () => {
         </p>
       </Section>
 
-      <div className="mt-16 flex justify-center gap-6">
+      <div className="flex flex-wrap gap-3 pt-2">
         <a href="https://github.com/Gnzaga/homelab-code" target="_blank" rel="noopener noreferrer">
           <GlassButton variant="primary" className="gap-2">
             <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />

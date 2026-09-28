@@ -28,4 +28,23 @@ const calculateDuration = (startDate, endDate = null) => {
   return parts.join(', ');
 };
 
-export { calculateDuration };
+const pad = (n) => String(n).padStart(2, '0');
+
+/**
+ * Normalise a free-form post date ("January 3, 2026", "July 2026") to a
+ * sortable, fixed-width log stamp: YYYY-MM-DD, or YYYY-MM when the source
+ * only names a month. Unparseable input is returned unchanged.
+ *
+ * @param {string} dateStr
+ * @returns {string}
+ */
+const toLogDate = (dateStr) => {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (Number.isNaN(d.getTime())) return dateStr;
+  const monthOnly = /^[A-Za-z]+\.?\s+\d{4}$/.test(dateStr.trim());
+  const ym = `${d.getFullYear()}-${pad(d.getMonth() + 1)}`;
+  return monthOnly ? ym : `${ym}-${pad(d.getDate())}`;
+};
+
+export { calculateDuration, toLogDate };

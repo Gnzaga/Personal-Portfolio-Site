@@ -1,355 +1,243 @@
 // src/pages/Projects.js
+//
+// Service registry: every project as a row with status, category, stack and
+// links. Sortable by column; filterable by stack tag (the `?filter=` URL
+// param, which the chat agent links to) and by free text. Below md the table
+// collapses to stacked cards — same DOM, so each data-agent-target exists once.
 
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom'; 
-import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, Terminal, Server, Globe, Cpu, Database, Music, MessageSquare, Workflow, KeyRound, Bot, Network, LayoutTemplate } from 'lucide-react';
-import GlassCard from '../components/GlassCard';
-import GlassButton from '../components/GlassButton';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { projects, projectFilters } from '../data/projects';
 
-/**
- * ProjectCard component displays individual project details with glass styling.
- */
-const ProjectCard = ({ title, description, githubLink, projectLink, technologies, agentTarget }) => {
-  // Select an icon based on title/tech
-  const getIcon = () => {
-    const t = title.toLowerCase();
-    // Order matters: more specific titles must match before generic keywords like "chat".
-    if (t.includes('kaiwa')) return <Globe className="w-6 h-6 text-green-400" />;
-    if (t.includes('matrix')) return <Network className="w-6 h-6 text-green-400" />;
-    if (t.includes('iam')) return <KeyRound className="w-6 h-6 text-green-400" />;
-    if (t.includes('agent')) return <Bot className="w-6 h-6 text-emerald-400" />;
-    if (t.includes('pipeline')) return <Workflow className="w-6 h-6 text-green-400" />;
-    if (t.includes('portfolio')) return <LayoutTemplate className="w-6 h-6 text-emerald-400" />;
-    if (t.includes('chat')) return <MessageSquare className="w-6 h-6 text-green-400" />;
-    if (t.includes('playlist') || t.includes('spotify')) return <Music className="w-6 h-6 text-emerald-400" />;
-    if (t.includes('kubernetes') || t.includes('cluster')) return <Server className="w-6 h-6 text-green-500" />;
-    if (t.includes('bot')) return <Terminal className="w-6 h-6 text-green-400" />;
-    if (t.includes('homelab')) return <Cpu className="w-6 h-6 text-emerald-500" />;
-    if (t.includes('data') || t.includes('task')) return <Database className="w-6 h-6 text-green-400" />;
-    return <Globe className="w-6 h-6 text-white" />;
-  };
+const COLUMNS = [
+  { key: 'status', label: 'status' },
+  { key: 'title', label: 'name' },
+  { key: 'category', label: 'category' },
+];
 
-  return (
-    <GlassCard 
-      className="flex flex-col h-full mb-6 break-inside-avoid" 
-      hoverEffect={true}
-      data-agent-target={agentTarget}
-    >
-      <div className="flex items-start justify-between mb-4">
-        <h2 className="text-xl font-bold text-white pr-4 leading-tight">
-          {title}
-        </h2>
-        <div className="p-2 bg-white/10 rounded-lg backdrop-blur-md border border-white/10 shadow-inner">
-          {getIcon()}
-        </div>
-      </div>
-
-      <p className="text-white/70 text-sm mb-6 leading-relaxed flex-grow line-clamp-5">
-        {description}
-      </p>
-
-      <div className="flex flex-wrap gap-2 mb-6">
-        {technologies.map((tech, index) => (
-          <span key={index} className="px-2.5 py-1 bg-white/5 rounded-md text-xs font-medium text-white/60 border border-white/5">
-            {tech}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex gap-3 mt-auto pt-4 border-t border-white/10">
-        {githubLink && (
-          <a
-            href={githubLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1"
-          >
-            <GlassButton variant="secondary" className="w-full text-xs py-2 px-3 gap-2">
-              <Github className="w-4 h-4" />
-              <span>Code</span>
-            </GlassButton>
-          </a>
-        )}
-        <Link
-          to={projectLink}
-          className="flex-1"
-          data-agent-target={agentTarget ? `${agentTarget}-detail` : undefined}
-        >
-          <GlassButton variant="primary" className="w-full text-xs py-2 px-3 gap-2 bg-white/20 hover:bg-white/30">
-            <ExternalLink className="w-4 h-4" />
-            <span>Details</span>
-          </GlassButton>
-        </Link>
-      </div>
-    </GlassCard>
-  );
+/** Resolve `?filter=` case-insensitively against the known tags; unknown → All. */
+const filterFromSearch = (search) => {
+  const raw = new URLSearchParams(search).get('filter');
+  if (!raw) return 'All';
+  return projectFilters.find((t) => t.toLowerCase() === raw.toLowerCase()) || 'All';
 };
 
-/**
- * FilterButton component for filtering projects.
- */
-const FilterButton = ({ technology, activeFilter, setActiveFilter }) => {
-  const navigate = useNavigate();
+const haystack = (p) =>
+  [p.title, p.slug, p.summary, p.category, p.status, ...p.stack, ...(p.components || [])]
+    .join(' ')
+    .toLowerCase();
 
-  const handleClick = () => {
-    setActiveFilter(technology);
-    if (technology === 'All') {
-      navigate('/projects');
-    } else {
-      navigate(`/projects?filter=${technology}`);
-    }
-  };
+const StatusCell = ({ status }) => (
+  <span className={`inline-flex items-center gap-1.5 font-mono text-xs ${status === 'active' ? 'text-signal' : 'text-warn'}`}>
+    <span className={`dot ${status === 'active' ? 'bg-signal' : 'bg-warn'}`} aria-hidden="true" />
+    {status}
+  </span>
+);
 
-  return (
-    <button
-      onClick={handleClick}
-      className={`shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium mr-2 mb-2 transition-all duration-300 backdrop-blur-md border ${
-        activeFilter === technology
-          ? 'bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] transform scale-105'
-          : 'bg-black/30 text-white/60 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/30'
-      }`}
-    >
-      {technology}
-    </button>
-  );
-};
-
-/**
- * Main Projects component
- */
 const Projects = () => {
   const location = useLocation();
-  const [activeFilter, setActiveFilter] = useState('All');
-
-  const projects = [
-    {
-      title: "Kaiwa",
-      description: "Kaiwa began as a two-week side project — a multi-national news aggregator — and has grown into a full open-source-intelligence platform. A real-time geospatial layer renders live aircraft and vessel positions as vector tiles from a PostGIS database, a cross-domain correlation engine fuses that with global news, weather, and financial/macro data, and a maritime anomaly detector applies unsupervised ML to flag suspicious vessel behavior. An autonomous research agent and a self-curating RSS feed system round out an ~8-microservice platform.",
-      githubLink: "https://github.com/Gnzaga/kaiwa",
-      projectLink: "/projects/kaiwa",
-      technologies: ['AI', 'Python', 'React', 'Kubernetes', 'Geospatial', 'Machine Learning'],
-      agentTarget: 'project-kaiwa'
-    },
-    {
-      title: "Homelab Project",
-      description: "A distributed multi-node Proxmox cluster with GPU passthrough, centralized NFS storage, and Kubernetes-based service orchestration for GitHub, JupyterHub, Jellyfin, and LLM workloads. Features integrated Ollama for serving open-source LLMs via containerized GPU inference pipelines.",
-      githubLink: "https://github.com/Gnzaga/homelab-code",
-      projectLink: "/projects/homelab",
-      technologies: ['Kubernetes', 'Docker', 'Networking', 'AI'],
-      agentTarget: 'project-homelab'
-    },
-    {
-      title: "chat.gnzaga.com",
-      description: "A self-hosted AI chatbot powered by Docker, with networking knowledge used for domain routing.",
-      projectLink: "/projects/chat-gnzaga",
-      technologies: ['AI', 'Docker', 'Networking'],
-      agentTarget: 'project-chat-gnzaga'
-    },
-    {
-      title: "Discord Bot",
-      description: "A Python-based Discord bot with Dockerized deployment, featuring AI-based Wordle game logic.",
-      githubLink: "https://github.com/Gnzaga/DiscordBot",
-      projectLink: "/projects/discord-bot",
-      technologies: ['Python', 'Docker', 'AI'],
-      agentTarget: 'project-discord-bot'
-    },
-    {
-      title: "Portfolio Website",
-      description: "A personal portfolio, self-hosted on a home network using Docker containers, featuring React for the frontend.",
-      githubLink: "https://github.com/Gnzaga/Personal-Portfolio-Site",
-      projectLink: "/projects/portfolio-project",
-      technologies: ['React', 'Docker', 'Networking'],
-      agentTarget: 'project-portfolio'
-    },
-    {
-      title: "Task Management Website",
-      description: "A task manager using React for the UI, Java for the backend logic, and containerized deployment with Docker.",
-      githubLink: "https://github.com/gnzaga/RUTidy",
-      projectLink: "/projects/task-management",
-      technologies: ['React', 'Java', 'Docker'],
-      agentTarget: 'project-task-management'
-    },
-    {
-      title: "Playlist Project",
-      description: "A React + Python web app for generating Spotify playlist art and descriptions using AI prompts.",
-      githubLink: "https://github.com/gnzaga/spotify-gpt",
-      projectLink: "/projects/PlaylistProject",
-      technologies: ['React', 'Python', 'AI'],
-      agentTarget: 'project-playlist'
-    },
-    {
-      title: "Kubernetes Cluster",
-      description: "A dedicated cluster for container orchestration, leveraging Docker containers and virtual networks.",
-      projectLink: "/projects/kubernetes-cluster",
-      technologies: ['Kubernetes', 'Docker', 'Networking'],
-      agentTarget: 'project-kubernetes'
-    },
-    {
-      title: "K8s Automation Pipeline",
-      description: "Automated CI/CD infrastructure using Tekton, Harbor, and ArgoCD for GitOps-driven Kubernetes deployments.",
-      githubLink: "https://github.com/Gnzaga/homelab-tekton-pipelines",
-      projectLink: "/projects/k8s-automation",
-      technologies: ['Kubernetes', 'Tekton', 'GitOps', 'ArgoCD'],
-      agentTarget: 'project-k8s-automation'
-    },
-    {
-      title: "Unified IAM System",
-      description: "Centralized Identity & Access Management using Authentik and OIDC to secure Kubernetes infrastructure and apps.",
-      projectLink: "/projects/unified-iam",
-      technologies: ['Authentik', 'IAM', 'OIDC', 'Kubernetes', 'Vault'],
-      agentTarget: 'project-unified-iam'
-    },
-    {
-      title: "Agent Mesh Workspace",
-      description: "A browser-based control room for managing multiple long-running AI coding-agent sessions at once — persistent terminals that survive disconnects, a live multi-session grid with AI-generated status summaries, and a knowledge-base chat that streams answers in real time.",
-      githubLink: "https://github.com/Gnzaga/agent-mesh-workspace",
-      projectLink: "/projects/agent-mesh",
-      technologies: ["Node.js", "TypeScript", "AI"],
-      agentTarget: "project-agent-mesh"
-    },
-    {
-      title: "Self-Hosted Matrix Chat Server",
-      description: "A federation-capable Matrix homeserver (Synapse + Element) with authentication fully delegated to my existing identity provider via matrix-authentication-service — private chat and voice/video backed by the same login and MFA as the rest of the homelab.",
-      projectLink: "/projects/matrix-server",
-      technologies: ["Kubernetes", "Networking", "OIDC"],
-      agentTarget: "project-matrix-server"
-    },
-    {
-      title: "Multi-Agent Orchestration Platform",
-      description: "A terminal coding-agent framework that plans work through a structured interview, decomposes it into a task dependency graph, and dispatches specialized subagents in parallel, chained, or background modes — with human-approval gates between every phase.",
-      projectLink: "/projects/agent-orchestration",
-      technologies: ["AI", "TypeScript", "Docker", "Kubernetes"],
-      agentTarget: "project-agent-orchestration"
-    }
-  ];
-
-  // Limit filters to the main categories
-  const allTechnologies = ['All', 'Kubernetes', 'Docker', 'Networking', 'AI', 'Python', 'React', 'Java', 'TypeScript', 'Node.js', 'OIDC', 'Geospatial', 'Machine Learning'];
+  const navigate = useNavigate();
+  const [activeFilter, setActiveFilter] = useState(() => filterFromSearch(location.search));
+  const [query, setQuery] = useState('');
+  const [sort, setSort] = useState({ key: 'status', dir: 'asc' });
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const urlFilter = searchParams.get('filter');
-
-    if (urlFilter) {
-      const allTechLowercase = allTechnologies.map((t) => t.toLowerCase());
-      if (allTechLowercase.includes(urlFilter.toLowerCase())) {
-        const correctCase = allTechnologies.find(
-          (t) => t.toLowerCase() === urlFilter.toLowerCase()
-        );
-        setActiveFilter(correctCase);
-        return;
-      }
-    }
-    setActiveFilter('All');
+    setActiveFilter(filterFromSearch(location.search));
   }, [location.search]);
 
-  const filteredProjects =
-    activeFilter === 'All'
-      ? projects
-      : projects.filter((project) => project.technologies.includes(activeFilter));
+  const selectFilter = (tech) => {
+    setActiveFilter(tech);
+    navigate(tech === 'All' ? '/projects' : `/projects?filter=${tech}`);
+  };
+
+  const toggleSort = (key) =>
+    setSort((s) => ({ key, dir: s.key === key && s.dir === 'asc' ? 'desc' : 'asc' }));
+
+  const rows = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const filtered = projects.filter(
+      (p) =>
+        (activeFilter === 'All' || p.stack.includes(activeFilter)) &&
+        (!q || haystack(p).includes(q))
+    );
+    // Registry order (data file order) is the stable tiebreak.
+    const sorted = [...filtered].sort((a, b) => {
+      const av = String(a[sort.key]).toLowerCase();
+      const bv = String(b[sort.key]).toLowerCase();
+      if (av === bv) return projects.indexOf(a) - projects.indexOf(b);
+      return (av < bv ? -1 : 1) * (sort.dir === 'asc' ? 1 : -1);
+    });
+    return sorted;
+  }, [activeFilter, query, sort]);
+
+  const counts = useMemo(() => ({
+    active: projects.filter((p) => p.status === 'active').length,
+    archived: projects.filter((p) => p.status === 'archived').length,
+  }), []);
+
+  const ariaSort = (key) =>
+    sort.key === key ? (sort.dir === 'asc' ? 'ascending' : 'descending') : 'none';
 
   return (
     <div className="w-full">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <motion.h1
-            className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-green-400">Projects</span>
-          </motion.h1>
-          <motion.p
-            className="text-xl text-white/80 max-w-2xl mx-auto drop-shadow-md"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            Technical projects spanning network engineering, full-stack development,
-            and infrastructure automation.
-          </motion.p>
+      <header className="mb-6">
+        <p className="label">~/projects</p>
+        <h1 className="page-title mt-1">Service registry</h1>
+        <p className="page-lede">
+          {projects.length} projects spanning network engineering, full-stack development and infrastructure
+          automation — {counts.active} active, {counts.archived} archived.
+        </p>
+      </header>
+
+      {/* Toolbar */}
+      <div className="panel mb-4">
+        <div className="flex flex-col gap-3 p-3 md:flex-row md:items-center">
+          <label className="flex flex-1 items-center gap-2 border border-line bg-ink px-2 focus-within:border-signal">
+            <span className="font-mono text-xs text-signal" aria-hidden="true">filter:</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="name, stack, component…"
+              aria-label="Filter projects by text"
+              className="h-9 w-full border-0 bg-transparent p-0 font-mono text-[13px] text-fg placeholder:text-mute focus:outline-none focus:ring-0"
+            />
+          </label>
+          <label className="flex items-center gap-2 font-mono text-xs text-mute md:hidden">
+            sort
+            <select
+              value={`${sort.key}:${sort.dir}`}
+              onChange={(e) => {
+                const [key, dir] = e.target.value.split(':');
+                setSort({ key, dir });
+              }}
+              className="h-9 flex-1 border-line bg-ink py-0 font-mono text-xs text-fg focus:border-signal focus:ring-0"
+            >
+              {COLUMNS.flatMap((c) => [
+                <option key={`${c.key}:asc`} value={`${c.key}:asc`}>{c.label} ↑</option>,
+                <option key={`${c.key}:desc`} value={`${c.key}:desc`}>{c.label} ↓</option>,
+              ])}
+            </select>
+          </label>
+          <span className="hidden shrink-0 font-mono text-xs text-mute md:inline" aria-live="polite">
+            {rows.length}/{projects.length} shown
+          </span>
         </div>
-
-        {/* Technology Filter Section */}
-        <motion.div
-          className="mb-12"
+        <div
+          className="flex gap-1 overflow-x-auto border-t border-line px-3 py-2 scrollbar-hide md:flex-wrap"
           data-agent-target="project-filters"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          role="group"
+          aria-label="Filter by stack"
         >
-          <div className="flex flex-nowrap md:flex-wrap md:justify-center overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 p-2 rounded-2xl">
-            {allTechnologies.map((tech, index) => (
-              <motion.div
+          {projectFilters.map((tech) => {
+            const on = activeFilter === tech;
+            return (
+              <button
                 key={tech}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.05 * index, duration: 0.3 }}
+                type="button"
+                onClick={() => selectFilter(tech)}
+                aria-pressed={on}
+                className={`shrink-0 whitespace-nowrap border px-2 py-1 font-mono text-[11px] transition-colors duration-100 ${
+                  on ? 'border-signal bg-signal/10 text-signal' : 'border-line text-mute hover:border-line-strong hover:text-fg'
+                }`}
               >
-                <FilterButton
-                  technology={tech}
-                  activeFilter={activeFilter}
-                  setActiveFilter={setActiveFilter}
-                />
-              </motion.div>
+                {tech}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Registry */}
+      <div className="md:panel">
+        <table className="block w-full border-collapse md:table">
+          <thead className="hidden md:table-header-group">
+            <tr className="border-b border-line">
+              {COLUMNS.map((c) => (
+                <th key={c.key} scope="col" aria-sort={ariaSort(c.key)} className="px-3 py-2 text-left">
+                  <button
+                    type="button"
+                    onClick={() => toggleSort(c.key)}
+                    className={`label inline-flex items-center gap-1 hover:text-fg ${sort.key === c.key ? 'text-fg' : ''}`}
+                  >
+                    {c.label}
+                    <span aria-hidden="true">{sort.key === c.key ? (sort.dir === 'asc' ? '↑' : '↓') : '·'}</span>
+                  </button>
+                </th>
+              ))}
+              <th scope="col" className="label px-3 py-2 text-left">stack</th>
+              <th scope="col" className="label px-3 py-2 text-right">links</th>
+            </tr>
+          </thead>
+          <tbody className="block space-y-3 md:table-row-group md:space-y-0">
+            {rows.map((p) => (
+              <tr
+                key={p.route}
+                data-agent-target={p.agentTarget}
+                className="panel block p-3 md:table-row md:rounded-none md:border-0 md:border-b md:border-line md:bg-transparent md:p-0 md:last:border-b-0 md:hover:bg-raised"
+              >
+                <td className="block md:table-cell md:w-28 md:px-3 md:py-3 md:align-top">
+                  <StatusCell status={p.status} />
+                </td>
+                <td className="mt-2 block md:mt-0 md:table-cell md:px-3 md:py-3 md:align-top">
+                  <Link
+                    to={p.route}
+                    data-agent-target={`${p.agentTarget}-detail`}
+                    className="font-mono text-sm font-semibold text-fg hover:text-signal"
+                  >
+                    {p.title}
+                  </Link>
+                  <div className="font-mono text-[11px] text-mute">~/projects/{p.slug}</div>
+                  <p className="mt-1.5 max-w-xl font-sans text-[13px] leading-snug text-fg/70 md:line-clamp-2">
+                    {p.summary}
+                  </p>
+                </td>
+                <td className="mt-2 block font-mono text-xs text-mute md:mt-0 md:table-cell md:px-3 md:py-3 md:align-top">
+                  <span className="md:hidden">category: </span>{p.category}
+                </td>
+                <td className="mt-2 block md:mt-0 md:table-cell md:max-w-[16rem] md:px-3 md:py-3 md:align-top">
+                  <div className="flex flex-wrap gap-1">
+                    {p.stack.map((t) => (
+                      <span key={t} className={`tag ${t === activeFilter ? 'border-signal/60 text-signal' : ''}`}>{t}</span>
+                    ))}
+                  </div>
+                </td>
+                <td className="mt-3 block whitespace-nowrap font-mono text-xs md:mt-0 md:table-cell md:px-3 md:py-3 md:text-right md:align-top">
+                  {p.github && (
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mr-3 text-mute hover:text-signal"
+                      aria-label={`${p.title} source on GitHub`}
+                    >
+                      src ↗
+                    </a>
+                  )}
+                  <Link to={p.route} className="text-fg hover:text-signal" aria-label={`Open ${p.title}`} tabIndex={-1}>
+                    open →
+                  </Link>
+                </td>
+              </tr>
             ))}
+          </tbody>
+        </table>
+
+        {rows.length === 0 && (
+          <div className="panel px-3 py-10 text-center font-mono text-xs text-mute md:border-0">
+            no services match
+            {activeFilter !== 'All' && <> tag <span className="text-fg">{activeFilter}</span></>}
+            {query && <> and “<span className="text-fg">{query}</span>”</>}.{' '}
+            <button
+              type="button"
+              className="text-signal hover:text-fg"
+              onClick={() => { setQuery(''); selectFilter('All'); }}
+            >
+              clear filters
+            </button>
           </div>
-        </motion.div>
-
-        {/* Projects Grid (Masonry using CSS Columns) */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeFilter}
-            layout
-            className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.title}
-                layout
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ 
-                  duration: 0.4,
-                  delay: index * 0.05,
-                  ease: "easeOut"
-                }}
-              >
-                <ProjectCard
-                  title={project.title}
-                  description={project.description}
-                  githubLink={project.githubLink}
-                  projectLink={project.projectLink}
-                  technologies={project.technologies}
-                  agentTarget={project.agentTarget}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Empty State */}
-        {filteredProjects.length === 0 && (
-          <motion.div 
-            className="text-center py-24"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/10">
-              <Database className="w-10 h-10 text-white/20" />
-            </div>
-            <h3 className="text-xl font-semibold text-white mb-2">No projects found</h3>
-            <p className="text-white/50">Try selecting a different technology filter.</p>
-          </motion.div>
         )}
+      </div>
     </div>
   );
 };

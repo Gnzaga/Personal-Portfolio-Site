@@ -1,25 +1,19 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
+import ProjectHeader from '../../components/ProjectHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot, faDiagramProject, faCode, faGears } from '@fortawesome/free-solid-svg-icons';
 import GlassButton from '../../components/GlassButton';
 
 const AgentOrchestrationPlatform = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Multi-Agent Orchestration Platform
-        </h1>
-        <p className="text-white/60 text-lg">A terminal coding-agent framework that plans, delegates, and gates multi-step engineering work</p>
-      </motion.div>
+    <div className="w-full max-w-5xl mx-auto space-y-4">
+      <ProjectHeader
+        route="/projects/agent-orchestration"
+        title="Multi-Agent Orchestration Platform"
+        subtitle="A terminal coding-agent framework that plans, delegates, and gates multi-step engineering work"
+      />
 
       <Section title="Overview" icon={faRobot}>
         <p className="mb-4">
@@ -67,7 +61,7 @@ const AgentOrchestrationPlatform = () => {
           {[
             'AI', 'LLM Agents', 'TypeScript', 'Docker', 'Kubernetes', 'MCP'
           ].map(t => (
-            <span key={t} className="px-2.5 py-1 bg-white/5 rounded-md text-xs font-medium text-white/60 border border-white/5">{t}</span>
+            <span key={t} className="tag">{t}</span>
           ))}
         </div>
         <p>
@@ -95,7 +89,7 @@ const AgentOrchestrationPlatform = () => {
         </p>
       </Section>
 
-      <div className="mt-16 flex justify-center gap-6">
+      <div className="flex flex-wrap gap-3 pt-2">
         <Link to="/projects">
           <GlassButton variant="secondary">
             Back to Projects

@@ -2,8 +2,32 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: 'class',
   theme: {
+    // Operator-console direction: flat hairline panels, radius capped at 4px.
+    // Overriding the scale (not extending it) de-rounds every legacy
+    // rounded-xl/2xl/3xl in the detail pages without touching their markup.
+    borderRadius: {
+      none: '0',
+      sm: '2px',
+      DEFAULT: '3px',
+      md: '4px',
+      lg: '4px',
+      xl: '4px',
+      '2xl': '4px',
+      '3xl': '4px',
+      full: '9999px',
+    },
     extend: {
       colors: {
+        // Console tokens — see DESIGN.md.
+        ink: '#0B0D0C',      // page background
+        panel: '#0F1211',    // panel fill
+        raised: '#141816',   // hover / selected row
+        line: '#1C211E',     // 1px hairlines and grid
+        'line-strong': '#2A322D',
+        fg: '#D7DED9',       // primary text
+        mute: '#7C877F',     // secondary text, labels
+        signal: '#3FD888',   // status / focus / active
+        warn: '#E0A84F',     // archived / warning only
         primary: {
           50: '#f0fdf6',
           100: '#ddfbe9',
@@ -44,7 +68,9 @@ module.exports = {
       },
       fontFamily: {
         'sans': ['Inter', 'system-ui', 'sans-serif'],
-        'heading': ['Poppins', 'system-ui', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        // Headings are UI chrome in the console direction, so they share the mono face.
+        'heading': ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       boxShadow: {
         'glow': '0 0 20px rgba(23, 140, 87, 0.15)',

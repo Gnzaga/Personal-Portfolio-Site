@@ -1,23 +1,25 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom'; // For navigation
-import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext for theme awareness
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { usePalette } from '../components/CommandPalette';
 
+/** 404 rendered as a shell error, with the palette as the way out. */
 const NotFound = () => {
-  const { theme } = useContext(ThemeContext);
-  
+  const { pathname } = useLocation();
+  const { open } = usePalette();
+
   return (
-    <div className="container mx-auto px-4 py-16 transition-colors duration-300">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold dark:text-white text-gray-800 mb-4">404 - Page Not Found</h1>
-        <p className="dark:text-gray-300 text-gray-800 text-lg mb-8">
-          Oops! The page you're looking for does not exist.
-        </p>
-        <Link
-          to="/"
-          className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
-        >
-          Go Back to Home
-        </Link>
+    <div className="panel mx-auto mt-8 max-w-2xl">
+      <div className="panel-header">
+        <span>exit 404</span>
+        <span className="text-warn">not found</span>
+      </div>
+      <div className="p-5 font-mono text-sm">
+        <p className="text-mute">$ cd {pathname}</p>
+        <p className="mt-1 text-warn">cd: no such file or directory: {pathname}</p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link to="/" className="btn">~ home</Link>
+          <button type="button" onClick={open} className="btn-signal">search the site</button>
+        </div>
       </div>
     </div>
   );

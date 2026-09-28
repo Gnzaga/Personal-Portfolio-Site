@@ -1,52 +1,46 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShieldAlt, faKey, faNetworkWired, faLock, faProjectDiagram, faDatabase, faComments } from '@fortawesome/free-solid-svg-icons';
 import Section from '../../components/ProjectSection';
+import ProjectHeader from '../../components/ProjectHeader';
 import GlassButton from '../../components/GlassButton';
 import GlassCard from '../../components/GlassCard';
 
 const UnifiedIAMProject = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Unified Identity & Access Management (IAM)
-        </h1>
-        <p className="text-white/60 text-lg">Centralized SSO & Zero-Trust Infrastructure</p>
-      </motion.div>
+    <div className="w-full max-w-5xl mx-auto space-y-4">
+      <ProjectHeader
+        route="/projects/unified-iam"
+        title="Unified Identity & Access Management (IAM)"
+        subtitle="Centralized SSO & Zero-Trust Infrastructure"
+      />
 
       <Section title="Overview" icon={faLock}>
         <p className="mb-4">
-          Implemented a centralized, self-hosted Identity Provider (IdP) using <span className="text-green-400">Authentik</span> to secure a multi-service Kubernetes cluster. 
+          Implemented a centralized, self-hosted Identity Provider (IdP) using <span className="text-signal">Authentik</span> to secure a multi-service Kubernetes cluster. 
           This system provides a unified Single Sign-On (SSO) experience, Multi-Factor Authentication (MFA), and automated 
           Role-Based Access Control (RBAC) across both infrastructure and application layers.
         </p>
       </Section>
 
       <Section title="The Architecture" icon={faProjectDiagram}>
-        <ul className="list-disc list-inside space-y-3 marker:text-green-500">
+        <ul className="list-disc list-inside space-y-3 marker:text-signal">
           <li><strong>Platform:</strong> Deployed on Talos Linux Kubernetes via Helm for maximum security and minimal footprint.</li>
-          <li><strong>Protocols:</strong> Full support for <span className="text-green-400">OIDC (OpenID Connect)</span>, SAML for legacy apps, and LDAP for backend service auth.</li>
+          <li><strong>Protocols:</strong> Full support for <span className="text-signal">OIDC (OpenID Connect)</span>, SAML for legacy apps, and LDAP for backend service auth.</li>
           <li><strong>Dynamic RBAC:</strong> Group memberships are dynamically mapped to Kubernetes ClusterRoles using custom bindings.</li>
-          <li><strong>Secret Orchestration:</strong> Secrets are managed in <span className="text-green-400">HashiCorp Vault</span> and injected via External Secrets Operator.</li>
+          <li><strong>Secret Orchestration:</strong> Secrets are managed in <span className="text-signal">HashiCorp Vault</span> and injected via External Secrets Operator.</li>
         </ul>
       </Section>
 
       <Section title="The SSO Hub (Key Integrations)" icon={faNetworkWired}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">Infrastructure</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">Infrastructure</h4>
             <p className="text-xs text-white/60 leading-relaxed">ArgoCD, Harbor Registry, MinIO (S3), and HashiCorp Vault.</p>
           </div>
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">Monitoring & Dev</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">Monitoring & Dev</h4>
             <p className="text-xs text-white/60 leading-relaxed">Grafana (with group-to-role mapping), OpenWebUI, and JupyterHub.</p>
           </div>
         </div>
@@ -56,7 +50,7 @@ const UnifiedIAMProject = () => {
         <p className="mb-4">
           Authentik's role as the homelab's single identity provider now extends to a self-hosted Matrix chat server
           (Synapse + Element). Rather than integrating Synapse directly as an OIDC client, authentication is brokered
-          through <span className="text-green-400">matrix-authentication-service (MAS)</span>, a dedicated delegation
+          through <span className="text-signal">matrix-authentication-service (MAS)</span>, a dedicated delegation
           layer purpose-built for Matrix homeservers under the MSC3861 spec. This kept the chat server's user accounts,
           sessions, and login UI fully backed by the same Authentik identity store as every other homelab application —
           including a custom authorization policy to control exactly which profile data gets shared with the chat client.
@@ -74,14 +68,14 @@ const UnifiedIAMProject = () => {
       <Section title="Security & Reliability" icon={faShieldAlt}>
         <div className="space-y-4">
           <div className="flex items-start gap-3">
-            <div className="p-2 bg-green-500/10 rounded-lg"><faDatabase className="w-4 h-4 text-green-400" /></div>
+            <div className="p-2 bg-green-500/10 rounded-lg"><faDatabase className="w-4 h-4 text-signal" /></div>
             <div>
               <h4 className="text-white font-bold">HA Database</h4>
               <p className="text-sm text-white/60">High-availability backend using a persistent PostgreSQL store.</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="p-2 bg-green-500/10 rounded-lg"><faShieldAlt className="w-4 h-4 text-green-400" /></div>
+            <div className="p-2 bg-green-500/10 rounded-lg"><faShieldAlt className="w-4 h-4 text-signal" /></div>
             <div>
               <h4 className="text-white font-bold">Enforced MFA</h4>
               <p className="text-sm text-white/60">Strict Multi-Factor Authentication for all administrative and infrastructure accounts.</p>
@@ -90,7 +84,7 @@ const UnifiedIAMProject = () => {
         </div>
       </Section>
 
-      <div className="mt-16 flex justify-center gap-6">
+      <div className="flex flex-wrap gap-3 pt-2">
         <Link to="/projects">
           <GlassButton variant="secondary">
             Back to Projects

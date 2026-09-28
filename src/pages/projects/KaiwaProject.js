@@ -1,7 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
+import ProjectHeader from '../../components/ProjectHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faCogs, faShieldAlt, faSearch, faCode, faLightbulb } from '@fortawesome/free-solid-svg-icons';
@@ -9,18 +9,12 @@ import GlassButton from '../../components/GlassButton';
 
 const KaiwaProject = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Kaiwa
-        </h1>
-        <p className="text-white/60 text-lg">Open-Source Intelligence Platform — Geospatial Tracking &amp; Cross-Domain Correlation</p>
-      </motion.div>
+    <div className="w-full max-w-5xl mx-auto space-y-4">
+      <ProjectHeader
+        route="/projects/kaiwa"
+        title="Kaiwa"
+        subtitle="Open-Source Intelligence Platform — Geospatial Tracking & Cross-Domain Correlation"
+      />
 
       <Section title="Overview" icon={faGlobe}>
         <p className="mb-4">
@@ -31,7 +25,7 @@ const KaiwaProject = () => {
           self-managing data pipelines — roughly eight coordinated services now, all running on the same
           homelab Kubernetes cluster as my other projects.
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-green-500">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>World View: a real-time geospatial layer rendering live aircraft (ADS-B) and vessel (AIS) positions as vector tiles straight from a PostGIS database</li>
           <li>Sentinel correlation engine fusing news, flight activity, weather, and financial/macro data into synthesized intelligence events with confidence scoring and testable hypotheses</li>
           <li>Maritime anomaly detection using unsupervised ML (Isolation Forest, DBSCAN, topic modeling) to flag dark-ship behavior, AIS spoofing, and chokepoint congestion</li>
@@ -42,32 +36,32 @@ const KaiwaProject = () => {
 
       <Section title="Processing Pipeline" icon={faCogs}>
         <div className="space-y-4 mb-4">
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">1. Sync</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">1. Sync</h4>
             <p className="text-sm">Polls Miniflux every 15 minutes, maps RSS entries to a region/category structure, and enqueues new articles for processing.</p>
           </div>
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">2. Scrape</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">2. Scrape</h4>
             <p className="text-sm">Full article content is extracted via the Readability algorithm. Reddit sources fetch the top comment thread via the JSON API instead of scraping HTML.</p>
           </div>
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">3. Translate</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">3. Translate</h4>
             <p className="text-sm">LibreTranslate handles fast, self-hosted machine translation. An LLM is used as a fallback for languages or passages where LibreTranslate underperforms. English articles pass through unchanged.</p>
           </div>
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">4. Summarize</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">4. Summarize</h4>
             <p className="text-sm">An LLM generates a TL;DR, structured bullet points, sentiment scores across 8 categories, topical tags, and a boolean "sentinel signal" flag indicating whether the article warrants intelligence tracking.</p>
           </div>
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">5. Embed</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">5. Embed</h4>
             <p className="text-sm">384-dimension vector embeddings are generated via sentence-transformers (all-MiniLM-L6-v2) and stored in pgvector for semantic search and signal clustering.</p>
           </div>
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">6. Ledger</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">6. Ledger</h4>
             <p className="text-sm">A separate ledger stage links related articles into running topics and can trigger the autonomous research agent once a topic accumulates enough independent corroboration.</p>
           </div>
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">7. Cleanup</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">7. Cleanup</h4>
             <p className="text-sm">An hourly recovery job detects and requeues articles that have become stuck in intermediate pipeline states due to transient failures.</p>
           </div>
         </div>
@@ -83,7 +77,7 @@ const KaiwaProject = () => {
           confidence scoring and testable hypotheses. Layered alongside it is World View, a real-time
           geospatial map of live aircraft and vessel positions, backed by a two-tier maritime anomaly detector.
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-green-500">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Independent pollers ingest global news events, flight activity, weather alerts, market data, and macroeconomic indicators on schedules ranging from 5 minutes to 6 hours</li>
           <li>Everything funnels through a deduplication layer before a synthesis job, running every 15 minutes, turns matched signals into structured intelligence Events with entity tracking, confidence scoring, and falsifiable hypotheses</li>
           <li>A slower cross-domain correlation pass every 2 hours catches relationships between events that aren't obvious in real time</li>
@@ -100,7 +94,7 @@ const KaiwaProject = () => {
           reasoning — also drives a self-curating feed system that discovers, evaluates, and manages
           Kaiwa's own RSS sources without manual intervention.
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-green-500">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Parallel fan-out on each research round: database search (keyword, semantic, and hybrid modes) alongside web search via a self-hosted SearXNG instance</li>
           <li>Playwright headless browser reads full web pages; content is summarized by an LLM before entering the context window</li>
           <li>Up to 8 research rounds before the agent compiles a final report, with progress streamed to the client in real time via Server-Sent Events (SSE)</li>
@@ -119,7 +113,7 @@ const KaiwaProject = () => {
             'SearXNG', 'LibreTranslate', 'Kubernetes', 'ArgoCD', 'Harbor',
             'Authentik OIDC', 'HashiCorp Vault'
           ].map(t => (
-            <span key={t} className="px-2.5 py-1 bg-white/5 rounded-md text-xs font-medium text-white/60 border border-white/5">{t}</span>
+            <span key={t} className="tag">{t}</span>
           ))}
         </div>
         <p>
@@ -159,7 +153,7 @@ const KaiwaProject = () => {
         </p>
       </Section>
 
-      <div className="mt-16 flex justify-center gap-6">
+      <div className="flex flex-wrap gap-3 pt-2">
         <a href="https://github.com/Gnzaga/kaiwa" target="_blank" rel="noopener noreferrer">
           <GlassButton variant="primary" className="gap-2">
             <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />

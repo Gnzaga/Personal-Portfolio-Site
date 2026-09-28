@@ -1,30 +1,42 @@
-/* index.css */
+/* index.css — Operator Console design system (see DESIGN.md) */
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+/* JetBrains Mono for UI chrome; Inter for long-form prose only. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-/* Import Tailwind's base, component, and utility layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles applied to the base layer */
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
 
   body {
-    @apply antialiased text-white font-sans transition-colors duration-200 bg-black;
+    @apply antialiased text-fg font-sans bg-ink;
+    /* Faint 32px hairline grid: the "rack" every panel sits on. */
+    background-image:
+      linear-gradient(rgba(28, 33, 30, 0.55) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(28, 33, 30, 0.55) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
   }
 
-  /* Poppins was loaded but only applied in two places; make it the heading face everywhere. */
   h1, h2, h3, h4 {
     @apply font-heading tracking-tight;
   }
 
+  ::selection {
+    @apply bg-signal/25 text-fg;
+  }
+
   :focus-visible {
-    @apply outline-none ring-2 ring-emerald-400/80 ring-offset-2 ring-offset-black;
+    @apply outline-none ring-1 ring-signal ring-offset-1 ring-offset-ink;
+  }
+
+  code {
+    @apply font-mono text-[0.9em];
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -38,205 +50,139 @@
 }
 
 @layer components {
-  /* Custom scrollbar styling */
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    scrollbar-color: #2A322D transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { @apply bg-transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { @apply bg-line-strong; }
+
+  /* Flat bordered panel — the only container primitive. */
+  .panel {
+    @apply bg-panel border border-line rounded-sm;
   }
 
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
+  /* Mono uppercase panel header strip. */
+  .panel-header {
+    @apply flex items-center justify-between gap-3 border-b border-line px-3 py-2
+      font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-mute;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-transparent;
+  /* Small uppercase label (metadata keys, column headers). */
+  .label {
+    @apply font-mono text-[11px] uppercase tracking-[0.14em] text-mute;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-white/20 rounded-full transition-colors duration-200;
+  /* Stack tag. */
+  .tag {
+    @apply inline-flex items-center font-mono text-[11px] leading-none border border-line
+      px-1.5 py-1 text-mute rounded-sm whitespace-nowrap;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-white/40;
+  /* Keyboard hint. */
+  .kbd {
+    @apply inline-flex items-center justify-center font-mono text-[10px] leading-none
+      border border-line-strong border-b-2 px-1 py-0.5 min-w-[1.25rem] text-mute rounded-sm;
   }
 
-  /* Glass morphism effect (Updated for new design) */
-  .glass-panel {
-    @apply bg-white/10 dark:bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl;
+  /* Flat button. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-mono text-xs border border-line-strong
+      bg-panel px-3 py-2 text-fg rounded-sm transition-colors duration-100
+      hover:border-signal hover:text-signal;
   }
-  
-  /* Text readability on complex backgrounds */
-  .text-shadow-sm {
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-  }
-
-  /* Gradient text */
-  .gradient-text {
-    @apply bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-transparent font-bold;
+  .btn-signal {
+    @apply btn border-signal/60 text-signal hover:bg-signal/10;
   }
 
-  /* Primary button */
-  .btn-primary {
-    @apply relative bg-white/20 hover:bg-white/30 border border-white/20 backdrop-blur-md text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200;
+  /* Status dot. */
+  .dot {
+    @apply inline-block h-1.5 w-1.5 rounded-full;
   }
 
-  /* Secondary button */
-  .btn-secondary {
-    @apply bg-black/40 hover:bg-black/60 text-white font-semibold py-3 px-6 rounded-full border border-white/10 backdrop-blur-md shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200;
+  /* Page-level heading block shared by every console page. */
+  .page-title {
+    @apply font-mono text-2xl md:text-3xl font-semibold text-fg tracking-tight;
+  }
+  .page-lede {
+    @apply mt-2 max-w-2xl font-sans text-[15px] leading-relaxed text-mute;
   }
 
-  /* Outline button */
-  .btn-outline {
-    @apply border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold py-3 px-6 rounded-full transition-all duration-200 hover:-translate-y-0.5 backdrop-blur-sm;
+  /* Long-form prose (BlogDetail): Inter at a readable measure. */
+  .prose-console {
+    @apply font-sans text-[17px] leading-[1.75] text-fg/90 max-w-[68ch];
   }
-
-  /* Card styles */
-  .card {
-    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur-xl shadow-lg hover:shadow-2xl transition-all duration-300;
-  }
-
-  .card-hover {
-    @apply hover:-translate-y-1 hover:bg-white/15;
-  }
-
-  /* Tech tag/badge */
-  .tech-tag {
-    @apply bg-white/10 text-white/90 text-xs px-3 py-1.5 rounded-full font-medium border border-white/20 hover:bg-white/20 transition-colors duration-200;
-  }
-
-  /* Page header styling */
-  .page-header {
-    @apply text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-4 drop-shadow-lg;
-  }
-
-  /* Page subheader */
-  .page-subheader {
-    @apply text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed drop-shadow-md;
-  }
-
-  /* Section divider */
-  .section-divider {
-    @apply w-24 h-1 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full my-8;
+  .prose-console p + p {
+    @apply mt-5;
   }
 }
 
-@layer utilities {
-  .animate-fade-in-up {
-    animation: fadeInUp 0.5s ease-out;
-  }
+/* ===== Agent Mode (ShipPilot) — flat console treatment ===== */
 
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
-/* ===== Agent Mode Animations ===== */
-
-/* D1: Full-viewport pulsating deep forest green border */
+/* Full-viewport signal frame while the agent drives navigation. */
 @keyframes agent-pulse {
-  0%, 100% {
-    box-shadow: inset 0 0 8px 2px rgba(21, 128, 61, 0.4), /* green-700 */
-                inset 0 0 20px 4px rgba(20, 83, 45, 0.2); /* green-900 */
-  }
-  50% {
-    box-shadow: inset 0 0 16px 3px rgba(21, 128, 61, 0.7),
-                inset 0 0 40px 8px rgba(20, 83, 45, 0.3);
-  }
+  0%, 100% { box-shadow: inset 0 0 0 1px rgba(63, 216, 136, 0.35); }
+  50%      { box-shadow: inset 0 0 0 2px rgba(63, 216, 136, 0.8); }
 }
 
 .agent-mode-border {
-  border: 2px solid rgba(21, 128, 61, 0.6);
-  animation: agent-pulse 2s ease-in-out infinite;
+  border: 1px solid rgba(63, 216, 136, 0.6);
+  animation: agent-pulse 1.2s steps(2, end) infinite;
 }
 
-/* D2: Navbar link highlight glow */
+/* Nav link the agent is about to "click". */
 @keyframes agent-nav-glow {
-  0% { text-shadow: none; color: inherit; }
-  50% { text-shadow: 0 0 15px rgba(21, 128, 61, 1); color: #16a34a; /* green-600 */ }
-  100% { text-shadow: none; color: inherit; }
+  0%, 100% { color: inherit; background: transparent; }
+  50%      { color: #3FD888; background: rgba(63, 216, 136, 0.08); }
 }
 
-.agent-nav-highlight {
-  animation: agent-nav-glow 1.5s ease-in-out;
-}
+.agent-nav-highlight { animation: agent-nav-glow 0.9s ease-in-out; }
 
 .agent-nav-click {
-  transform: scale(0.95);
-  transition: transform 0.15s ease;
-  color: #16a34a !important;
+  color: #3FD888 !important;
+  transition: color 0.1s ease;
 }
 
-/* D3: Element highlight with magical sparkle border */
+/* Element the agent is pointing at: a crisp signal outline, no sparkles. */
 @keyframes agent-highlight {
-  0%, 100% { box-shadow: 0 0 0 0px rgba(21, 128, 61, 0); border-color: rgba(255,255,255,0.1); }
-  50% { box-shadow: 0 0 20px 2px rgba(21, 128, 61, 0.6); border-color: #15803d; }
+  0%, 100% { outline-color: rgba(63, 216, 136, 0.35); }
+  50%      { outline-color: rgba(63, 216, 136, 1); }
 }
 
 .agent-highlight {
   position: relative;
   z-index: 40;
-  animation: agent-highlight 2s ease-in-out infinite;
-  border-radius: 12px;
+  outline: 1px solid rgba(63, 216, 136, 0.8);
+  outline-offset: 2px;
+  animation: agent-highlight 1s steps(2, end) infinite;
 }
 
-/* D4: Agent mode indicator pill pulsing dot */
 @keyframes agent-dot-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.2); }
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
 }
 
-.agent-dot {
-  animation: agent-dot-pulse 1.5s ease-in-out infinite;
-}
+.agent-dot { animation: agent-dot-pulse 1s steps(2, end) infinite; }
 
-/* D5: Pixie dust sparkle */
-.agent-highlight::before,
-.agent-highlight::after {
-  content: '';
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, rgba(255,255,255,1), rgba(21, 128, 61, 0));
-  border-radius: 50%;
-  pointer-events: none;
-  animation: agent-sparkle 1.5s ease-in-out infinite;
-  z-index: 50;
-}
-
-.agent-highlight::before { top: -4px; right: -4px; animation-delay: 0s; }
-.agent-highlight::after { bottom: -4px; left: -4px; animation-delay: 0.75s; }
-
-@keyframes agent-sparkle {
-  0%, 100% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1.5); box-shadow: 0 0 10px rgba(21, 128, 61, 0.8); }
-}
-
-/* ShipPilot agent-navigation classes → site design.
-   Overrides the library's injected defaults (square 3px ring, 8px-radius
-   outline), which draw rectangles around pill buttons and rounded cards.
-   !important is required to beat the runtime-injected stylesheet. */
+/* ShipPilot agent-navigation classes → console design.
+   !important is required to beat the library's runtime-injected stylesheet. */
 .shippilot-nav-highlight {
-  border-radius: 9999px !important; /* nav links and detail buttons are pills */
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.65), 0 0 18px 4px rgba(21, 128, 61, 0.35) !important;
-  animation: agent-nav-glow 1.5s ease-in-out;
+  border-radius: 2px !important;
+  box-shadow: 0 0 0 1px #3FD888 !important;
+  animation: agent-nav-glow 0.9s ease-in-out;
 }
 
 .shippilot-nav-click {
-  transform: scale(0.95) !important;
-  color: #16a34a !important;
+  transform: none !important;
+  color: #3FD888 !important;
 }
 
 .shippilot-highlight {
-  outline: none !important;
-  border-radius: 1.5rem !important; /* GlassCard rounded-3xl */
+  outline: 1px solid #3FD888 !important;
+  outline-offset: 2px;
+  border-radius: 2px !important;
   position: relative;
   z-index: 40;
-  animation: agent-highlight 2s ease-in-out infinite;
+  animation: agent-highlight 1s steps(2, end) infinite;
 }

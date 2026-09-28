@@ -1,29 +1,30 @@
 // src/components/ShipPilotWidget.js
 //
 // Site-styled chat window backed by ShipPilot. All chat/navigation logic
-// comes from @shippilot/react's useShipPilotChat hook; the presentation
-// reuses the glassmorphism design from the original ChatBot component.
+// comes from @shippilot/react's useShipPilotChat hook; this file is only
+// presentation (flat console panel) plus an open() hook: dispatching the
+// `shippilot:open` window event (see CommandPalette.js) opens the window.
 
 import React, { useState, useEffect, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComments, faTimes, faExpand, faCompress, faPaperPlane, faStop } from '@fortawesome/free-solid-svg-icons';
 import ReactMarkdown from 'react-markdown';
 import { useShipPilot, useShipPilotChat } from '@shippilot/react';
+import { OPEN_AGENT_EVENT } from './CommandPalette';
 
 const markdownComponents = {
-  p: ({ children }) => <p className="mb-2 text-sm last:mb-0">{children}</p>,
+  p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
   a: ({ href, children }) => (
-    <a href={href} className="text-green-400 underline hover:text-green-300">{children}</a>
+    <a href={href} className="text-signal underline underline-offset-2 hover:text-fg">{children}</a>
   ),
-  ul: ({ children }) => <ul className="mb-2 ml-4 list-disc text-sm space-y-1">{children}</ul>,
-  ol: ({ children }) => <ol className="mb-2 ml-4 list-decimal text-sm space-y-1">{children}</ol>,
-  strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
+  ul: ({ children }) => <ul className="mb-2 ml-4 list-disc space-y-1">{children}</ul>,
+  ol: ({ children }) => <ol className="mb-2 ml-4 list-decimal space-y-1">{children}</ol>,
+  strong: ({ children }) => <strong className="font-semibold text-fg">{children}</strong>,
 };
 
 const ShipPilotWidget = () => {
   const { config, router, setAgentMode } = useShipPilot();
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const inputRef = useRef(null);
 
   const chat = useShipPilotChat({
     chatEndpoint: config.chatEndpoint,
@@ -32,6 +33,17 @@ const ShipPilotWidget = () => {
     welcomeMessage: config.welcomeMessage,
     setAgentMode,
   });
+
+  // External open() — the command palette's "Ask the site agent…" entry.
+  useEffect(() => {
+    const onOpen = () => setIsOpen(true);
+    window.addEventListener(OPEN_AGENT_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_AGENT_EVENT, onOpen);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) inputRef.current?.focus();
+  }, [isOpen]);
 
   const messagesEndRef = useRef(null);
 
@@ -47,78 +59,76 @@ const ShipPilotWidget = () => {
   };
 
   const getChatContainerClasses = () => {
-    const baseClasses = 'fixed shadow-2xl overflow-hidden z-50 transition-all duration-500 backdrop-blur-xl border border-white/10';
+    const baseClasses = 'fixed z-50 overflow-hidden border bg-panel shadow-[0_16px_48px_rgba(0,0,0,0.55)] transition-[opacity,width,height] duration-150';
     if (chat.isAgentMode) {
-      return `${baseClasses} bg-black/40 bottom-8 right-8 w-64 h-16 rounded-full flex items-center justify-center border-green-500/50`;
+      return `${baseClasses} bottom-10 right-4 h-9 flex items-center border-signal/60`;
     }
     if (!isOpen) {
-      return `${baseClasses} bg-black/60 bottom-4 right-4 w-0 h-0 rounded-3xl opacity-0 invisible`;
+      return `${baseClasses} bottom-10 right-4 w-0 h-0 opacity-0 invisible border-line`;
     }
     if (isExpanded) {
-      return `${baseClasses} bg-black/80 bottom-4 right-0 w-full md:w-1/2 h-[80vh] rounded-l-3xl border-l border-white/20`;
+      return `${baseClasses} bottom-7 right-0 w-full md:w-1/2 h-[80vh] border-line-strong`;
     }
-    return `${baseClasses} bg-black/70 bottom-6 right-6 w-80 md:w-96 h-[500px] rounded-3xl`;
+    return `${baseClasses} bottom-10 right-4 w-[calc(100vw-2rem)] sm:w-96 h-[520px] max-h-[calc(100vh-8rem)] border-line-strong`;
   };
 
   return (
     <>
       {chat.isAgentMode && (
-        <div className="agent-mode-border fixed inset-0 z-[9999] pointer-events-none border-4 border-green-500/30 animate-pulse" />
+        <div className="agent-mode-border fixed inset-0 z-[9999] pointer-events-none" />
       )}
 
       {!isOpen && !chat.isAgentMode && (
         <button
           onClick={() => setIsOpen(true)}
           aria-label="Open chat"
-          className="fixed bottom-6 right-6 bg-white/10 backdrop-blur-md border border-white/20 text-white p-4 rounded-full shadow-lg hover:bg-white/20 hover:scale-110 transition-all duration-300 z-50 group"
+          className="fixed bottom-10 right-4 z-50 flex items-center gap-2 border border-line-strong bg-panel px-3 py-2 font-mono text-xs text-fg transition-colors duration-100 hover:border-signal hover:text-signal"
         >
-          <FontAwesomeIcon icon={faComments} size="lg" className="group-hover:text-green-400 transition-colors" />
+          <span className="dot bg-signal" aria-hidden="true" />
+          ask agent
         </button>
       )}
 
       <div className={getChatContainerClasses()}>
         {chat.isAgentMode ? (
-          <div className="flex items-center space-x-3 text-white px-6">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-            </span>
-            <span className="font-medium tracking-wide text-sm">{config.agentModeLabel || 'Navigating...'}</span>
+          <div className="flex items-center gap-2 px-3 font-mono text-xs text-fg">
+            <span className="dot agent-dot bg-signal" aria-hidden="true" />
+            <span>{config.agentModeLabel || 'Navigating...'}</span>
           </div>
         ) : (
-          <div className="flex flex-col h-full">
+          <div className="flex h-full flex-col">
             {/* Header */}
-            <div className="bg-white/5 p-4 flex justify-between items-center border-b border-white/10">
-              <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                <h2 className="text-white font-bold text-sm tracking-wide">AI Assistant</h2>
-              </div>
-              <div className="flex items-center space-x-3 text-white/60">
+            <div className="panel-header">
+              <h2 className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-mute">
+                <span className="dot bg-signal" aria-hidden="true" />
+                site agent
+              </h2>
+              <div className="flex items-center gap-3 normal-case tracking-normal">
                 <button
                   onClick={() => setIsExpanded(!isExpanded)}
                   aria-label={isExpanded ? 'Collapse chat' : 'Expand chat'}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-fg"
                 >
-                  <FontAwesomeIcon icon={isExpanded ? faCompress : faExpand} />
+                  {isExpanded ? '[–]' : '[+]'}
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
                   aria-label="Close chat"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-fg"
                 >
-                  <FontAwesomeIcon icon={faTimes} />
+                  [x]
                 </button>
               </div>
             </div>
 
             {/* Messages */}
-            <div role="log" className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+            <div role="log" className="custom-scrollbar flex-1 space-y-3 overflow-y-auto p-3 text-sm">
               {chat.messages.map((msg, idx) => (
                 <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
+                  <div className={`max-w-[88%] border px-3 py-2 ${
                     msg.sender === 'user'
-                      ? 'bg-green-600/80 text-white rounded-br-none'
-                      : 'bg-white/10 text-white/90 rounded-bl-none border border-white/5'
+                      ? 'border-signal/40 bg-signal/10 text-fg'
+                      : 'border-line bg-ink text-fg/90'
                   }`}>
                     {msg.sender === 'bot' ? (
                       <ReactMarkdown components={markdownComponents}>{msg.text}</ReactMarkdown>
@@ -131,21 +141,15 @@ const ShipPilotWidget = () => {
 
               {chat.currentStreamedText && (
                 <div className="flex justify-start">
-                  <div className="max-w-[85%] p-3 rounded-2xl rounded-bl-none bg-white/10 text-white/90 border border-white/5 text-sm">
+                  <div className="max-w-[88%] border border-line bg-ink px-3 py-2 text-fg/90">
                     <ReactMarkdown components={markdownComponents}>{chat.currentStreamedText}</ReactMarkdown>
                   </div>
                 </div>
               )}
 
               {chat.isLoading && !chat.currentStreamedText && (
-                <div className="flex justify-start">
-                  <div className="bg-white/5 p-3 rounded-2xl rounded-bl-none">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
-                      <div className="w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                      <div className="w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
-                    </div>
-                  </div>
+                <div className="font-mono text-xs text-mute">
+                  thinking<span className="agent-dot">_</span>
                 </div>
               )}
 
@@ -153,13 +157,13 @@ const ShipPilotWidget = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => void chat.confirmNavigation()}
-                    className="px-4 py-2 bg-green-600/80 hover:bg-green-500 rounded-lg text-white text-xs font-medium transition-colors"
+                    className="btn-signal"
                   >
                     Yes, show me!
                   </button>
                   <button
                     onClick={() => chat.declineNavigation()}
-                    className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-xs font-medium transition-colors"
+                    className="btn"
                   >
                     No thanks
                   </button>
@@ -170,33 +174,35 @@ const ShipPilotWidget = () => {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-white/10 bg-white/5">
-              <div className="flex items-center gap-2">
+            <div className="border-t border-line p-2">
+              <div className="flex items-center gap-2 border border-line bg-ink px-2 focus-within:border-signal">
+                <span className="font-mono text-signal" aria-hidden="true">&gt;</span>
                 <input
+                  ref={inputRef}
                   type="text"
                   value={chat.input}
                   onChange={(e) => chat.setInput(e.target.value)}
                   onKeyDown={handleKeyPress}
                   placeholder="Ask me anything..."
                   aria-label="Chat input"
-                  className="flex-1 bg-black/20 border border-white/10 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-green-500/50 transition-colors placeholder:text-white/30"
+                  className="h-9 flex-1 border-0 bg-transparent p-0 font-mono text-[13px] text-fg placeholder:text-mute focus:outline-none focus:ring-0"
                 />
                 {chat.isLoading ? (
                   <button
                     onClick={() => chat.stopStreaming()}
                     aria-label="Stop response"
-                    className="p-2 bg-red-900/40 hover:bg-red-800/60 border border-red-500/30 text-white rounded-xl transition-all"
+                    className="font-mono text-[11px] text-warn hover:text-fg"
                   >
-                    <FontAwesomeIcon icon={faStop} className="text-sm" />
+                    stop
                   </button>
                 ) : (
                   <button
                     onClick={() => void chat.sendMessage()}
                     disabled={!chat.input.trim()}
                     aria-label="Send message"
-                    className="p-2 bg-white/10 hover:bg-green-600/80 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="font-mono text-[11px] text-signal hover:text-fg disabled:cursor-not-allowed disabled:text-mute"
                   >
-                    <FontAwesomeIcon icon={faPaperPlane} className="text-sm" />
+                    send ↵
                   </button>
                 )}
               </div>

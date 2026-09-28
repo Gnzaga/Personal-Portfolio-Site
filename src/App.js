@@ -3,7 +3,8 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
-import Layout from './components/Layout'; // Import the new Layout component
+import Layout from './components/Layout';
+import { CommandPaletteProvider } from './components/CommandPalette';
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
 import { ShipPilotRoot } from './components/ShipPilotRoot';
@@ -17,7 +18,7 @@ const BlogDetail = lazy(() => import('./pages/BlogDetail'));
 const Experience = lazy(() => import('./pages/Experience'));
 const NotFound = lazy(() => import('./pages/404'));
 const ErrorPage = lazy(() => import('./pages/Error'));
-const PortfolioGrid = lazy(() => import('./components/PortfolioGrid'));
+const Home = lazy(() => import('./pages/Home'));
 
 // Project Detail Pages
 const TaskManagementProject = lazy(() => import('./pages/projects/TaskManagementProject'));
@@ -37,8 +38,8 @@ const AgentOrchestrationPlatform = lazy(() => import('./pages/projects/AgentOrch
 const PathfindingDemo = lazy(() => import('./pages/PathfindingDemo'));
 
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="w-12 h-12 border-4 border-white/20 border-t-emerald-400 rounded-full animate-spin" />
+  <div className="min-h-[50vh] flex items-center justify-center font-mono text-xs text-mute" role="status">
+    loading<span className="agent-dot">_</span>
   </div>
 );
 
@@ -57,12 +58,13 @@ function App() {
       <MotionConfig reducedMotion="user">
       <Router>
         <ShipPilotRoot>
+        <CommandPaletteProvider>
         <ScrollToTop />
         <Layout>
           <PageTransition>
             <Suspense fallback={<PageLoader />}>
               <Routes>
-                <Route path="/" element={<PortfolioGrid />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/blog" element={<Blog />} />
@@ -90,6 +92,7 @@ function App() {
           </PageTransition>
           <Footer />
         </Layout>
+        </CommandPaletteProvider>
         </ShipPilotRoot>
       </Router>
       </MotionConfig>

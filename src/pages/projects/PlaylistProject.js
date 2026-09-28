@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import Section from '../../components/ProjectSection';
+import ProjectHeader from '../../components/ProjectHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faMusic, faCode, faPalette, faRobot, faCloud, faLightbulb } from '@fortawesome/free-solid-svg-icons';
@@ -12,17 +12,11 @@ import GlassButton from '../../components/GlassButton';
  */
 const PlaylistGeneratorProject = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Playlist Description & Art Generator
-        </h1>
-      </motion.div>
+    <div className="w-full max-w-5xl mx-auto space-y-4">
+      <ProjectHeader
+        route="/projects/PlaylistProject"
+        title="Playlist Description & Art Generator"
+      />
 
       {/* Section for the project overview */}
       <Section title="Project Overview" icon={faMusic}>
@@ -33,7 +27,7 @@ const PlaylistGeneratorProject = () => {
 
       {/* Section detailing technologies used in the project */}
       <Section title="Technologies Used" icon={faCode}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>React for the frontend</li>
           <li>Python for backend APIs</li>
           <li>Spotify API for playlist data retrieval</li>
@@ -46,7 +40,7 @@ const PlaylistGeneratorProject = () => {
 
       {/* Section highlighting key features of the project */}
       <Section title="Key Features" icon={faLightbulb}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Spotify Integration: Seamlessly extracts playlist data using the Spotify API</li>
           <li>Custom Descriptions: Generates engaging and detailed playlist descriptions using AI</li>
           <li>AI-Generated Cover Art: Creates unique visual representations for each playlist</li>
@@ -60,7 +54,7 @@ const PlaylistGeneratorProject = () => {
         <p className="mb-4">
           The React-based frontend provides an intuitive and interactive user experience:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>User-friendly interface for inputting Spotify playlist links</li>
           <li>Real-time updates and loading indicators during content generation</li>
           <li>Interactive elements for customizing generated descriptions</li>
@@ -74,7 +68,7 @@ const PlaylistGeneratorProject = () => {
         <p className="mb-4">
           The Python-powered backend orchestrates the complex processes behind the scenes:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>RESTful API endpoints for handling frontend requests</li>
           <li>Integration with Spotify API for secure data retrieval</li>
           <li>Efficient data processing and formatting of playlist information</li>
@@ -89,7 +83,7 @@ const PlaylistGeneratorProject = () => {
         <p className="mb-4">
           The project leverages advanced AI capabilities:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Utilizes GPT models to generate contextually relevant playlist descriptions</li>
           <li>Employs DALL-E to create visually appealing and unique cover art</li>
           <li>Implements prompt engineering techniques for optimal AI-generated content</li>
@@ -102,7 +96,7 @@ const PlaylistGeneratorProject = () => {
         <p className="mb-4">
           Several challenges were overcome during development:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Ensuring seamless integration between multiple APIs and services</li>
           <li>Optimizing API calls to manage rate limits and costs</li>
           <li>Balancing AI-generated content with user preferences and input</li>
@@ -112,7 +106,7 @@ const PlaylistGeneratorProject = () => {
       </Section>
 
       {/* Call-to-action buttons */}
-      <div className="mt-16 flex justify-center gap-6">
+      <div className="flex flex-wrap gap-3 pt-2">
         <a href="https://github.com/Gnzaga/spotify-gpt" target="_blank" rel="noopener noreferrer">
           <GlassButton variant="primary" className="gap-2">
             <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />

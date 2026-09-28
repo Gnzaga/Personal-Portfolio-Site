@@ -1,7 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
+import ProjectHeader from '../../components/ProjectHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faInfoCircle, faSitemap, faCode, faLightbulb } from '@fortawesome/free-solid-svg-icons';
@@ -9,18 +9,12 @@ import GlassButton from '../../components/GlassButton';
 
 const AgentMeshWorkspace = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Agent Mesh Workspace
-        </h1>
-        <p className="text-white/60 text-lg">A browser-based control room for managing multiple long-running AI coding-agent sessions</p>
-      </motion.div>
+    <div className="w-full max-w-5xl mx-auto space-y-4">
+      <ProjectHeader
+        route="/projects/agent-mesh"
+        title="Agent Mesh Workspace"
+        subtitle="A browser-based control room for managing multiple long-running AI coding-agent sessions"
+      />
 
       <Section title="Overview" icon={faInfoCircle}>
         <p>
@@ -62,7 +56,7 @@ const AgentMeshWorkspace = () => {
             'Vite', 'Tailwind CSS', 'xterm.js', 'Model Context Protocol',
             'OIDC/OAuth2'
           ].map(t => (
-            <span key={t} className="px-2.5 py-1 bg-white/5 rounded-md text-xs font-medium text-white/60 border border-white/5">{t}</span>
+            <span key={t} className="tag">{t}</span>
           ))}
         </div>
         <p>
@@ -87,7 +81,7 @@ const AgentMeshWorkspace = () => {
         </p>
       </Section>
 
-      <div className="mt-16 flex justify-center gap-6">
+      <div className="flex flex-wrap gap-3 pt-2">
         <a href="https://github.com/Gnzaga/agent-mesh-workspace" target="_blank" rel="noopener noreferrer">
           <GlassButton variant="primary" className="gap-2">
             <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />

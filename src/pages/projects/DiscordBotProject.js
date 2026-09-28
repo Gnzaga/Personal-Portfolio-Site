@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import Section from '../../components/ProjectSection';
+import ProjectHeader from '../../components/ProjectHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faRobot, faCode, faGamepad, faChartLine, faBolt, faLightbulb } from '@fortawesome/free-solid-svg-icons';
@@ -12,18 +12,11 @@ import GlassButton from '../../components/GlassButton';
  */
 const DiscordBotProject = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      {/* Project Title */}
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Discord Bot Project
-        </h1>
-      </motion.div>
+    <div className="w-full max-w-5xl mx-auto space-y-4">
+      <ProjectHeader
+        route="/projects/discord-bot"
+        title="Discord Bot Project"
+      />
 
       {/* Sections for project details */}
       <Section title="Project Overview" icon={faRobot}>
@@ -33,7 +26,7 @@ const DiscordBotProject = () => {
       </Section>
 
       <Section title="Technologies Used" icon={faCode}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Python</li>
           <li>Discord.py library</li>
           <li>Asyncio for asynchronous programming</li>
@@ -46,7 +39,7 @@ const DiscordBotProject = () => {
       </Section>
 
       <Section title="Key Features" icon={faGamepad}>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Multiplayer Wordle game with asynchronous hosting</li>
           <li>Real-time financial data retrieval (stocks, forex, crypto)</li>
           <li>Integration with open-source language models via Ollama</li>
@@ -60,7 +53,7 @@ const DiscordBotProject = () => {
         <p className="mb-4">
           One of the standout features is the implementation of asynchronous programming to host multiple instances of the Wordle game simultaneously:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Utilizes Python's asyncio library for efficient concurrency</li>
           <li>Allows for a 10x increase in the number of games played concurrently</li>
           <li>Implements game state management for multiple ongoing games</li>
@@ -72,7 +65,7 @@ const DiscordBotProject = () => {
         <p className="mb-4">
           The bot interfaces with the Alpha Vantage API to provide real-time financial data:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Retrieves up-to-date stock market information</li>
           <li>Provides foreign exchange rate data</li>
           <li>Offers cryptocurrency market data</li>
@@ -85,7 +78,7 @@ const DiscordBotProject = () => {
         <p className="mb-4">
           During the development of this project, several challenges were overcome:
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-cyan-300">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Managing concurrent game states without conflicts</li>
           <li>Optimizing API calls to stay within rate limits</li>
           <li>Implementing error handling for network issues and API downtime</li>
@@ -95,7 +88,7 @@ const DiscordBotProject = () => {
       </Section>
 
       {/* Navigation Buttons */}
-      <div className="mt-16 flex justify-center gap-6">
+      <div className="flex flex-wrap gap-3 pt-2">
         <a href="https://github.com/Gnzaga/DiscordBot" target="_blank" rel="noopener noreferrer">
           <GlassButton variant="primary" className="gap-2">
             <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />

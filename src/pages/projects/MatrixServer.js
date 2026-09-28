@@ -1,25 +1,19 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '../../components/ProjectSection';
+import ProjectHeader from '../../components/ProjectHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments, faNetworkWired, faCode, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import GlassButton from '../../components/GlassButton';
 
 const MatrixServer = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-          Self-Hosted Matrix Chat Server
-        </h1>
-        <p className="text-white/60 text-lg">A federation-capable Matrix homeserver with SSO delegated to my identity provider</p>
-      </motion.div>
+    <div className="w-full max-w-5xl mx-auto space-y-4">
+      <ProjectHeader
+        route="/projects/matrix-server"
+        title="Self-Hosted Matrix Chat Server"
+        subtitle="A federation-capable Matrix homeserver with SSO delegated to my identity provider"
+      />
 
       <Section title="Overview" icon={faComments}>
         <p className="mb-4">
@@ -28,7 +22,7 @@ const MatrixServer = () => {
           provider. Originally built on Dendrite, later migrated to Synapse for broader client
           compatibility and to take advantage of Matrix's newer OIDC-delegation model for single sign-on.
         </p>
-        <ul className="list-disc list-inside space-y-2 marker:text-green-500">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Self-hosted, federation-capable Matrix homeserver running Synapse, with Element as the web client</li>
           <li>Private group chat, direct messages, and voice/video — a self-hosted alternative to Slack or Discord</li>
           <li>Authentication fully delegated to Authentik, the same identity provider used across the homelab</li>
@@ -44,16 +38,16 @@ const MatrixServer = () => {
           delegation chain:
         </p>
         <div className="space-y-4 mb-4">
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">Client → Homeserver</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">Client → Homeserver</h4>
             <p className="text-sm">Element (or any Matrix client) connects to Synapse, which no longer manages accounts or passwords locally.</p>
           </div>
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">Homeserver → MAS</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">Homeserver → MAS</h4>
             <p className="text-sm">Synapse delegates all authentication decisions to matrix-authentication-service (MAS) via MSC3861.</p>
           </div>
-          <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-            <h4 className="text-green-400 font-bold mb-2">MAS → Authentik</h4>
+          <div className="bg-ink p-4 border border-line">
+            <h4 className="text-signal font-mono text-sm font-semibold mb-2">MAS → Authentik</h4>
             <p className="text-sm">MAS federates out to Authentik via OIDC, so logging into chat uses the same account and MFA as everything else in the homelab.</p>
           </div>
         </div>
@@ -68,7 +62,7 @@ const MatrixServer = () => {
             'Synapse', 'Element Web', 'matrix-authentication-service (MAS)', 'PostgreSQL',
             'OIDC/OAuth2', 'Kubernetes', 'Traefik', 'S3-Compatible Storage', 'ArgoCD', 'GitOps'
           ].map(t => (
-            <span key={t} className="px-2.5 py-1 bg-white/5 rounded-md text-xs font-medium text-white/60 border border-white/5">{t}</span>
+            <span key={t} className="tag">{t}</span>
           ))}
         </div>
         <p>
@@ -80,7 +74,7 @@ const MatrixServer = () => {
       </Section>
 
       <Section title="Challenges & Lessons Learned" icon={faExclamationTriangle}>
-        <ul className="list-disc list-inside space-y-2 marker:text-green-500">
+        <ul className="list-disc list-inside space-y-2 marker:text-signal">
           <li>Migrating an existing chat server to a new homeserver implementation (Dendrite → Synapse) without losing message history</li>
           <li>Wiring a three-legged OIDC delegation chain (client → MAS → identity provider) and falling back to a traditional relying-party flow when the Element client didn't yet support the newest native delegation spec</li>
           <li>Resolving a CDN/proxy TLS-mode mismatch that caused an infinite login redirect loop</li>
@@ -89,7 +83,7 @@ const MatrixServer = () => {
         </ul>
       </Section>
 
-      <div className="mt-16 flex justify-center gap-6">
+      <div className="flex flex-wrap gap-3 pt-2">
         <Link to="/projects">
           <GlassButton variant="secondary">
             Back to Projects

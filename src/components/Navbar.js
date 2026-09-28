@@ -1,122 +1,99 @@
 // src/components/Navbar.js
+//
+// Console top bar: wordmark, breadcrumb of the current route, primary nav
+// and the command-palette trigger. Nav links keep the `nav-*`
+// data-agent-targets the ShipPilot site graph expects (src/utils/siteGraph.js).
 
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
-import GlassButton from './GlassButton';
+import React from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { usePalette, paletteShortcutLabel } from './CommandPalette';
+
+const navLinks = [
+  { path: '/', label: 'home', target: 'nav-home' },
+  { path: '/about', label: 'about', target: 'nav-about' },
+  { path: '/experience', label: 'experience', target: 'nav-experience' },
+  { path: '/projects', label: 'projects', target: 'nav-projects' },
+  { path: '/blog', label: 'blog', target: 'nav-blog' },
+];
+
+/** `~/projects/kaiwa` as clickable segments; the last one is the current page. */
+const Breadcrumb = ({ pathname }) => {
+  const parts = pathname.split('/').filter(Boolean);
+  return (
+    <nav aria-label="Breadcrumb" className="min-w-0 truncate font-mono text-xs text-mute">
+      <Link to="/" className="hover:text-fg">~</Link>
+      {parts.map((part, i) => {
+        const to = `/${parts.slice(0, i + 1).join('/')}`;
+        const last = i === parts.length - 1;
+        return (
+          <React.Fragment key={to}>
+            <span className="text-line-strong">/</span>
+            {last ? (
+              <span className="text-fg" aria-current="page">{decodeURIComponent(part)}</span>
+            ) : (
+              <Link to={to} className="hover:text-fg">{part}</Link>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </nav>
+  );
+};
+
+const linkClass = ({ isActive }) =>
+  `relative block px-2.5 py-1 font-mono text-xs transition-colors duration-100 ${
+    isActive ? 'text-signal' : 'text-mute hover:text-fg'
+  }`;
 
 const Navbar = () => {
-  const isMobile = useMediaQuery({ maxWidth: 768 });
-  const [open, setOpen] = useState(false);
-  const [showNavbar, setShowNavbar] = useState(false);
-  const location = useLocation();
-
-  const handleOpen = () => setOpen(!open);
-
-  useEffect(() => {
-    // Slight delay on mount for smooth entrance
-    const timer = setTimeout(() => setShowNavbar(true), 500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/experience', label: 'Experience' },
-    { path: '/projects', label: 'Projects' },
-    { path: '/blog', label: 'Blog' },
-  ];
+  const { pathname } = useLocation();
+  const { open } = usePalette();
 
   return (
-    <motion.nav
-      className="fixed top-0 left-0 right-0 z-50 flex justify-center py-4 px-4"
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: showNavbar ? 0 : -100, opacity: showNavbar ? 1 : 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <div className="w-full max-w-5xl bg-black/30 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3 shadow-lg flex justify-between items-center">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-ink/95">
+      {/* One nav element for every breakpoint (so agent targets are never
+          duplicated); on mobile it wraps to a second full-width row. */}
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-3 px-4">
         <Link
           to="/"
-          className="font-heading font-bold text-lg text-white tracking-wide hover:text-emerald-300 transition-colors"
+          className="flex h-11 shrink-0 items-center gap-2 font-mono text-sm font-semibold text-fg hover:text-signal"
         >
-          Alessandro Gonzaga
+          <span className="dot bg-signal" aria-hidden="true" />
+          gnzaga.com
         </Link>
-        
-        {/* Desktop Navigation */}
-        {!isMobile && (
-          <ul className="flex space-x-1 items-center bg-white/5 rounded-full px-2 py-1 border border-white/5">
-            {navLinks.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
-                <li key={item.path}>
-                  <Link
-                    to={item.path}
-                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 block ${
-                      isActive 
-                        ? 'text-black bg-white shadow-md' 
-                        : 'text-white/70 hover:text-white hover:bg-white/10'
-                    }`}
-                  >
-                    {isActive && (
-                      <motion.div
-                        layoutId="nav-pill"
-                        className="absolute inset-0 bg-white rounded-full"
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        style={{ zIndex: -1 }}
-                      />
-                    )}
-                    <span className="relative z-10">{item.label}</span>
-                  </Link>
-                </li>
-              );
-            })}
+        <span className="h-4 w-px shrink-0 bg-line" aria-hidden="true" />
+        <div className="min-w-0 flex-1 md:flex-none">
+          <Breadcrumb pathname={pathname} />
+        </div>
+
+        <nav
+          aria-label="Primary"
+          className="order-last -mx-4 w-[calc(100%+2rem)] border-t border-line px-2 md:order-none md:mx-0 md:ml-auto md:w-auto md:border-0 md:px-0"
+        >
+          <ul className="flex h-9 items-center justify-between md:h-11 md:justify-end">
+            {navLinks.map((item) => (
+              <li key={item.path}>
+                <NavLink to={item.path} end={item.path === '/'} className={linkClass} data-agent-target={item.target}>
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
-        )}
-        
-        {/* Mobile Menu Button */}
-        {isMobile && (
-          <button 
-            onClick={handleOpen} 
-            className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-colors"
-          >
-            {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        )}
-        
-        {/* Mobile Navigation Menu */}
-        <AnimatePresence>
-          {isMobile && open && (
-            <motion.div
-              className="absolute top-full left-0 right-0 mt-4 mx-4 bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-            >
-              <ul className="py-4 px-2 space-y-1">
-                {navLinks.map((item) => (
-                  <li key={item.path}>
-                    <Link
-                      to={item.path}
-                      className={`block px-4 py-3 rounded-xl text-center font-medium transition-colors ${
-                        location.pathname === item.path 
-                          ? 'bg-white/10 text-white' 
-                          : 'text-white/60 hover:text-white hover:bg-white/5'
-                      }`}
-                      onClick={() => setOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        </nav>
+
+        <button
+          type="button"
+          onClick={open}
+          aria-label="Open command palette"
+          aria-keyshortcuts="Control+K Meta+K /"
+          className="flex shrink-0 items-center gap-2 border border-line-strong bg-panel px-2 py-1 font-mono text-[11px] text-mute transition-colors duration-100 hover:border-signal hover:text-fg"
+        >
+          <span className="hidden sm:inline">jump to…</span>
+          <span className="sm:hidden">search</span>
+          <span className="kbd hidden sm:inline-flex">{paletteShortcutLabel()}</span>
+        </button>
       </div>
-    </motion.nav>
+    </header>
   );
 };
 

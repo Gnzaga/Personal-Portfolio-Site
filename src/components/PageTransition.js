@@ -4,28 +4,24 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * PageTransition Component
- * 
- * @description A wrapper component that applies a fade-in/out animation to its children using Framer Motion.
- * It relies on the AnimatePresence component in App.js to trigger the exit animations.
- * 
- * @param {Object} props - The properties passed to the component.
- * @param {React.ReactNode} props.children - The content to be wrapped and animated.
- * 
- * @returns {JSX.Element} The rendered PageTransition component.
+ * PageTransition
+ *
+ * @description Console-style route change: a 120ms opacity fade, no slide.
+ * MotionConfig in App.js drops it entirely under prefers-reduced-motion.
+ *
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - Routed page content.
+ * @returns {JSX.Element}
  */
-const PageTransition = ({ children }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className="w-full h-full"
-    >
-      {children}
-    </motion.div>
-  );
-};
+const PageTransition = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.12, ease: 'linear' }}
+    className="w-full h-full"
+  >
+    {children}
+  </motion.div>
+);
 
 export default PageTransition;
