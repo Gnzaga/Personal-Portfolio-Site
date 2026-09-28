@@ -56,8 +56,9 @@ export const birdCountForArea = (width, height) =>
   );
 
 /**
- * Create a flock sized for the given canvas. Birds start as a loose blob with
- * a shared heading so the first frame already reads as a flock.
+ * Create a flock sized for the given canvas. Each bird starts at its own
+ * random position and heading across the whole canvas; the flocking rules
+ * then gather them into a murmuration over the first few seconds.
  */
 export const createFlock = (width, height, random = Math.random) => {
   const cap = CONFIG.maxBirds;
@@ -91,14 +92,12 @@ export const createFlock = (width, height, random = Math.random) => {
     nearDist: new Float32Array(CONFIG.topologicalNeighbors),
   };
 
-  const heading = random() * Math.PI * 2;
-  const spread = Math.min(width, height) * 0.25;
   const count = birdCountForArea(width, height);
   for (let i = 0; i < count; i++) {
-    const a = heading + (random() - 0.5) * 0.8;
+    const a = random() * Math.PI * 2;
     const s = CONFIG.minSpeed + random() * (CONFIG.maxSpeed - CONFIG.minSpeed) * 0.5;
-    flock.x[i] = width / 2 + (random() - 0.5) * spread * 2;
-    flock.y[i] = height / 2 + (random() - 0.5) * spread;
+    flock.x[i] = random() * width;
+    flock.y[i] = random() * height;
     flock.vx[i] = Math.cos(a) * s;
     flock.vy[i] = Math.sin(a) * s;
   }
