@@ -1,0 +1,62 @@
+# Builds a container image for every PR into master and pushes it to GHCR.
+# ArgoCD (k8s/argocd-applicationset-previews.yaml) deploys that image into
+# its own namespace, portfolio-pr-<N>, and deletes it when the PR closes.
+name: PR preview image
+
+on:
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: pr-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    # Fork PRs get a read-only token and must never be deployed to the cluster.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # GHCR image names must be lowercase.
+      - name: Compute image name
+        id: meta
+        run: |
+          echo "image=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+          echo "tag=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: deployment/docker/Dockerfile
+          push: true
+          # The tag must match the one the ApplicationSet renders:
+          # pr-{{.number}}-{{.head_sha}}
+          tags: |
+            ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.tag }}
+            ${{ steps.meta.outputs.image }}:pr-${{ github.event.pull_request.number }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Summary
+        run: |
+          {
+            echo "### Preview image"
+            echo "\`${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.tag }}\`"
+            echo
+            echo "ArgoCD will roll it out to namespace \`portfolio-pr-${{ github.event.pull_request.number }}\`."
+          } >> "$GITHUB_STEP_SUMMARY"

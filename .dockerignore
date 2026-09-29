@@ -1,0 +1,10 @@
+node_modules
+build
+.git
+.github
+.env
+.env.*
+!.env.example
+*.log
+k8s
+deployment/ansible
