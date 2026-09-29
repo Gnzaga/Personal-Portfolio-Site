@@ -1,0 +1,17 @@
+# Private: gets a LAN IP from the cluster's LoadBalancer, reachable over
+# Tailscale via your subnet router. With the Tailscale k8s operator installed,
+# add the annotation below for http://portfolio-pr-<N>-portfolio-dev instead.
+apiVersion: v1
+kind: Service
+metadata:
+  name: portfolio-dev
+  # annotations:
+  #   tailscale.com/expose: "true"
+spec:
+  type: LoadBalancer
+  selector:
+    app: portfolio-dev
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3006

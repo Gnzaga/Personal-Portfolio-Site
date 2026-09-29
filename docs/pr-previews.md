@@ -1,45 +1,53 @@
 # PR preview environments
 
-Every open PR into `master` gets its own copy of the site in the homelab
-cluster, in namespace `portfolio-pr-<N>`. It is torn down when the PR is
-merged or closed.
+Every open PR into `master` gets its own live dev server in the homelab
+cluster, in namespace `portfolio-pr-<N>`. A push to the PR branch shows up in
+the browser within seconds (measured: ~4 s). No image build, no registry, no CI.
 
 ```
-PR push ─▶ GitHub Actions (.github/workflows/pr-preview-image.yml)
-             builds ghcr.io/gnzaga/personal-portfolio-site:pr-<N>-<sha>
 ArgoCD ApplicationSet (k8s/argocd-applicationset-previews.yaml)
-             polls open PRs every 5 min ─▶ Application portfolio-pr-<N>
-             renders k8s/overlays/preview from the PR's own commit
-PR closed ─▶ Application + namespace deleted
+   polls open PRs every 5 min ─▶ creates portfolio-pr-<N> from k8s/preview
+                                 (deletes it when the PR closes)
+
+pod: node:20-bookworm running k8s/preview/sync-and-serve.sh
+   clone branch ─▶ npm install ─▶ CRA dev server :3006 + node --watch server.js
+   every 3 s: git ls-remote ─▶ new commit? git reset --hard in place
+              ─▶ webpack recompiles only what changed ─▶ browser hot-reloads
+   package.json / lockfile changed ─▶ container restarts and reinstalls
 ```
 
 ## One-time setup
 
-1. **GHCR pull credentials** – create a classic GitHub PAT with only
-   `read:packages`, and add it to Vault at key `portfolio`:
-   `ghcr_username=<github user>`, `ghcr_token=<PAT>`.
-   (Skip this if you make the GHCR package public: Package settings →
-   Change visibility.)
-2. **ApplicationSet** –
-   `kubectl apply -f k8s/argocd-applicationset-previews.yaml`
-3. Open a PR. After the Actions build finishes (~3–5 min) the pod comes up.
+1. Merge this to `master` (the ApplicationSet reads `k8s/preview` from `master`).
+2. `kubectl apply -f k8s/argocd-applicationset-previews.yaml`
+3. Open a PR. It gets an environment within 5 minutes (first boot, which
+   installs dependencies, takes another 1–3 min). Then every push is live in seconds.
 
 ## Reaching a preview
 
 Previews are private. Find the LAN IP of a preview with
 
 ```
-kubectl -n portfolio-pr-<N> get svc portfolio-website
+kubectl -n portfolio-pr-<N> get svc portfolio-dev
 ```
 
 and open it on your LAN or over Tailscale (via your subnet router). If you run
-the Tailscale Kubernetes operator, uncomment the Service patch in
-`k8s/overlays/preview/kustomization.yaml` to get a MagicDNS name instead.
+the Tailscale Kubernetes operator, uncomment the annotation in
+`k8s/preview/service.yaml` to get a MagicDNS name instead.
+
+Watch what the pod is doing: `kubectl -n portfolio-pr-<N> logs deploy/portfolio-dev -f`
+(look for `[sync] now at <sha>`).
 
 ## Notes
 
-- PRs from forks are never built, so they never run in the cluster.
+- This is the dev server, not the production build. Occasionally check a
+  production build (`npm run build`) before merging.
+- New PRs are picked up every 5 min. To pick them up faster, give the
+  ApplicationSet a GitHub token and lower `requeueAfterSeconds` (see the
+  comments in the file).
+- PRs from forks also get an environment and would run their code in your
+  cluster. If the repo ever takes outside PRs, add a `labels: [preview]`
+  filter to the generator.
 - The chat widget needs `openrouter-api-key`, which exists only in the prod
   namespace. Previews start without it.
-- Preview images pile up in GHCR. Delete old `pr-*` versions from the
-  package page now and then.
+- Each preview reserves ~768 MiB of RAM (the webpack dev server is memory hungry).

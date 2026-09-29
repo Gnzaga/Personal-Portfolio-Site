@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portfolio-dev
+  labels:
+    app: portfolio-dev
+spec:
+  replicas: 1
+  # Recreate: the old pod must stop before the new one starts, no overlap.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: portfolio-dev
+  template:
+    metadata:
+      labels:
+        app: portfolio-dev
+    spec:
+      containers:
+      - name: dev
+        # Stock image with git and bash; no custom image to build or pull.
+        image: node:20-bookworm
+        command: ["bash", "/scripts/sync-and-serve.sh"]
+        workingDir: /workspace
+        ports:
+        - containerPort: 3006
+        env:
+        - name: REPO_URL
+          value: https://github.com/Gnzaga/Personal-Portfolio-Site.git
+        - name: BRANCH
+          value: master # replaced per PR by the ApplicationSet
+        - name: POLL_SECONDS
+          value: "3"
+        # CRA dev server: listen on all interfaces, accept any Host header
+        # (private LAN/Tailscale only), and connect the hot-reload websocket
+        # back to whatever port the page was loaded from.
+        - name: HOST
+          value: "0.0.0.0"
+        - name: DANGEROUSLY_DISABLE_HOST_CHECK
+          value: "true"
+        - name: WDS_SOCKET_PORT
+          value: "0"
+        - name: BROWSER
+          value: none
+        # react-scripts start exits when stdin closes (always, in a pod) unless CI=true.
+        - name: CI
+          value: "true"
+        - name: NODE_ENV
+          value: development
+        - name: LLM_API_URL
+          value: http://open-webui.openwebui.svc.cluster.local/api/chat/completions
+        - name: BEARER_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: openwebui-api-key
+              key: bearer-token
+              optional: true
+        # Created by hand in the prod namespace only; the chat widget is off without it.
+        - name: OPENROUTER_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: openrouter-api-key
+              key: api-key
+              optional: true
+        - name: SHIPPILOT_MODEL
+          value: deepseek/deepseek-v4-flash
+        # First boot installs dependencies and runs the initial webpack build (a few minutes).
+        startupProbe:
+          tcpSocket:
+            port: 3006
+          periodSeconds: 10
+          failureThreshold: 60
+        readinessProbe:
+          tcpSocket:
+            port: 3006
+          periodSeconds: 10
+        resources:
+          # The webpack dev server is memory hungry.
+          requests:
+            memory: "768Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "2"
+        volumeMounts:
+        - name: workspace
+          mountPath: /workspace
+        - name: scripts
+          mountPath: /scripts
+      volumes:
+      - name: workspace
+        emptyDir: {}
+      - name: scripts
+        configMap:
+          name: portfolio-dev-scripts

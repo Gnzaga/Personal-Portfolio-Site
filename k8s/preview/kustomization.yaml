@@ -1,0 +1,19 @@
+# Live dev environment for one PR. Rendered by the ApplicationSet in
+# k8s/argocd-applicationset-previews.yaml, which sets the namespace
+# (portfolio-pr-<N>) and the BRANCH to follow.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - openwebui-external-secret.yaml
+  - deployment.yaml
+  - service.yaml
+
+configMapGenerator:
+  - name: portfolio-dev-scripts
+    files:
+      - sync-and-serve.sh
+
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: portfolio-previews

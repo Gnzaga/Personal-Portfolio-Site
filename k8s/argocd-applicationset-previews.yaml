@@ -1,10 +1,10 @@
-# One ArgoCD Application per open PR into master, torn down when the PR closes.
+# One live dev environment per open PR into master, torn down when the PR closes.
 # Apply this directly to the cluster, NOT managed by ArgoCD itself:
 #   kubectl apply -f k8s/argocd-applicationset-previews.yaml
 #
-# Images are built by .github/workflows/pr-preview-image.yml. Until the build
-# for a new commit finishes (~3-5 min), the pod sits in ImagePullBackOff and
-# then recovers on its own.
+# ArgoCD only creates and deletes the environments. Code updates never go
+# through ArgoCD: the pod polls the PR branch every few seconds and
+# hot-reloads (see k8s/preview/sync-and-serve.sh).
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -16,8 +16,9 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   generators:
     - pullRequest:
-        # The repo is public, so polling works without a token (60 req/h limit).
-        # To poll faster, create a secret with a read-only PAT and uncomment:
+        # How quickly a NEW PR gets an environment. The repo is public, so this
+        # works without a token (60 req/h limit). To poll faster, create a secret
+        # with a read-only PAT, uncomment tokenRef and lower this to ~30:
         #   kubectl -n argocd create secret generic github-token --from-literal=token=<PAT>
         requeueAfterSeconds: 300
         github:
@@ -37,12 +38,18 @@ spec:
       project: default
       source:
         repoURL: https://github.com/Gnzaga/Personal-Portfolio-Site.git
-        # Manifests come from the PR branch, so a PR can change its own k8s config.
-        targetRevision: '{{.head_sha}}'
-        path: k8s/overlays/preview
+        targetRevision: master
+        path: k8s/preview
         kustomize:
-          images:
-            - 'harbor.gnzaga.com/apps/portfolio-website=ghcr.io/gnzaga/personal-portfolio-site:pr-{{.number}}-{{.head_sha}}'
+          patches:
+            - target:
+                kind: Deployment
+                name: portfolio-dev
+              # env/1 is BRANCH in k8s/preview/deployment.yaml
+              patch: |-
+                - op: replace
+                  path: /spec/template/spec/containers/0/env/1/value
+                  value: '{{.branch}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: 'portfolio-pr-{{.number}}'
