@@ -21,7 +21,8 @@ jobs:
       runtime: node
       runtime-version: "20"
       install-command: npm ci
-      test-command: npm run build
+      # CRA treats lint warnings as errors when CI=true; match the Docker image build.
+      test-command: CI=false npm run build
       images: |
         [
           {
