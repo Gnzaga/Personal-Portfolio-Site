@@ -1,0 +1,72 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [master, dev]
+  push:
+    branches: [master, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  # PR check. Required status check: `ci / ci`.
+  # Build-only: the repo has no test suite. The image build is the check; the
+  # npm build runs the React production build.
+  # Pinned to @main until ci-workflows is tagged; switch to @v1 once tagged.
+  ci:
+    if: github.event_name == 'pull_request'
+    uses: Gnzaga/ci-workflows/.github/workflows/pr-ci.yml@main
+    with:
+      runtime: node
+      runtime-version: "20"
+      install-command: npm ci
+      test-command: npm run build
+      images: |
+        [
+          {
+            "name": "portfolio-website",
+            "context": ".",
+            "dockerfile": "deployment/docker/Dockerfile"
+          }
+        ]
+
+  # Merged-code deploy to the `portfolio` Application (master).
+  # Pinned to @main until ci-workflows is tagged; switch to @v1 once tagged.
+  deploy-master:
+    if: github.ref == 'refs/heads/master'
+    permissions:
+      contents: read
+      packages: write
+    uses: Gnzaga/ci-workflows/.github/workflows/build-deploy.yml@main
+    with:
+      app: portfolio
+      images: |
+        [
+          {
+            "name": "portfolio-website",
+            "context": ".",
+            "dockerfile": "deployment/docker/Dockerfile",
+            "manifest-image": "harbor.gnzaga.com/apps/portfolio-website"
+          }
+        ]
+
+  # Merged-code deploy to the `portfolio-website-dev` Application (dev).
+  # Pinned to @main until ci-workflows is tagged; switch to @v1 once tagged.
+  deploy-dev:
+    if: github.ref == 'refs/heads/dev'
+    permissions:
+      contents: read
+      packages: write
+    uses: Gnzaga/ci-workflows/.github/workflows/build-deploy.yml@main
+    with:
+      app: portfolio-website-dev
+      images: |
+        [
+          {
+            "name": "portfolio-website",
+            "context": ".",
+            "dockerfile": "deployment/docker/Dockerfile",
+            "manifest-image": "harbor.gnzaga.com/apps/portfolio-website"
+          }
+        ]
