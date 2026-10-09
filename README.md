@@ -49,3 +49,5 @@ If you're interested in learning more about these technologies, here are some re
 * [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
 * [Tailwind CSS documentation](https://tailwindcss.com/docs/installation)
 
+
+<!-- Deployed via Gnzaga/ci-workflows: GHCR build, homelab digest commit, ArgoCD health wait. -->
