@@ -39,6 +39,7 @@ jobs:
       contents: read
       packages: write
     uses: Gnzaga/ci-workflows/.github/workflows/build-deploy.yml@main
+    secrets: inherit
     with:
       app: portfolio
       images: |
@@ -59,6 +60,7 @@ jobs:
       contents: read
       packages: write
     uses: Gnzaga/ci-workflows/.github/workflows/build-deploy.yml@main
+    secrets: inherit
     with:
       app: portfolio-website-dev
       images: |
